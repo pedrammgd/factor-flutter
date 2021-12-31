@@ -10,6 +10,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        fontFamily:'IRANSans'
       ),
       debugShowCheckedModeBanner: false,
       title: 'Factor',
