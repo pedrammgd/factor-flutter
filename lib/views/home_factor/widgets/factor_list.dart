@@ -3,6 +3,7 @@ import 'package:factor_flutter_mobile/core/constans/constans.dart';
 import 'package:factor_flutter_mobile/views/home_factor/widgets/factor_list_item.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class FactorList extends GetView<HomeFactorController> {
   const FactorList({Key? key}) : super(key: key);
@@ -58,6 +59,11 @@ class FactorList extends GetView<HomeFactorController> {
         ),
       );
     } else {
+
+
+
+
+
       return ListView.builder(
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
@@ -67,5 +73,11 @@ class FactorList extends GetView<HomeFactorController> {
         },
       );
     }
+  }
+
+
+  void getNewFactor() async {
+    controller.preferences = await SharedPreferences.getInstance();
+    controller.preferences.getStringList('isAdded',) ?? [];
   }
 }

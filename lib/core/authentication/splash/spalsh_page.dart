@@ -1,5 +1,5 @@
 import 'package:factor_flutter_mobile/core/constans/constans.dart';
-import 'package:factor_flutter_mobile/views/home_factor/home_factor_page.dart';
+import 'package:factor_flutter_mobile/core/router/factor_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
@@ -17,7 +17,7 @@ class _SplashPageState extends State<SplashPage> {
     super.initState();
 
     Future.delayed(const Duration(seconds: 5), () {
-      Get.off(const HomeFactorPage(), transition: Transition.noTransition);
+      Get.offAndToNamed(FactorPage.initial);
     });
   }
 
