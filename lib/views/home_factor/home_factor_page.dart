@@ -1,9 +1,9 @@
 import 'package:factor_flutter_mobile/controllers/home_factor/home_factor_controller.dart';
 import 'package:factor_flutter_mobile/core/constans/constans.dart';
+import 'package:factor_flutter_mobile/models/factor_view_model/factor_view_model.dart';
 import 'package:factor_flutter_mobile/views/home_factor/widgets/factor_list.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeFactorPage extends GetView<HomeFactorController> {
   const HomeFactorPage({Key? key}) : super(key: key);
@@ -31,21 +31,13 @@ class HomeFactorPage extends GetView<HomeFactorController> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          addNewFactor(controller.factorList);
-          controller.factorList.add('item');
-          print(controller.factorList);
-
-          // });
+          controller.factorList.add(FactorViewModel(title: 'title', id: 1));
+          controller.saveFactorData();
         },
       ),
     );
   }
 
-  void addNewFactor(List<String> factorList) async {
-    controller.preferences = await SharedPreferences.getInstance();
-    controller.preferences.setStringList('isAdded', factorList);
-    print('adding');
-  }
 
 
   Widget _topCard(String title, String icon) {
