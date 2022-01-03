@@ -1,7 +1,9 @@
 import 'package:factor_flutter_mobile/controllers/home_factor/home_factor_controller.dart';
 import 'package:factor_flutter_mobile/core/constans/constans.dart';
+import 'package:factor_flutter_mobile/core/router/factor_pages.dart';
 import 'package:factor_flutter_mobile/models/factor_view_model/factor_view_model.dart';
 import 'package:factor_flutter_mobile/views/home_factor/widgets/factor_list.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -12,8 +14,33 @@ class HomeFactorPage extends GetView<HomeFactorController> {
   Widget build(BuildContext context) {
     Get.lazyPut(() => HomeFactorController());
     return Scaffold(
+      extendBody: true,
+      bottomNavigationBar:   Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: BottomNavigationBar(
+          backgroundColor: Colors.black,
+          currentIndex: 0,
+          onTap: (value) {
+            if(value ==1) {
+              Get.toNamed(FactorRoutes.more);
+            }
+          },
+          items: const <BottomNavigationBarItem>[
+             BottomNavigationBarItem(
+              icon:  Icon(Icons.home,color: Colors.white,),
+              label:  "Left",
+            ),
+             BottomNavigationBarItem(
+              icon:  Icon(Icons.search,color: Colors.white,),
+               label:  "eee",
+            ),
+          ],
+        ),
+      ),
+
       backgroundColor: Colors.white,
       body: SafeArea(
+        bottom: false,
         child: SingleChildScrollView(
           child: Column(
             children: [

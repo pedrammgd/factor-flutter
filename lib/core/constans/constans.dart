@@ -25,8 +25,22 @@ abstract class Constants {
 // const String splashIcon = 'assets/images/png/signature.png';
 const String addFactorUnofficialIcon = 'assets/images/png/add-factor-unofficial.png';
 const String addFactorOfficialIcon = 'assets/images/png/add-factor-official.png';
+const String purchaseRecordsIcon = 'assets/images/png/purchase_records.png';
+const String cartIcon = 'assets/images/png/cart.png';
+const String settingIcon = 'assets/images/png/setting.png';
+const String messageIcon = 'assets/images/png/message.png';
+const String supportIcon = 'assets/images/png/support.png';
+const String goldCupIcon = 'assets/images/png/gold_cup.png';
 
 //gif
 const String splashIcon = 'assets/images/gif/receipt.gif';
 const String emptyList = 'assets/images/gif/empty-list.gif';
 const String pencilLoading = 'assets/images/gif/pencil-loading.gif';
+
+
+
+
+
+Color dividerColor = const Color(0xffe6e6e6);
+Color settingIconColor = const Color(0xff74736f);
+Color settingTextColor = const Color(0xff30302e);
