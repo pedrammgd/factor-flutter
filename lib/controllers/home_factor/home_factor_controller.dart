@@ -12,8 +12,7 @@ class HomeFactorController extends GetxController {
   }
 
   RxBool isLoading = false.obs;
-  RxList<FactorViewModel> factorList =
-      <FactorViewModel>[FactorViewModel(title: 'title', id: 1)].obs;
+  RxList<FactorViewModel> factorList = <FactorViewModel>[].obs;
 
   late SharedPreferences sharedPreferences;
 

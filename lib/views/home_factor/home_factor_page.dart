@@ -31,7 +31,7 @@ class HomeFactorPage extends GetView<HomeFactorController> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          controller.factorList.add(FactorViewModel(title: 'title', id: 1));
+          controller.factorList.add(FactorViewModel(title: 'فاکتور جدید3', id: 1));
           controller.saveFactorData();
         },
       ),

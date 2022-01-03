@@ -58,17 +58,12 @@ class FactorList extends GetView<HomeFactorController> {
         ),
       );
     } else {
-
-
-
-
-
       return ListView.builder(
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
         itemCount: controller.factorList.length,
         itemBuilder: (context, index) {
-          return const FactorListItem();
+          return  FactorListItem(factorItem: controller.factorList[index],);
         },
       );
     }
