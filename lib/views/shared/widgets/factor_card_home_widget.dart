@@ -32,7 +32,7 @@ class FactorCardHomeWidget extends StatelessWidget {
       child: Ink(
         height: height,
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Theme.of(context).primaryColor,
           borderRadius: BorderRadius.circular(25),
           boxShadow: const [
             BoxShadow(

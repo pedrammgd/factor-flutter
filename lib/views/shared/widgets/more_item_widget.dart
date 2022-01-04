@@ -37,19 +37,19 @@ class MoreItemWidget extends StatelessWidget {
               width: 30,
               height: 30,
               fit: BoxFit.contain,
-              color: Colors.black,
+              color: Theme.of(context).colorScheme.secondary,
             ),
             Constants.smallHorizontalSpacer,
             Text(
               title,
-              style: TextStyle(
-                  color: settingTextColor, fontWeight: FontWeight.bold),
+              style: const TextStyle(
+                 fontWeight: FontWeight.bold),
             ),
             const Spacer(),
-            const Icon(
+             Icon(
               Icons.arrow_forward_ios,
               size: 17,
-              color: Colors.black,
+              color: Theme.of(context).colorScheme.secondary,
             ),
           ],
         ),

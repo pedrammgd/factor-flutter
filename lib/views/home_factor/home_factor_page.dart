@@ -38,7 +38,6 @@ class HomeFactorPage extends GetView<HomeFactorController> {
         ),
       ),
 
-      backgroundColor: Colors.white,
       body: SafeArea(
         bottom: false,
         child: SingleChildScrollView(
@@ -47,8 +46,8 @@ class HomeFactorPage extends GetView<HomeFactorController> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  _topCard('فاکتور رسمی', addFactorOfficialIcon),
-                  _topCard('فاکتور غیر رسمی', addFactorUnofficialIcon),
+                  _topCard(context,'فاکتور رسمی', addFactorOfficialIcon),
+                  _topCard(context,'فاکتور غیر رسمی', addFactorUnofficialIcon),
                 ],
               ),
               const FactorList(),
@@ -67,7 +66,7 @@ class HomeFactorPage extends GetView<HomeFactorController> {
 
 
 
-  Widget _topCard(String title, String icon) {
+  Widget _topCard(BuildContext context, String title, String icon) {
     return Padding(
       padding: const EdgeInsetsDirectional.only(top: 10, end: 15, start: 15),
       child: InkWell(
@@ -77,7 +76,7 @@ class HomeFactorPage extends GetView<HomeFactorController> {
           width: 130,
           height: 130,
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: Theme.of(context).primaryColor,
             borderRadius: BorderRadius.circular(25),
             boxShadow: const [
               BoxShadow(
@@ -94,12 +93,13 @@ class HomeFactorPage extends GetView<HomeFactorController> {
                 width: 50,
                 height: 50,
                 fit: BoxFit.contain,
+                color: Theme.of(context).colorScheme.secondary,
               ),
               Padding(
                 padding: const EdgeInsetsDirectional.only(top: 15),
                 child: Text(
                   title,
-                  style: const TextStyle(fontSize: 18),
+                  style:  TextStyle(fontSize: 18),
                 ),
               ),
             ],
