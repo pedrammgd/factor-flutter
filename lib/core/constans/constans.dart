@@ -23,23 +23,26 @@ abstract class Constants {
 
 // Png
 // const String splashIcon = 'assets/images/png/signature.png';
-const String addFactorUnofficialIcon = 'assets/images/png/add-factor-unofficial.png';
-const String addFactorOfficialIcon = 'assets/images/png/add-factor-official.png';
+const String addFactorUnofficialIcon =
+    'assets/images/png/add-factor-unofficial.png';
+const String addFactorOfficialIcon =
+    'assets/images/png/add-factor-official.png';
 const String purchaseRecordsIcon = 'assets/images/png/purchase_records.png';
 const String cartIcon = 'assets/images/png/cart.png';
 const String settingIcon = 'assets/images/png/setting.png';
 const String messageIcon = 'assets/images/png/message.png';
 const String supportIcon = 'assets/images/png/support.png';
 const String goldCupIcon = 'assets/images/png/gold_cup.png';
+const String lightIcon = 'assets/images/png/light-icon.png';
+const String darkIcon = 'assets/images/png/dark-mode.png';
+const String moreIcon = 'assets/images/png/more.png';
+const String homeIcon = 'assets/images/png/home.png';
+const String barcodeScannerIcon = 'assets/images/png/barcode-scanner.png';
 
 //gif
 const String splashIcon = 'assets/images/gif/receipt.gif';
 const String emptyList = 'assets/images/gif/empty-list.gif';
 const String pencilLoading = 'assets/images/gif/pencil-loading.gif';
-
-
-
-
 
 Color dividerColor = const Color(0xffe6e6e6);
 Color settingIconColor = const Color(0xff74736f);

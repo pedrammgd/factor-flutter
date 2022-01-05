@@ -13,6 +13,9 @@ class FactorListItem extends GetView<HomeFactorController> {
   @override
   Widget build(BuildContext context) {
     return FactorCardHomeWidget(
+      editOnTap: () {
+
+      },
       title: factorItem.title,
       removeOnTap: () {
         controller.factorList.remove(factorItem);

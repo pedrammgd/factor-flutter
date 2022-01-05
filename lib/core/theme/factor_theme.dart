@@ -13,7 +13,6 @@ class FactorTheme {
     fontFamily: 'IRANSans',
     scaffoldBackgroundColor: Colors.white,
       primaryColor: Colors.white,
-
       colorScheme: const ColorScheme.light(secondary: Colors.black),
   );
 }

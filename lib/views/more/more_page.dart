@@ -1,6 +1,9 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:factor_flutter_mobile/controllers/more/more_controller.dart';
 import 'package:factor_flutter_mobile/core/constans/constans.dart';
+import 'package:factor_flutter_mobile/views/shared/widgets/custom_bottom_navigation_bar.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/custom_factor_divider.dart';
+import 'package:factor_flutter_mobile/views/shared/widgets/dragable_widget.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/more_item_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +16,8 @@ class MorePage extends GetView<MoreController> {
   Widget build(BuildContext context) {
     Get.lazyPut(() => MoreController());
     return Scaffold(
+
+      bottomNavigationBar: const CustomBottomNavigationBar(),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
@@ -68,33 +73,49 @@ class MorePage extends GetView<MoreController> {
           return Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Switch(value: controller.isDark.value, onChanged: (value) {
+              GestureDetector(
+                  onTap: () {
+                    controller.isDark.value = !controller.isDark.value;
 
-                controller.isDark.value = value;
-
-                controller.changeTheme();
-                controller.saveTheme();
-              },),
+                    controller.changeTheme();
+                    controller.saveTheme();
+                  },
+                  child: Image.asset(
+                    controller.isDark.value ? lightIcon : darkIcon,
+                    height: 30,
+                    width: 30,
+                    color:
+                        controller.isDark.value ? Colors.white : Colors.black,
+                  )),
               Constants.mediumHorizontalSpacer,
             ],
           );
         }),
-        Constants.xLargeVerticalSpacer,
-        Image.asset(
-          goldCupIcon,
-          width: 80,
-          height: 80,
-          fit: BoxFit.contain,
+        Constants.largeVerticalSpacer,
+        DraggableCard(
+          child: FadeInRight(
+            child: Image.asset(
+              goldCupIcon,
+              width: 80,
+              height: 80,
+              fit: BoxFit.contain,
+            ),
+          ),
         ),
         Constants.mediumVerticalSpacer,
-        const Text('اشتراک طلایی',
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),),
+        const Text(
+          'اشتراک طلایی',
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+        ),
         Constants.smallVerticalSpacer,
         OutlinedButton(
-          onPressed: () {}, child: Text('ارتقا', style: TextStyle(color: Theme
-            .of(context)
-            .colorScheme
-            .secondary,),),
+          onPressed: () {},
+          child: Text(
+            'ارتقا',
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.secondary,
+            ),
+          ),
           style: OutlinedButton.styleFrom(
 
             side: BorderSide(width: 1.0, color: Theme

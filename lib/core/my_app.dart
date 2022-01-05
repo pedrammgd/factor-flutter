@@ -1,3 +1,4 @@
+import 'package:factor_flutter_mobile/controllers/more/more_controller.dart';
 import 'package:factor_flutter_mobile/core/router/factor_pages.dart';
 import 'package:factor_flutter_mobile/core/theme/factor_theme.dart';
 import 'package:flutter/material.dart';
@@ -9,9 +10,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+   Get.put(MoreController());
 
-    return GetMaterialApp(
-        themeMode:ThemeMode.system,
+    return  GetMaterialApp(
+        themeMode:ThemeMode.light,
         theme: FactorTheme.lightTheme,
         darkTheme: FactorTheme.darkTheme,
         debugShowCheckedModeBanner: false,
@@ -21,6 +23,7 @@ class MyApp extends StatelessWidget {
         initialRoute: FactorRoutes.splash,
         // home: const SplashPage(),
 
-    );
+      );
+
   }
 }

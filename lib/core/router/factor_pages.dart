@@ -9,8 +9,8 @@ class FactorPage {
   static const initial = FactorRoutes.home;
 
   static final List<GetPage> routes = [
-    GetPage(name: FactorRoutes.home, page: () => const HomeFactorPage()),
+    GetPage(name: FactorRoutes.home, page: () => const HomeFactorPage(),transition:Transition.noTransition),
     GetPage(name: FactorRoutes.splash, page: () => const SplashPage()),
-    GetPage(name: FactorRoutes.more, page: () => const MorePage()),
+    GetPage(name: FactorRoutes.more, page: () => const MorePage(),transition:Transition.noTransition),
   ];
 }

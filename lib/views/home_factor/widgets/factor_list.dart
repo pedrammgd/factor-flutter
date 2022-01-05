@@ -20,24 +20,23 @@ class FactorList extends GetView<HomeFactorController> {
               style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
             ),
           ),
-          _conditionFactorList(),
+          _conditionFactorList(context),
         ],
       ),
     );
   }
 
-  Widget _conditionFactorList() {
+  Widget _conditionFactorList(BuildContext context) {
     if (controller.isLoading.value) {
-      return Padding(
+      return   Padding(
         padding: const EdgeInsetsDirectional.only(top: 100),
         child: Center(
-            child: Image.asset(
-          pencilLoading,
-          width: 50,
-          height: 50,
-          fit: BoxFit.contain,
-        )),
-      );
+            child:
+            SizedBox(
+                height: 15,
+                 width: 15,
+                child: CircularProgressIndicator(color: Theme.of(context).colorScheme.secondary,))
+      ));
     } else if (controller.factorList.isEmpty) {
       return Padding(
         padding: const EdgeInsetsDirectional.only(top: 100),

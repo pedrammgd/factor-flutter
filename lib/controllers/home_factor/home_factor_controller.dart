@@ -16,9 +16,13 @@ class HomeFactorController extends GetxController {
 
   late SharedPreferences sharedPreferences;
 
-  initSharedPreferences() async {
-    sharedPreferences = await SharedPreferences.getInstance();
-    loadFactorData();
+  initSharedPreferences() {
+    isLoading.value = true;
+    Future.delayed(const Duration(milliseconds: 500), () async {
+      sharedPreferences = await SharedPreferences.getInstance();
+      loadFactorData();
+      isLoading.value = false;
+    });
   }
 
   void saveFactorData() {
