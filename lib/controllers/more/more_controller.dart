@@ -11,8 +11,6 @@ class MoreController extends GetxController{
     initSharedPreferences();
   }
 
-
-
   RxBool isDark = false.obs;
 
   void changeTheme(){

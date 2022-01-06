@@ -3,14 +3,15 @@ import 'package:flutter/material.dart';
 class CardIconWidget extends StatelessWidget {
   final String title;
   final String icon;
+  final Function()? onTap;
 
-  const CardIconWidget({required this.title, required this.icon});
+  const CardIconWidget({required this.title, required this.icon, this.onTap});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       borderRadius: BorderRadius.circular(25),
-      onTap: () {},
+      onTap: onTap,
       child: Ink(
         width: 130,
         height: 130,

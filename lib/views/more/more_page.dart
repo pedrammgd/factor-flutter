@@ -1,11 +1,9 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:factor_flutter_mobile/controllers/more/more_controller.dart';
 import 'package:factor_flutter_mobile/core/constans/constans.dart';
-import 'package:factor_flutter_mobile/views/shared/widgets/custom_bottom_navigation_bar.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/custom_factor_divider.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/dragable_widget.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/more_item_widget.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -15,11 +13,7 @@ class MorePage extends GetView<MoreController> {
   @override
   Widget build(BuildContext context) {
     Get.lazyPut(() => MoreController());
-    return Scaffold(
-
-      bottomNavigationBar: const CustomBottomNavigationBar(),
-      body: SafeArea(
-        child: SingleChildScrollView(
+    return SingleChildScrollView(
           child: Column(
             children: [
               _userInfo(context),
@@ -60,8 +54,7 @@ class MorePage extends GetView<MoreController> {
               ),
             ],
           ),
-        ),
-      ),
+
     );
   }
 

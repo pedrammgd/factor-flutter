@@ -7,19 +7,22 @@ import 'package:get/get.dart';
 class FactorList extends GetView<HomeFactorController> {
   const FactorList({Key? key}) : super(key: key);
 
+
   @override
   Widget build(BuildContext context) {
     return Obx(
       () => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Constants.xLargeVerticalSpacer,
           const Padding(
-            padding: EdgeInsetsDirectional.only(start: 20, end: 15, top: 30),
+            padding: EdgeInsetsDirectional.only(start: 20),
             child: Text(
               'فاکتور های من',
               style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
             ),
           ),
+          Constants.mediumVerticalSpacer,
           _conditionFactorList(context),
         ],
       ),
@@ -57,13 +60,16 @@ class FactorList extends GetView<HomeFactorController> {
         ),
       );
     } else {
-      return ListView.builder(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemCount: controller.factorList.length,
-        itemBuilder: (context, index) {
-          return  FactorListItem(factorItem: controller.factorList[index],);
-        },
+      return Padding(
+        padding: const EdgeInsetsDirectional.only(bottom: 10),
+        child: ListView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: controller.factorList.length,
+          itemBuilder: (context, index) {
+            return  FactorListItem(factorItem: controller.factorList[index],);
+          },
+        ),
       );
     }
   }
