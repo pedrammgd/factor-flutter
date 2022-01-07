@@ -38,6 +38,8 @@ const String darkIcon = 'assets/images/png/dark-mode.png';
 const String moreIcon = 'assets/images/png/more.png';
 const String homeIcon = 'assets/images/png/home.png';
 const String barcodeScannerIcon = 'assets/images/png/barcode-scanner.png';
+const String addTaskIcon = 'assets/images/png/add_task.png';
+const String addTaskIconFilledIcon = 'assets/images/png/addTaskIconFilled.png';
 
 //gif
 const String splashIcon = 'assets/images/gif/receipt.gif';

@@ -1,4 +1,4 @@
-import 'dart:ui';
+
 
 import 'package:factor_flutter_mobile/core/constans/constans.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +10,7 @@ class MoreItemWidget extends StatelessWidget {
   final double paddingStart;
   final String title;
   final String icon;
+  final Function()? onTap;
 
   const MoreItemWidget(
       {this.paddingTop = 10,
@@ -17,13 +18,14 @@ class MoreItemWidget extends StatelessWidget {
       this.paddingBottom = 10,
       this.paddingStart = 20,
       this.title = 'عنوان',
-      this.icon = purchaseRecordsIcon});
+      this.icon = purchaseRecordsIcon,
+      this.onTap});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       splashColor: Colors.black54,
-      onTap: () {},
+      onTap: onTap,
       child: Padding(
         padding: EdgeInsetsDirectional.only(
             start: paddingStart,
@@ -34,8 +36,8 @@ class MoreItemWidget extends StatelessWidget {
           children: [
             Image.asset(
               icon,
-              width: 30,
-              height: 30,
+              width: 28,
+              height: 28,
               fit: BoxFit.contain,
               color: Theme.of(context).colorScheme.secondary,
             ),

@@ -13,8 +13,8 @@ class CardIconWidget extends StatelessWidget {
       borderRadius: BorderRadius.circular(25),
       onTap: onTap,
       child: Ink(
-        width: 130,
-        height: 130,
+        width: 110,
+        height: 110,
         decoration: BoxDecoration(
           color: Theme.of(context).primaryColor,
           borderRadius: BorderRadius.circular(25),
@@ -39,7 +39,7 @@ class CardIconWidget extends StatelessWidget {
               padding: const EdgeInsetsDirectional.only(top: 15),
               child: Text(
                 title,
-                style: const TextStyle(fontSize: 18),
+                style: const TextStyle(fontSize: 13),
               ),
             ),
           ],

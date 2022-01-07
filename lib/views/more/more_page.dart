@@ -14,76 +14,82 @@ class MorePage extends GetView<MoreController> {
   Widget build(BuildContext context) {
     Get.lazyPut(() => MoreController());
     return SingleChildScrollView(
-          child: Column(
-            children: [
-              _userInfo(context),
-              CustomFactorDivider(
-                color: Theme
-                    .of(context)
-                    .colorScheme
-                    .secondary,
-              ),
-              Constants.smallVerticalSpacer,
-              const MoreItemWidget(
-                title: 'لیست پرداخت ها',
-                icon: purchaseRecordsIcon,
-              ),
-              const MoreItemWidget(
-                title: 'خرید اشتراک',
-                icon: cartIcon,
-              ),
-              Constants.smallVerticalSpacer,
-              CustomFactorDivider(
-                color: Theme
-                    .of(context)
-                    .colorScheme
-                    .secondary,
-              ),
-              Constants.smallVerticalSpacer,
-              const MoreItemWidget(
-                title: 'تنظیمات',
-                icon: settingIcon,
-              ),
-              const MoreItemWidget(
-                title: 'پیام ها',
-                icon: messageIcon,
-              ),
-              const MoreItemWidget(
-                title: 'پشتیبانی',
-                icon: supportIcon,
-              ),
-            ],
+      child: Column(
+        children: [
+          _userInfo(context),
+          CustomFactorDivider(
+            color: Theme.of(context).colorScheme.secondary,
           ),
+          Constants.smallVerticalSpacer,
+          const MoreItemWidget(
+            title: 'لیست پرداخت ها',
+            icon: purchaseRecordsIcon,
+          ),
+          const MoreItemWidget(
+            title: 'خرید اشتراک',
+            icon: cartIcon,
+          ),
+          Constants.smallVerticalSpacer,
+          CustomFactorDivider(
+            color: Theme.of(context).colorScheme.secondary,
+          ),
+          Constants.smallVerticalSpacer,
+          Obx(() {
+            return MoreItemWidget(
+              onTap: () {
+                controller.isDark.value = !controller.isDark.value;
 
+                controller.changeTheme();
+                controller.saveTheme();
+              },
+              title: controller.isDark.value? 'حالت روز':'حالت شب',
+              icon: controller.isDark.value ? lightIcon : darkIcon,
+            );
+          }),
+          const MoreItemWidget(
+            title: 'تنظیمات',
+            icon: settingIcon,
+          ),
+          const MoreItemWidget(
+            title: 'پیام ها',
+            icon: messageIcon,
+          ),
+          const MoreItemWidget(
+            title: 'پشتیبانی',
+            icon: supportIcon,
+          ),
+        ],
+      ),
     );
   }
 
   Widget _userInfo(BuildContext context) {
     return Column(
       children: [
-        Constants.mediumVerticalSpacer,
-        Obx(() {
-          return Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              GestureDetector(
-                  onTap: () {
-                    controller.isDark.value = !controller.isDark.value;
-
-                    controller.changeTheme();
-                    controller.saveTheme();
-                  },
-                  child: Image.asset(
-                    controller.isDark.value ? lightIcon : darkIcon,
-                    height: 30,
-                    width: 30,
-                    color:
-                        controller.isDark.value ? Colors.white : Colors.black,
-                  )),
-              Constants.mediumHorizontalSpacer,
-            ],
-          );
-        }),
+        // Constants.mediumVerticalSpacer,
+        // Obx(() {
+        //   return Row(
+        //     mainAxisAlignment: MainAxisAlignment.start,
+        //     children: [
+        //       Constants.mediumHorizontalSpacer,
+        //
+        //       GestureDetector(
+        //           onTap: () {
+        //             controller.isDark.value = !controller.isDark.value;
+        //
+        //             controller.changeTheme();
+        //             controller.saveTheme();
+        //           },
+        //           child: Image.asset(
+        //             controller.isDark.value ? lightIcon : darkIcon,
+        //             height: 30,
+        //             width: 30,
+        //             color:
+        //                 controller.isDark.value ? Colors.white : Colors.black,
+        //           )),
+        //     ],
+        //   );
+        // }),
         Constants.largeVerticalSpacer,
         DraggableCard(
           child: FadeInRight(
