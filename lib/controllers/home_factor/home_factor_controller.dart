@@ -8,7 +8,8 @@ class HomeFactorController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    initSharedPreferences();
+    // initSharedPreferences();
+    factorList.value = [FactorViewModel(id: 1, title: 'title')];
   }
 
   RxBool isLoading = false.obs;
@@ -28,11 +29,11 @@ class HomeFactorController extends GetxController {
   void saveFactorData() {
     List<String> factorDataList =
         factorList.map((element) => json.encode(element.toJson())).toList();
-    sharedPreferences.setStringList('add', factorDataList);
+    sharedPreferences.setStringList('addToFactorList', factorDataList);
   }
 
   void loadFactorData() {
-    List<String> factorDataList = sharedPreferences.getStringList('add') ?? [];
+    List<String> factorDataList = sharedPreferences.getStringList('addToFactorList') ?? [];
     factorList.value = factorDataList
         .map((e) => FactorViewModel.fromJson(json.decode(e)))
         .toList();
