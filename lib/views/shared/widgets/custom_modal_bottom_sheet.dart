@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class CustomModalBottomSheet {
-  ShapeBorder? shape;
-  Widget child;
+  final ShapeBorder? shape;
+  final Widget child;
+  final Color color;
 
-  CustomModalBottomSheet.showModalBottomSheet(
-    BuildContext context, {
+  CustomModalBottomSheet.showModalBottomSheet({
+    this.color = Colors.white,
     this.shape = const RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(
         top: Radius.circular(
@@ -15,12 +17,14 @@ class CustomModalBottomSheet {
     ),
     required this.child,
   }) {
-    showModalBottomSheet(
-      context: context,
+    Get.bottomSheet(
+      child,
+      backgroundColor: color,
       shape: shape,
-      builder: (context) {
-        return child;
-      },
+      enterBottomSheetDuration: const Duration(milliseconds: 300),
+      exitBottomSheetDuration: const Duration(milliseconds: 250),
+
+
     );
   }
 }

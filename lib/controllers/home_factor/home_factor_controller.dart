@@ -8,8 +8,7 @@ class HomeFactorController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    // initSharedPreferences();
-    factorList.value = [FactorViewModel(id: 1, title: 'title')];
+    initSharedPreferences();
   }
 
   RxBool isLoading = false.obs;

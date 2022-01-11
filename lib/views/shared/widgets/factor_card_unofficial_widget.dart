@@ -10,7 +10,7 @@ class FactorCardUnOfficialWidget extends StatelessWidget {
       this.height,
       this.editOnTap,
       this.removeOnTap,
-      this.title = 'فاکتور فروش محصولات اینترنتی'});
+      this.title = 'فاکتور فروش محصولات اینترنتی', this.onSelected});
 
   final double paddingTop;
   final double paddingEnd;
@@ -19,6 +19,7 @@ class FactorCardUnOfficialWidget extends StatelessWidget {
   final double? height;
   final Function()? editOnTap;
   final Function()? removeOnTap;
+  final Function(int)? onSelected;
   final String title;
 
   @override
@@ -82,15 +83,19 @@ class FactorCardUnOfficialWidget extends StatelessWidget {
           side: const BorderSide(color: Colors.white, width: 1),
           borderRadius: BorderRadius.circular(15),
         ),
-        itemBuilder: (context) {
+
+        onSelected:onSelected,
+        itemBuilder: (_) {
           return [
             PopupMenuItem(
               child: const Text('ویرایش'),
               onTap: editOnTap,
+              value: 0,
             ),
             PopupMenuItem(
               child: const Text('حذف'),
               onTap: removeOnTap,
+              value: 1,
             ),
           ];
         },

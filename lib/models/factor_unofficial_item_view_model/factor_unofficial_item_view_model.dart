@@ -24,5 +24,12 @@ class FactorUnofficialItemViewModel {
         productTaxation: json['productTaxation'],
       );
 
-
+  Map<String, dynamic> toJson() => {
+    'id':id,
+        'productDescription': productDescription,
+        'productCount': productCount,
+        'productUnitPrice': productUnitPrice,
+        'productDiscount': productDiscount,
+        'productTaxation': productTaxation,
+      };
 }

@@ -1,6 +1,7 @@
 import 'package:factor_flutter_mobile/controllers/factor_unofficial/factor_unofficial_controller.dart';
 import 'package:factor_flutter_mobile/views/factor_unofficial/widgets/factor_unofficial_add_modal_bottom_sheet.dart';
 import 'package:factor_flutter_mobile/views/factor_unofficial/widgets/factor_unofficial_list.dart';
+import 'package:factor_flutter_mobile/views/shared/widgets/custom_modal_bottom_sheet.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/factor_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -25,12 +26,14 @@ class FactorUnofficialPage extends GetView<FactorUnofficialController> {
       body: const FactorUnofficialList(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // CustomModalBottomSheet.showModalBottomSheet(context,
-          //     child: FactorUnofficialAddModalBottomSheet(factorUnofficialItemList: controller.factorUnofficialItemList,
-          //       factorUnofficialItem: null,
-          //     ));
-          Get.to(FactorUnofficialAddModalBottomSheet(factorUnofficialItemList:controller.factorUnofficialItemList ,factorUnofficialItem:null ,))
-;        },
+          CustomModalBottomSheet.showModalBottomSheet(
+            child: FactorUnofficialAddModalBottomSheet(
+              factorUnofficialItemList: controller.factorUnofficialItemList,
+              factorUnofficialItem: null,
+              sharedPreferences: controller.sharedPreferences,
+            ),
+          );
+        },
         child: Icon(
           Icons.add,
           size: 30,
