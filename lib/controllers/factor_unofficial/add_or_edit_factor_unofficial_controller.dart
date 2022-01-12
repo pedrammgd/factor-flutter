@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:factor_flutter_mobile/core/constans/constans.dart';
 import 'package:factor_flutter_mobile/models/factor_unofficial_item_view_model/factor_unofficial_item_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
@@ -16,6 +17,9 @@ class AddOrEditFactorUnofficialController extends GetxController {
       TextEditingController();
   final TextEditingController productTaxationController =
       TextEditingController();
+
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
   final Uuid uuid = const Uuid();
 
   final FactorUnofficialItemViewModel? editingFactorUnofficialItem;
@@ -38,7 +42,7 @@ class AddOrEditFactorUnofficialController extends GetxController {
 
   FactorUnofficialItemViewModel get factorUnofficialItemDto {
     return FactorUnofficialItemViewModel(
-      id: 'uuid.v4()',
+      id: uuid.v4(),
       productDescription: productDescriptionController.text,
       productCount: int.tryParse(productCountController.text) ?? 0,
       productUnitPrice: int.tryParse(productUnitPriceController.text) ?? 0,
@@ -48,6 +52,7 @@ class AddOrEditFactorUnofficialController extends GetxController {
   }
 
   void save() {
+    if (!formKey.currentState!.validate()) return;
     if (isEdit) {
       editUnOfficialItem();
     } else {
@@ -61,7 +66,8 @@ class AddOrEditFactorUnofficialController extends GetxController {
     List<String> factorDataList = factorUnofficialItemList
         .map((element) => json.encode(element.toJson()))
         .toList();
-    sharedPreferences.setStringList('addToFactorUnofficial', factorDataList);
+    sharedPreferences.setStringList(
+        unofficialFactorSharedPreferencesKey, factorDataList);
   }
 
   void addUnOfficialItem() {

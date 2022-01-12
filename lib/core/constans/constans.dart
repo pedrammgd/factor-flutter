@@ -19,7 +19,23 @@ abstract class Constants {
   static SizedBox largeVerticalSpacer = const SizedBox(height: 24);
   static SizedBox xLargeVerticalSpacer = const SizedBox(height: 32);
   static SizedBox xxLargeVerticalSpacer = const SizedBox(height: 40);
+
+  static const  String editPopUp = 'ویرایش';
+  static const  String removePopUp = 'حذف';
+
 }
+
+
+// SharedPreferencesKeys
+
+
+const String factorHomeListSharedPreferencesKey = 'factorHomeList';
+const String unofficialFactorSharedPreferencesKey = 'unofficialFactorList';
+
+
+
+
+
 
 // Png
 // const String splashIcon = 'assets/images/png/signature.png';
@@ -49,3 +65,4 @@ const String pencilLoading = 'assets/images/gif/pencil-loading.gif';
 Color dividerColor = const Color(0xffe6e6e6);
 Color settingIconColor = const Color(0xff74736f);
 Color settingTextColor = const Color(0xff30302e);
+

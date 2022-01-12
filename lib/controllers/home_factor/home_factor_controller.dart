@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:factor_flutter_mobile/core/constans/constans.dart';
 import 'package:factor_flutter_mobile/models/factor_view_model/factor_view_model.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -28,11 +29,11 @@ class HomeFactorController extends GetxController {
   void saveFactorData() {
     List<String> factorDataList =
         factorList.map((element) => json.encode(element.toJson())).toList();
-    sharedPreferences.setStringList('addToFactorList', factorDataList);
+    sharedPreferences.setStringList(factorHomeListSharedPreferencesKey, factorDataList);
   }
 
   void loadFactorData() {
-    List<String> factorDataList = sharedPreferences.getStringList('addToFactorList') ?? [];
+    List<String> factorDataList = sharedPreferences.getStringList(factorHomeListSharedPreferencesKey) ?? [];
     factorList.value = factorDataList
         .map((e) => FactorViewModel.fromJson(json.decode(e)))
         .toList();

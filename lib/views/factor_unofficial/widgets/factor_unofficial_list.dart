@@ -50,8 +50,8 @@ class FactorUnofficialList extends GetView<FactorUnofficialController> {
               itemCount: controller.factorUnofficialItemList.length,
               itemBuilder: (context, index) {
                 return FactorUnofficialItem(
-                    factorUnofficialItems:
-                        controller.factorUnofficialItemList[index]);
+                  index: index,
+                );
               },
             ),
           );

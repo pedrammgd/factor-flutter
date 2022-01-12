@@ -1,5 +1,4 @@
 import 'package:factor_flutter_mobile/core/constans/constans.dart';
-import 'package:factor_flutter_mobile/core/router/factor_pages.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/factor_text_form_feild.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -37,9 +36,9 @@ class FactorAppBar extends StatelessWidget implements PreferredSizeWidget {
                       ? MainAxisAlignment.spaceBetween
                       : MainAxisAlignment.end,
                   children: [
-                    if (hasSearchBar) _searchBar(context)  ,
+                    if (hasSearchBar) _searchBar(context),
                     Constants.largeHorizontalSpacer,
-                    if (hasAddFactorButton) _addFactorButton(),
+                    if (hasAddFactorButton) _barcodeFactorButton(context),
                     if (hasBackButton) _backButton(context),
                     if (hasBackButton) Constants.largeHorizontalSpacer,
                   ]),
@@ -72,27 +71,24 @@ class FactorAppBar extends StatelessWidget implements PreferredSizeWidget {
     );
   }
 
-  Widget _addFactorButton() {
-    return Container(
-      decoration: BoxDecoration(
-          border: Border.all(color: Colors.redAccent.shade700, width: 1.5),
-          borderRadius: BorderRadius.circular(10)),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(9),
-        splashColor: Colors.red.shade100,
-        onTap: () {
-          Get.toNamed(FactorRoutes.listTypeFactor);
-        },
-        child: Padding(
-          padding: const EdgeInsets.all(3.0),
-          child: Image.asset(
-            addTaskIconFilledIcon,
-            width: 40,
-            height: 40,
-            fit: BoxFit.contain,
-            // color: Theme.of(context).colorScheme.secondary,
-            color: Colors.red.shade700,
-          ),
+  Widget _barcodeFactorButton(BuildContext context) {
+    return InkWell(
+      borderRadius: BorderRadius.circular(9),
+      splashColor: Colors.red.shade100,
+      onTap: () {},
+      child: Container(
+        padding: const EdgeInsets.all(5),
+        decoration: BoxDecoration(
+            border: Border.all(
+                color: Theme.of(context).colorScheme.secondary, width: 1.5),
+            borderRadius: BorderRadius.circular(10)),
+        child: Image.asset(
+          barcodeScannerIcon,
+          width: 36,
+          height: 36,
+          fit: BoxFit.contain,
+          // color: Theme.of(context).colorScheme.secondary,
+          color: Theme.of(context).colorScheme.secondary,
         ),
       ),
     );

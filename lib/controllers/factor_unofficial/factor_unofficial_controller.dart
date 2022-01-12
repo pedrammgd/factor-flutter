@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:factor_flutter_mobile/core/constans/constans.dart';
 import 'package:factor_flutter_mobile/models/factor_unofficial_item_view_model/factor_unofficial_item_view_model.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -16,6 +17,11 @@ class FactorUnofficialController extends GetxController {
   RxList<FactorUnofficialItemViewModel> factorUnofficialItemList =
       <FactorUnofficialItemViewModel>[].obs;
 
+
+
+  final List<String> popUpItems = <String>[Constants.editPopUp, Constants.removePopUp];
+
+
   late SharedPreferences sharedPreferences;
 
   initSharedPreferences() {
@@ -29,7 +35,7 @@ class FactorUnofficialController extends GetxController {
 
   void loadFactorData() {
     List<String> factorUnofficialDataList =
-        sharedPreferences.getStringList('addToFactorUnofficial') ?? [];
+        sharedPreferences.getStringList(unofficialFactorSharedPreferencesKey) ?? [];
     factorUnofficialItemList.value = factorUnofficialDataList
         .map((e) => FactorUnofficialItemViewModel.fromJson(json.decode(e)))
         .toList();
@@ -39,7 +45,7 @@ class FactorUnofficialController extends GetxController {
     List<String> factorDataList = factorUnofficialItemList
         .map((element) => json.encode(element.toJson()))
         .toList();
-    sharedPreferences.setStringList('addToFactorUnofficial', factorDataList);
+    sharedPreferences.setStringList(unofficialFactorSharedPreferencesKey, factorDataList);
   }
 
 

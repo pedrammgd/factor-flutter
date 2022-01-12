@@ -1,6 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:factor_flutter_mobile/controllers/factor_base/factor_base_controller.dart';
 import 'package:factor_flutter_mobile/core/constans/constans.dart';
+import 'package:factor_flutter_mobile/core/router/factor_pages.dart';
 import 'package:factor_flutter_mobile/views/more/more_page.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/custom_bottom_navigation_bar.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/factor_app_bar.dart';
@@ -49,17 +50,13 @@ class FactorBasePage extends GetView<FactorBaseController> {
           floatingActionButton: Padding(
             padding: const EdgeInsetsDirectional.only(bottom: 10),
             child: FloatingActionButton(
-              child: Image.asset(
-                barcodeScannerIcon,
-                width: 30,
-                height: 30,
-                fit: BoxFit.contain,
+              child: Icon(
+                Icons.add,
+                size: 35,
                 color: Theme.of(context).primaryColor,
               ),
               onPressed: () {
-                // controller.factorList
-                //     .add(FactorViewModel(title: 'فاکتور جدید3', id: 1));
-                // controller.saveFactorData();
+                Get.toNamed(FactorRoutes.listTypeFactor);
               },
             ),
           ));
