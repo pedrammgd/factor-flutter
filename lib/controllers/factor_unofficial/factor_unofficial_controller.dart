@@ -10,17 +10,29 @@ class FactorUnofficialController extends GetxController {
   void onInit() {
     super.onInit();
     initSharedPreferences();
+
+    print(factorUnofficialItemList);
   }
 
   RxBool isLoading = false.obs;
 
+  int a = 0;
+
   RxList<FactorUnofficialItemViewModel> factorUnofficialItemList =
       <FactorUnofficialItemViewModel>[].obs;
 
+  final List<String> popUpItems = <String>[
+    Constants.editPopUp,
+    Constants.removePopUp
+  ];
 
-
-  final List<String> popUpItems = <String>[Constants.editPopUp, Constants.removePopUp];
-
+  int price() {
+    int _price = 0;
+    factorUnofficialItemList.forEach((element) {
+      _price += element.productUnitPrice;
+    });
+    return _price;
+  }
 
   late SharedPreferences sharedPreferences;
 

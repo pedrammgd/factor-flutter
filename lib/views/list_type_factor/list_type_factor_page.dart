@@ -15,20 +15,27 @@ class ListTypeFactorPage extends StatelessWidget {
         height: 56,
       ),
       body: Center(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: Wrap(
+          alignment: WrapAlignment.center,
+          runSpacing: 13,
+          spacing: 3,
           children: [
+            Constants.veryTinyHorizontalSpacer,
             CardIconWidget(
                 onTap: () {},
                 title: 'فاکتور رسمی',
                 icon: addFactorOfficialIcon),
-            Constants.xLargeHorizontalSpacer,
+            Constants.smallHorizontalSpacer,
+            CardIconWidget(
+                onTap: () {}, title: 'پیش فاکتور', icon: addFactorOfficialIcon),
+            Constants.smallHorizontalSpacer,
             CardIconWidget(
                 onTap: () {
                   Get.toNamed(FactorRoutes.factorUnofficial);
                 },
                 title: 'فاکتور غیر رسمی',
                 icon: addFactorUnofficialIcon),
+            Constants.veryTinyHorizontalSpacer,
           ],
         ),
       ),
