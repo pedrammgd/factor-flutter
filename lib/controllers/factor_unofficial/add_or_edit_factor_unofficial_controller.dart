@@ -10,13 +10,13 @@ import 'package:uuid/uuid.dart';
 class AddOrEditFactorUnofficialController extends GetxController {
   final TextEditingController productDescriptionController =
       TextEditingController();
-  final TextEditingController productCountController = TextEditingController();
+  final TextEditingController productCountController = TextEditingController(text: '1');
   final TextEditingController productUnitPriceController =
       TextEditingController();
   final TextEditingController productDiscountController =
-      TextEditingController();
+      TextEditingController(text: '0');
   final TextEditingController productTaxationController =
-      TextEditingController();
+      TextEditingController(text: '0');
 
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
@@ -44,7 +44,7 @@ class AddOrEditFactorUnofficialController extends GetxController {
     return FactorUnofficialItemViewModel(
       id: uuid.v4(),
       productDescription: productDescriptionController.text,
-      productCount: int.tryParse(productCountController.text) ?? 0,
+      productCount: int.tryParse(productCountController.text) ?? 1,
       productUnitPrice: int.tryParse(productUnitPriceController.text) ?? 0,
       productDiscount: int.tryParse(productDiscountController.text) ?? 0,
       productTaxation: int.tryParse(productTaxationController.text) ?? 0,

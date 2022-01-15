@@ -30,6 +30,7 @@ class FactorTextFormField extends StatelessWidget {
   final double borderRadius;
   final String? hintText;
   final FloatingLabelBehavior? floatingLabelBehavior;
+  final String? suffixText;
 
 
   const FactorTextFormField({
@@ -54,7 +55,7 @@ class FactorTextFormField extends StatelessWidget {
     this.fillColor = Colors.black12,
     this.hasBorder = false,
     this.alignLabelWithHint,
-    this.textAlignVertical, this.height, this.borderColor = Colors.grey, this.suffixIcon, this.borderRadius = 10, this.hintText, this.floatingLabelBehavior,
+    this.textAlignVertical, this.height, this.borderColor = Colors.grey, this.suffixIcon, this.borderRadius = 10, this.hintText, this.floatingLabelBehavior, this.suffixText,
   });
 
   @override
@@ -95,6 +96,8 @@ class FactorTextFormField extends StatelessWidget {
                 contentPadding: EdgeInsets.all(contentPadding),
                 filled: true,
                 suffixIcon: suffixIcon,
+                suffixText: suffixText,
+                suffixStyle: const TextStyle(color:  Colors.grey),
                 fillColor: fillColor,
                 prefixIcon:
                 hasPrefixIcon ? prefixIcon : const SizedBox.shrink(),

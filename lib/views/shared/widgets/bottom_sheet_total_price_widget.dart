@@ -4,128 +4,90 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 
+import 'key_value_text_widget.dart';
+
 class BottomSheetTotalPriceWidget extends StatelessWidget {
-  const BottomSheetTotalPriceWidget({required this.price});
-  final int price ;
+  const BottomSheetTotalPriceWidget(
+      {required this.price,
+      this.discount = 0,
+      this.taxation = 0,
+      required this.totalPrice});
+
+  final int price;
+  final double discount;
+  final double taxation;
+  final double totalPrice;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(color: Colors.white, boxShadow: [
-        BoxShadow(
-          blurRadius: 50.0,
-          color: Colors.black,
-          offset: Offset(2, 48),
-        )
-      ]),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Constants.smallVerticalSpacer,
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            // mainAxisSize: MainAxisSize.min,
+    return
+      // Transform.translate(
+      // offset: Offset(0.0, -10),
+      // child: Container(
+      //
+      //   decoration:  BoxDecoration(
+      //       borderRadius: BorderRadius.circular(15),
+      //       color: Colors.white, boxShadow: const [
+      //     BoxShadow(
+      //       blurRadius: 20.0,
+      //       color: Colors.black26,
+      //       offset: Offset(2, 1),
+      //     )
+      //   ]),
+      //   child:
+        BottomAppBar(
+          elevation: 8,
+          shape: const CircularNotchedRectangle(),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Constants.mediumHorizontalSpacer,
-               const Text(
-                  'قیمت :',
-                  style: TextStyle(fontSize: 15),
-                ),
-              Constants.mediumHorizontalSpacer,
-              Spacer(),
-
-               Text(
-                '$price',
-                style: TextStyle(fontSize: 15),
+              Constants.smallVerticalSpacer,
+              KeyValueTextWidget(
+                valueText: '$price ریال ',
+                keyText: 'قیمت :',
               ),
-              Constants.largeHorizontalSpacer,
+              Constants.smallVerticalSpacer,
+              KeyValueTextWidget(
+                valueText: '$discount ریال ',
+                keyText: 'تخفیف :',
+              ),
+              Constants.smallVerticalSpacer,
+              KeyValueTextWidget(
+                valueText: '$taxation ریال ',
+                keyText: 'مالیات :',
+              ),
+              Constants.smallVerticalSpacer,
+              KeyValueTextWidget(
+                valueText: '$totalPrice ریال ',
+                keyText: 'قیمت کل :',
+              ),
+              Constants.mediumVerticalSpacer,
+              Row(
+                children: [
+                  Constants.mediumHorizontalSpacer,
+                  const Expanded(
+                    child: Text(
+                      'نهصدو نود و نه میلیامئمئممرد و یبربنتدنبدتک میلیون و هزارو پانصد هزار تومان  ',
+                      style: TextStyle(fontSize: 14, height: 1.5),
+                    ),
+                  ),
+                  Constants.mediumHorizontalSpacer,
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsetsDirectional.only(
+                    start: 20, end: 10, top: 15, bottom:20),
+                child: SizedBox(
+                    height: 50,
+                    width: double.infinity,
+                    child: OutlinedButton(onPressed: () {}, child: Text('ادامه'))),
+              ),
+              Constants.mediumVerticalSpacer,
             ],
           ),
-          Constants.smallVerticalSpacer,
-          Row(
-            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            // mainAxisSize: MainAxisSize.min,
-            children: [
-              Constants.mediumHorizontalSpacer,
-              const Text(
-                'تخفیف :',
-                style: TextStyle(fontSize: 15),
-              ),
-              Constants.mediumHorizontalSpacer,
-              Spacer(),
-              const Text(
-                ' 454,654,645,645 ریال',
-                style: TextStyle(fontSize: 15),
-              ),
-              Constants.largeHorizontalSpacer,
-            ],
-          ),
-          Constants.smallVerticalSpacer,
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            // mainAxisSize: MainAxisSize.min,
-            children: [
-              Constants.mediumHorizontalSpacer,
-              const Text(
-                'مالیات :',
-                style: TextStyle(fontSize: 15),
-              ),
-              Constants.mediumHorizontalSpacer,
-              Spacer(),
-              const Text(
-                ' 454,654,645,645 ریال',
-                style: TextStyle(fontSize: 15),
-              ),
-              Constants.largeHorizontalSpacer,
-            ],
-          ),
-          Constants.smallVerticalSpacer,
-
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            // mainAxisSize: MainAxisSize.min,
-            children: [
-              Constants.mediumHorizontalSpacer,
-              const Text(
-                'قیمت کل :',
-                style: TextStyle(fontSize: 18),
-              ),
-              Constants.mediumHorizontalSpacer,
-              Spacer(),
-              const Text(
-                ' 999,654,645,645 ریال',
-                style: TextStyle(fontSize: 18),
-              ),
-              Constants.largeHorizontalSpacer,
-            ],
-          ),
-          Constants.mediumVerticalSpacer,
-          Row(
-            children: [
-              Constants.mediumHorizontalSpacer,
-
-               Expanded(
-                 child: const Text(
-                    'نهصدو نود و نه میلیامئمئممرد و یبربنتدنبدتک میلیون و هزارو پانصد هزار تومان  ',
-                    style: TextStyle(fontSize: 14),
-
-              ),
-               ),
-
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsetsDirectional.only(
-                start: 20, end: 10, top: 15, bottom:20),
-            child: SizedBox(
-                height: 50,
-                width: double.infinity,
-                child: OutlinedButton(onPressed: () {}, child: Text('ادامه'))),
-          ),
-          Constants.mediumVerticalSpacer,
-        ],
-      ),
+      //   ),
+      // ),
     );
   }
 }

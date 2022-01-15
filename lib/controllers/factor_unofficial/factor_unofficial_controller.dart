@@ -28,10 +28,40 @@ class FactorUnofficialController extends GetxController {
 
   int price() {
     int _price = 0;
-    factorUnofficialItemList.forEach((element) {
-      _price += element.productUnitPrice;
-    });
+    for (var element in factorUnofficialItemList) {
+      _price += element.productUnitPrice * element.productCount;
+    }
     return _price;
+  }
+
+  double taxation() {
+    double _taxation = 0;
+    for (var element in factorUnofficialItemList) {
+      _taxation += (element.productCount *
+              element.productUnitPrice *
+              element.productTaxation) /
+          100;
+    }
+    return _taxation;
+  }
+
+  double discount() {
+    double _discount = 0;
+    for (var element in factorUnofficialItemList) {
+      _discount += (element.productCount *
+              element.productUnitPrice *
+              element.productDiscount) /
+          100;
+    }
+    return _discount;
+  }
+
+  double totalPrice() {
+    double _totalPrice = 0;
+
+    _totalPrice = price() + taxation() - discount();
+
+    return _totalPrice;
   }
 
   late SharedPreferences sharedPreferences;

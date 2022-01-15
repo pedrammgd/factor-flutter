@@ -3,6 +3,7 @@ import 'package:factor_flutter_mobile/core/utils/factor_validation/form_feild_va
 import 'package:factor_flutter_mobile/models/factor_unofficial_item_view_model/factor_unofficial_item_view_model.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/factor_text_form_feild.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 class FactorUnofficialAddModalBottomSheet
@@ -52,15 +53,31 @@ class FactorUnofficialAddModalBottomSheet
               children: [
                 Expanded(
                     child: FactorTextFormField(
-                  controller: controller.productCountController,
+                      controller: controller.productCountController,
                   labelText: 'تعداد *',
+                  inputFormatters: [
+                    FilteringTextInputFormatter.digitsOnly,
+                    LengthLimitingTextInputFormatter(9),
+                  ],
+                  textInputAction: TextInputAction.next,
+                  textInputType: TextInputType.phone,
                   validatorTextField: emptyValidator('تعداد'),
+                  suffixText: 'عدد',
+                  hasBorder: true,
                 )),
                 Expanded(
                     child: FactorTextFormField(
-                  controller: controller.productUnitPriceController,
+                      controller: controller.productUnitPriceController,
                   labelText: 'قیمت واحد *',
+                  inputFormatters: [
+                    FilteringTextInputFormatter.digitsOnly,
+                    LengthLimitingTextInputFormatter(9),
+                  ],
+                  textInputAction: TextInputAction.next,
+                  textInputType: TextInputType.phone,
                   validatorTextField: emptyValidator('قیمت واحد'),
+                  suffixText: '^ ریال',
+                  hasBorder: true,
                 )),
               ],
             ),
@@ -68,13 +85,29 @@ class FactorUnofficialAddModalBottomSheet
               children: [
                 Expanded(
                     child: FactorTextFormField(
-                  controller: controller.productDiscountController,
+                      controller: controller.productDiscountController,
                   labelText: 'تخفیف',
+                  inputFormatters: [
+                    FilteringTextInputFormatter.digitsOnly,
+                    LengthLimitingTextInputFormatter(9),
+                  ],
+                  textInputAction: TextInputAction.next,
+                  textInputType: TextInputType.phone,
+                  suffixText: '%',
+                  hasBorder: true,
                 )),
                 Expanded(
                     child: FactorTextFormField(
-                  controller: controller.productTaxationController,
+                      controller: controller.productTaxationController,
                   labelText: 'مالیات',
+                  inputFormatters: [
+                    FilteringTextInputFormatter.digitsOnly,
+                    LengthLimitingTextInputFormatter(9),
+                  ],
+                  textInputAction: TextInputAction.next,
+                  textInputType: TextInputType.phone,
+                  suffixText: '%',
+                  hasBorder: true,
                 )),
               ],
             ),
