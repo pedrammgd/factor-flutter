@@ -37,10 +37,7 @@ class FactorUnofficialController extends GetxController {
   double taxation() {
     double _taxation = 0;
     for (var element in factorUnofficialItemList) {
-      _taxation += (element.productCount *
-              element.productUnitPrice *
-              element.productTaxation) /
-          100;
+      _taxation += ((element.productCount * element.productUnitPrice * element.productTaxation) / 100);
     }
     return _taxation;
   }

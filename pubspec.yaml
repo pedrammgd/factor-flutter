@@ -39,6 +39,7 @@ dependencies:
   shared_preferences: ^2.0.11
   animate_do: ^2.0.0
   uuid: ^3.0.5
+  persian_number_utility: ^1.1.1
 dev_dependencies:
   flutter_test:
     sdk: flutter

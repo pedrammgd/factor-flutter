@@ -57,3 +57,17 @@ String? Function(String?) emptyValidator(String fieldName) =>
     value
         ?.trim()
         .isNotEmpty != true ? '$fieldName اجباری است ' : null;
+
+String? Function(String?) percentValidator(String fieldName) =>
+    (String? value) {
+      if (value?.trim().isNotEmpty != true) {
+          return
+        '$fieldName خالی است ';
+      } else {
+
+        null;
+      }
+      return int.parse(value!.trim()) > 100
+          ? ' درصد $fieldName نامعتبر '
+          : null;
+    };

@@ -57,7 +57,7 @@ class FactorUnofficialAddModalBottomSheet
                   labelText: 'تعداد *',
                   inputFormatters: [
                     FilteringTextInputFormatter.digitsOnly,
-                    LengthLimitingTextInputFormatter(9),
+                    LengthLimitingTextInputFormatter(12),
                   ],
                   textInputAction: TextInputAction.next,
                   textInputType: TextInputType.phone,
@@ -71,7 +71,7 @@ class FactorUnofficialAddModalBottomSheet
                   labelText: 'قیمت واحد *',
                   inputFormatters: [
                     FilteringTextInputFormatter.digitsOnly,
-                    LengthLimitingTextInputFormatter(9),
+                    LengthLimitingTextInputFormatter(12),
                   ],
                   textInputAction: TextInputAction.next,
                   textInputType: TextInputType.phone,
@@ -87,9 +87,10 @@ class FactorUnofficialAddModalBottomSheet
                     child: FactorTextFormField(
                       controller: controller.productDiscountController,
                   labelText: 'تخفیف',
+                    validatorTextField:   percentValidator('تخفیف'),
                   inputFormatters: [
                     FilteringTextInputFormatter.digitsOnly,
-                    LengthLimitingTextInputFormatter(9),
+                    LengthLimitingTextInputFormatter(3),
                   ],
                   textInputAction: TextInputAction.next,
                   textInputType: TextInputType.phone,
@@ -100,9 +101,10 @@ class FactorUnofficialAddModalBottomSheet
                     child: FactorTextFormField(
                       controller: controller.productTaxationController,
                   labelText: 'مالیات',
+                      validatorTextField:   percentValidator('مالیات'),
                   inputFormatters: [
                     FilteringTextInputFormatter.digitsOnly,
-                    LengthLimitingTextInputFormatter(9),
+                    LengthLimitingTextInputFormatter(3),
                   ],
                   textInputAction: TextInputAction.next,
                   textInputType: TextInputType.phone,
