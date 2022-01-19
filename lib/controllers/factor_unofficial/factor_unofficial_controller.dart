@@ -6,17 +6,16 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class FactorUnofficialController extends GetxController {
+  FactorUnofficialController({required this.isBeforeFactor});
+
   @override
   void onInit() {
     super.onInit();
     initSharedPreferences();
-
-    print(factorUnofficialItemList);
   }
 
   RxBool isLoading = false.obs;
-
-  int a = 0;
+  final bool isBeforeFactor;
 
   RxList<FactorUnofficialItemViewModel> factorUnofficialItemList =
       <FactorUnofficialItemViewModel>[].obs;
@@ -46,8 +45,8 @@ class FactorUnofficialController extends GetxController {
     double _discount = 0;
     for (var element in factorUnofficialItemList) {
       _discount += (element.productCount *
-              element.productUnitPrice *
-              element.productDiscount) /
+          element.productUnitPrice *
+          element.productDiscount) /
           100;
     }
     return _discount;

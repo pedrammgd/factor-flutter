@@ -42,20 +42,21 @@ class FactorUnofficialList extends GetView<FactorUnofficialController> {
             ),
           );
         } else {
-          return    ListView.builder(
-                  // shrinkWrap: true,
-                  padding: EdgeInsets.only(bottom: 50),
-
-                  // physics: const NeverScrollableScrollPhysics(),
-                  itemCount: controller.factorUnofficialItemList.length,
-                  itemBuilder: (context, index) {
-                    return  FactorUnofficialItem(
-                        index: index,
-
-                    );
-                  },
-
-
+          return ReorderableListView.builder(
+              onReorder: (int oldIndex, int newIndex) {
+                final index = newIndex >oldIndex ?newIndex-1:newIndex;
+                final  factorUnofficialList = controller.factorUnofficialItemList.removeAt(oldIndex);
+                controller.factorUnofficialItemList.insert(index, factorUnofficialList);
+              },
+              padding: const EdgeInsets.only(bottom: 50),
+              itemCount: controller.factorUnofficialItemList.length,
+              itemBuilder: (context, index) {
+                return
+                  FactorUnofficialItem(
+                  key: ValueKey(controller.factorUnofficialItemList[index]),
+                  index: index,
+                );
+              },
 
           );
         }

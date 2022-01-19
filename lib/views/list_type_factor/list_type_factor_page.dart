@@ -1,5 +1,6 @@
 import 'package:factor_flutter_mobile/core/constans/constans.dart';
 import 'package:factor_flutter_mobile/core/router/factor_pages.dart';
+import 'package:factor_flutter_mobile/views/factor_unofficial/factor_unofficial_page.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/card_icon_widget.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/factor_app_bar.dart';
 import 'package:flutter/material.dart';
@@ -22,16 +23,25 @@ class ListTypeFactorPage extends StatelessWidget {
           children: [
             Constants.veryTinyHorizontalSpacer,
             CardIconWidget(
+              comingSoon: true,
                 onTap: () {},
                 title: 'فاکتور رسمی',
                 icon: addFactorOfficialIcon),
             Constants.smallHorizontalSpacer,
             CardIconWidget(
-                onTap: () {}, title: 'پیش فاکتور', icon: addFactorOfficialIcon),
+                onTap: () {
+                  Get.toNamed(FactorRoutes.factorUnofficial,
+                      arguments: const FactorUnofficialPage()
+                          .arguments(isBeforeFactor: true));
+                },
+                title: 'پیش فاکتور',
+                icon: addFactorOfficialIcon),
             Constants.smallHorizontalSpacer,
             CardIconWidget(
                 onTap: () {
-                  Get.toNamed(FactorRoutes.factorUnofficial);
+                  Get.toNamed(FactorRoutes.factorUnofficial,
+                      arguments: const FactorUnofficialPage()
+                          .arguments(isBeforeFactor: false));
                 },
                 title: 'فاکتور غیر رسمی',
                 icon: addFactorUnofficialIcon),

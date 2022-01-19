@@ -6,12 +6,18 @@ import 'package:factor_flutter_mobile/views/shared/widgets/custom_modal_bottom_s
 import 'package:factor_flutter_mobile/views/shared/widgets/factor_card_unofficial_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+
+
+
+
 class FactorUnofficialItem extends GetView<FactorUnofficialController> {
   const FactorUnofficialItem({
-    required this.index,
-  });
+    required this.index,required Key key,
+  }): super(key: key);
 
   final int index;
+
 
   @override
   Widget build(BuildContext context) {

@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 
 class FactorCardUnOfficialWidget extends StatelessWidget {
    const FactorCardUnOfficialWidget(
-      {this.paddingTop = 10,
-      this.paddingEnd = 20,
-      this.paddingStart = 20,
+      {
+        this.paddingTop = 0,
+      this.paddingEnd = 0,
+      this.paddingStart = 0,
       this.paddingBottom = 0,
       this.height,
       this.onTap,
@@ -32,20 +33,22 @@ class FactorCardUnOfficialWidget extends StatelessWidget {
           end: paddingEnd,
           start: paddingStart,
           bottom: paddingBottom),
-      child: Ink(
+      child:
+      Container(
         height: height,
         decoration: BoxDecoration(
           color: Theme.of(context).primaryColor,
-          borderRadius: BorderRadius.circular(15),
-          boxShadow: const [
+          borderRadius: BorderRadius.circular(0),
+          boxShadow:  [
             BoxShadow(
-              color: Colors.black12,
-              blurRadius: 5.0,
+              color: Theme.of(context).colorScheme.secondary,
+              blurRadius: .1,
             ),
           ],
         ),
-        child: InkWell(
-            borderRadius: BorderRadius.circular(15),
+        child:
+        InkWell(
+            borderRadius: BorderRadius.circular(0),
             onTap: onTap,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
