@@ -15,12 +15,13 @@ class CardIconWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
     return InkWell(
       borderRadius: BorderRadius.circular(25),
       onTap: onTap,
       child: Ink(
-        width: 110,
-        height: 110,
+        width: height / 6,
+        height: height / 6,
         decoration: BoxDecoration(
           color: Theme.of(context).primaryColor,
           borderRadius: BorderRadius.circular(25),

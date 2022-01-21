@@ -23,7 +23,7 @@ class ListTypeFactorPage extends StatelessWidget {
           children: [
             Constants.veryTinyHorizontalSpacer,
             CardIconWidget(
-              comingSoon: true,
+                comingSoon: true,
                 onTap: () {},
                 title: 'فاکتور رسمی',
                 icon: addFactorOfficialIcon),

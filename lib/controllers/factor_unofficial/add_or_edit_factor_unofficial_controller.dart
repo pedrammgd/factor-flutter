@@ -10,9 +10,11 @@ import 'package:uuid/uuid.dart';
 class AddOrEditFactorUnofficialController extends GetxController {
   final TextEditingController productDescriptionController =
       TextEditingController();
-  final TextEditingController productCountController = TextEditingController(text: '1');
+  final TextEditingController productCountController =
+      TextEditingController(text: '1');
   final TextEditingController productUnitPriceController =
       TextEditingController();
+
   final TextEditingController productDiscountController =
       TextEditingController(text: '0');
   final TextEditingController productTaxationController =
@@ -72,7 +74,7 @@ class AddOrEditFactorUnofficialController extends GetxController {
 
   void addUnOfficialItem() {
     factorUnofficialItemList.add(factorUnofficialItemDto);
-    saveFactorData();
+    // saveFactorData();
     Get.back();
     productDescriptionController.clear();
     productCountController.clear();
@@ -93,7 +95,7 @@ class AddOrEditFactorUnofficialController extends GetxController {
       productDiscount: int.tryParse(productDiscountController.text) ?? 0,
       productTaxation: int.tryParse(productTaxationController.text) ?? 0,
     );
-    saveFactorData();
+    // saveFactorData();
 
     Get.back(result: true);
   }

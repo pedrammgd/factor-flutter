@@ -38,7 +38,12 @@ const String unofficialFactorSharedPreferencesKey = 'unofficialFactorList';
 
 
 // Png
+const String emptyList = 'assets/images/png/empty_list.png';
 // const String splashIcon = 'assets/images/png/signature.png';
+
+
+
+
 const String addFactorUnofficialIcon =
     'assets/images/png/add-factor-unofficial.png';
 const String addFactorOfficialIcon =
@@ -59,8 +64,15 @@ const String addTaskIconFilledIcon = 'assets/images/png/addTaskIconFilled.png';
 
 //gif
 const String splashIcon = 'assets/images/gif/receipt.gif';
-const String emptyList = 'assets/images/gif/empty-list.gif';
+// const String emptyList = 'assets/images/gif/empty-list.gif';
 const String pencilLoading = 'assets/images/gif/pencil-loading.gif';
+
+
+
+
+
+
+
 
 Color dividerColor = const Color(0xffe6e6e6);
 Color settingIconColor = const Color(0xff74736f);

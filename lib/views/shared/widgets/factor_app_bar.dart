@@ -11,22 +11,23 @@ class FactorAppBar extends StatelessWidget implements PreferredSizeWidget {
   final double height;
   final Widget title;
 
-  const FactorAppBar(
-      {this.hasSearchBar = false,
-      this.hasAddFactorButton = false,
-      this.hasBackButton = true,
-      this.height = 80,
-      this.title = const SizedBox.shrink()});
+  const FactorAppBar({
+    this.hasSearchBar = false,
+    this.hasAddFactorButton = false,
+    this.hasBackButton = true,
+    this.height = 80,
+    this.title = const SizedBox.shrink(),
+  });
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      elevation: 0,
-      leading: const SizedBox.shrink(),
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      title: title,
-      flexibleSpace: SafeArea(
-        child: Column(
+        elevation: 0,
+        leading: const SizedBox.shrink(),
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        title: title,
+        flexibleSpace: SafeArea(
+            child: Column(
           children: [
             Padding(
               padding:
@@ -44,9 +45,7 @@ class FactorAppBar extends StatelessWidget implements PreferredSizeWidget {
                   ]),
             ),
           ],
-        ),
-      ),
-    );
+        )));
   }
 
   Widget _backButton(BuildContext context) {

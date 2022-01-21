@@ -15,6 +15,7 @@ class FactorUnofficialController extends GetxController {
   }
 
   RxBool isLoading = false.obs;
+  RxBool isExpandedBottomSheet = false.obs;
   final bool isBeforeFactor;
 
   RxList<FactorUnofficialItemViewModel> factorUnofficialItemList =
@@ -36,7 +37,10 @@ class FactorUnofficialController extends GetxController {
   double taxation() {
     double _taxation = 0;
     for (var element in factorUnofficialItemList) {
-      _taxation += ((element.productCount * element.productUnitPrice * element.productTaxation) / 100);
+      _taxation += ((element.productCount *
+              element.productUnitPrice *
+              element.productTaxation) /
+          100);
     }
     return _taxation;
   }
@@ -45,8 +49,8 @@ class FactorUnofficialController extends GetxController {
     double _discount = 0;
     for (var element in factorUnofficialItemList) {
       _discount += (element.productCount *
-          element.productUnitPrice *
-          element.productDiscount) /
+              element.productUnitPrice *
+              element.productDiscount) /
           100;
     }
     return _discount;
@@ -73,7 +77,8 @@ class FactorUnofficialController extends GetxController {
 
   void loadFactorData() {
     List<String> factorUnofficialDataList =
-        sharedPreferences.getStringList(unofficialFactorSharedPreferencesKey) ?? [];
+        sharedPreferences.getStringList(unofficialFactorSharedPreferencesKey) ??
+            [];
     factorUnofficialItemList.value = factorUnofficialDataList
         .map((e) => FactorUnofficialItemViewModel.fromJson(json.decode(e)))
         .toList();
@@ -83,9 +88,9 @@ class FactorUnofficialController extends GetxController {
     List<String> factorDataList = factorUnofficialItemList
         .map((element) => json.encode(element.toJson()))
         .toList();
-    sharedPreferences.setStringList(unofficialFactorSharedPreferencesKey, factorDataList);
+    sharedPreferences.setStringList(
+        unofficialFactorSharedPreferencesKey, factorDataList);
   }
-
 
   void removeItem(FactorUnofficialItemViewModel item) {
     factorUnofficialItemList.remove(item);

@@ -5,7 +5,7 @@ class KeyValueTextWidget extends StatelessWidget {
       {required this.keyText,
       required this.valueText,
       this.keyTextSize = 15,
-      this.valueTextSize = 15,
+      this.valueTextSize = 13,
       this.mainAxisAlignment = MainAxisAlignment.spaceBetween,
       this.startSpacer = const SizedBox(
         width: 16,
@@ -40,7 +40,9 @@ class KeyValueTextWidget extends StatelessWidget {
         const Spacer(),
         Text(
           valueText,
-          style: TextStyle(fontSize: valueTextSize),
+          style: TextStyle(
+            fontSize: valueTextSize,
+          ),
         ),
         endSpacer,
       ],

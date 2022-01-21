@@ -6,21 +6,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 class FactorUnofficialAddModalBottomSheet
     extends GetView<AddOrEditFactorUnofficialController> {
-   FactorUnofficialAddModalBottomSheet(
+  FactorUnofficialAddModalBottomSheet(
       {required this.factorUnofficialItemList,
-       required this.factorUnofficialItem,required this.sharedPreferences});
-
+      required this.factorUnofficialItem,
+      required this.sharedPreferences});
 
   final RxList<FactorUnofficialItemViewModel> factorUnofficialItemList;
-  final   FactorUnofficialItemViewModel? factorUnofficialItem;
+  final FactorUnofficialItemViewModel? factorUnofficialItem;
   final SharedPreferences sharedPreferences;
 
   @override
   Widget build(BuildContext context) {
     Get.lazyPut(() => AddOrEditFactorUnofficialController(
-        factorUnofficialItem, factorUnofficialItemList,sharedPreferences));
+        factorUnofficialItem, factorUnofficialItemList, sharedPreferences));
     return SingleChildScrollView(
       child: Form(
         key: controller.formKey,
@@ -53,7 +54,7 @@ class FactorUnofficialAddModalBottomSheet
               children: [
                 Expanded(
                     child: FactorTextFormField(
-                      controller: controller.productCountController,
+                  controller: controller.productCountController,
                   labelText: 'تعداد *',
                   inputFormatters: [
                     FilteringTextInputFormatter.digitsOnly,
@@ -67,7 +68,7 @@ class FactorUnofficialAddModalBottomSheet
                 )),
                 Expanded(
                     child: FactorTextFormField(
-                      controller: controller.productUnitPriceController,
+                  controller: controller.productUnitPriceController,
                   labelText: 'قیمت واحد *',
                   inputFormatters: [
                     FilteringTextInputFormatter.digitsOnly,
@@ -76,7 +77,7 @@ class FactorUnofficialAddModalBottomSheet
                   textInputAction: TextInputAction.next,
                   textInputType: TextInputType.phone,
                   validatorTextField: emptyValidator('قیمت واحد'),
-                  suffixText: '^ ریال',
+                  suffixText: 'ریال',
                   hasBorder: true,
                 )),
               ],
@@ -85,9 +86,9 @@ class FactorUnofficialAddModalBottomSheet
               children: [
                 Expanded(
                     child: FactorTextFormField(
-                      controller: controller.productDiscountController,
+                  controller: controller.productDiscountController,
                   labelText: 'تخفیف',
-                    validatorTextField:   percentValidator('تخفیف'),
+                  validatorTextField: percentValidator('تخفیف'),
                   inputFormatters: [
                     FilteringTextInputFormatter.digitsOnly,
                     LengthLimitingTextInputFormatter(3),
@@ -99,9 +100,9 @@ class FactorUnofficialAddModalBottomSheet
                 )),
                 Expanded(
                     child: FactorTextFormField(
-                      controller: controller.productTaxationController,
+                  controller: controller.productTaxationController,
                   labelText: 'مالیات',
-                      validatorTextField:   percentValidator('مالیات'),
+                  validatorTextField: percentValidator('مالیات'),
                   inputFormatters: [
                     FilteringTextInputFormatter.digitsOnly,
                     LengthLimitingTextInputFormatter(3),

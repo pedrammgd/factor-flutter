@@ -26,7 +26,7 @@ class FactorUnofficialList extends GetView<FactorUnofficialController> {
         } else if (controller.factorUnofficialItemList.isEmpty) {
           return Padding(
             padding: const EdgeInsetsDirectional.only(top: 100),
-            child: Column(
+            child: ListView(
               children: [
                 Image.asset(
                   emptyList,
@@ -34,30 +34,32 @@ class FactorUnofficialList extends GetView<FactorUnofficialController> {
                   height: 150,
                   fit: BoxFit.contain,
                 ),
-                const Padding(
-                  padding: EdgeInsetsDirectional.only(top: 20),
-                  child: Text('فاکتوری وجود ندارد'),
+                const Center(
+                  child: Padding(
+                    padding: EdgeInsetsDirectional.only(top: 20),
+                    child: Text('فاکتوری وجود ندارد'),
+                  ),
                 ),
               ],
             ),
           );
         } else {
           return ReorderableListView.builder(
-              onReorder: (int oldIndex, int newIndex) {
-                final index = newIndex >oldIndex ?newIndex-1:newIndex;
-                final  factorUnofficialList = controller.factorUnofficialItemList.removeAt(oldIndex);
-                controller.factorUnofficialItemList.insert(index, factorUnofficialList);
-              },
-              padding: const EdgeInsets.only(bottom: 50),
-              itemCount: controller.factorUnofficialItemList.length,
-              itemBuilder: (context, index) {
-                return
-                  FactorUnofficialItem(
-                  key: ValueKey(controller.factorUnofficialItemList[index]),
-                  index: index,
-                );
-              },
-
+            onReorder: (int oldIndex, int newIndex) {
+              final index = newIndex > oldIndex ? newIndex - 1 : newIndex;
+              final factorUnofficialList =
+                  controller.factorUnofficialItemList.removeAt(oldIndex);
+              controller.factorUnofficialItemList
+                  .insert(index, factorUnofficialList);
+            },
+            padding: const EdgeInsets.only(bottom: 50),
+            itemCount: controller.factorUnofficialItemList.length,
+            itemBuilder: (context, index) {
+              return FactorUnofficialItem(
+                key: ValueKey(controller.factorUnofficialItemList[index]),
+                index: index,
+              );
+            },
           );
         }
       },
