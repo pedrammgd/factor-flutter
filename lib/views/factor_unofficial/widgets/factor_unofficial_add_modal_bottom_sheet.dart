@@ -1,6 +1,8 @@
 import 'package:factor_flutter_mobile/controllers/factor_unofficial/add_or_edit_factor_unofficial_controller.dart';
 import 'package:factor_flutter_mobile/core/utils/factor_validation/form_feild_validation.dart';
+import 'package:factor_flutter_mobile/core/utils/formatter/thousend_formatter.dart';
 import 'package:factor_flutter_mobile/models/factor_unofficial_item_view_model/factor_unofficial_item_view_model.dart';
+import 'package:factor_flutter_mobile/views/shared/widgets/factor_border_button.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/factor_text_form_feild.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -31,108 +33,146 @@ class FactorUnofficialAddModalBottomSheet
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
-                  margin: const EdgeInsetsDirectional.all(10),
-                  height: 3,
-                  width: 50,
-                  decoration: BoxDecoration(
-                      color: Colors.black,
-                      borderRadius: BorderRadius.circular(20)),
-                ),
+                _topDivider(context),
               ],
             ),
-            FactorTextFormField(
-              controller: controller.productDescriptionController,
-              width: double.infinity,
-              labelText: 'شرح کالا *',
-              borderColor: Colors.black,
-              hasBorder: true,
-              validatorTextField: emptyValidator('شرح کالا'),
-            ),
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Expanded(
-                    child: FactorTextFormField(
-                  controller: controller.productCountController,
-                  labelText: 'تعداد *',
-                  inputFormatters: [
-                    FilteringTextInputFormatter.digitsOnly,
-                    LengthLimitingTextInputFormatter(12),
-                  ],
-                  textInputAction: TextInputAction.next,
-                  textInputType: TextInputType.phone,
-                  validatorTextField: emptyValidator('تعداد'),
-                  suffixText: 'عدد',
-                  hasBorder: true,
-                )),
-                Expanded(
-                    child: FactorTextFormField(
-                  controller: controller.productUnitPriceController,
-                  labelText: 'قیمت واحد *',
-                  inputFormatters: [
-                    FilteringTextInputFormatter.digitsOnly,
-                    LengthLimitingTextInputFormatter(12),
-                  ],
-                  textInputAction: TextInputAction.next,
-                  textInputType: TextInputType.phone,
-                  validatorTextField: emptyValidator('قیمت واحد'),
-                  suffixText: 'ریال',
-                  hasBorder: true,
-                )),
-              ],
-            ),
+            _descriptionTextFormField(context),
+            _unitPriceTextFormFeild(context),
+            _countTextFormField(context),
             Row(
               children: [
-                Expanded(
-                    child: FactorTextFormField(
-                  controller: controller.productDiscountController,
-                  labelText: 'تخفیف',
-                  validatorTextField: percentValidator('تخفیف'),
-                  inputFormatters: [
-                    FilteringTextInputFormatter.digitsOnly,
-                    LengthLimitingTextInputFormatter(3),
-                  ],
-                  textInputAction: TextInputAction.next,
-                  textInputType: TextInputType.phone,
-                  suffixText: '%',
-                  hasBorder: true,
-                )),
-                Expanded(
-                    child: FactorTextFormField(
-                  controller: controller.productTaxationController,
-                  labelText: 'مالیات',
-                  validatorTextField: percentValidator('مالیات'),
-                  inputFormatters: [
-                    FilteringTextInputFormatter.digitsOnly,
-                    LengthLimitingTextInputFormatter(3),
-                  ],
-                  textInputAction: TextInputAction.next,
-                  textInputType: TextInputType.phone,
-                  suffixText: '%',
-                  hasBorder: true,
-                )),
+                _discountTextFormField(context),
+                _taxationTextFormFild(context),
               ],
             ),
-            Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: SizedBox(
-                    height: 50,
-                    width: double.infinity,
-                    child: OutlinedButton(
-                        style: OutlinedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                            side:
-                                const BorderSide(color: Colors.black, width: 1),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                        onPressed: () {
-                          controller.save();
-                        },
-                        child: const Text('ثبت')))),
+            _button(context),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _button(BuildContext context) {
+    return Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: SizedBox(
+            height: 50,
+            width: double.infinity,
+            child: CustomBorderButton(
+                borderColor: Theme.of(context).colorScheme.secondary,
+                textColor: Theme.of(context).colorScheme.secondary,
+                onPressed: () {
+                  controller.save();
+                },
+                titleButton: 'ثبت')));
+  }
+
+  Widget _taxationTextFormFild(BuildContext context) {
+    return Expanded(
+        child: FactorTextFormField(
+      labelColor: Theme.of(context).colorScheme.secondary,
+      borderColor: Theme.of(context).colorScheme.secondary,
+      suffixColor: Theme.of(context).colorScheme.secondary,
+      controller: controller.productTaxationController,
+      labelText: 'مالیات',
+      validatorTextField: percentValidator('مالیات'),
+      inputFormatters: [
+        LengthLimitingTextInputFormatter(4),
+        FilteringTextInputFormatter.allow(RegExp(r'^(\d+)?\.?\d{0,2}')),
+      ],
+      textInputAction: TextInputAction.next,
+      textInputType: TextInputType.phone,
+      suffixText: '%',
+      hasBorder: true,
+    ));
+  }
+
+  Widget _discountTextFormField(BuildContext context) {
+    return Expanded(
+        child: FactorTextFormField(
+      controller: controller.productDiscountController,
+      labelColor: Theme.of(context).colorScheme.secondary,
+      borderColor: Theme.of(context).colorScheme.secondary,
+      suffixColor: Theme.of(context).colorScheme.secondary,
+      labelText: 'تخفیف',
+      validatorTextField: percentValidator('تخفیف'),
+      inputFormatters: [
+        FilteringTextInputFormatter.allow(RegExp(r'^(\d+)?\.?\d{0,2}')),
+        LengthLimitingTextInputFormatter(4),
+      ],
+      textInputAction: TextInputAction.next,
+      textInputType: TextInputType.phone,
+      suffixText: '%',
+      hasBorder: true,
+    ));
+  }
+
+  Widget _countTextFormField(BuildContext context) {
+    return FactorTextFormField(
+      width: double.infinity,
+      controller: controller.productCountController,
+      labelColor: Theme.of(context).colorScheme.secondary,
+      suffixColor: Theme.of(context).colorScheme.secondary,
+      borderColor: Theme.of(context).colorScheme.secondary,
+      labelText: 'تعداد *',
+      inputFormatters: [
+        FilteringTextInputFormatter.digitsOnly,
+        LengthLimitingTextInputFormatter(12),
+      ],
+      textInputAction: TextInputAction.next,
+      textInputType: TextInputType.phone,
+      validatorTextField: emptyValidator('تعداد'),
+      suffixText: 'عدد',
+      hasBorder: true,
+    );
+  }
+
+  Widget _unitPriceTextFormFeild(BuildContext context) {
+    return FactorTextFormField(
+      width: double.infinity,
+      controller: controller.productUnitPriceController,
+      labelColor: Theme.of(context).colorScheme.secondary,
+      borderColor: Theme.of(context).colorScheme.secondary,
+      suffixColor: Theme.of(context).colorScheme.secondary,
+      labelText: 'قیمت واحد *',
+      inputFormatters: [
+        FilteringTextInputFormatter.digitsOnly,
+        LengthLimitingTextInputFormatter(12),
+        ThousandsSeparatorInputFormatter(),
+      ],
+      textInputAction: TextInputAction.next,
+      textInputType: TextInputType.phone,
+      validatorTextField: emptyValidator('قیمت واحد'),
+      suffixText: 'ریال',
+      hasBorder: true,
+    );
+  }
+
+  Widget _descriptionTextFormField(BuildContext context) {
+    return FactorTextFormField(
+      controller: controller.productDescriptionController,
+      suffixColor: Theme.of(context).colorScheme.secondary,
+      labelColor: Theme.of(context).colorScheme.secondary,
+      width: double.infinity,
+      labelText: 'شرح کالا *',
+      borderColor: Theme.of(context).colorScheme.secondary,
+      hasBorder: true,
+      validatorTextField: emptyValidator('شرح کالا'),
+    );
+  }
+
+  Widget _topDivider(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        Get.back();
+      },
+      child: Container(
+        margin: const EdgeInsetsDirectional.all(10),
+        height: 3,
+        width: 50,
+        decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.secondary,
+            borderRadius: BorderRadius.circular(20)),
       ),
     );
   }

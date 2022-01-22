@@ -10,7 +10,6 @@ class HomeFactorPage extends GetView<HomeFactorController> {
   @override
   Widget build(BuildContext context) {
     Get.lazyPut(() => HomeFactorController());
-    //
     return ListView(
       controller: scrollController,
       children: [

@@ -33,116 +33,117 @@ class FactorUnofficialPage extends GetView<FactorUnofficialController> {
           // controller.factorUnofficialItemList.value = [];
           Get.back(result: true);
         },
+        context: context,
       ),
       child: Obx(() {
         return Scaffold(
-          body: FactorBodyAppBarSliver(
-            body: const FactorUnofficialList(),
-            title: Padding(
-              padding: const EdgeInsets.only(top: 15),
-              child:
-                  Text(controller.isBeforeFactor ? 'پیش فاکتور' : 'فاکتور جدید',
-                      style: const TextStyle(
-                        color: Colors.black,
-                      )),
-            ),
-            bottomWidget: PreferredSize(
-              preferredSize: const Size.fromHeight(40),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 34,
-                ),
-                child: SizedBox(
-                  height: 40,
-                  width: double.maxFinite,
-                  child: CustomBorderButton(
-                    onPressed: () {
-                      CustomModalBottomSheet.showModalBottomSheet(
-                        child: FactorUnofficialAddModalBottomSheet(
-                          factorUnofficialItemList:
-                              controller.factorUnofficialItemList,
-                          factorUnofficialItem: null,
-                          sharedPreferences: controller.sharedPreferences,
-                        ),
-                      );
-                    },
-                    titleButton: ' افزودن به فاکتور',
-                    icon: const Icon(Icons.add),
-                  ),
-                ),
-              ),
-            ),
-          ),
+          body: _body(context),
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerDocked,
-          floatingActionButton: controller.factorUnofficialItemList.isEmpty
-              ? const SizedBox.shrink()
-              : Padding(
-                  padding: const EdgeInsetsDirectional.only(
-                    bottom: 8.0,
-                  ),
-                  child: SizedBox(
-                    width: 30,
-                    height: 30,
-                    child: FloatingActionButton(
-                        onPressed: () {
-                          controller.isExpandedBottomSheet.value =
-                              !controller.isExpandedBottomSheet.value;
-                          // CustomModalBottomSheet.showModalBottomSheet(
-                          //   child: FactorUnofficialAddModalBottomSheet(
-                          //     factorUnofficialItemList:
-                          //         controller.factorUnofficialItemList,
-                          //     factorUnofficialItem: null,
-                          //     sharedPreferences: controller.sharedPreferences,
-                          //   ),
-                          // );
-                        },
-                        child: FactorExpandIcon(
-                          isExpanded: controller.isExpandedBottomSheet.value,
-                          color: Colors.white,
-                        )),
-                  ),
-                ),
-          bottomNavigationBar: AnimatedContainer(
-            duration: const Duration(milliseconds: 500),
-            height: heightBottomSheet(),
-            // height: controller.factorUnofficialItemList.isEmpty ? 0 : 245,
-            child: Wrap(
-              children: [
-                InkWell(
-                  child: BottomSheetTotalPriceWidget(
-                    price: validPrice(),
-                    taxation: validTaxation(),
-                    discount: validDiscount(),
-                    totalPrice: validTotalPrice(),
-                    totalWordPrice: validTotalWordPrice(),
-                    onTap: () {
-                      controller.isExpandedBottomSheet.value =
-                          !controller.isExpandedBottomSheet.value;
-                    },
-                  ),
-                ),
-              ],
-            ),
-          ),
+          floatingActionButton: _floatingActionButton(),
+          bottomNavigationBar: _bottomNavigationBar(),
         );
       }),
     );
   }
 
-  String validPrice() {
-    if (controller.price() > 999999999999) {
-      return 'قیمت نامعتبر';
-    } else {
-      return '${controller.price()}'.seRagham() + ' ریال';
-    }
+  Widget _bottomNavigationBar() {
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 500),
+      height: heightBottomSheet(),
+      // height: controller.factorUnofficialItemList.isEmpty ? 0 : 245,
+      child: Wrap(
+        children: [
+          InkWell(
+            child: BottomSheetTotalPriceWidget(
+              taxation: validTaxation(),
+              discount: validDiscount(),
+              totalPrice: validTotalPrice(),
+              totalWordPrice: validTotalWordPrice(),
+              onTap: () {
+                controller.isExpandedBottomSheet.value =
+                    !controller.isExpandedBottomSheet.value;
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _floatingActionButton() {
+    return controller.factorUnofficialItemList.isEmpty
+        ? const SizedBox.shrink()
+        : Padding(
+            padding: const EdgeInsetsDirectional.only(
+              bottom: 8.0,
+            ),
+            child: SizedBox(
+              width: 30,
+              height: 30,
+              child: FloatingActionButton(
+                  onPressed: () {
+                    controller.isExpandedBottomSheet.value =
+                        !controller.isExpandedBottomSheet.value;
+                  },
+                  child: FactorExpandIcon(
+                    isExpanded: controller.isExpandedBottomSheet.value,
+                    color: Colors.white,
+                  )),
+            ),
+          );
+  }
+
+  Widget _body(BuildContext context) {
+    return FactorBodyAppBarSliver(
+      body: const FactorUnofficialList(),
+      title: Padding(
+        padding: const EdgeInsets.only(top: 15),
+        child: Text(controller.isBeforeFactor ? 'پیش فاکتور' : 'فاکتور جدید',
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.secondary,
+            )),
+      ),
+      bottomWidget: PreferredSize(
+        preferredSize: const Size.fromHeight(40),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 34,
+          ),
+          child: SizedBox(
+            height: 40,
+            width: double.maxFinite,
+            child: CustomBorderButton(
+              borderColor: Theme.of(context).colorScheme.secondary,
+              textColor: Theme.of(context).colorScheme.secondary,
+              onPressed: () {
+                CustomModalBottomSheet.showModalBottomSheet(
+                  color: Theme.of(context).primaryColor,
+                  child: FactorUnofficialAddModalBottomSheet(
+                    factorUnofficialItemList:
+                        controller.factorUnofficialItemList,
+                    factorUnofficialItem: null,
+                    sharedPreferences: controller.sharedPreferences,
+                  ),
+                );
+              },
+              titleButton: ' افزودن به فاکتور',
+              icon: Icon(
+                Icons.add,
+                color: Theme.of(context).colorScheme.secondary,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 
   String validTaxation() {
     if (controller.taxation() > 999999999999) {
       return 'مالیات نامعتبر';
     } else {
-      return '${controller.taxation()}'.seRagham() + ' ریال';
+      return controller.taxation().toStringAsFixed(2).seRagham() + ' ریال';
     }
   }
 
@@ -150,7 +151,7 @@ class FactorUnofficialPage extends GetView<FactorUnofficialController> {
     if (controller.discount() > 999999999999) {
       return 'تخفیف نامعتبر';
     } else {
-      return '${controller.discount()}'.seRagham() + ' ریال';
+      return controller.discount().toStringAsFixed(2).seRagham() + ' ریال';
     }
   }
 
@@ -158,7 +159,7 @@ class FactorUnofficialPage extends GetView<FactorUnofficialController> {
     if (controller.totalPrice() > 999999999999) {
       return 'قیمت کل نامعتبر';
     } else {
-      return '${controller.totalPrice()}'.seRagham() + ' ریال';
+      return controller.totalPrice().toStringAsFixed(2).seRagham() + ' ریال';
     }
   }
 

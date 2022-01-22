@@ -11,11 +11,13 @@ abstract class ExitPopUp {
     String noButtonTitle = 'خیر',
     Function()? onPressedOk,
     Function()? onPressedNo,
+    required BuildContext context,
   }) async {
     return await Get.dialog(
           AlertDialog(
             shape: RoundedRectangleBorder(
-              side: BorderSide(color: Colors.white70, width: 1),
+              side: BorderSide(
+                  color: Theme.of(context).colorScheme.secondary, width: 1),
               borderRadius: BorderRadius.circular(20),
             ),
             title: Text(title),
@@ -23,10 +25,13 @@ abstract class ExitPopUp {
             actions: [
               CustomBorderButton(
                 onPressed: () => Get.back(result: false),
-                isFilled: true,
                 titleButton: noButtonTitle,
+                textColor: Theme.of(context).colorScheme.secondary,
+                borderColor: Theme.of(context).colorScheme.secondary,
               ),
               CustomBorderButton(
+                borderColor: Theme.of(context).colorScheme.secondary,
+                textColor: Theme.of(context).colorScheme.secondary,
                 onPressed: onPressedOk,
                 titleButton: okButtonTitle,
               ),

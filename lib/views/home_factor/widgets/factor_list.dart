@@ -7,7 +7,6 @@ import 'package:get/get.dart';
 class FactorList extends GetView<HomeFactorController> {
   const FactorList({Key? key}) : super(key: key);
 
-
   @override
   Widget build(BuildContext context) {
     return Obx(
@@ -34,6 +33,7 @@ class FactorList extends GetView<HomeFactorController> {
                   width: 150,
                   height: 150,
                   fit: BoxFit.contain,
+                  color: Theme.of(context).colorScheme.secondary,
                 ),
                 const Padding(
                   padding: EdgeInsetsDirectional.only(top: 20),

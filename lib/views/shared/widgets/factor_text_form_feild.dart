@@ -31,7 +31,8 @@ class FactorTextFormField extends StatelessWidget {
   final String? hintText;
   final FloatingLabelBehavior? floatingLabelBehavior;
   final String? suffixText;
-
+  final Color suffixColor;
+  final Color? labelColor;
 
   const FactorTextFormField({
     this.controller,
@@ -55,7 +56,16 @@ class FactorTextFormField extends StatelessWidget {
     this.fillColor = Colors.black12,
     this.hasBorder = false,
     this.alignLabelWithHint,
-    this.textAlignVertical, this.height, this.borderColor = Colors.grey, this.suffixIcon, this.borderRadius = 10, this.hintText, this.floatingLabelBehavior, this.suffixText,
+    this.textAlignVertical,
+    this.height,
+    this.borderColor = Colors.grey,
+    this.suffixIcon,
+    this.borderRadius = 10,
+    this.hintText,
+    this.floatingLabelBehavior,
+    this.suffixText,
+    this.suffixColor = Colors.grey,
+    this.labelColor,
   });
 
   @override
@@ -66,9 +76,8 @@ class FactorTextFormField extends StatelessWidget {
         width: width,
         height: height,
         child: TextFormField(
-
             onTap: onTap,
-            textAlignVertical:textAlignVertical ,
+            textAlignVertical: textAlignVertical,
             textDirection: TextDirection.ltr,
             textAlign: TextAlign.end,
             focusNode: focusNode,
@@ -84,9 +93,8 @@ class FactorTextFormField extends StatelessWidget {
             readOnly: readOnly,
             decoration: InputDecoration(
                 hintText: hintText,
-                floatingLabelBehavior:floatingLabelBehavior ,
-
-                hintStyle: const TextStyle(fontSize: 12,color: Colors.grey),
+                floatingLabelBehavior: floatingLabelBehavior,
+                hintStyle: const TextStyle(fontSize: 12, color: Colors.black),
                 hintTextDirection: TextDirection.ltr,
                 suffixIconConstraints: const BoxConstraints(
                   minHeight: 24,
@@ -97,15 +105,15 @@ class FactorTextFormField extends StatelessWidget {
                 filled: true,
                 suffixIcon: suffixIcon,
                 suffixText: suffixText,
-                suffixStyle: const TextStyle(color:  Colors.grey),
+                suffixStyle: TextStyle(color: suffixColor),
                 fillColor: fillColor,
                 prefixIcon:
-                hasPrefixIcon ? prefixIcon : const SizedBox.shrink(),
+                    hasPrefixIcon ? prefixIcon : const SizedBox.shrink(),
                 prefixIconConstraints: BoxConstraints(
                     minWidth: hasPrefixIcon ? 48 : 20,
                     minHeight: hasPrefixIcon ? 48 : 0),
                 labelText: labelText,
-                labelStyle: const TextStyle(fontSize: 15),
+                labelStyle: TextStyle(fontSize: 15, color: labelColor),
                 focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(
                     width: 1.5,

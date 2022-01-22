@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CardIconWidget extends StatelessWidget {
@@ -20,8 +19,8 @@ class CardIconWidget extends StatelessWidget {
       borderRadius: BorderRadius.circular(25),
       onTap: onTap,
       child: Ink(
-        width: height / 6,
-        height: height / 6,
+        width: height / 5,
+        height: height / 5,
         decoration: BoxDecoration(
           color: Theme.of(context).primaryColor,
           borderRadius: BorderRadius.circular(25),

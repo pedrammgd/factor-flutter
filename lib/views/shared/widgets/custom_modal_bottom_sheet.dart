@@ -20,11 +20,10 @@ class CustomModalBottomSheet {
     Get.bottomSheet(
       child,
       backgroundColor: color,
+      isScrollControlled: true,
       shape: shape,
       enterBottomSheetDuration: const Duration(milliseconds: 300),
       exitBottomSheetDuration: const Duration(milliseconds: 250),
-
-
     );
   }
 }

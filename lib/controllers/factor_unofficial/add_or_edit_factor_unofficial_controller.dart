@@ -12,6 +12,7 @@ class AddOrEditFactorUnofficialController extends GetxController {
       TextEditingController();
   final TextEditingController productCountController =
       TextEditingController(text: '1');
+
   final TextEditingController productUnitPriceController =
       TextEditingController();
 
@@ -36,7 +37,8 @@ class AddOrEditFactorUnofficialController extends GetxController {
     if (isEdit) {
       productDescriptionController.text = item!.productDescription;
       productCountController.text = item.productCount.toString();
-      productUnitPriceController.text = item.productUnitPrice.toString();
+      productUnitPriceController.text = item.productUnitPrice.replaceAllMapped(
+          RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},');
       productDiscountController.text = item.productDiscount.toString();
       productTaxationController.text = item.productTaxation.toString();
     }
@@ -47,9 +49,10 @@ class AddOrEditFactorUnofficialController extends GetxController {
       id: uuid.v4(),
       productDescription: productDescriptionController.text,
       productCount: int.tryParse(productCountController.text) ?? 1,
-      productUnitPrice: int.tryParse(productUnitPriceController.text) ?? 0,
-      productDiscount: int.tryParse(productDiscountController.text) ?? 0,
-      productTaxation: int.tryParse(productTaxationController.text) ?? 0,
+      productUnitPrice:
+          productUnitPriceController.text.replaceAll(RegExp(','), ''),
+      productDiscount: double.tryParse(productDiscountController.text) ?? 0,
+      productTaxation: double.tryParse(productTaxationController.text) ?? 0,
     );
   }
 
@@ -91,9 +94,10 @@ class AddOrEditFactorUnofficialController extends GetxController {
       id: editingFactorUnofficialItem!.id,
       productDescription: productDescriptionController.text,
       productCount: int.tryParse(productCountController.text) ?? 0,
-      productUnitPrice: int.tryParse(productUnitPriceController.text) ?? 0,
-      productDiscount: int.tryParse(productDiscountController.text) ?? 0,
-      productTaxation: int.tryParse(productTaxationController.text) ?? 0,
+      productUnitPrice:
+          productUnitPriceController.text.replaceAll(RegExp(','), ''),
+      productDiscount: double.tryParse(productDiscountController.text) ?? 0,
+      productTaxation: double.tryParse(productTaxationController.text) ?? 0,
     );
     // saveFactorData();
 

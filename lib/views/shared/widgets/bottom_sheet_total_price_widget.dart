@@ -9,14 +9,12 @@ import 'key_value_text_widget.dart';
 
 class BottomSheetTotalPriceWidget extends StatelessWidget {
   const BottomSheetTotalPriceWidget(
-      {required this.price,
-      this.discount = '0',
+      {this.discount = '0',
       this.taxation = '0',
       required this.totalPrice,
       required this.totalWordPrice,
       this.onTap});
 
-  final String price;
   final String discount;
   final String taxation;
   final String totalPrice;

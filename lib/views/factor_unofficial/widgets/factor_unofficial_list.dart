@@ -33,6 +33,7 @@ class FactorUnofficialList extends GetView<FactorUnofficialController> {
                   width: 150,
                   height: 150,
                   fit: BoxFit.contain,
+                  color: Theme.of(context).colorScheme.secondary,
                 ),
                 const Center(
                   child: Padding(

@@ -7,13 +7,15 @@ class CustomBorderButton extends StatelessWidget {
       {this.titleButton = 'دکمه',
       required this.onPressed,
       this.backgroundColor,
-      this.isFilled = false,
-      this.icon});
+      this.icon,
+      this.textColor,
+      this.borderColor = Colors.black});
 
   final String titleButton;
   final Function()? onPressed;
   final Color? backgroundColor;
-  final bool isFilled;
+  final Color? textColor;
+  final Color borderColor;
   final Widget? icon;
 
   @override
@@ -24,9 +26,7 @@ class CustomBorderButton extends StatelessWidget {
       label: Text(
         titleButton,
         textAlign: TextAlign.start,
-        style: TextStyle(
-            color: isFilled ? Colors.red : Colors.black,
-            fontWeight: FontWeight.bold),
+        style: TextStyle(color: textColor, fontWeight: FontWeight.bold),
       ),
       style: OutlinedButton.styleFrom(
         padding: EdgeInsets.only(left: icon == null ? 10 : 0),
@@ -37,7 +37,7 @@ class CustomBorderButton extends StatelessWidget {
         ),
         side: BorderSide(
           width: 1.5,
-          color: isFilled ? Colors.red : Colors.black,
+          color: borderColor,
         ),
       ),
     );
