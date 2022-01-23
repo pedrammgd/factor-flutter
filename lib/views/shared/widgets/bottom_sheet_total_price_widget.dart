@@ -1,9 +1,6 @@
 import 'package:factor_flutter_mobile/core/constans/constans.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/factor_border_button.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
 
 import 'key_value_text_widget.dart';
 
@@ -13,13 +10,15 @@ class BottomSheetTotalPriceWidget extends StatelessWidget {
       this.taxation = '0',
       required this.totalPrice,
       required this.totalWordPrice,
-      this.onTap});
+      this.onTap,
+      this.bottomButtonOnTap});
 
   final String discount;
   final String taxation;
   final String totalPrice;
   final String totalWordPrice;
   final Function()? onTap;
+  final VoidCallback? bottomButtonOnTap;
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +79,7 @@ class BottomSheetTotalPriceWidget extends StatelessWidget {
                   height: 50,
                   width: double.infinity,
                   child: CustomBorderButton(
-                      onPressed: () {}, titleButton: 'ادامه')),
+                      onPressed: bottomButtonOnTap, titleButton: 'ادامه')),
             ),
             Constants.mediumVerticalSpacer,
           ],

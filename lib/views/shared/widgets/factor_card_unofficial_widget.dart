@@ -12,7 +12,8 @@ class FactorCardUnOfficialWidget extends StatelessWidget {
       this.title = 'فاکتور فروش محصولات اینترنتی',
       this.onSelectedPopUp,
       this.itemPopUp,
-      required this.itemIndex});
+      required this.itemIndex,
+      required this.totalPrice});
 
   final double paddingTop;
   final double paddingEnd;
@@ -24,6 +25,7 @@ class FactorCardUnOfficialWidget extends StatelessWidget {
   final String title;
   final List<String>? itemPopUp;
   final int itemIndex;
+  final String totalPrice;
 
   @override
   Widget build(BuildContext context) {
@@ -50,9 +52,10 @@ class FactorCardUnOfficialWidget extends StatelessWidget {
             onTap: onTap,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Constants.largeHorizontalSpacer,
                     _titleWidget(),
@@ -61,6 +64,14 @@ class FactorCardUnOfficialWidget extends StatelessWidget {
                     Constants.largeHorizontalSpacer,
                   ],
                 ),
+                Row(
+                  children: [
+                    Constants.largeHorizontalSpacer,
+                    const Text('قیمت کل : '),
+                    Text(totalPrice),
+                  ],
+                ),
+                Constants.tinyVerticalSpacer,
               ],
             )),
       ),

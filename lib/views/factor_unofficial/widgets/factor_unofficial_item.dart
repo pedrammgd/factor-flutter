@@ -7,21 +7,18 @@ import 'package:factor_flutter_mobile/views/shared/widgets/factor_card_unofficia
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-
-
-
-
 class FactorUnofficialItem extends GetView<FactorUnofficialController> {
   const FactorUnofficialItem({
-    required this.index,required Key key,
-  }): super(key: key);
+    required this.index,
+    required Key key,
+  }) : super(key: key);
 
   final int index;
-
 
   @override
   Widget build(BuildContext context) {
     return FactorCardUnOfficialWidget(
+      totalPrice: controller.totalPriceItem(items).toString(),
       itemPopUp: controller.popUpItems,
       onSelectedPopUp: (value) {
         if (value == Constants.editPopUp) {

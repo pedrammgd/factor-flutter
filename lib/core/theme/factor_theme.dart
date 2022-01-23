@@ -1,3 +1,4 @@
+import 'package:factor_flutter_mobile/core/constans/constans.dart';
 import 'package:flutter/material.dart';
 
 class FactorTheme {
@@ -9,7 +10,7 @@ class FactorTheme {
   );
   static final lightTheme = ThemeData(
     fontFamily: 'IRANSans',
-    scaffoldBackgroundColor: Colors.white,
+    scaffoldBackgroundColor: backGroundScaffoldColor,
     primaryColor: Colors.white,
     colorScheme: const ColorScheme.light(secondary: Colors.black),
   );

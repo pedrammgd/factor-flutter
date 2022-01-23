@@ -64,6 +64,22 @@ class FactorUnofficialController extends GetxController {
     return _totalPrice;
   }
 
+  double totalPriceItem(FactorUnofficialItemViewModel item) {
+    double _totalPrice = 0;
+
+    _totalPrice += (int.parse(item.productUnitPrice) * item.productCount) +
+        ((item.productCount *
+                int.parse(item.productUnitPrice) *
+                item.productTaxation) /
+            100) -
+        (item.productCount *
+                int.parse(item.productUnitPrice) *
+                item.productDiscount) /
+            100;
+
+    return _totalPrice;
+  }
+
   late SharedPreferences sharedPreferences;
 
   initSharedPreferences() {

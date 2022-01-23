@@ -1,4 +1,5 @@
 import 'package:factor_flutter_mobile/controllers/factor_unofficial/factor_unofficial_controller.dart';
+import 'package:factor_flutter_mobile/core/router/factor_pages.dart';
 import 'package:factor_flutter_mobile/views/factor_unofficial/widgets/factor_unofficial_add_modal_bottom_sheet.dart';
 import 'package:factor_flutter_mobile/views/factor_unofficial/widgets/factor_unofficial_list.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/bottom_sheet_total_price_widget.dart';
@@ -56,6 +57,9 @@ class FactorUnofficialPage extends GetView<FactorUnofficialController> {
         children: [
           InkWell(
             child: BottomSheetTotalPriceWidget(
+              bottomButtonOnTap: () {
+                Get.toNamed(FactorRoutes.factorUnofficialSpecification);
+              },
               taxation: validTaxation(),
               discount: validDiscount(),
               totalPrice: validTotalPrice(),
