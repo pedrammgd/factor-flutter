@@ -6,6 +6,7 @@ import 'package:factor_flutter_mobile/views/shared/widgets/custom_modal_bottom_s
 import 'package:factor_flutter_mobile/views/shared/widgets/factor_card_unofficial_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:persian_number_utility/src/extensions.dart';
 
 class FactorUnofficialItem extends GetView<FactorUnofficialController> {
   const FactorUnofficialItem({
@@ -18,7 +19,7 @@ class FactorUnofficialItem extends GetView<FactorUnofficialController> {
   @override
   Widget build(BuildContext context) {
     return FactorCardUnOfficialWidget(
-      totalPrice: controller.totalPriceItem(items).toString(),
+      totalPrice: controller.totalPriceItem(items).toString().seRagham(),
       itemPopUp: controller.popUpItems,
       onSelectedPopUp: (value) {
         if (value == Constants.editPopUp) {

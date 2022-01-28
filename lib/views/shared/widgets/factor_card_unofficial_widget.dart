@@ -1,4 +1,5 @@
 import 'package:factor_flutter_mobile/core/constans/constans.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class FactorCardUnOfficialWidget extends StatelessWidget {
@@ -36,18 +37,18 @@ class FactorCardUnOfficialWidget extends StatelessWidget {
           start: paddingStart,
           bottom: paddingBottom),
       child: Container(
-        height: height,
-        decoration: BoxDecoration(
-          color: Theme.of(context).primaryColor,
-          borderRadius: BorderRadius.circular(0),
-          boxShadow: [
-            BoxShadow(
-              color: Theme.of(context).colorScheme.secondary,
-              blurRadius: .1,
-            ),
-          ],
-        ),
-        child: InkWell(
+          height: height,
+          decoration: BoxDecoration(
+            color: Theme.of(context).primaryColor,
+            borderRadius: BorderRadius.circular(0),
+            boxShadow: [
+              BoxShadow(
+                color: Theme.of(context).colorScheme.secondary,
+                blurRadius: .1,
+              ),
+            ],
+          ),
+          child: InkWell(
             borderRadius: BorderRadius.circular(0),
             onTap: onTap,
             child: Column(
@@ -55,7 +56,7 @@ class FactorCardUnOfficialWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Constants.largeHorizontalSpacer,
                     _titleWidget(),
@@ -68,25 +69,28 @@ class FactorCardUnOfficialWidget extends StatelessWidget {
                   children: [
                     Constants.largeHorizontalSpacer,
                     const Text('قیمت کل : '),
-                    Text(totalPrice),
+                    Text('$totalPrice ریال'),
                   ],
                 ),
                 Constants.tinyVerticalSpacer,
               ],
-            )),
-      ),
+            ),
+          )),
     );
   }
 
   Widget _titleWidget() {
     return Expanded(
-        child: Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Text(
-        '$itemIndex- ${title}',
-        style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-      ),
-    ));
+      child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          child: Text(
+            '$itemIndex- $title',
+            style: const TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.bold,
+            ),
+          )),
+    );
   }
 
   Widget _morePopup() => PopupMenuButton<String>(

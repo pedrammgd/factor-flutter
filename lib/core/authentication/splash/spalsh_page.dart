@@ -1,6 +1,7 @@
 import 'package:factor_flutter_mobile/controllers/more/more_controller.dart';
 import 'package:factor_flutter_mobile/core/constans/constans.dart';
 import 'package:factor_flutter_mobile/core/router/factor_pages.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
@@ -14,9 +15,11 @@ class SplashPage extends StatefulWidget {
 
 class _SplashPageState extends State<SplashPage> {
   final MoreController moreController = Get.put(MoreController());
+
   @override
   void initState() {
     super.initState();
+
     Future.delayed(const Duration(seconds: 5), () {
       Get.offAndToNamed(FactorPage.initial);
     });
@@ -24,7 +27,6 @@ class _SplashPageState extends State<SplashPage> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(

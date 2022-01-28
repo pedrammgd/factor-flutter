@@ -23,7 +23,7 @@ class FactorBodyAppBarSliver extends StatelessWidget {
                     // Constants.mediumVerticalSpacer,
                     Padding(
                       padding: const EdgeInsetsDirectional.only(
-                        top: 15,
+                        top: 10,
                         end: 34,
                       ),
                       child: Container(

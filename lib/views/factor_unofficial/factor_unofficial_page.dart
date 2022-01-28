@@ -2,6 +2,7 @@ import 'package:factor_flutter_mobile/controllers/factor_unofficial/factor_unoff
 import 'package:factor_flutter_mobile/core/router/factor_pages.dart';
 import 'package:factor_flutter_mobile/views/factor_unofficial/widgets/factor_unofficial_add_modal_bottom_sheet.dart';
 import 'package:factor_flutter_mobile/views/factor_unofficial/widgets/factor_unofficial_list.dart';
+import 'package:factor_flutter_mobile/views/factor_unofficial_specification/factor_unofficial_specification_page.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/bottom_sheet_total_price_widget.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/custom_modal_bottom_sheet.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/exit_popUp.dart';
@@ -58,7 +59,18 @@ class FactorUnofficialPage extends GetView<FactorUnofficialController> {
           InkWell(
             child: BottomSheetTotalPriceWidget(
               bottomButtonOnTap: () {
-                Get.toNamed(FactorRoutes.factorUnofficialSpecification);
+                Get.toNamed(FactorRoutes.factorUnofficialSpecification,
+                    arguments: const FactorUnofficialSpecificationPage()
+                        .arguments(
+                            factorUnofficialItemList:
+                                controller.factorUnofficialItemList,
+                            totalPrice: validTotalPrice(),
+                            totalWordPrice: validTotalWordPrice(),
+                            taxation: validTaxation(),
+                            discount: validDiscount()));
+
+                controller.isExpandedBottomSheet.value =
+                    !controller.isExpandedBottomSheet.value;
               },
               taxation: validTaxation(),
               discount: validDiscount(),
@@ -102,20 +114,20 @@ class FactorUnofficialPage extends GetView<FactorUnofficialController> {
     return FactorBodyAppBarSliver(
       body: const FactorUnofficialList(),
       title: Padding(
-        padding: const EdgeInsets.only(top: 15),
+        padding: const EdgeInsets.only(top: 5),
         child: Text(controller.isBeforeFactor ? 'پیش فاکتور' : 'فاکتور جدید',
             style: TextStyle(
               color: Theme.of(context).colorScheme.secondary,
             )),
       ),
       bottomWidget: PreferredSize(
-        preferredSize: const Size.fromHeight(40),
+        preferredSize: const Size.fromHeight(45),
         child: Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: 34,
           ),
           child: SizedBox(
-            height: 40,
+            height: 45,
             width: double.maxFinite,
             child: CustomBorderButton(
               borderColor: Theme.of(context).colorScheme.secondary,

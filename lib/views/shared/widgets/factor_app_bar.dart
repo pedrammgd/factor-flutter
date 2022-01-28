@@ -6,17 +6,19 @@ import 'package:get/get.dart';
 
 class FactorAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool hasSearchBar;
-  final bool hasAddFactorButton;
+  final bool hasBarcodeButton;
   final bool hasBackButton;
   final double height;
   final Widget title;
+  final Widget customWidget;
 
   const FactorAppBar({
     this.hasSearchBar = false,
-    this.hasAddFactorButton = false,
+    this.hasBarcodeButton = false,
     this.hasBackButton = true,
     this.height = 80,
     this.title = const SizedBox.shrink(),
+    this.customWidget = const SizedBox.shrink(),
   });
 
   @override
@@ -37,9 +39,9 @@ class FactorAppBar extends StatelessWidget implements PreferredSizeWidget {
                       ? MainAxisAlignment.spaceBetween
                       : MainAxisAlignment.end,
                   children: [
-                    if (hasSearchBar) _searchBar(context),
+                    if (hasSearchBar) _searchBar(context) else customWidget,
                     Constants.largeHorizontalSpacer,
-                    if (hasAddFactorButton) _barcodeFactorButton(context),
+                    if (hasBarcodeButton) _barcodeFactorButton(context),
                     if (hasBackButton) _backButton(context),
                     if (hasBackButton) Constants.largeHorizontalSpacer,
                   ]),
@@ -97,7 +99,7 @@ class FactorAppBar extends StatelessWidget implements PreferredSizeWidget {
     return Expanded(
       child: FactorTextFormField(
         width: double.infinity,
-        prefixIcon: Icon(Icons.search),
+        prefixIcon: const Icon(Icons.search),
         hintText: '.....جستجو کن',
         floatingLabelBehavior: FloatingLabelBehavior.always,
         fillColor: Colors.white,

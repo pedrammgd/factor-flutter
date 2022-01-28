@@ -20,7 +20,7 @@ class FactorBasePage extends GetView<FactorBaseController> {
     return Obx(() {
       return Scaffold(
         appBar: FactorAppBar(
-          hasAddFactorButton: true,
+          hasBarcodeButton: true,
           hasBackButton: false,
           hasSearchBar:
               _getShowSearchBar().elementAt(controller.currentIndex.value),

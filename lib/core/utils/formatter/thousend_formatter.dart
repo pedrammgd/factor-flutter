@@ -29,8 +29,9 @@ class ThousandsSeparatorInputFormatter extends TextInputFormatter {
 
       String newString = '';
       for (int i = chars.length - 1; i >= 0; i--) {
-        if ((chars.length - 1 - i) % 3 == 0 && i != chars.length - 1)
+        if ((chars.length - 1 - i) % 3 == 0 && i != chars.length - 1) {
           newString = separator + newString;
+        }
         newString = chars[i] + newString;
       }
 

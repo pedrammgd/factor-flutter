@@ -10,7 +10,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Get.put(MoreController());
-
     return GetMaterialApp(
       themeMode: ThemeMode.light,
       theme: FactorTheme.lightTheme,
@@ -20,6 +19,7 @@ class MyApp extends StatelessWidget {
       locale: const Locale('fa', 'IR'),
       getPages: FactorPage.routes,
       initialRoute: FactorRoutes.splash,
+
       // home: const SplashPage(),
     );
   }

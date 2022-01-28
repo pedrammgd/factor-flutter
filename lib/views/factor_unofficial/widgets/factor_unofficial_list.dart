@@ -53,7 +53,7 @@ class FactorUnofficialList extends GetView<FactorUnofficialController> {
               controller.factorUnofficialItemList
                   .insert(index, factorUnofficialList);
             },
-            padding: const EdgeInsets.only(bottom: 50),
+            padding: const EdgeInsets.only(bottom: 50, top: 10),
             itemCount: controller.factorUnofficialItemList.length,
             itemBuilder: (context, index) {
               return FactorUnofficialItem(
