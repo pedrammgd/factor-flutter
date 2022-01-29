@@ -1,6 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:factor_flutter_mobile/controllers/more/more_controller.dart';
 import 'package:factor_flutter_mobile/core/constans/constans.dart';
+import 'package:factor_flutter_mobile/core/router/factor_pages.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/custom_factor_divider.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/dragable_widget.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/more_item_widget.dart';
@@ -21,8 +22,11 @@ class MorePage extends GetView<MoreController> {
             color: Theme.of(context).colorScheme.secondary,
           ),
           Constants.smallVerticalSpacer,
-          const MoreItemWidget(
-            title: 'لیست پرداخت ها',
+          MoreItemWidget(
+            onTap: () {
+              Get.toNamed(FactorRoutes.myProfile);
+            },
+            title: 'مشخصات من',
             icon: purchaseRecordsIcon,
           ),
           const MoreItemWidget(
@@ -42,7 +46,7 @@ class MorePage extends GetView<MoreController> {
                 controller.changeTheme();
                 controller.saveTheme();
               },
-              title: controller.isDark.value? 'حالت روز':'حالت شب',
+              title: controller.isDark.value ? 'حالت روز' : 'حالت شب',
               icon: controller.isDark.value ? lightIcon : darkIcon,
             );
           }),
@@ -116,13 +120,11 @@ class MorePage extends GetView<MoreController> {
             ),
           ),
           style: OutlinedButton.styleFrom(
-
-            side: BorderSide(width: 1.0, color: Theme
-                .of(context)
-                .colorScheme
-                .secondary,),
+            side: BorderSide(
+              width: 1.0,
+              color: Theme.of(context).colorScheme.secondary,
+            ),
           ),
-
         )
       ],
     );

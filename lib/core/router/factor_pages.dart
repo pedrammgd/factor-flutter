@@ -4,6 +4,7 @@ import 'package:factor_flutter_mobile/views/factor_unofficial/factor_unofficial_
 import 'package:factor_flutter_mobile/views/factor_unofficial_specification/factor_unofficial_specification_page.dart';
 import 'package:factor_flutter_mobile/views/list_type_factor/list_type_factor_page.dart';
 import 'package:factor_flutter_mobile/views/more/more_page.dart';
+import 'package:factor_flutter_mobile/views/my_profile/my_profile_page.dart';
 import 'package:get/get.dart';
 
 part 'factor_routes.dart';
@@ -35,6 +36,10 @@ class FactorPage {
     GetPage(
         name: FactorRoutes.factorUnofficialSpecification,
         page: () => const FactorUnofficialSpecificationPage(),
+        transition: Transition.noTransition),
+    GetPage(
+        name: FactorRoutes.myProfile,
+        page: () => MyProfilePage(),
         transition: Transition.noTransition)
   ];
 }
