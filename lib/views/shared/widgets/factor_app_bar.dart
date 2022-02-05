@@ -105,7 +105,8 @@ class FactorAppBar extends StatelessWidget implements PreferredSizeWidget {
         fillColor: Colors.white,
         hasBorder: true,
         borderColor: Theme.of(context).colorScheme.secondary,
-        paddingAll: 0,
+        paddingBottom: 0,
+        paddingTop: 0,
         contentPadding: 0,
       ),
     );

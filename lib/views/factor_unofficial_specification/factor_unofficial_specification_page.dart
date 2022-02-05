@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:factor_flutter_mobile/controllers/factor_unofficial_specification/factor_unofficial_specification_controller.dart';
 import 'package:factor_flutter_mobile/core/constans/constans.dart';
 import 'package:factor_flutter_mobile/models/factor_unofficial_item_view_model/factor_unofficial_item_view_model.dart';
@@ -5,8 +7,13 @@ import 'package:factor_flutter_mobile/views/shared/widgets/bottom_sheet_total_pr
 import 'package:factor_flutter_mobile/views/shared/widgets/custom_factor_divider.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/expandable/factor_expandable.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/factor_app_bar.dart';
+import 'package:factor_flutter_mobile/views/show_pdf/show_pdf_view.dart';
+import 'package:file_saver/file_saver.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:printing/printing.dart';
+import 'package:syncfusion_flutter_pdf/pdf.dart';
 
 class FactorUnofficialSpecificationPage
     extends GetView<FactorUnofficialSpecificationController> {
@@ -88,7 +95,11 @@ class FactorUnofficialSpecificationPage
         children: [
           InkWell(
             child: BottomSheetTotalPriceWidget(
-              bottomButtonOnTap: () {},
+              bottomButtonOnTap: () async {
+                final pdfView = await _createPdf();
+
+                Get.to(ShowPdfView(pdfView: pdfView));
+              },
               taxation: controller.taxation,
               discount: controller.discount,
               totalPrice: controller.totalPrice,
@@ -102,6 +113,32 @@ class FactorUnofficialSpecificationPage
         ],
       ),
     );
+  }
+
+  Future<Uint8List> _createPdf() async {
+    PdfDocument pdfDocument = PdfDocument();
+    final page = pdfDocument.pages.add();
+    page.graphics.drawString(
+        'pedrammojarad', PdfStandardFont(PdfFontFamily.courier, 30));
+
+    final List<int> pdfBytes = pdfDocument.save();
+    pdfDocument.dispose();
+
+    final Uint8List pdfView = Uint8List.fromList(pdfBytes);
+    _pathFile(pdfView);
+    return pdfView;
+  }
+
+  Future<void> _pathFile(Uint8List pdfView) async {
+    if (kIsWeb) {
+      await Printing.sharePdf(
+        bytes: pdfView,
+        filename: 'my-document.pdf',
+      );
+    } else {
+      MimeType type = MimeType.PDF;
+      await FileSaver.instance.saveAs("File", pdfView, "pdf", type);
+    }
   }
 
   Widget _floatingActionButton() {

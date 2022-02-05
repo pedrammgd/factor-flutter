@@ -24,11 +24,13 @@ class ListTypeFactorPage extends StatelessWidget {
             Constants.veryTinyHorizontalSpacer,
             CardIconWidget(
                 comingSoon: true,
+                iconColor: Theme.of(context).colorScheme.secondary,
                 onTap: () {},
                 title: 'فاکتور رسمی',
                 icon: addFactorOfficialIcon),
             Constants.smallHorizontalSpacer,
             CardIconWidget(
+                iconColor: Theme.of(context).colorScheme.secondary,
                 onTap: () {
                   Get.toNamed(FactorRoutes.factorUnofficial,
                       arguments: const FactorUnofficialPage()
@@ -38,6 +40,7 @@ class ListTypeFactorPage extends StatelessWidget {
                 icon: addFactorOfficialIcon),
             Constants.smallHorizontalSpacer,
             CardIconWidget(
+                iconColor: Theme.of(context).colorScheme.secondary,
                 onTap: () {
                   Get.toNamed(FactorRoutes.factorUnofficial,
                       arguments: const FactorUnofficialPage()

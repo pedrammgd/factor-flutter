@@ -5,12 +5,14 @@ class CardIconWidget extends StatelessWidget {
   final String icon;
   final Function()? onTap;
   final bool comingSoon;
+  final Color? iconColor;
 
   const CardIconWidget(
       {required this.title,
       required this.icon,
       this.onTap,
-      this.comingSoon = false});
+      this.comingSoon = false,
+      this.iconColor});
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +52,8 @@ class CardIconWidget extends StatelessWidget {
               width: 50,
               height: 50,
               fit: BoxFit.contain,
-              color: Theme.of(context).colorScheme.secondary,
+              color: iconColor,
+              // Theme.of(context).colorScheme.secondary,
             ),
             Padding(
               padding: const EdgeInsetsDirectional.only(top: 15),

@@ -11,7 +11,12 @@ class FactorTextFormField extends StatelessWidget {
   final TextInputType? textInputType;
   final int? maxLines;
   final TextInputAction? textInputAction;
-  final double paddingAll;
+
+  final double paddingTop;
+  final double paddingBottom;
+  final double paddingStart;
+  final double paddingEnd;
+
   final double contentPadding;
   final double width;
   final double? height;
@@ -45,7 +50,6 @@ class FactorTextFormField extends StatelessWidget {
     this.textInputAction,
     this.width = 248,
     this.contentPadding = 20,
-    this.paddingAll = 9,
     this.maxLength,
     this.onTap,
     this.hasPrefixIcon = true,
@@ -66,12 +70,20 @@ class FactorTextFormField extends StatelessWidget {
     this.suffixText,
     this.suffixColor = Colors.grey,
     this.labelColor,
+    this.paddingTop = 9,
+    this.paddingBottom = 9,
+    this.paddingStart = 0,
+    this.paddingEnd = 0,
   });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(paddingAll),
+      padding: EdgeInsetsDirectional.only(
+          top: paddingTop,
+          start: paddingStart,
+          end: paddingEnd,
+          bottom: paddingBottom),
       child: SizedBox(
         width: width,
         height: height,
