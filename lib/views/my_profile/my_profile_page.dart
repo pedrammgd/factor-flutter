@@ -16,7 +16,7 @@ class MyProfilePage extends GetView<MyProfileController> {
 
   @override
   Widget build(BuildContext context) {
-    Get.lazyPut<MyProfileController>(() => MyProfileController());
+    Get.lazyPut<MyProfileController>(() => (MyProfileController()));
     return Scaffold(
       appBar: const FactorAppBar(
         title: Padding(
@@ -37,12 +37,30 @@ class MyProfilePage extends GetView<MyProfileController> {
               Constants.mediumVerticalSpacer,
               _sealAndSignature(),
               Constants.largeVerticalSpacer,
+              _logo(),
+              Constants.largeVerticalSpacer,
               _button(),
               Constants.largeVerticalSpacer,
             ],
           ),
         );
       }),
+    );
+  }
+
+  Widget _logo() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: SquareCardBorder(
+        title: const Text('افزودن لوگو'),
+        // onTap: controller.sealOnTap,
+        icon: Image.asset(
+          sealIcon,
+          width: MediaQuery.of(Get.context!).size.width / 2,
+          height: MediaQuery.of(Get.context!).size.height / 8,
+          fit: BoxFit.contain,
+        ),
+      ),
     );
   }
 
@@ -68,15 +86,19 @@ class MyProfilePage extends GetView<MyProfileController> {
           children: [
             Expanded(
                 child: SquareCardBorder(
-              isShowSignature: controller.isShowSignature.value,
-              signatureIcon: controller.signatureIcon.value,
+              removeUint8ListOnTap: () {
+                controller.isShowSignature.value = false;
+                controller.uint8ListSignature.value = null;
+              },
+              isShowUint8List: controller.isShowSignature.value,
+              uint8ListImage: controller.uint8ListSignature.value,
               icon: Image.asset(
                 signatureIcon,
                 width: MediaQuery.of(Get.context!).size.width / 2,
                 height: MediaQuery.of(Get.context!).size.height / 8,
                 fit: BoxFit.contain,
               ),
-              title: Text(controller.signatureIcon.value == null
+              title: Text(controller.uint8ListSignature.value == null
                   ? 'افزودن امضا'
                   : 'تغییر امضا'),
               onTap: () async {
@@ -96,17 +118,24 @@ class MyProfilePage extends GetView<MyProfileController> {
                   },
                 );
                 if (result != null) {
-                  print(result);
                   controller.isShowSignature.value = true;
-                  controller.signatureIcon.value = result;
+                  controller.uint8ListSignature.value = result;
                 }
               },
             )),
-
             Constants.mediumHorizontalSpacer,
             Expanded(
                 child: SquareCardBorder(
-              title: const Text('افزودن مهر'),
+              removeUint8ListOnTap: () {
+                controller.isShowImage.value = false;
+                controller.uint8ListImage.value = null;
+              },
+              isShowUint8List: controller.isShowImage.value,
+              uint8ListImage: controller.uint8ListImage.value,
+              title: Text(controller.uint8ListImage.value == null
+                  ? 'افزودن مهر'
+                  : 'تغییر مهر'),
+              onTap: controller.sealOnTap,
               icon: Image.asset(
                 sealIcon,
                 width: MediaQuery.of(Get.context!).size.width / 2,
@@ -114,8 +143,6 @@ class MyProfilePage extends GetView<MyProfileController> {
                 fit: BoxFit.contain,
               ),
             )),
-
-            // CardIconWidget(onTap: () {}, title: 'افزودن مهر', icon: signatureIcon),
           ],
         ),
       );
