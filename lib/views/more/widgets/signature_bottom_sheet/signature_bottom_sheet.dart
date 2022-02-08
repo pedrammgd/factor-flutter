@@ -59,7 +59,7 @@ class SignatureBottomSheet extends GetView<SignatureBottomSheetController> {
                   if (controller.signatureController.isNotEmpty) {
                     final signature = await exportSignature();
                     Navigator.pop(context, signature);
-                    controller.signatureController.clear();
+                    // controller.signatureController.clear();
                   }
                 },
                 titleButton: 'افزودن',

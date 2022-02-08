@@ -1,9 +1,10 @@
 import 'package:factor_flutter_mobile/core/utils/factor_validation/factor_validation.dart';
+import 'package:persian_number_utility/persian_number_utility.dart';
 
 String? Function(String?) mobileNumberValidator(String fieldName) =>
     (String? value) => value?.trim().isNotEmpty != true
         ? '$fieldName اجباری است '
-        : value!.isMobileNumber(value)
+        : value!.isValidIranianMobileNumber()
             ? null
             : 'شماره همراه اشتباه است';
 
@@ -17,9 +18,19 @@ String? Function(String?) shabaNumberValidator(String fieldName) =>
 String? Function(String?) nationalCodeValidator(String fieldName) =>
     (String? value) => value?.trim().isNotEmpty != true
         ? '$fieldName اجباری است '
-        : value!.isNationalCode(value)
+        : value!.isValidIranianNationalCode()
             ? null
             : ' کد ملی اشتباه است';
+
+String? Function(String?) nationalCodeValidatorWithOutRequiredEmpty(
+        String fieldName) =>
+    (String? value) =>
+        value!.isValidIranianNationalCode() ? null : ' فکر کنم کد ملیت اشتباهه';
+String? Function(String?) mobileNumberValidatorWithOutRequiredEmpty(
+        String fieldName) =>
+    (String? value) => value!.isValidIranianMobileNumber()
+        ? null
+        : 'فکر کنم شماره همراهت اشتباهه';
 
 String? Function(String?) phoneNumberValidator(String fieldName) =>
     (String? value) => value?.trim().isNotEmpty != true
@@ -35,8 +46,10 @@ String? Function(String?) cardShetabNumberValidator(String fieldName) =>
             ? null
             : 'شماره کارت اشتباه است';
 
-String? Function(String?) emptyValidator(String fieldName) => (String? value) =>
-    value?.trim().isNotEmpty != true ? '$fieldName اجباری است ' : null;
+String? Function(String?) emptyValidator(String fieldName) =>
+    (String? value) => value?.trim().isNotEmpty != true
+        ? '$fieldName رو یادت رفت وارد کنی '
+        : null;
 
 String? Function(String?) percentValidator(String fieldName) =>
     (String? value) {

@@ -1,17 +1,17 @@
 
 import 'package:factor_flutter_mobile/models/sheard/my_profile_view_model/my_profile_view_model.dart';
 
-class HaghighiViewModel extends MyProfileViewModel {
-  HaghighiViewModel({
+class HoghoghiViewModel extends MyProfileViewModel {
+  HoghoghiViewModel({
     required String address,
     required String mobileNumber,
     required String logoUint8List,
     required String sealUint8List,
     required String signatureUint8List,
     required this.id,
-    required this.firstName,
-    required this.lastName,
-    required this.nationalCode,
+    required this.companyName,
+    required this.nationalCodeCompany,
+    required this.registrationID,
   }) : super(
             address: address,
             mobileNumber: mobileNumber,
@@ -20,16 +20,16 @@ class HaghighiViewModel extends MyProfileViewModel {
             signatureUint8List: signatureUint8List);
 
   final String id;
-  final String firstName;
-  final String lastName;
-  final String nationalCode;
+  final String companyName;
+  final String nationalCodeCompany;
+  final String registrationID;
 
-  factory HaghighiViewModel.fromJson(Map<String, dynamic> json) =>
-      HaghighiViewModel(
+  factory HoghoghiViewModel.fromJson(Map<String, dynamic> json) =>
+      HoghoghiViewModel(
           id: json['id'],
-          firstName: json['firstName'],
-          lastName: json['lastName'],
-          nationalCode: json['nationalCode'],
+          companyName: json['companyName'],
+          nationalCodeCompany: json['nationalCodeCompany'],
+          registrationID: json['registrationID'],
           address: json['address'],
           mobileNumber: json['mobileNumber'],
           signatureUint8List: json['signatureUint8List'],
@@ -38,9 +38,9 @@ class HaghighiViewModel extends MyProfileViewModel {
 
   Map<String, dynamic> toJson() => {
         'id': id,
-        'firstName': firstName,
-        'lastName': lastName,
-        'nationalCode': nationalCode,
+        'companyName': companyName,
+        'nationalCodeCompany': nationalCodeCompany,
+        'registrationID': registrationID,
         'address': address,
         'mobileNumber': mobileNumber,
         'signatureUint8List': signatureUint8List,
