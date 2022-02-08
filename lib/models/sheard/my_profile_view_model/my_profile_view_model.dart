@@ -1,4 +1,3 @@
-
 class MyProfileViewModel {
   MyProfileViewModel({
     required this.address,

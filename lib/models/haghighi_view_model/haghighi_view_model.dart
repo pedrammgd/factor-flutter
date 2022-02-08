@@ -1,4 +1,3 @@
-
 import 'package:factor_flutter_mobile/models/sheard/my_profile_view_model/my_profile_view_model.dart';
 
 class HaghighiViewModel extends MyProfileViewModel {
