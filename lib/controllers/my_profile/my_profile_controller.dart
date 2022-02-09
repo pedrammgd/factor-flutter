@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:typed_data';
 
+import 'package:factor_flutter_mobile/core/constans/constans.dart';
 import 'package:factor_flutter_mobile/models/haghighi_view_model/haghighi_view_model.dart';
 import 'package:factor_flutter_mobile/models/hoghoghi_view_model/hoghoghi_view_model.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/image_picker/camera_gallery_bottom_sheet.dart';
@@ -24,6 +25,7 @@ class MyProfileController extends GetxController {
   RxBool isLegal = false.obs;
   RxInt loopLegal = 1.obs;
   RxBool isShowSignature = false.obs;
+  RxBool isDeleteCompleteSignature = false.obs;
   RxBool isShowSealImage = false.obs;
   RxBool isShowLogoImage = false.obs;
   final Uuid uuid = const Uuid();
@@ -31,6 +33,7 @@ class MyProfileController extends GetxController {
   Rxn<Uint8List> uint8ListSealImage = Rxn<Uint8List>();
   Rxn<Uint8List> uint8ListLogoImage = Rxn<Uint8List>();
   Rxn<HaghighiViewModel> haghighiViewModel = Rxn<HaghighiViewModel>();
+  Rxn<HoghoghiViewModel> hoghoghiViewModel = Rxn<HoghoghiViewModel>();
 
   TextEditingController mobileTextEditingController = TextEditingController();
   TextEditingController firstNameTextEditingController =
@@ -56,10 +59,10 @@ class MyProfileController extends GetxController {
             : mobileTextEditingController.text,
         logoUint8List: uint8ListLogoImage.value == null
             ? ''
-            : uint8ListLogoImage.value!.toString(),
+            : base64Encode(uint8ListLogoImage.value!),
         sealUint8List: uint8ListSealImage.value == null
             ? ''
-            : uint8ListSealImage.value!.toString(),
+            : base64Encode(uint8ListSealImage.value!),
         signatureUint8List: uint8ListSignature.value == null
             ? ''
             : base64Encode(uint8ListSignature.value!),
@@ -77,65 +80,143 @@ class MyProfileController extends GetxController {
 
   HoghoghiViewModel get _hoghoghiDto {
     return HoghoghiViewModel(
-        address: addressTextEditingController.text,
-        mobileNumber: mobileTextEditingController.text,
-        logoUint8List: uint8ListLogoImage.value!.toString(),
-        sealUint8List: uint8ListSealImage.value!.toString(),
-        signatureUint8List: base64Encode(uint8ListSignature.value!),
+        address: addressTextEditingController.text.isEmpty
+            ? ''
+            : addressTextEditingController.text,
+        mobileNumber: mobileTextEditingController.text.isEmpty
+            ? ''
+            : mobileTextEditingController.text,
+        logoUint8List: uint8ListLogoImage.value == null
+            ? ''
+            : base64Encode(uint8ListLogoImage.value!),
+        sealUint8List: uint8ListSealImage.value == null
+            ? ''
+            : base64Encode(uint8ListSealImage.value!),
+        signatureUint8List: uint8ListSignature.value == null
+            ? ''
+            : base64Encode(uint8ListSignature.value!),
         id: uuid.v4(),
-        companyName: companyNameTextEditingController.text,
-        nationalCodeCompany: nationalCodeCompanyTextEditingController.text,
-        registrationID: registrationIDTextEditingController.text);
+        companyName: companyNameTextEditingController.text.isEmpty
+            ? ''
+            : companyNameTextEditingController.text,
+        nationalCodeCompany:
+            nationalCodeCompanyTextEditingController.text.isEmpty
+                ? ''
+                : nationalCodeCompanyTextEditingController.text,
+        registrationID: registrationIDTextEditingController.text.isEmpty
+            ? ''
+            : registrationIDTextEditingController.text);
   }
 
   void save() {
     if (!isLegal.value) {
       saveHaghighiProfile();
-    } else {}
-    // if (isEdit) {
-    //   editUnOfficialItem();
-    // } else {
+    } else {
+      saveHoghoghiProfile();
+    }
+
+    Get.back();
   }
 
   late SharedPreferences sharedPreferences;
 
   Future initSharedPreferences() async {
     sharedPreferences = await SharedPreferences.getInstance();
-    loadMyProfileData();
+
+    loadHaghighiData();
   }
 
-  void loadMyProfileData() {
-    String myProfileData = sharedPreferences.getString('pedramm12') ?? '';
-    if (myProfileData.isNotEmpty) {
-      haghighiViewModel.value =
-          HaghighiViewModel.fromJson(jsonDecode(myProfileData));
+  void loadHoghoghiData() {
+    String hoghoghiData =
+        sharedPreferences.getString(hoghoghiSharedPreferencesKey) ?? '';
 
-      firstNameTextEditingController.text = haghighiViewModel.value!.firstName;
+    if (hoghoghiData.isNotEmpty) {
+      hoghoghiViewModel.value =
+          HoghoghiViewModel.fromJson(jsonDecode(hoghoghiData));
 
-      uint8ListSignature(
-          base64Decode(haghighiViewModel.value!.signatureUint8List));
-
-      if (uint8ListSignature.value != null) {
-        isShowSignature.value = true;
-      }
-
-      // uint8ListSealImage(
-      //     Uint8List.fromList(haghighiViewModel.value!.sealUint8List.codeUnits));
-      // print(uint8ListSealImage);
-
-      // log('${haghighiViewModel.value!.signatureUint8List.codeUnits}');
+      loadHoghoghiReplaceItem();
+      log(hoghoghiData);
     }
   }
 
-  void saveMyProfileData() {
-    String myProfileData = json.encode(_haghighiDto.toJson());
-    sharedPreferences.setString('pedramm12', myProfileData);
+  void loadHaghighiData() {
+    String haghighiData =
+        sharedPreferences.getString(haghighiSharedPreferencesKey) ?? '';
 
-    log(myProfileData);
+    if (haghighiData.isNotEmpty) {
+      haghighiViewModel.value =
+          HaghighiViewModel.fromJson(jsonDecode(haghighiData));
+      loadHaghighiReplaceItem();
+    }
+  }
+
+  void loadHoghoghiReplaceItem() {
+    companyNameTextEditingController.text =
+        hoghoghiViewModel.value!.companyName;
+    nationalCodeCompanyTextEditingController.text =
+        hoghoghiViewModel.value!.nationalCodeCompany;
+
+    registrationIDTextEditingController.text =
+        hoghoghiViewModel.value!.registrationID;
+
+    mobileTextEditingController.text = hoghoghiViewModel.value!.mobileNumber;
+    addressTextEditingController.text = hoghoghiViewModel.value!.address;
+    uint8ListSealImage(base64Decode(hoghoghiViewModel.value!.sealUint8List));
+    if (uint8ListSealImage.value != null) {
+      isShowSealImage.value = true;
+    }
+    uint8ListLogoImage(base64Decode(hoghoghiViewModel.value!.logoUint8List));
+    if (uint8ListLogoImage.value != null) {
+      isShowLogoImage.value = true;
+    }
+    uint8ListSignature(
+        base64Decode(hoghoghiViewModel.value!.signatureUint8List));
+    if (uint8ListSignature.value != null) {
+      isShowSignature.value = true;
+    }
+  }
+
+  void loadHaghighiReplaceItem() {
+    firstNameTextEditingController.text = haghighiViewModel.value!.firstName;
+    lastNameTextEditingController.text = haghighiViewModel.value!.lastName;
+    nationalCodeTextEditingController.text =
+        haghighiViewModel.value!.nationalCode;
+    mobileTextEditingController.text = haghighiViewModel.value!.mobileNumber;
+    addressTextEditingController.text = haghighiViewModel.value!.address;
+    uint8ListSealImage(base64Decode(haghighiViewModel.value!.sealUint8List));
+    if (uint8ListSealImage.value != null &&
+        haghighiViewModel.value!.sealUint8List != '') {
+      isShowSealImage.value = true;
+    }
+    uint8ListLogoImage(base64Decode(haghighiViewModel.value!.logoUint8List));
+    if (uint8ListLogoImage.value != null &&
+        haghighiViewModel.value!.logoUint8List != '') {
+      isShowLogoImage.value = true;
+    }
+    uint8ListSignature(
+        base64Decode(haghighiViewModel.value!.signatureUint8List));
+    if (uint8ListSignature.value != null &&
+        haghighiViewModel.value!.signatureUint8List != '') {
+      isShowSignature.value = true;
+    }
+  }
+
+  void saveHaghighiData() {
+    String myProfileData = json.encode(_haghighiDto.toJson());
+    sharedPreferences.setString(haghighiSharedPreferencesKey, myProfileData);
   }
 
   void saveHaghighiProfile() {
-    saveMyProfileData();
+    saveHaghighiData();
+  }
+
+  void saveHoghoghiData() {
+    String myProfileData = json.encode(_hoghoghiDto.toJson());
+    sharedPreferences.setString(hoghoghiSharedPreferencesKey, myProfileData);
+  }
+
+  void saveHoghoghiProfile() {
+    saveHoghoghiData();
   }
 
   void logoTap() {

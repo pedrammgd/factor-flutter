@@ -27,7 +27,7 @@ class CameraOrGalleryBottomSheet {
               height: 70,
               margin: const EdgeInsets.only(bottom: 30, left: 50, right: 50),
               child: Material(
-                color: Colors.white,
+                color: Theme.of(context).primaryColor,
                 elevation: 20,
                 shadowColor: Colors.black,
                 borderRadius: BorderRadius.circular(25),
@@ -43,11 +43,18 @@ class CameraOrGalleryBottomSheet {
                         ),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: const [
-                            Icon(Icons.camera_alt_outlined, size: 35),
+                          children: [
+                            Icon(
+                              Icons.camera_alt_outlined,
+                              size: 35,
+                              color: Theme.of(context).colorScheme.secondary,
+                            ),
                             Text(
                               'دوربین',
-                              style: TextStyle(fontSize: 18),
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  color:
+                                      Theme.of(context).colorScheme.secondary),
                             )
                           ],
                         ),
@@ -62,14 +69,18 @@ class CameraOrGalleryBottomSheet {
                         ),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: const [
+                          children: [
                             Icon(
                               Icons.photo,
                               size: 35,
+                              color: Theme.of(context).colorScheme.secondary,
                             ),
                             Text(
                               'گالری',
-                              style: TextStyle(fontSize: 18),
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  color:
+                                      Theme.of(context).colorScheme.secondary),
                             )
                           ],
                         ),

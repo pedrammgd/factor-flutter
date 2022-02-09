@@ -23,7 +23,10 @@ class SignatureBottomSheet extends GetView<SignatureBottomSheetController> {
               child: Padding(
                 padding: const EdgeInsetsDirectional.only(start: 30, end: 30),
                 child: IconButton(
-                  icon: const Icon(Icons.cleaning_services_outlined),
+                  icon: Icon(
+                    Icons.cleaning_services_outlined,
+                    color: Theme.of(context).primaryColor,
+                  ),
                   onPressed: () {
                     controller.signatureController.clear();
                   },
@@ -39,12 +42,12 @@ class SignatureBottomSheet extends GetView<SignatureBottomSheetController> {
                 height: 300,
               ),
               if (!controller.showClearButton.value)
-                const Text(
-                  'روی صفحه بکشید',
+                Text(
+                  'روی صفحه امضا کن',
                   style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).primaryColor),
                 ),
             ],
           ),
@@ -59,7 +62,7 @@ class SignatureBottomSheet extends GetView<SignatureBottomSheetController> {
                   if (controller.signatureController.isNotEmpty) {
                     final signature = await exportSignature();
                     Navigator.pop(context, signature);
-                    // controller.signatureController.clear();
+                    controller.signatureController.clear();
                   }
                 },
                 titleButton: 'افزودن',
@@ -88,8 +91,9 @@ class SignatureBottomSheet extends GetView<SignatureBottomSheetController> {
   }
 
   Future<Uint8List> exportSignature() async {
-    final exportSignatureController =
-        SignatureController(points: controller.signatureController.points);
+    final exportSignatureController = SignatureController(
+        points: controller.signatureController.points,
+        penColor: Theme.of(Get.context!).colorScheme.secondary);
     final signature = await exportSignatureController.toPngBytes();
     exportSignatureController.dispose();
     return signature!;

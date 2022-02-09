@@ -28,6 +28,8 @@ abstract class Constants {
 
 const String factorHomeListSharedPreferencesKey = 'factorHomeList';
 const String unofficialFactorSharedPreferencesKey = 'unofficialFactorList';
+const String haghighiSharedPreferencesKey = 'haghighiSharedPreferencesKey2';
+const String hoghoghiSharedPreferencesKey = 'hoghoghiSharedPreferencesKey2';
 
 // Png
 const String emptyList = 'assets/images/png/empty_list.png';
@@ -51,6 +53,7 @@ const String homeIcon = 'assets/images/png/home.png';
 const String barcodeScannerIcon = 'assets/images/png/barcode-scanner.png';
 const String addTaskIcon = 'assets/images/png/add_task.png';
 const String addTaskIconFilledIcon = 'assets/images/png/addTaskIconFilled.png';
+const String logoDesignIcon = 'assets/images/png/logo-design.png';
 
 //gif
 const String splashIcon = 'assets/images/gif/receipt.gif';

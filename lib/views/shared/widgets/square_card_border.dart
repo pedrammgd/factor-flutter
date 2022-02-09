@@ -34,17 +34,24 @@ class SquareCardBorder extends StatelessWidget {
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
                 shape: BoxShape.rectangle,
-                border: Border.all(color: Colors.black),
+                border:
+                    Border.all(color: Theme.of(context).colorScheme.secondary),
                 borderRadius: BorderRadius.circular(15)),
             child: Column(
               children: [
                 Constants.mediumVerticalSpacer,
                 if (isShowUint8List)
-                  Image.memory(
-                    uint8ListImage!,
-                    fit: BoxFit.contain,
-                    width: MediaQuery.of(Get.context!).size.width / 2,
-                    height: MediaQuery.of(Get.context!).size.height / 8,
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(15),
+                      child: Image.memory(
+                        uint8ListImage!,
+                        fit: BoxFit.fill,
+                        width: MediaQuery.of(Get.context!).size.width / 2,
+                        height: MediaQuery.of(Get.context!).size.height / 8,
+                      ),
+                    ),
                   )
                 else
                   icon,
