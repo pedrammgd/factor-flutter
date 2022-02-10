@@ -9,4 +9,5 @@ abstract class FactorRoutes {
   static const String factorUnofficialSpecification =
       '/factorUnofficialSpecification';
   static const String myProfile = '/myProfilePage';
+  static const String buyer = '/buyerPage';
 }

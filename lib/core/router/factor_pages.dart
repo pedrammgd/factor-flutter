@@ -1,4 +1,5 @@
 import 'package:factor_flutter_mobile/core/authentication/splash/spalsh_page.dart';
+import 'package:factor_flutter_mobile/views/buyer/buyer_page.dart';
 import 'package:factor_flutter_mobile/views/factor_base/factor_base_page.dart';
 import 'package:factor_flutter_mobile/views/factor_unofficial/factor_unofficial_page.dart';
 import 'package:factor_flutter_mobile/views/factor_unofficial_specification/factor_unofficial_specification_page.dart';
@@ -39,7 +40,11 @@ class FactorPage {
         transition: Transition.noTransition),
     GetPage(
         name: FactorRoutes.myProfile,
-        page: () => MyProfilePage(),
+        page: () => const MyProfilePage(),
+        transition: Transition.noTransition),
+    GetPage(
+        name: FactorRoutes.buyer,
+        page: () => const BuyerPage(),
         transition: Transition.noTransition)
   ];
 }

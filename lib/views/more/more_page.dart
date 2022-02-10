@@ -29,9 +29,12 @@ class MorePage extends GetView<MoreController> {
             title: 'مشخصات من',
             icon: purchaseRecordsIcon,
           ),
-          const MoreItemWidget(
-            title: 'خرید اشتراک',
+          MoreItemWidget(
+            title: 'مشتری ها',
             icon: cartIcon,
+            onTap: () {
+              Get.toNamed(FactorRoutes.buyer);
+            },
           ),
           Constants.smallVerticalSpacer,
           CustomFactorDivider(

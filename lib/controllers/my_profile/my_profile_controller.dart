@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:typed_data';
 
 import 'package:factor_flutter_mobile/core/constans/constans.dart';
@@ -25,23 +24,33 @@ class MyProfileController extends GetxController {
   RxBool isLegal = false.obs;
   RxInt loopLegal = 1.obs;
   RxBool isShowSignature = false.obs;
+  RxBool isShowSignatureHoghoghi = false.obs;
   RxBool isDeleteCompleteSignature = false.obs;
   RxBool isShowSealImage = false.obs;
+  RxBool isShowSealHoghoghiImage = false.obs;
   RxBool isShowLogoImage = false.obs;
+  RxBool isShowLogoHoghoghiImage = false.obs;
   final Uuid uuid = const Uuid();
   Rxn<Uint8List> uint8ListSignature = Rxn<Uint8List>();
+  Rxn<Uint8List> uint8ListSignatureHoghoghi = Rxn<Uint8List>();
   Rxn<Uint8List> uint8ListSealImage = Rxn<Uint8List>();
+  Rxn<Uint8List> uint8ListSealHoghoghiImage = Rxn<Uint8List>();
   Rxn<Uint8List> uint8ListLogoImage = Rxn<Uint8List>();
+  Rxn<Uint8List> uint8ListLogoHoghoghiImage = Rxn<Uint8List>();
   Rxn<HaghighiViewModel> haghighiViewModel = Rxn<HaghighiViewModel>();
   Rxn<HoghoghiViewModel> hoghoghiViewModel = Rxn<HoghoghiViewModel>();
 
   TextEditingController mobileTextEditingController = TextEditingController();
+  TextEditingController mobileTextHoghoghiEditingController =
+      TextEditingController();
   TextEditingController firstNameTextEditingController =
       TextEditingController();
   TextEditingController lastNameTextEditingController = TextEditingController();
   TextEditingController nationalCodeTextEditingController =
       TextEditingController();
   TextEditingController addressTextEditingController = TextEditingController();
+  TextEditingController addressTextHoghohgiEditingController =
+      TextEditingController();
   TextEditingController companyNameTextEditingController =
       TextEditingController();
   TextEditingController nationalCodeCompanyTextEditingController =
@@ -80,21 +89,21 @@ class MyProfileController extends GetxController {
 
   HoghoghiViewModel get _hoghoghiDto {
     return HoghoghiViewModel(
-        address: addressTextEditingController.text.isEmpty
+        address: addressTextHoghohgiEditingController.text.isEmpty
             ? ''
-            : addressTextEditingController.text,
-        mobileNumber: mobileTextEditingController.text.isEmpty
+            : addressTextHoghohgiEditingController.text,
+        mobileNumber: mobileTextHoghoghiEditingController.text.isEmpty
             ? ''
-            : mobileTextEditingController.text,
-        logoUint8List: uint8ListLogoImage.value == null
+            : mobileTextHoghoghiEditingController.text,
+        logoUint8List: uint8ListLogoHoghoghiImage.value == null
             ? ''
-            : base64Encode(uint8ListLogoImage.value!),
-        sealUint8List: uint8ListSealImage.value == null
+            : base64Encode(uint8ListLogoHoghoghiImage.value!),
+        sealUint8List: uint8ListSealHoghoghiImage.value == null
             ? ''
-            : base64Encode(uint8ListSealImage.value!),
-        signatureUint8List: uint8ListSignature.value == null
+            : base64Encode(uint8ListSealHoghoghiImage.value!),
+        signatureUint8List: uint8ListSignatureHoghoghi.value == null
             ? ''
-            : base64Encode(uint8ListSignature.value!),
+            : base64Encode(uint8ListSignatureHoghoghi.value!),
         id: uuid.v4(),
         companyName: companyNameTextEditingController.text.isEmpty
             ? ''
@@ -124,6 +133,7 @@ class MyProfileController extends GetxController {
     sharedPreferences = await SharedPreferences.getInstance();
 
     loadHaghighiData();
+    loadHoghoghiData();
   }
 
   void loadHoghoghiData() {
@@ -135,7 +145,6 @@ class MyProfileController extends GetxController {
           HoghoghiViewModel.fromJson(jsonDecode(hoghoghiData));
 
       loadHoghoghiReplaceItem();
-      log(hoghoghiData);
     }
   }
 
@@ -159,20 +168,27 @@ class MyProfileController extends GetxController {
     registrationIDTextEditingController.text =
         hoghoghiViewModel.value!.registrationID;
 
-    mobileTextEditingController.text = hoghoghiViewModel.value!.mobileNumber;
-    addressTextEditingController.text = hoghoghiViewModel.value!.address;
-    uint8ListSealImage(base64Decode(hoghoghiViewModel.value!.sealUint8List));
-    if (uint8ListSealImage.value != null) {
-      isShowSealImage.value = true;
+    mobileTextHoghoghiEditingController.text =
+        hoghoghiViewModel.value!.mobileNumber;
+    addressTextHoghohgiEditingController.text =
+        hoghoghiViewModel.value!.address;
+    uint8ListSealHoghoghiImage(
+        base64Decode(hoghoghiViewModel.value!.sealUint8List));
+    if (uint8ListSealHoghoghiImage.value != null &&
+        hoghoghiViewModel.value!.sealUint8List != '') {
+      isShowSealHoghoghiImage.value = true;
     }
-    uint8ListLogoImage(base64Decode(hoghoghiViewModel.value!.logoUint8List));
-    if (uint8ListLogoImage.value != null) {
-      isShowLogoImage.value = true;
+    uint8ListLogoHoghoghiImage(
+        base64Decode(hoghoghiViewModel.value!.logoUint8List));
+    if (uint8ListLogoHoghoghiImage.value != null &&
+        hoghoghiViewModel.value!.logoUint8List != '') {
+      isShowLogoHoghoghiImage.value = true;
     }
-    uint8ListSignature(
+    uint8ListSignatureHoghoghi(
         base64Decode(hoghoghiViewModel.value!.signatureUint8List));
-    if (uint8ListSignature.value != null) {
-      isShowSignature.value = true;
+    if (uint8ListSignatureHoghoghi.value != null &&
+        hoghoghiViewModel.value!.signatureUint8List != '') {
+      isShowSignatureHoghoghi.value = true;
     }
   }
 
@@ -234,6 +250,21 @@ class MyProfileController extends GetxController {
     );
   }
 
+  void logoHoghoghiTap() {
+    FocusManager.instance.primaryFocus?.unfocus();
+    CameraOrGalleryBottomSheet.chooseCameraOrGallery(
+      Get.context!,
+      cameraButtonFunction: () {
+        Get.back();
+        _getLogoHoghoghiImage(imageSource: ImageSource.camera);
+      },
+      galleryButtonFunction: () {
+        Get.back();
+        _getLogoHoghoghiImage(imageSource: ImageSource.gallery);
+      },
+    );
+  }
+
   void sealOnTap() {
     FocusManager.instance.primaryFocus?.unfocus();
     CameraOrGalleryBottomSheet.chooseCameraOrGallery(
@@ -245,6 +276,21 @@ class MyProfileController extends GetxController {
       galleryButtonFunction: () {
         Get.back();
         _getSealImage(imageSource: ImageSource.gallery);
+      },
+    );
+  }
+
+  void sealHoghoghiOnTap() {
+    FocusManager.instance.primaryFocus?.unfocus();
+    CameraOrGalleryBottomSheet.chooseCameraOrGallery(
+      Get.context!,
+      cameraButtonFunction: () {
+        Get.back();
+        _getSealHoghoghiImage(imageSource: ImageSource.camera);
+      },
+      galleryButtonFunction: () {
+        Get.back();
+        _getSealHoghoghiImage(imageSource: ImageSource.gallery);
       },
     );
   }
@@ -291,6 +337,90 @@ class MyProfileController extends GetxController {
     }
   }
 
+  Future _getSealHoghoghiImage({required ImageSource imageSource}) async {
+    try {
+      var imagePick = await ImagePicker().pickImage(
+        source: imageSource,
+        imageQuality: 80,
+      );
+
+      if (imagePick != null) {
+        XFile imageFile = XFile(imagePick.path);
+
+        Uint8List imageRaw = await imageFile.readAsBytes();
+        uint8ListSealHoghoghiImage.value = imageRaw;
+        if (lookupMimeType(imageFile.path, headerBytes: imageRaw)!
+            .contains('image')) {
+          isShowSealHoghoghiImage.value = true;
+        } else {
+          isShowSealHoghoghiImage.value = false;
+
+          Get.snackbar(
+            'خطا در عکس مهر',
+            'لطفا عکس انتخاب کن',
+            snackPosition: SnackPosition.BOTTOM,
+          );
+        }
+      } else {
+        Get.snackbar(
+          'عکس مهر خالی',
+          'عکس انتخاب نکردی',
+          snackPosition: SnackPosition.BOTTOM,
+        );
+      }
+
+      return uint8ListSealHoghoghiImage;
+    } catch (e) {
+      Get.snackbar(
+        'خطا در عکس مهر',
+        'مشکلی پیش اومده دوباره تلاش کن',
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    }
+  }
+
+  Future _getLogoHoghoghiImage({required ImageSource imageSource}) async {
+    try {
+      var imagePick = await ImagePicker().pickImage(
+        source: imageSource,
+        imageQuality: 80,
+      );
+
+      if (imagePick != null) {
+        XFile imageFile = XFile(imagePick.path);
+
+        Uint8List imageRaw = await imageFile.readAsBytes();
+        uint8ListLogoHoghoghiImage.value = imageRaw;
+        if (lookupMimeType(imageFile.path, headerBytes: imageRaw)!
+            .contains('image')) {
+          isShowLogoHoghoghiImage.value = true;
+        } else {
+          isShowLogoHoghoghiImage.value = false;
+
+          Get.snackbar(
+            'خطا در عکس لوگو',
+            'لطفا عکس انتخاب کن',
+            snackPosition: SnackPosition.BOTTOM,
+          );
+        }
+      } else {
+        Get.snackbar(
+          'عکس لوگو خالی',
+          'عکس انتخاب نکردی',
+          snackPosition: SnackPosition.BOTTOM,
+        );
+      }
+
+      return uint8ListLogoHoghoghiImage;
+    } catch (e) {
+      Get.snackbar(
+        'خطا در عکس لوگو',
+        'مشکلی پیش اومده دوباره تلاش کن',
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    }
+  }
+
   Future _getLogoImage({required ImageSource imageSource}) async {
     try {
       var imagePick = await ImagePicker().pickImage(
@@ -331,5 +461,34 @@ class MyProfileController extends GetxController {
         snackPosition: SnackPosition.BOTTOM,
       );
     }
+  }
+
+  void removeUint8ListButton(
+      {required RxBool isShow,
+      required Rxn<Uint8List> uint8List,
+      String title = 'عنوان',
+      String message = 'پیام'}) {
+    Get.snackbar(title, message,
+        duration: const Duration(milliseconds: 3000),
+        mainButton: TextButton(
+            onPressed: () {
+              isShow.value = false;
+              uint8List.value = null;
+            },
+            child: Row(
+              children: const [
+                Text(
+                  'حذف',
+                  style: TextStyle(
+                    color: Colors.red,
+                  ),
+                ),
+                Icon(
+                  Icons.clear,
+                  color: Colors.red,
+                  size: 15,
+                ),
+              ],
+            )));
   }
 }
