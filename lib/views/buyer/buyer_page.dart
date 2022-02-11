@@ -1,5 +1,7 @@
 import 'package:factor_flutter_mobile/controllers/buyer/buyer_controller.dart';
+import 'package:factor_flutter_mobile/views/buyer/widgets/buyer_add_or_edit_bottom_sheet.dart';
 import 'package:factor_flutter_mobile/views/buyer/widgets/buyer_list.dart';
+import 'package:factor_flutter_mobile/views/shared/widgets/custom_modal_bottom_sheet.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/factor_sliver_appBar.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/factor_text_form_feild.dart';
 import 'package:flutter/material.dart';
@@ -47,7 +49,12 @@ class BuyerPage extends GetView<BuyerController> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          CustomModalBottomSheet.showModalBottomSheet(
+            color: Theme.of(context).primaryColor,
+            child: const BuyerAddOrEditBottomSheet(),
+          );
+        },
         child: Icon(
           Icons.add,
           size: 30,

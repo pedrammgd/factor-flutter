@@ -2,12 +2,13 @@ import 'dart:typed_data';
 
 import 'package:factor_flutter_mobile/controllers/signature_bottom_sheet/signature_bottom_sheet_controller.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/factor_border_button.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:signature/signature.dart';
 
 class SignatureBottomSheet extends GetView<SignatureBottomSheetController> {
+  const SignatureBottomSheet({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     Get.lazyPut<SignatureBottomSheetController>(
@@ -47,7 +48,7 @@ class SignatureBottomSheet extends GetView<SignatureBottomSheetController> {
                   style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
-                      color: Theme.of(context).primaryColor),
+                      color: Theme.of(context).colorScheme.secondary),
                 ),
             ],
           ),

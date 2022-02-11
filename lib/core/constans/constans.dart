@@ -28,8 +28,8 @@ abstract class Constants {
 
 const String factorHomeListSharedPreferencesKey = 'factorHomeList';
 const String unofficialFactorSharedPreferencesKey = 'unofficialFactorList';
-const String haghighiSharedPreferencesKey = 'haghighiSharedPreferencesKey4';
-const String hoghoghiSharedPreferencesKey = 'hoghoghiSharedPreferencesKey4';
+const String haghighiSharedPreferencesKey = 'haghighiSharedPreferencesKey7';
+const String hoghoghiSharedPreferencesKey = 'hoghoghiSharedPreferencesKey7';
 
 // Png
 const String emptyList = 'assets/images/png/empty_list.png';
