@@ -9,11 +9,25 @@ class BuyerList extends GetView<BuyerController> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: 2,
-      itemBuilder: (context, index) {
-        return const BuyerCardWidget();
-      },
-    );
+    return Obx(() {
+      if (controller.isLoading.value) {
+        return Center(
+          child: CircularProgressIndicator(),
+        );
+      }
+      return ListView.builder(
+        itemCount: controller.buyerList.length,
+        itemBuilder: (context, index) {
+          return BuyerCardWidget(
+            isHaghighi: controller
+                .buyerList[index].personBasicInformationViewModel.isHaghighi,
+            title: controller.buyerList[index].personBasicInformationViewModel
+                    .firstName ??
+                controller.buyerList[index].personBasicInformationViewModel
+                    .companyName!,
+          );
+        },
+      );
+    });
   }
 }

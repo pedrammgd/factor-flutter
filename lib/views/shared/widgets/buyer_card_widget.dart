@@ -9,7 +9,8 @@ class BuyerCardWidget extends StatelessWidget {
       this.height = 71,
       this.editOnTap,
       this.removeOnTap,
-      this.title = 'پدرام مجرد'});
+      this.title = 'پدرام مجرد',
+      required this.isHaghighi});
 
   final double paddingTop;
   final double paddingEnd;
@@ -19,6 +20,7 @@ class BuyerCardWidget extends StatelessWidget {
   final Function()? editOnTap;
   final Function()? removeOnTap;
   final String title;
+  final bool isHaghighi;
 
   @override
   Widget build(BuildContext context) {
@@ -49,11 +51,12 @@ class BuyerCardWidget extends StatelessWidget {
             children: [
               _titleWidget(),
               // Constants.largeHorizontalSpacer,
-              const Padding(
+              Padding(
                 padding: EdgeInsets.only(top: 15),
                 child: Text(
-                  'حقوقی',
-                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                  isHaghighi ? 'حقیقی' : 'حقوقی',
+                  style: const TextStyle(
+                      fontSize: 12, fontWeight: FontWeight.bold),
                 ),
               ),
               _morePopup(),

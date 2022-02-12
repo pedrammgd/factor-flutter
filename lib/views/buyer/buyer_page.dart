@@ -52,7 +52,10 @@ class BuyerPage extends GetView<BuyerController> {
         onPressed: () {
           CustomModalBottomSheet.showModalBottomSheet(
             color: Theme.of(context).primaryColor,
-            child: const BuyerAddOrEditBottomSheet(),
+            child: BuyerAddOrEditBottomSheet(
+              buyerList: controller.buyerList,
+              sharedPreferences: controller.sharedPreferences,
+            ),
           );
         },
         child: Icon(

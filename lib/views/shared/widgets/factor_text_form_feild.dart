@@ -70,8 +70,8 @@ class FactorTextFormField extends StatelessWidget {
     this.suffixText,
     this.suffixColor = Colors.grey,
     this.labelColor,
-    this.paddingTop = 9,
-    this.paddingBottom = 9,
+    this.paddingTop = 5,
+    this.paddingBottom = 5,
     this.paddingStart = 0,
     this.paddingEnd = 0,
   });

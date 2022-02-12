@@ -5,7 +5,7 @@ import 'package:factor_flutter_mobile/core/constans/constans.dart';
 import 'package:factor_flutter_mobile/core/utils/factor_validation/form_feild_validation.dart';
 import 'package:factor_flutter_mobile/views/more/widgets/signature_bottom_sheet/signature_bottom_sheet.dart';
 import 'package:factor_flutter_mobile/views/my_profile/widgets/my_profile_image_card.dart';
-import 'package:factor_flutter_mobile/views/my_profile/widgets/my_profile_text_form_field.dart';
+import 'package:factor_flutter_mobile/views/shared/widgets/custom_text_form_field.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/factor_app_bar.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/factor_border_button.dart';
 import 'package:flutter/material.dart';
@@ -219,21 +219,21 @@ class MyProfilePage extends GetView<MyProfileController> {
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
         children: [
-          MyProfileTextFormField(
+          CustomTextFormField(
             labelText: 'نام',
             textEditingController: controller.firstNameTextEditingController,
             inputFormatters: [
               LengthLimitingTextInputFormatter(15),
             ],
           ),
-          MyProfileTextFormField(
+          CustomTextFormField(
             labelText: 'نام خانوادگی',
             textEditingController: controller.lastNameTextEditingController,
             inputFormatters: [
               LengthLimitingTextInputFormatter(15),
             ],
           ),
-          MyProfileTextFormField(
+          CustomTextFormField(
             labelText: 'کدملی',
             textEditingController: controller.nationalCodeTextEditingController,
             prefixIcon: const Icon(Icons.confirmation_num_outlined),
@@ -245,7 +245,7 @@ class MyProfilePage extends GetView<MyProfileController> {
             validatorTextField:
                 nationalCodeValidatorWithOutRequiredEmpty('کدملی'),
           ),
-          MyProfileTextFormField(
+          CustomTextFormField(
               labelText: 'شماره همراه',
               textEditingController: controller.mobileTextEditingController,
               prefixIcon: const Icon(Icons.phone_android),
@@ -256,7 +256,7 @@ class MyProfilePage extends GetView<MyProfileController> {
               validatorTextField:
                   mobileNumberValidatorWithOutRequiredEmpty('شماره همراه'),
               textInputType: TextInputType.phone),
-          MyProfileTextFormField(
+          CustomTextFormField(
               maxLines: 3,
               labelText: 'آدرس',
               textEditingController: controller.addressTextEditingController,
@@ -275,14 +275,14 @@ class MyProfilePage extends GetView<MyProfileController> {
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
         children: [
-          MyProfileTextFormField(
+          CustomTextFormField(
             labelText: 'نام شرکت',
             textEditingController: controller.companyNameTextEditingController,
             inputFormatters: [
               LengthLimitingTextInputFormatter(15),
             ],
           ),
-          MyProfileTextFormField(
+          CustomTextFormField(
             labelText: 'شناسه ملی شرکت',
             textEditingController:
                 controller.nationalCodeCompanyTextEditingController,
@@ -293,7 +293,7 @@ class MyProfilePage extends GetView<MyProfileController> {
             prefixIcon: const Icon(Icons.insert_drive_file_outlined),
             textInputType: TextInputType.phone,
           ),
-          MyProfileTextFormField(
+          CustomTextFormField(
             labelText: 'شماره ثبت',
             textEditingController:
                 controller.registrationIDTextEditingController,
@@ -304,7 +304,7 @@ class MyProfilePage extends GetView<MyProfileController> {
             ],
             textInputType: TextInputType.phone,
           ),
-          MyProfileTextFormField(
+          CustomTextFormField(
             labelText: 'شماره همراه',
             textEditingController:
                 controller.mobileTextHoghoghiEditingController,
@@ -316,7 +316,7 @@ class MyProfilePage extends GetView<MyProfileController> {
             validatorTextField:
                 mobileNumberValidatorWithOutRequiredEmpty('شماره همراه'),
           ),
-          MyProfileTextFormField(
+          CustomTextFormField(
               labelText: 'آدرس',
               textEditingController:
                   controller.addressTextHoghohgiEditingController),
