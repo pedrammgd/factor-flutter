@@ -30,10 +30,8 @@ const String factorHomeListSharedPreferencesKey = 'factorHomeList';
 const String unofficialFactorSharedPreferencesKey = 'unofficialFactorList';
 const String haghighiSharedPreferencesKey = 'haghighiSharedPreferencesKey7';
 const String hoghoghiSharedPreferencesKey = 'hoghoghiSharedPreferencesKey7';
-const String hoghoghiBuyerSharedPreferencesKey =
-    'hoghoghiBuyerSharedPreferencesKey';
-const String haghighiBuyerSharedPreferencesKey =
-    'haghighiBuyerSharedPreferencesKey';
+
+const String buyerSharedPreferencesKey = 'buyerSharedPreferencesKey';
 
 // Png
 const String emptyList = 'assets/images/png/empty_list.png';

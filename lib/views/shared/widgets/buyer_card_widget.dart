@@ -10,7 +10,9 @@ class BuyerCardWidget extends StatelessWidget {
       this.editOnTap,
       this.removeOnTap,
       this.title = 'پدرام مجرد',
-      required this.isHaghighi});
+      required this.isHaghighi,
+      this.onSelectedPopUp,
+      this.itemPopUp});
 
   final double paddingTop;
   final double paddingEnd;
@@ -21,7 +23,8 @@ class BuyerCardWidget extends StatelessWidget {
   final Function()? removeOnTap;
   final String title;
   final bool isHaghighi;
-
+  final Function(String)? onSelectedPopUp;
+  final List<String>? itemPopUp;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -47,62 +50,42 @@ class BuyerCardWidget extends StatelessWidget {
           onTap: editOnTap,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisSize: MainAxisSize.min,
             children: [
               _titleWidget(),
               // Constants.largeHorizontalSpacer,
-              Padding(
-                padding: EdgeInsets.only(top: 15),
-                child: Text(
-                  isHaghighi ? 'حقیقی' : 'حقوقی',
-                  style: const TextStyle(
-                      fontSize: 12, fontWeight: FontWeight.bold),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 15),
+                  child: Text(
+                    isHaghighi ? 'حقیقی' : 'حقوقی',
+                    style: const TextStyle(
+                        fontSize: 12, fontWeight: FontWeight.bold),
+                  ),
                 ),
               ),
               _morePopup(),
             ],
           ),
-          // const Spacer(),
-          // Row(
-          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //   children: const [
-          //     Padding(
-          //       padding:
-          //           EdgeInsetsDirectional.only(start: 20, bottom: 10),
-          //       child: Text(
-          //         'حقیقی',
-          //         style: TextStyle(
-          //           fontSize: 11,
-          //         ),
-          //       ),
-          //     ),
-          //     Padding(
-          //       padding: EdgeInsetsDirectional.only(end: 10, bottom: 10),
-          //       child: Text(
-          //         '1 فاکتور',
-          //         style: TextStyle(
-          //           fontSize: 11,
-          //         ),
-          //       ),
-          //     ),
-          //   ],
-          // ),
         ),
       ),
     );
   }
 
   Widget _titleWidget() {
-    return Padding(
-      padding: const EdgeInsetsDirectional.only(top: 15, start: 20),
-      child: Text(
-        title,
-        style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsetsDirectional.only(top: 15, start: 20),
+        child: Text(
+          title,
+          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+        ),
       ),
     );
   }
 
-  Widget _morePopup() => PopupMenuButton(
+  Widget _morePopup() => PopupMenuButton<String>(
         icon: const Icon(Icons.more_vert),
         iconSize: 20,
         elevation: 10,
@@ -110,17 +93,12 @@ class BuyerCardWidget extends StatelessWidget {
           side: const BorderSide(color: Colors.white, width: 1),
           borderRadius: BorderRadius.circular(15),
         ),
-        itemBuilder: (context) {
-          return [
-            PopupMenuItem(
-              child: const Text('ویرایش'),
-              onTap: editOnTap,
-            ),
-            PopupMenuItem(
-              child: const Text('حذف'),
-              onTap: removeOnTap,
-            ),
-          ];
-        },
+        onSelected: onSelectedPopUp,
+        itemBuilder: (context) => itemPopUp!
+            .map((e) => PopupMenuItem<String>(
+                  value: e,
+                  child: Text(e),
+                ))
+            .toList(),
       );
 }

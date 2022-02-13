@@ -17,33 +17,36 @@ class BuyerController extends GetxController {
   RxBool isLoading = false.obs;
   RxList<BuyerViewModel> buyerList = <BuyerViewModel>[].obs;
 
+  final List<String> popUpItems = <String>[
+    Constants.editPopUp,
+    Constants.removePopUp
+  ];
   initSharedPreferences() {
     isLoading.value = true;
     Future.delayed(const Duration(milliseconds: 500), () async {
       sharedPreferences = await SharedPreferences.getInstance();
-      loadHaghighiBuyerData();
-      // loadHoghoghiBuyerData();
+      loadBuyerData();
       isLoading.value = false;
     });
   }
 
-  void loadHaghighiBuyerData() {
-    List<String> haghighiBuyerDataList =
-        sharedPreferences.getStringList(haghighiBuyerSharedPreferencesKey) ??
-            [];
-    buyerList.value = haghighiBuyerDataList
+  void loadBuyerData() {
+    List<String> buyerDataList =
+        sharedPreferences.getStringList(buyerSharedPreferencesKey) ?? [];
+    buyerList.value = buyerDataList
         .map((e) => BuyerViewModel.fromJson(json.decode(e)))
         .toList();
-    log('$haghighiBuyerDataList');
+    log('$buyerDataList');
   }
 
-  void loadHoghoghiBuyerData() {
-    List<String> hoghoghiBuyerDataList =
-        sharedPreferences.getStringList(hoghoghiBuyerSharedPreferencesKey) ??
-            [];
-    buyerList.value = hoghoghiBuyerDataList
-        .map((e) => BuyerViewModel.fromJson(json.decode(e)))
-        .toList();
-    log('$hoghoghiBuyerDataList');
+  void saveData() {
+    List<String> buyerData =
+        buyerList.map((element) => json.encode(element.toJson())).toList();
+    sharedPreferences.setStringList(buyerSharedPreferencesKey, buyerData);
+  }
+
+  void removeItem(BuyerViewModel item) {
+    buyerList.remove(item);
+    saveData();
   }
 }

@@ -9,12 +9,39 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 
 class BuyerAddOrEditController extends GetxController {
-  BuyerAddOrEditController(
-      {required this.buyerList, required this.sharedPreferences});
+  BuyerAddOrEditController(BuyerViewModel? item,
+      {required this.buyerList, required this.sharedPreferences})
+      : editBuyerViewModel = item,
+        isEdit = (item != null) {
+    if (isEdit) {
+      mobileTextEditingController.text =
+          item!.personBasicInformationViewModel.mobileNumber ?? '';
+      firstNameTextEditingController.text =
+          item.personBasicInformationViewModel.firstName ?? '';
+      lastNameTextEditingController.text =
+          item.personBasicInformationViewModel.lastName ?? '';
+      nationalCodeTextEditingController.text =
+          item.personBasicInformationViewModel.nationalCode ?? '';
+      mobileTextHoghoghiEditingController.text =
+          item.personBasicInformationViewModel.mobileNumberHoghoghi ?? '';
+      registrationIDTextEditingController.text =
+          item.personBasicInformationViewModel.registrationID ?? '';
+      nationalCodeCompanyTextEditingController.text =
+          item.personBasicInformationViewModel.nationalCodeCompany ?? '';
+      companyNameTextEditingController.text =
+          item.personBasicInformationViewModel.companyName ?? '';
+      addressTextEditingController.text =
+          item.personBasicInformationViewModel.address ?? '';
+      isHaghighi.value = item.personBasicInformationViewModel.isHaghighi;
+      addressTextHoghohgiEditingController.text =
+          item.personBasicInformationViewModel.addressHoghoghi ?? '';
+    }
+  }
 
   RxBool isHaghighi = true.obs;
   RxList<BuyerViewModel> buyerList;
-
+  final BuyerViewModel? editBuyerViewModel;
+  late final bool isEdit;
   TextEditingController mobileTextEditingController = TextEditingController();
   TextEditingController mobileTextHoghoghiEditingController =
       TextEditingController();
@@ -38,12 +65,15 @@ class BuyerAddOrEditController extends GetxController {
   final SharedPreferences sharedPreferences;
 
   void save() {
-    if (isHaghighi.value) {
-      addToBuyerHaghighiList();
+    if (isEdit) {
+      editUnOfficialItem();
     } else {
-      addToBuyerHoghoghiList();
+      if (isHaghighi.value) {
+        addToBuyerHaghighiList();
+      } else {
+        addToBuyerHoghoghiList();
+      }
     }
-
     Get.back();
   }
 
@@ -73,12 +103,12 @@ class BuyerAddOrEditController extends GetxController {
     return BuyerViewModel(
         personBasicInformationViewModel: PersonBasicInformationViewModel(
       id: uuid.v4(),
-      address: addressTextEditingController.text.isEmpty
+      addressHoghoghi: addressTextEditingController.text.isEmpty
           ? ''
           : addressTextEditingController.text,
-      mobileNumber: mobileTextEditingController.text.isEmpty
+      mobileNumberHoghoghi: mobileTextHoghoghiEditingController.text.isEmpty
           ? ''
-          : mobileTextEditingController.text,
+          : mobileTextHoghoghiEditingController.text,
       isHaghighi: isHaghighi.value,
       companyName: companyNameTextEditingController.text.isEmpty
           ? ''
@@ -92,27 +122,32 @@ class BuyerAddOrEditController extends GetxController {
     ));
   }
 
-  void saveHaghighiData() {
-    List<String> haghighiBuyerData =
+  void saveData() {
+    List<String> buyerData =
         buyerList.map((element) => json.encode(element.toJson())).toList();
-    sharedPreferences.setStringList(
-        haghighiBuyerSharedPreferencesKey, haghighiBuyerData);
+    sharedPreferences.setStringList(buyerSharedPreferencesKey, buyerData);
   }
 
   void addToBuyerHaghighiList() {
     buyerList.add(_haghighiDto);
-    saveHaghighiData();
-  }
-
-  void saveHoghoghiData() {
-    List<String> hoghoghiBuyerData =
-        buyerList.map((element) => json.encode(element.toJson())).toList();
-    sharedPreferences.setStringList(
-        haghighiBuyerSharedPreferencesKey, hoghoghiBuyerData);
+    saveData();
   }
 
   void addToBuyerHoghoghiList() {
     buyerList.add(_hoghoghiDto);
-    saveHoghoghiData();
+    saveData();
+  }
+
+  void editUnOfficialItem() {
+    int index = buyerList.indexWhere((element) =>
+        element.personBasicInformationViewModel.id ==
+        editBuyerViewModel?.personBasicInformationViewModel.id);
+
+    if (isHaghighi.value) {
+      buyerList[index] = _haghighiDto;
+    } else {
+      buyerList[index] = _hoghoghiDto;
+    }
+    saveData();
   }
 }

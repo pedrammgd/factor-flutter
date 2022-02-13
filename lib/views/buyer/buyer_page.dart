@@ -53,6 +53,7 @@ class BuyerPage extends GetView<BuyerController> {
           CustomModalBottomSheet.showModalBottomSheet(
             color: Theme.of(context).primaryColor,
             child: BuyerAddOrEditBottomSheet(
+              buyerItem: null,
               buyerList: controller.buyerList,
               sharedPreferences: controller.sharedPreferences,
             ),

@@ -196,9 +196,9 @@ class MyProfileController extends GetxController {
         .value!.personBasicInformationViewModel.registrationID!;
 
     mobileTextHoghoghiEditingController.text =
-        hoghoghiViewModel.value!.personBasicInformationViewModel.mobileNumber;
+        hoghoghiViewModel.value!.personBasicInformationViewModel.mobileNumber!;
     addressTextHoghohgiEditingController.text =
-        hoghoghiViewModel.value!.personBasicInformationViewModel.address;
+        hoghoghiViewModel.value!.personBasicInformationViewModel.address!;
     uint8ListSealHoghoghiImage(
         base64Decode(hoghoghiViewModel.value!.sealUint8List));
     if (uint8ListSealHoghoghiImage.value != null &&
@@ -227,9 +227,9 @@ class MyProfileController extends GetxController {
     nationalCodeTextEditingController.text =
         haghighiViewModel.value!.personBasicInformationViewModel.nationalCode!;
     mobileTextEditingController.text =
-        haghighiViewModel.value!.personBasicInformationViewModel.mobileNumber;
+        haghighiViewModel.value!.personBasicInformationViewModel.mobileNumber!;
     addressTextEditingController.text =
-        haghighiViewModel.value!.personBasicInformationViewModel.address;
+        haghighiViewModel.value!.personBasicInformationViewModel.address!;
     uint8ListSealImage(base64Decode(haghighiViewModel.value!.sealUint8List));
     if (uint8ListSealImage.value != null &&
         haghighiViewModel.value!.sealUint8List != '') {

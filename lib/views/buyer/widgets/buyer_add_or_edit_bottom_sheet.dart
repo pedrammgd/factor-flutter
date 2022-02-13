@@ -14,14 +14,17 @@ class BuyerAddOrEditBottomSheet extends GetView<BuyerAddOrEditController> {
     Key? key,
     required this.buyerList,
     required this.sharedPreferences,
+    required this.buyerItem,
   }) : super(key: key);
   final RxList<BuyerViewModel> buyerList;
   final SharedPreferences sharedPreferences;
-
+  final BuyerViewModel? buyerItem;
   @override
   Widget build(BuildContext context) {
     Get.lazyPut<BuyerAddOrEditController>(() => BuyerAddOrEditController(
-        buyerList: buyerList, sharedPreferences: sharedPreferences));
+        buyerItem,
+        buyerList: buyerList,
+        sharedPreferences: sharedPreferences));
     return SingleChildScrollView(
       child: Obx(() {
         return Form(
@@ -50,6 +53,8 @@ class BuyerAddOrEditBottomSheet extends GetView<BuyerAddOrEditController> {
                         child: CustomTextFormField(
                       labelText: 'نام خانوادگی',
                       paddingHorizontal: 4,
+                      textEditingController:
+                          controller.lastNameTextEditingController,
                     )),
                   ],
                 )
@@ -61,28 +66,46 @@ class BuyerAddOrEditBottomSheet extends GetView<BuyerAddOrEditController> {
                       controller.companyNameTextEditingController,
                 ),
               if (controller.isHaghighi.value)
-                const CustomTextFormField(
+                CustomTextFormField(
                   labelText: 'کد ملی',
                   paddingHorizontal: 8,
+                  textEditingController:
+                      controller.nationalCodeTextEditingController,
                 )
               else
-                const CustomTextFormField(
+                CustomTextFormField(
                   labelText: 'شناسه ملی شرکت',
                   paddingHorizontal: 8,
+                  textEditingController:
+                      controller.nationalCodeCompanyTextEditingController,
                 ),
               if (!controller.isHaghighi.value)
-                const CustomTextFormField(
+                CustomTextFormField(
                   labelText: 'شماره ثبت',
                   paddingHorizontal: 8,
+                  textEditingController:
+                      controller.registrationIDTextEditingController,
                 ),
-              const CustomTextFormField(
-                labelText: 'شماره تماس',
-                paddingHorizontal: 8,
-              ),
-              const CustomTextFormField(
+              if (controller.isHaghighi.value)
+                CustomTextFormField(
+                  labelText: 'شماره تماس',
+                  paddingHorizontal: 8,
+                  textEditingController: controller.mobileTextEditingController,
+                )
+              else
+                CustomTextFormField(
+                  labelText: 'شماره تماس',
+                  paddingHorizontal: 8,
+                  textEditingController:
+                      controller.mobileTextHoghoghiEditingController,
+                ),
+              CustomTextFormField(
                 labelText: 'آدرس',
                 paddingHorizontal: 8,
                 maxLines: 2,
+                textEditingController: controller.isHaghighi.value
+                    ? controller.addressTextEditingController
+                    : controller.addressTextHoghohgiEditingController,
               ),
               _button(),
             ],
