@@ -2,10 +2,12 @@ import 'dart:ui';
 
 import 'package:factor_flutter_mobile/controllers/buyer/buyer_add_or_edit_controller.dart';
 import 'package:factor_flutter_mobile/core/constans/constans.dart';
+import 'package:factor_flutter_mobile/core/utils/factor_validation/form_feild_validation.dart';
 import 'package:factor_flutter_mobile/models/buyer_view_model/buyer_view_model.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/custom_text_form_field.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/factor_border_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -19,6 +21,7 @@ class BuyerAddOrEditBottomSheet extends GetView<BuyerAddOrEditController> {
   final RxList<BuyerViewModel> buyerList;
   final SharedPreferences sharedPreferences;
   final BuyerViewModel? buyerItem;
+
   @override
   Widget build(BuildContext context) {
     Get.lazyPut<BuyerAddOrEditController>(() => BuyerAddOrEditController(
@@ -27,8 +30,8 @@ class BuyerAddOrEditBottomSheet extends GetView<BuyerAddOrEditController> {
         sharedPreferences: sharedPreferences));
     return SingleChildScrollView(
       child: Obx(() {
-        return Form(
-          // key: controller.formKey,
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
@@ -40,78 +43,110 @@ class BuyerAddOrEditBottomSheet extends GetView<BuyerAddOrEditController> {
               ),
               _radioButton(),
               if (controller.isHaghighi.value)
-                Row(
-                  children: [
-                    Expanded(
-                        child: CustomTextFormField(
-                      labelText: 'نام',
-                      paddingHorizontal: 4,
-                      textEditingController:
-                          controller.firstNameTextEditingController,
-                    )),
-                    Expanded(
-                        child: CustomTextFormField(
-                      labelText: 'نام خانوادگی',
-                      paddingHorizontal: 4,
-                      textEditingController:
-                          controller.lastNameTextEditingController,
-                    )),
-                  ],
-                )
+                Form(key: controller.haghighiFormKey, child: _haghighiForm())
               else
-                CustomTextFormField(
-                  labelText: 'نام شرکت',
-                  paddingHorizontal: 8,
-                  textEditingController:
-                      controller.companyNameTextEditingController,
-                ),
-              if (controller.isHaghighi.value)
-                CustomTextFormField(
-                  labelText: 'کد ملی',
-                  paddingHorizontal: 8,
-                  textEditingController:
-                      controller.nationalCodeTextEditingController,
-                )
-              else
-                CustomTextFormField(
-                  labelText: 'شناسه ملی شرکت',
-                  paddingHorizontal: 8,
-                  textEditingController:
-                      controller.nationalCodeCompanyTextEditingController,
-                ),
-              if (!controller.isHaghighi.value)
-                CustomTextFormField(
-                  labelText: 'شماره ثبت',
-                  paddingHorizontal: 8,
-                  textEditingController:
-                      controller.registrationIDTextEditingController,
-                ),
-              if (controller.isHaghighi.value)
-                CustomTextFormField(
-                  labelText: 'شماره تماس',
-                  paddingHorizontal: 8,
-                  textEditingController: controller.mobileTextEditingController,
-                )
-              else
-                CustomTextFormField(
-                  labelText: 'شماره تماس',
-                  paddingHorizontal: 8,
-                  textEditingController:
-                      controller.mobileTextHoghoghiEditingController,
-                ),
-              CustomTextFormField(
-                labelText: 'آدرس',
-                paddingHorizontal: 8,
-                maxLines: 2,
-                textEditingController: controller.isHaghighi.value
-                    ? controller.addressTextEditingController
-                    : controller.addressTextHoghohgiEditingController,
-              ),
+                Form(key: controller.hoghoghiFormKey, child: _hoghoghiForm()),
               _button(),
             ],
           ),
         );
       }),
+    );
+  }
+
+  Widget _hoghoghiForm() {
+    return Column(
+      children: [
+        CustomTextFormField(
+          labelText: 'نام شرکت',
+          textEditingController: controller.companyNameTextEditingController,
+          inputFormatters: [
+            LengthLimitingTextInputFormatter(15),
+          ],
+          validatorTextField: emptyValidator('نام شرکت'),
+        ),
+        CustomTextFormField(
+          labelText: 'شناسه ملی شرکت',
+          textEditingController:
+              controller.nationalCodeCompanyTextEditingController,
+          inputFormatters: [
+            FilteringTextInputFormatter.digitsOnly,
+            LengthLimitingTextInputFormatter(11),
+          ],
+          textInputType: TextInputType.phone,
+        ),
+        CustomTextFormField(
+          labelText: 'شماره ثبت',
+          textEditingController: controller.registrationIDTextEditingController,
+          inputFormatters: [
+            FilteringTextInputFormatter.digitsOnly,
+            LengthLimitingTextInputFormatter(15),
+          ],
+          textInputType: TextInputType.phone,
+        ),
+        CustomTextFormField(
+          labelText: 'شماره تماس',
+          textEditingController: controller.mobileTextHoghoghiEditingController,
+          inputFormatters: [
+            FilteringTextInputFormatter.digitsOnly,
+            LengthLimitingTextInputFormatter(11),
+          ],
+          validatorTextField: emptyValidator('شماره تماس'),
+          textInputType: TextInputType.phone,
+        ),
+        CustomTextFormField(
+          labelText: 'آدرس',
+          maxLines: 2,
+          textEditingController:
+              controller.addressTextHoghohgiEditingController,
+          textInputAction: TextInputAction.done,
+        ),
+      ],
+    );
+  }
+
+  Widget _haghighiForm() {
+    return Column(
+      children: [
+        CustomTextFormField(
+          labelText: 'نام',
+          textEditingController: controller.firstNameTextEditingController,
+          inputFormatters: [
+            LengthLimitingTextInputFormatter(15),
+          ],
+          validatorTextField: emptyValidator('نام'),
+        ),
+        CustomTextFormField(
+          labelText: 'نام خانوادگی',
+          textEditingController: controller.lastNameTextEditingController,
+          inputFormatters: [
+            LengthLimitingTextInputFormatter(15),
+          ],
+        ),
+        CustomTextFormField(
+          labelText: 'کد ملی',
+          textEditingController: controller.nationalCodeTextEditingController,
+          inputFormatters: [
+            LengthLimitingTextInputFormatter(10),
+            FilteringTextInputFormatter.digitsOnly,
+          ],
+        ),
+        CustomTextFormField(
+          labelText: 'شماره تماس',
+          textEditingController: controller.mobileTextEditingController,
+          inputFormatters: [
+            LengthLimitingTextInputFormatter(11),
+            FilteringTextInputFormatter.digitsOnly,
+          ],
+          validatorTextField: emptyValidator('شماره تماس'),
+        ),
+        CustomTextFormField(
+          labelText: 'آدرس',
+          maxLines: 2,
+          textEditingController: controller.addressTextEditingController,
+          textInputAction: TextInputAction.done,
+        )
+      ],
     );
   }
 
@@ -177,7 +212,7 @@ class BuyerAddOrEditBottomSheet extends GetView<BuyerAddOrEditController> {
 
   Widget _button() {
     return Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
         child: SizedBox(
             height: 50,
             width: double.infinity,

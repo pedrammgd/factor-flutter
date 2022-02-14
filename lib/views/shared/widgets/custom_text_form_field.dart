@@ -12,6 +12,7 @@ class CustomTextFormField extends StatelessWidget {
       this.prefixIcon = const Icon(Icons.person_outline),
       this.inputFormatters,
       this.maxLength,
+      this.textInputAction = TextInputAction.next,
       this.validatorTextField,
       this.paddingHorizontal = 0})
       : super(key: key);
@@ -20,7 +21,7 @@ class CustomTextFormField extends StatelessWidget {
   final TextEditingController? textEditingController;
   final Widget prefixIcon;
   final int? maxLines;
-  final TextInputAction textInputAction = TextInputAction.next;
+  final TextInputAction textInputAction;
   final TextInputType? textInputType;
   final List<TextInputFormatter>? inputFormatters;
   final int? maxLength;

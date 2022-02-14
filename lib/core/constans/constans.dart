@@ -31,12 +31,13 @@ const String unofficialFactorSharedPreferencesKey = 'unofficialFactorList';
 const String haghighiSharedPreferencesKey = 'haghighiSharedPreferencesKey7';
 const String hoghoghiSharedPreferencesKey = 'hoghoghiSharedPreferencesKey7';
 
-const String buyerSharedPreferencesKey = 'buyerSharedPreferencesKey';
+const String buyerSharedPreferencesKey = 'buyerSharedPreferencesKey2';
 
 // Png
 const String emptyList = 'assets/images/png/empty_list.png';
 const String signatureIcon = 'assets/images/png/signature.png';
 const String sealIcon = 'assets/images/png/seal_icon.png';
+const String buyerEmptyListIcon = 'assets/images/png/buyer_empty_list_icon.png';
 
 const String addFactorUnofficialIcon =
     'assets/images/png/add-factor-unofficial.png';

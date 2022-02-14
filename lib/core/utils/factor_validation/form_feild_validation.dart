@@ -15,17 +15,17 @@ String? Function(String?) shabaNumberValidator(String fieldName) =>
             ? null
             : 'شماره شبا اشتباه است';
 
-String? Function(String?) nationalCodeValidator(String fieldName) =>
-    (String? value) => value?.trim().isNotEmpty != true
-        ? '$fieldName اجباری است '
-        : value!.isValidIranianNationalCode()
-            ? null
-            : ' کد ملی اشتباه است';
+// String? Function(String?) nationalCodeValidator(String fieldName) =>
+//     (String? value) => value?.trim().isNotEmpty != true
+//         ? '$fieldName اجباری است '
+//         : value!.isValidIranianNationalCode()
+//             ? null
+//             : ' کد ملی اشتباه است';
 
-String? Function(String?) nationalCodeValidatorWithOutRequiredEmpty(
-        String fieldName) =>
+String? Function(String?) nationalCodeValidator(String fieldName) =>
     (String? value) =>
         value!.isValidIranianNationalCode() ? null : ' فکر کنم کد ملیت اشتباهه';
+
 String? Function(String?) mobileNumberValidatorWithOutRequiredEmpty(
         String fieldName) =>
     (String? value) => value!.isValidIranianMobileNumber()

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:factor_flutter_mobile/core/constans/constans.dart';
 import 'package:factor_flutter_mobile/models/buyer_view_model/buyer_view_model.dart';
@@ -37,11 +38,11 @@ class BuyerAddOrEditController extends GetxController {
           item.personBasicInformationViewModel.addressHoghoghi ?? '';
     }
   }
-
   RxBool isHaghighi = true.obs;
   RxList<BuyerViewModel> buyerList;
   final BuyerViewModel? editBuyerViewModel;
   late final bool isEdit;
+
   TextEditingController mobileTextEditingController = TextEditingController();
   TextEditingController mobileTextHoghoghiEditingController =
       TextEditingController();
@@ -60,21 +61,33 @@ class BuyerAddOrEditController extends GetxController {
   TextEditingController registrationIDTextEditingController =
       TextEditingController();
 
+  GlobalKey<FormState> haghighiFormKey = GlobalKey<FormState>();
+  GlobalKey<FormState> hoghoghiFormKey = GlobalKey<FormState>();
+
   final Uuid uuid = const Uuid();
 
   final SharedPreferences sharedPreferences;
 
   void save() {
     if (isEdit) {
-      editUnOfficialItem();
+      if (isHaghighi.value) {
+        if (!haghighiFormKey.currentState!.validate()) return;
+        editUnOfficialItem();
+      } else {
+        if (!hoghoghiFormKey.currentState!.validate()) return;
+        editUnOfficialItem();
+      }
     } else {
       if (isHaghighi.value) {
+        if (!haghighiFormKey.currentState!.validate()) return;
         addToBuyerHaghighiList();
       } else {
+        if (!hoghoghiFormKey.currentState!.validate()) return;
         addToBuyerHoghoghiList();
       }
     }
-    Get.back();
+
+    Get.back(result: true);
   }
 
   BuyerViewModel get _haghighiDto {
@@ -126,6 +139,8 @@ class BuyerAddOrEditController extends GetxController {
     List<String> buyerData =
         buyerList.map((element) => json.encode(element.toJson())).toList();
     sharedPreferences.setStringList(buyerSharedPreferencesKey, buyerData);
+
+    log('$buyerData');
   }
 
   void addToBuyerHaghighiList() {
@@ -135,6 +150,7 @@ class BuyerAddOrEditController extends GetxController {
 
   void addToBuyerHoghoghiList() {
     buyerList.add(_hoghoghiDto);
+
     saveData();
   }
 

@@ -2,7 +2,6 @@ import 'package:factor_flutter_mobile/controllers/buyer/buyer_controller.dart';
 import 'package:factor_flutter_mobile/core/constans/constans.dart';
 import 'package:factor_flutter_mobile/models/buyer_view_model/buyer_view_model.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/buyer_card_widget.dart';
-import 'package:factor_flutter_mobile/views/shared/widgets/custom_modal_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -24,27 +23,40 @@ class BuyerListItem extends GetView<BuyerController> {
           controller.removeItem(items);
         }
       },
-      isHaghighi: controller
-          .buyerList[index].personBasicInformationViewModel.isHaghighi,
-      title: controller
-              .buyerList[index].personBasicInformationViewModel.firstName ??
-          controller
-              .buyerList[index].personBasicInformationViewModel.companyName!,
+      isHaghighi: items.personBasicInformationViewModel.isHaghighi,
+      title: items.personBasicInformationViewModel.firstName ??
+          items.personBasicInformationViewModel.companyName!,
       editOnTap: () {
         editBottomSheet();
       },
     );
   }
 
-  CustomModalBottomSheet editBottomSheet() {
-    return CustomModalBottomSheet.showModalBottomSheet(
-      child: BuyerAddOrEditBottomSheet(
+  Future<void> editBottomSheet() async {
+    FocusManager.instance.primaryFocus?.unfocus();
+    final result = await Get.bottomSheet(
+      BuyerAddOrEditBottomSheet(
         buyerItem: items,
         buyerList: controller.buyerList,
         sharedPreferences: controller.sharedPreferences,
       ),
+      backgroundColor: Colors.white,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(
+            30,
+          ),
+        ),
+      ),
+      isScrollControlled: true,
+      enterBottomSheetDuration: const Duration(milliseconds: 300),
+      exitBottomSheetDuration: const Duration(milliseconds: 0),
     );
+    if (result == true) {
+      controller.loadBuyerData();
+      controller.searchTextEditingController.clear();
+    }
   }
 
-  BuyerViewModel get items => controller.buyerList[index];
+  BuyerViewModel get items => controller.buyerListSearch[index];
 }

@@ -242,8 +242,7 @@ class MyProfilePage extends GetView<MyProfileController> {
             ],
             maxLength: 10,
             textInputType: TextInputType.phone,
-            validatorTextField:
-                nationalCodeValidatorWithOutRequiredEmpty('کدملی'),
+            validatorTextField: nationalCodeValidator('کدملی'),
           ),
           CustomTextFormField(
               labelText: 'شماره همراه',

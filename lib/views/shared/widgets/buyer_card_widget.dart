@@ -12,7 +12,8 @@ class BuyerCardWidget extends StatelessWidget {
       this.title = 'پدرام مجرد',
       required this.isHaghighi,
       this.onSelectedPopUp,
-      this.itemPopUp});
+      this.itemPopUp,
+      this.isPaintingBorder = false});
 
   final double paddingTop;
   final double paddingEnd;
@@ -25,6 +26,7 @@ class BuyerCardWidget extends StatelessWidget {
   final bool isHaghighi;
   final Function(String)? onSelectedPopUp;
   final List<String>? itemPopUp;
+  final bool isPaintingBorder;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -38,9 +40,9 @@ class BuyerCardWidget extends StatelessWidget {
         decoration: BoxDecoration(
           color: Theme.of(context).primaryColor,
           borderRadius: BorderRadius.circular(15),
-          boxShadow: const [
+          boxShadow: [
             BoxShadow(
-              color: Colors.black12,
+              color: isPaintingBorder ? Colors.black : Colors.black12,
               blurRadius: 5.0,
             ),
           ],
