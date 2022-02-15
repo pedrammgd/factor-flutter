@@ -35,10 +35,10 @@ class MyProfilePage extends GetView<MyProfileController> {
             children: [
               _profileHeaderSwitch(),
               Constants.mediumVerticalSpacer,
-              if (controller.isLegal.value)
-                Form(key: controller.hoghoghiFormKey, child: _legalItems())
+              if (controller.isHaghighi.value)
+                Form(key: controller.haghighiFormKey, child: _unLegalItems())
               else
-                Form(key: controller.haghighiFormKey, child: _unLegalItems()),
+                Form(key: controller.hoghoghiFormKey, child: _legalItems()),
               Constants.largeVerticalSpacer,
               _button(),
               Constants.largeVerticalSpacer,
@@ -220,18 +220,12 @@ class MyProfilePage extends GetView<MyProfileController> {
       child: Column(
         children: [
           CustomTextFormField(
-            labelText: 'نام',
-            textEditingController: controller.firstNameTextEditingController,
+            labelText: 'نام و نام خانوادگی',
+            textEditingController: controller.fullNameTextEditingController,
             inputFormatters: [
               LengthLimitingTextInputFormatter(15),
             ],
-          ),
-          CustomTextFormField(
-            labelText: 'نام خانوادگی',
-            textEditingController: controller.lastNameTextEditingController,
-            inputFormatters: [
-              LengthLimitingTextInputFormatter(15),
-            ],
+            validatorTextField: emptyValidator('نام و نام خانوادگی'),
           ),
           CustomTextFormField(
             labelText: 'کدملی',
@@ -242,7 +236,6 @@ class MyProfilePage extends GetView<MyProfileController> {
             ],
             maxLength: 10,
             textInputType: TextInputType.phone,
-            validatorTextField: nationalCodeValidator('کدملی'),
           ),
           CustomTextFormField(
               labelText: 'شماره همراه',
@@ -280,6 +273,7 @@ class MyProfilePage extends GetView<MyProfileController> {
             inputFormatters: [
               LengthLimitingTextInputFormatter(15),
             ],
+            validatorTextField: emptyValidator('نام شرکت'),
           ),
           CustomTextFormField(
             labelText: 'شناسه ملی شرکت',
@@ -316,6 +310,7 @@ class MyProfilePage extends GetView<MyProfileController> {
                 mobileNumberValidatorWithOutRequiredEmpty('شماره همراه'),
           ),
           CustomTextFormField(
+              maxLines: 3,
               labelText: 'آدرس',
               textEditingController:
                   controller.addressTextHoghohgiEditingController),
@@ -333,13 +328,44 @@ class MyProfilePage extends GetView<MyProfileController> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Shimmer.fromColors(
-          enabled: !controller.isLegal.value,
+          enabled: !controller.isHaghighi.value,
+          loop: controller.loopLegal.value,
+          baseColor: Theme.of(Get.context!).colorScheme.secondary,
+          highlightColor: Theme.of(Get.context!).primaryColor,
+          child: TextButton(
+              onPressed: () {
+                controller.isHaghighi.value = false;
+              },
+              child: const Text(
+                'حقوقی',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              )),
+        ),
+        Transform.scale(
+          scale: 1.2,
+          child: Switch(
+            activeColor: Theme.of(Get.context!).colorScheme.secondary,
+            inactiveThumbColor: Theme.of(Get.context!).colorScheme.secondary,
+            inactiveTrackColor:
+                Theme.of(Get.context!).colorScheme.secondary.withOpacity(.5),
+            value: controller.isHaghighi.value,
+            onChanged: (value) {
+              controller.isHaghighi.value = value;
+            },
+          ),
+        ),
+        Shimmer.fromColors(
+          enabled: controller.isHaghighi.value,
           loop: controller.loopLegal.value,
           baseColor: Theme.of(Get.context!).colorScheme.secondary,
           highlightColor: Theme.of(Get.context!).primaryColor,
           child: TextButton(
             onPressed: () {
-              controller.isLegal.value = false;
+              controller.isHaghighi.value = true;
             },
             child: const Text(
               'حقیقی',
@@ -350,37 +376,6 @@ class MyProfilePage extends GetView<MyProfileController> {
               ),
             ),
           ),
-        ),
-        Transform.scale(
-          scale: 1.2,
-          child: Switch(
-            activeColor: Theme.of(Get.context!).colorScheme.secondary,
-            inactiveThumbColor: Theme.of(Get.context!).colorScheme.secondary,
-            inactiveTrackColor:
-                Theme.of(Get.context!).colorScheme.secondary.withOpacity(.5),
-            value: controller.isLegal.value,
-            onChanged: (value) {
-              controller.isLegal.value = value;
-            },
-          ),
-        ),
-        Shimmer.fromColors(
-          enabled: controller.isLegal.value,
-          loop: controller.loopLegal.value,
-          baseColor: Theme.of(Get.context!).colorScheme.secondary,
-          highlightColor: Theme.of(Get.context!).primaryColor,
-          child: TextButton(
-              onPressed: () {
-                controller.isLegal.value = true;
-              },
-              child: const Text(
-                'حقوقی',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              )),
         ),
       ],
     );

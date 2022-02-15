@@ -14,6 +14,8 @@ class BuyerController extends GetxController {
     initSharedPreferences();
   }
 
+  BuyerController({required this.isEnterFromSpecificFactor});
+
   TextEditingController searchTextEditingController = TextEditingController();
   late SharedPreferences sharedPreferences;
   RxBool isLoading = false.obs;
@@ -21,11 +23,22 @@ class BuyerController extends GetxController {
 
   RxList<BuyerViewModel> buyerListSearch = <BuyerViewModel>[].obs;
 
+  final bool isEnterFromSpecificFactor;
+
+  RxBool isShowFoundSearch = false.obs;
+
   void searchBuyer(String value) {
+    if (value.isEmpty) {
+      isShowFoundSearch.value = false;
+    } else {
+      isShowFoundSearch.value = true;
+    }
     buyerListSearch.value = buyerList.where((element) {
-      final name = element.personBasicInformationViewModel.firstName ?? '';
-      print(name);
-      return name.contains(value);
+      final name = element.personBasicInformationViewModel.fullName
+              ?.toLowerCase() ??
+          element.personBasicInformationViewModel.companyName?.toLowerCase();
+
+      return name!.contains(value.toLowerCase());
     }).toList();
   }
 
@@ -58,10 +71,14 @@ class BuyerController extends GetxController {
     List<String> buyerData =
         buyerList.map((element) => json.encode(element.toJson())).toList();
     sharedPreferences.setStringList(buyerSharedPreferencesKey, buyerData);
+    loadBuyerData();
   }
 
   void removeItem(BuyerViewModel item) {
+    buyerListSearch.remove(item);
     buyerList.remove(item);
+    searchTextEditingController.clear();
+    isShowFoundSearch.value = false;
     saveData();
   }
 }

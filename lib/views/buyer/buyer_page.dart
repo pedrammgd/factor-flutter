@@ -9,12 +9,39 @@ import 'package:get/get.dart';
 class BuyerPage extends GetView<BuyerController> {
   const BuyerPage({Key? key}) : super(key: key);
 
+  void initArguments() {
+    if (Get.arguments == null) return;
+    final arguments = Get.arguments as Map;
+    final isEnterFromSpecificFactor = arguments['isEnterFromSpecificFactor'];
+    Get.lazyPut<BuyerController>(() =>
+        BuyerController(isEnterFromSpecificFactor: isEnterFromSpecificFactor));
+  }
+
   @override
   Widget build(BuildContext context) {
-    Get.lazyPut<BuyerController>(() => BuyerController());
+    initArguments();
     return Scaffold(
       body: FactorBodyAppBarSliver(
-        body: const BuyerList(),
+        body: SingleChildScrollView(
+          child: Obx(() {
+            return Column(
+              children: [
+                if (controller.isShowFoundSearch.value)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 25),
+                    child: Text(
+                      controller.buyerListSearch.isEmpty
+                          ? 'نتونستم چیزی برات پیدا کنم'
+                          : '${controller.buyerListSearch.length} مورد برات پیدا کردم',
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 15),
+                    ),
+                  ),
+                const BuyerList(),
+              ],
+            );
+          }),
+        ),
         title: Padding(
           padding: const EdgeInsets.only(top: 5),
           child: Text('لیست مشتری ها',
@@ -89,6 +116,7 @@ class BuyerPage extends GetView<BuyerController> {
           // );
 
           if (result == true) {
+            controller.isShowFoundSearch.value = false;
             controller.loadBuyerData();
             controller.searchTextEditingController.clear();
           }
@@ -100,5 +128,11 @@ class BuyerPage extends GetView<BuyerController> {
         ),
       ),
     );
+  }
+
+  Map arguments({required bool isEnterFromSpecificFactor}) {
+    final map = {};
+    map['isEnterFromSpecificFactor'] = isEnterFromSpecificFactor;
+    return map;
   }
 }

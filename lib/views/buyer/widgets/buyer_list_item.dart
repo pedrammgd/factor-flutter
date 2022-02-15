@@ -24,10 +24,15 @@ class BuyerListItem extends GetView<BuyerController> {
         }
       },
       isHaghighi: items.personBasicInformationViewModel.isHaghighi,
-      title: items.personBasicInformationViewModel.firstName ??
-          items.personBasicInformationViewModel.companyName!,
-      editOnTap: () {
-        editBottomSheet();
+      title: (items.personBasicInformationViewModel.fullName) ??
+          items.personBasicInformationViewModel.companyName ??
+          '',
+      onTap: () {
+        if (controller.isEnterFromSpecificFactor) {
+          Get.back(result: items);
+        } else {
+          editBottomSheet();
+        }
       },
     );
   }
@@ -53,6 +58,7 @@ class BuyerListItem extends GetView<BuyerController> {
       exitBottomSheetDuration: const Duration(milliseconds: 0),
     );
     if (result == true) {
+      controller.isShowFoundSearch.value = false;
       controller.loadBuyerData();
       controller.searchTextEditingController.clear();
     }

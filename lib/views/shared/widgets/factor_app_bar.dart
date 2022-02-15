@@ -24,7 +24,7 @@ class FactorAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-        elevation: 0,
+        elevation: 2,
         leading: const SizedBox.shrink(),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         title: title,

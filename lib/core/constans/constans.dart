@@ -26,10 +26,9 @@ abstract class Constants {
 
 // SharedPreferencesKeys
 
-const String factorHomeListSharedPreferencesKey = 'factorHomeList';
-const String unofficialFactorSharedPreferencesKey = 'unofficialFactorList';
-const String haghighiSharedPreferencesKey = 'haghighiSharedPreferencesKey7';
-const String hoghoghiSharedPreferencesKey = 'hoghoghiSharedPreferencesKey7';
+const String factorHomeListSharedPreferencesKey = 'factorHomeListKey';
+const String unofficialFactorSharedPreferencesKey = 'unofficialFactorListKey';
+const String myProfileSharedPreferencesKey = 'myProfileSharedPreferencesKey1';
 
 const String buyerSharedPreferencesKey = 'buyerSharedPreferencesKey2';
 

@@ -20,9 +20,7 @@ class MyProfileController extends GetxController {
     initSharedPreferences();
   }
 
-  RxBool loadingSignature = false.obs;
-
-  RxBool isLegal = false.obs;
+  RxBool isHaghighi = true.obs;
   RxInt loopLegal = 1.obs;
   RxBool isShowSignature = false.obs;
   RxBool isShowSignatureHoghoghi = false.obs;
@@ -39,16 +37,14 @@ class MyProfileController extends GetxController {
   Rxn<Uint8List> uint8ListLogoImage = Rxn<Uint8List>();
   Rxn<Uint8List> uint8ListLogoHoghoghiImage = Rxn<Uint8List>();
   Rxn<MyProfileViewModel> haghighiViewModel = Rxn<MyProfileViewModel>();
-  Rxn<MyProfileViewModel> hoghoghiViewModel = Rxn<MyProfileViewModel>();
+
   GlobalKey<FormState> haghighiFormKey = GlobalKey<FormState>();
   GlobalKey<FormState> hoghoghiFormKey = GlobalKey<FormState>();
 
   TextEditingController mobileTextEditingController = TextEditingController();
   TextEditingController mobileTextHoghoghiEditingController =
       TextEditingController();
-  TextEditingController firstNameTextEditingController =
-      TextEditingController();
-  TextEditingController lastNameTextEditingController = TextEditingController();
+  TextEditingController fullNameTextEditingController = TextEditingController();
   TextEditingController nationalCodeTextEditingController =
       TextEditingController();
   TextEditingController addressTextEditingController = TextEditingController();
@@ -71,13 +67,10 @@ class MyProfileController extends GetxController {
           mobileNumber: mobileTextEditingController.text.isEmpty
               ? ''
               : mobileTextEditingController.text,
-          isHaghighi: !isLegal.value,
-          firstName: firstNameTextEditingController.text.isEmpty
+          isHaghighi: isHaghighi.value,
+          fullName: fullNameTextEditingController.text.isEmpty
               ? ''
-              : firstNameTextEditingController.text,
-          lastName: lastNameTextEditingController.text.isEmpty
-              ? ''
-              : lastNameTextEditingController.text,
+              : fullNameTextEditingController.text,
           nationalCode: nationalCodeTextEditingController.text.isEmpty
               ? ''
               : nationalCodeTextEditingController.text),
@@ -96,11 +89,11 @@ class MyProfileController extends GetxController {
   MyProfileViewModel get _hoghoghiDto {
     return MyProfileViewModel(
       personBasicInformationViewModel: PersonBasicInformationViewModel(
-          isHaghighi: !isLegal.value,
-          address: addressTextHoghohgiEditingController.text.isEmpty
+          isHaghighi: isHaghighi.value,
+          addressHoghoghi: addressTextHoghohgiEditingController.text.isEmpty
               ? ''
               : addressTextHoghohgiEditingController.text,
-          mobileNumber: mobileTextHoghoghiEditingController.text.isEmpty
+          mobileNumberHoghoghi: mobileTextHoghoghiEditingController.text.isEmpty
               ? ''
               : mobileTextHoghoghiEditingController.text,
           id: uuid.v4(),
@@ -114,20 +107,20 @@ class MyProfileController extends GetxController {
           registrationID: registrationIDTextEditingController.text.isEmpty
               ? ''
               : registrationIDTextEditingController.text),
-      logoUint8List: uint8ListLogoHoghoghiImage.value == null
+      logoUint8ListHoghoghi: uint8ListLogoHoghoghiImage.value == null
           ? ''
           : base64Encode(uint8ListLogoHoghoghiImage.value!),
-      sealUint8List: uint8ListSealHoghoghiImage.value == null
+      sealUint8ListHoghoghi: uint8ListSealHoghoghiImage.value == null
           ? ''
           : base64Encode(uint8ListSealHoghoghiImage.value!),
-      signatureUint8List: uint8ListSignatureHoghoghi.value == null
+      signatureUint8ListHoghoghi: uint8ListSignatureHoghoghi.value == null
           ? ''
           : base64Encode(uint8ListSignatureHoghoghi.value!),
     );
   }
 
   void save() {
-    if (!isLegal.value) {
+    if (isHaghighi.value) {
       if (!haghighiFormKey.currentState!.validate()) {
         Get.snackbar(
           'مشکلی پیش اومده',
@@ -149,7 +142,7 @@ class MyProfileController extends GetxController {
       saveHoghoghiProfile();
     }
 
-    Get.back();
+    Get.back(result: haghighiViewModel);
   }
 
   late SharedPreferences sharedPreferences;
@@ -157,100 +150,97 @@ class MyProfileController extends GetxController {
   Future initSharedPreferences() async {
     sharedPreferences = await SharedPreferences.getInstance();
 
-    loadHaghighiData();
-    loadHoghoghiData();
+    loadMyProfileData();
   }
 
-  void loadHoghoghiData() {
-    String hoghoghiData =
-        sharedPreferences.getString(hoghoghiSharedPreferencesKey) ?? '';
+  void loadMyProfileData() {
+    String myProfileData =
+        sharedPreferences.getString(myProfileSharedPreferencesKey) ?? '';
 
-    if (hoghoghiData.isNotEmpty) {
-      hoghoghiViewModel.value =
-          MyProfileViewModel.fromJson(jsonDecode(hoghoghiData));
-
-      log(hoghoghiData);
-      loadHoghoghiReplaceItem();
-    }
-  }
-
-  void loadHaghighiData() {
-    String haghighiData =
-        sharedPreferences.getString(haghighiSharedPreferencesKey) ?? '';
-
-    if (haghighiData.isNotEmpty) {
+    if (myProfileData.isNotEmpty) {
       haghighiViewModel.value =
-          MyProfileViewModel.fromJson(jsonDecode(haghighiData));
-      log(haghighiData);
-      loadHaghighiReplaceItem();
+          MyProfileViewModel.fromJson(jsonDecode(myProfileData));
+      log(myProfileData);
+      loadMyProfileReplaceItem();
     }
   }
 
-  void loadHoghoghiReplaceItem() {
+  void loadMyProfileReplaceItem() {
+    isHaghighi.value =
+        haghighiViewModel.value!.personBasicInformationViewModel.isHaghighi;
     companyNameTextEditingController.text =
-        hoghoghiViewModel.value!.personBasicInformationViewModel.companyName!;
-    nationalCodeCompanyTextEditingController.text = hoghoghiViewModel
-        .value!.personBasicInformationViewModel.nationalCodeCompany!;
+        haghighiViewModel.value!.personBasicInformationViewModel.companyName ??
+            '';
+    mobileTextHoghoghiEditingController.text = haghighiViewModel
+            .value!.personBasicInformationViewModel.mobileNumberHoghoghi ??
+        '';
+    nationalCodeCompanyTextEditingController.text = haghighiViewModel
+            .value!.personBasicInformationViewModel.nationalCodeCompany ??
+        '';
 
-    registrationIDTextEditingController.text = hoghoghiViewModel
-        .value!.personBasicInformationViewModel.registrationID!;
-
-    mobileTextHoghoghiEditingController.text =
-        hoghoghiViewModel.value!.personBasicInformationViewModel.mobileNumber!;
-    addressTextHoghohgiEditingController.text =
-        hoghoghiViewModel.value!.personBasicInformationViewModel.address!;
-    uint8ListSealHoghoghiImage(
-        base64Decode(hoghoghiViewModel.value!.sealUint8List));
-    if (uint8ListSealHoghoghiImage.value != null &&
-        hoghoghiViewModel.value!.sealUint8List != '') {
-      isShowSealHoghoghiImage.value = true;
-    }
-    uint8ListLogoHoghoghiImage(
-        base64Decode(hoghoghiViewModel.value!.logoUint8List));
-    if (uint8ListLogoHoghoghiImage.value != null &&
-        hoghoghiViewModel.value!.logoUint8List != '') {
-      isShowLogoHoghoghiImage.value = true;
-    }
-    uint8ListSignatureHoghoghi(
-        base64Decode(hoghoghiViewModel.value!.signatureUint8List));
-    if (uint8ListSignatureHoghoghi.value != null &&
-        hoghoghiViewModel.value!.signatureUint8List != '') {
-      isShowSignatureHoghoghi.value = true;
-    }
-  }
-
-  void loadHaghighiReplaceItem() {
-    firstNameTextEditingController.text =
-        haghighiViewModel.value!.personBasicInformationViewModel.firstName!;
-    lastNameTextEditingController.text =
-        haghighiViewModel.value!.personBasicInformationViewModel.lastName!;
+    registrationIDTextEditingController.text = haghighiViewModel
+            .value!.personBasicInformationViewModel.registrationID ??
+        '';
+    addressTextHoghohgiEditingController.text = haghighiViewModel
+            .value!.personBasicInformationViewModel.addressHoghoghi ??
+        '';
+    fullNameTextEditingController.text =
+        haghighiViewModel.value!.personBasicInformationViewModel.fullName ?? '';
     nationalCodeTextEditingController.text =
-        haghighiViewModel.value!.personBasicInformationViewModel.nationalCode!;
+        haghighiViewModel.value!.personBasicInformationViewModel.nationalCode ??
+            '';
     mobileTextEditingController.text =
-        haghighiViewModel.value!.personBasicInformationViewModel.mobileNumber!;
+        haghighiViewModel.value!.personBasicInformationViewModel.mobileNumber ??
+            '';
     addressTextEditingController.text =
-        haghighiViewModel.value!.personBasicInformationViewModel.address!;
-    uint8ListSealImage(base64Decode(haghighiViewModel.value!.sealUint8List));
-    if (uint8ListSealImage.value != null &&
+        haghighiViewModel.value!.personBasicInformationViewModel.address ?? '';
+
+    if (haghighiViewModel.value?.sealUint8List != null &&
         haghighiViewModel.value!.sealUint8List != '') {
+      uint8ListSealImage(
+          base64Decode(haghighiViewModel.value!.sealUint8List ?? ''));
       isShowSealImage.value = true;
     }
-    uint8ListLogoImage(base64Decode(haghighiViewModel.value!.logoUint8List));
-    if (uint8ListLogoImage.value != null &&
+
+    if (haghighiViewModel.value?.sealUint8ListHoghoghi != null &&
+        haghighiViewModel.value!.sealUint8ListHoghoghi != '') {
+      uint8ListSealHoghoghiImage(
+          base64Decode(haghighiViewModel.value!.sealUint8ListHoghoghi ?? ''));
+      isShowSealHoghoghiImage.value = true;
+    }
+
+    if (haghighiViewModel.value?.logoUint8List != null &&
         haghighiViewModel.value!.logoUint8List != '') {
+      uint8ListLogoImage(
+          base64Decode(haghighiViewModel.value!.logoUint8List ?? ''));
       isShowLogoImage.value = true;
     }
-    uint8ListSignature(
-        base64Decode(haghighiViewModel.value!.signatureUint8List));
-    if (uint8ListSignature.value != null &&
+
+    if (haghighiViewModel.value?.logoUint8ListHoghoghi != null &&
+        haghighiViewModel.value!.logoUint8ListHoghoghi != '') {
+      uint8ListLogoHoghoghiImage(
+          base64Decode(haghighiViewModel.value!.logoUint8ListHoghoghi ?? ''));
+      isShowLogoHoghoghiImage.value = true;
+    }
+
+    if (haghighiViewModel.value?.signatureUint8List != null &&
         haghighiViewModel.value!.signatureUint8List != '') {
+      uint8ListSignature(
+          base64Decode(haghighiViewModel.value!.signatureUint8List ?? ''));
       isShowSignature.value = true;
+    }
+
+    if (haghighiViewModel.value?.signatureUint8ListHoghoghi != null &&
+        haghighiViewModel.value!.signatureUint8ListHoghoghi != '') {
+      uint8ListSignatureHoghoghi(base64Decode(
+          haghighiViewModel.value!.signatureUint8ListHoghoghi ?? ''));
+      isShowSignatureHoghoghi.value = true;
     }
   }
 
   void saveHaghighiData() {
     String myProfileData = json.encode(_haghighiDto.toJson());
-    sharedPreferences.setString(haghighiSharedPreferencesKey, myProfileData);
+    sharedPreferences.setString(myProfileSharedPreferencesKey, myProfileData);
   }
 
   void saveHaghighiProfile() {
@@ -259,7 +249,7 @@ class MyProfileController extends GetxController {
 
   void saveHoghoghiData() {
     String myProfileData = json.encode(_hoghoghiDto.toJson());
-    sharedPreferences.setString(hoghoghiSharedPreferencesKey, myProfileData);
+    sharedPreferences.setString(myProfileSharedPreferencesKey, myProfileData);
   }
 
   void saveHoghoghiProfile() {

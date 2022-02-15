@@ -16,11 +16,15 @@ class BuyerList extends GetView<BuyerController> {
   Widget build(BuildContext context) {
     return Obx(() {
       if (controller.isLoading.value) {
-        return const Center(
-          child: FactorCircularProgressIndicator(),
+        return const Padding(
+          padding: EdgeInsets.only(top: 100),
+          child: Center(
+            child: FactorCircularProgressIndicator(),
+          ),
         );
       } else if (controller.buyerListSearch.isEmpty) {
-        return Center(
+        return Padding(
+          padding: const EdgeInsets.only(top: 100),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -41,7 +45,11 @@ class BuyerList extends GetView<BuyerController> {
         );
       } else {
         return ListView.builder(
-          padding: const EdgeInsets.only(bottom: 80),
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          padding: const EdgeInsets.only(
+            bottom: 80,
+          ),
           itemCount: controller.buyerListSearch.length,
           itemBuilder: (context, index) {
             return BuyerListItem(index: index);

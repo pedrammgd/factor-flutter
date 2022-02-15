@@ -61,7 +61,7 @@ class BuyerAddOrEditBottomSheet extends GetView<BuyerAddOrEditController> {
           labelText: 'نام شرکت',
           textEditingController: controller.companyNameTextEditingController,
           inputFormatters: [
-            LengthLimitingTextInputFormatter(15),
+            LengthLimitingTextInputFormatter(16),
           ],
           validatorTextField: emptyValidator('نام شرکت'),
         ),
@@ -109,19 +109,12 @@ class BuyerAddOrEditBottomSheet extends GetView<BuyerAddOrEditController> {
     return Column(
       children: [
         CustomTextFormField(
-          labelText: 'نام',
-          textEditingController: controller.firstNameTextEditingController,
+          labelText: 'نام و نام خانوادگی',
+          textEditingController: controller.fullNameTextEditingController,
           inputFormatters: [
-            LengthLimitingTextInputFormatter(15),
+            LengthLimitingTextInputFormatter(16),
           ],
-          validatorTextField: emptyValidator('نام'),
-        ),
-        CustomTextFormField(
-          labelText: 'نام خانوادگی',
-          textEditingController: controller.lastNameTextEditingController,
-          inputFormatters: [
-            LengthLimitingTextInputFormatter(15),
-          ],
+          validatorTextField: emptyValidator('نام و نام خانوادگی'),
         ),
         CustomTextFormField(
           labelText: 'کد ملی',
@@ -130,6 +123,7 @@ class BuyerAddOrEditBottomSheet extends GetView<BuyerAddOrEditController> {
             LengthLimitingTextInputFormatter(10),
             FilteringTextInputFormatter.digitsOnly,
           ],
+          textInputType: TextInputType.phone,
         ),
         CustomTextFormField(
           labelText: 'شماره تماس',
@@ -138,6 +132,7 @@ class BuyerAddOrEditBottomSheet extends GetView<BuyerAddOrEditController> {
             LengthLimitingTextInputFormatter(11),
             FilteringTextInputFormatter.digitsOnly,
           ],
+          textInputType: TextInputType.phone,
           validatorTextField: emptyValidator('شماره تماس'),
         ),
         CustomTextFormField(
@@ -222,7 +217,7 @@ class BuyerAddOrEditBottomSheet extends GetView<BuyerAddOrEditController> {
                 onPressed: () {
                   controller.save();
                 },
-                titleButton: 'ثبت')));
+                titleButton: controller.isEdit ? 'ویرایش' : 'ثبت')));
   }
 
   Widget _topDivider() {

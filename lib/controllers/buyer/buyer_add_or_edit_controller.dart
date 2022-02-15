@@ -17,10 +17,8 @@ class BuyerAddOrEditController extends GetxController {
     if (isEdit) {
       mobileTextEditingController.text =
           item!.personBasicInformationViewModel.mobileNumber ?? '';
-      firstNameTextEditingController.text =
-          item.personBasicInformationViewModel.firstName ?? '';
-      lastNameTextEditingController.text =
-          item.personBasicInformationViewModel.lastName ?? '';
+      fullNameTextEditingController.text =
+          item.personBasicInformationViewModel.fullName ?? '';
       nationalCodeTextEditingController.text =
           item.personBasicInformationViewModel.nationalCode ?? '';
       mobileTextHoghoghiEditingController.text =
@@ -46,9 +44,8 @@ class BuyerAddOrEditController extends GetxController {
   TextEditingController mobileTextEditingController = TextEditingController();
   TextEditingController mobileTextHoghoghiEditingController =
       TextEditingController();
-  TextEditingController firstNameTextEditingController =
-      TextEditingController();
-  TextEditingController lastNameTextEditingController = TextEditingController();
+  TextEditingController fullNameTextEditingController = TextEditingController();
+
   TextEditingController nationalCodeTextEditingController =
       TextEditingController();
   TextEditingController addressTextEditingController = TextEditingController();
@@ -101,12 +98,9 @@ class BuyerAddOrEditController extends GetxController {
                 ? ''
                 : mobileTextEditingController.text,
             isHaghighi: isHaghighi.value,
-            firstName: firstNameTextEditingController.text.isEmpty
+            fullName: fullNameTextEditingController.text.isEmpty
                 ? ''
-                : firstNameTextEditingController.text,
-            lastName: lastNameTextEditingController.text.isEmpty
-                ? ''
-                : lastNameTextEditingController.text,
+                : fullNameTextEditingController.text,
             nationalCode: nationalCodeTextEditingController.text.isEmpty
                 ? ''
                 : nationalCodeTextEditingController.text));

@@ -3,8 +3,7 @@ class PersonBasicInformationViewModel {
       {required this.id,
       this.address,
       this.mobileNumber,
-      this.firstName,
-      this.lastName,
+      this.fullName,
       this.nationalCode,
       this.companyName,
       this.nationalCodeCompany,
@@ -18,8 +17,7 @@ class PersonBasicInformationViewModel {
   final String? addressHoghoghi;
   final String? mobileNumber;
   final String? mobileNumberHoghoghi;
-  final String? firstName;
-  final String? lastName;
+  final String? fullName;
   final String? nationalCode;
   final String? companyName;
   final String? nationalCodeCompany;
@@ -29,8 +27,7 @@ class PersonBasicInformationViewModel {
   factory PersonBasicInformationViewModel.fromJson(Map<String, dynamic> json) =>
       PersonBasicInformationViewModel(
           id: json['id'],
-          firstName: json['firstName'],
-          lastName: json['lastName'],
+          fullName: json['fullName'],
           nationalCode: json['nationalCode'],
           address: json['address'],
           companyName: json['companyName'],
@@ -43,8 +40,7 @@ class PersonBasicInformationViewModel {
 
   Map<String, dynamic> toJson() => {
         'id': id,
-        'firstName': firstName,
-        'lastName': lastName,
+        'fullName': fullName,
         'nationalCode': nationalCode,
         'companyName': companyName,
         'nationalCodeCompany': nationalCodeCompany,

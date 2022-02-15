@@ -2,6 +2,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:factor_flutter_mobile/controllers/more/more_controller.dart';
 import 'package:factor_flutter_mobile/core/constans/constans.dart';
 import 'package:factor_flutter_mobile/core/router/factor_pages.dart';
+import 'package:factor_flutter_mobile/views/buyer/buyer_page.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/custom_factor_divider.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/dragable_widget.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/more_item_widget.dart';
@@ -33,7 +34,9 @@ class MorePage extends GetView<MoreController> {
             title: 'مشتری ها',
             icon: cartIcon,
             onTap: () {
-              Get.toNamed(FactorRoutes.buyer);
+              Get.toNamed(FactorRoutes.buyer,
+                  arguments: const BuyerPage()
+                      .arguments(isEnterFromSpecificFactor: false));
             },
           ),
           Constants.smallVerticalSpacer,

@@ -1,8 +1,11 @@
 import 'dart:typed_data';
+import 'dart:ui';
 
 import 'package:factor_flutter_mobile/controllers/factor_unofficial_specification/factor_unofficial_specification_controller.dart';
 import 'package:factor_flutter_mobile/core/constans/constans.dart';
+import 'package:factor_flutter_mobile/core/router/factor_pages.dart';
 import 'package:factor_flutter_mobile/models/factor_unofficial_item_view_model/factor_unofficial_item_view_model.dart';
+import 'package:factor_flutter_mobile/views/buyer/buyer_page.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/bottom_sheet_total_price_widget.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/custom_factor_divider.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/expandable/factor_expandable.dart';
@@ -40,22 +43,69 @@ class FactorUnofficialSpecificationPage
     initArguments();
     return Obx(() {
       return Scaffold(
-        appBar: const FactorAppBar(
-          height: 60,
+        appBar: FactorAppBar(
+          title: Padding(
+            padding: const EdgeInsets.only(top: 15),
+            child: Text(
+              controller.offsetScroll > 30 ? 'فاکتور فروش' : '',
+              style: TextStyle(color: Theme.of(context).colorScheme.secondary),
+            ),
+          ),
         ),
         body: SingleChildScrollView(
+          controller: controller.scrollController,
           child: Column(
             children: [
               _headerFactor(context),
-              _factorSelectButton(title: 'صاحب حساب ', bracesWord: 'فروشنده'),
-              Constants.largeVerticalSpacer,
-              _factorSelectButton(title: 'طرف حساب ', bracesWord: 'مشتری'),
+              _factorSelectButton(
+                isSelectedName: controller.isMyProfileItemNull.value,
+                selectedText: controller.myProfileItem.value !=
+                        null?.personBasicInformationViewModel.isHaghighi
+                    ? controller.myProfileItem.value
+                            ?.personBasicInformationViewModel.fullName ??
+                        ''
+                    : controller.myProfileItem.value
+                            ?.personBasicInformationViewModel.companyName ??
+                        '',
+                title: 'صاحب حساب ',
+                bracesWord: 'فروشنده',
+                onTap: () async {
+                  final result = await Get.toNamed(
+                    FactorRoutes.myProfile,
+                  );
+
+                  if (result != null) {
+                    controller.loadMyProfileData();
+                  }
+                },
+              ),
               Constants.largeVerticalSpacer,
               _factorSelectButton(
-                  hasBottomItem: true,
-                  icon: const Icon(Icons.price_change_outlined),
-                  title: 'هزینه مازاد ',
-                  bracesWord: 'هزینه ارسال و ...'),
+                  title: 'طرف حساب ',
+                  bracesWord: 'مشتری',
+                  isSelectedName: controller.isSelectedBuyerName.value,
+                  selectedText: controller.buyerItem.value
+                          ?.personBasicInformationViewModel.fullName ??
+                      controller.buyerItem.value
+                          ?.personBasicInformationViewModel.companyName ??
+                      '',
+                  onTap: () async {
+                    final result = await Get.toNamed(FactorRoutes.buyer,
+                        arguments: const BuyerPage()
+                            .arguments(isEnterFromSpecificFactor: true));
+                    if (result != null) {
+                      controller.buyerItem.value = result;
+                      controller.isSelectedBuyerName.value = true;
+                    }
+                  }),
+              Constants.largeVerticalSpacer,
+              _factorSelectButton(
+                hasBottomItem: true,
+                icon: const Icon(Icons.price_change_outlined),
+                title: 'هزینه مازاد ',
+                bracesWord: 'هزینه ارسال و ...',
+                onTap: () {},
+              ),
               _factorSelectButton(
                   hasBottomItem: true,
                   icon: const Icon(Icons.price_change_outlined),
@@ -167,9 +217,12 @@ class FactorUnofficialSpecificationPage
     required String bracesWord,
     Widget icon = const Icon(Icons.person_add_alt),
     bool hasBottomItem = false,
+    Function()? onTap,
+    bool isSelectedName = false,
+    String selectedText = '',
   }) {
     return InkWell(
-      onTap: () {},
+      onTap: onTap,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -199,16 +252,30 @@ class FactorUnofficialSpecificationPage
                 ),
               )),
               Constants.xLargeHorizontalSpacer,
-              Expanded(
-                  child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  icon,
-                  Constants.smallHorizontalSpacer,
-                  const Text('افزودن')
-                ],
-              )),
+              if (isSelectedName)
+                Expanded(
+                    child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      selectedText,
+                      style: const TextStyle(
+                          fontSize: 15, fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ))
+              else
+                Expanded(
+                    child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    icon,
+                    Constants.smallHorizontalSpacer,
+                    const Text('افزودن')
+                  ],
+                )),
               Constants.largeHorizontalSpacer,
             ],
           ),

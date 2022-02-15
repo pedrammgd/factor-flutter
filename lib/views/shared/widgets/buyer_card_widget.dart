@@ -7,7 +7,7 @@ class BuyerCardWidget extends StatelessWidget {
       this.paddingStart = 20,
       this.paddingBottom = 0,
       this.height = 71,
-      this.editOnTap,
+      this.onTap,
       this.removeOnTap,
       this.title = 'پدرام مجرد',
       required this.isHaghighi,
@@ -20,7 +20,7 @@ class BuyerCardWidget extends StatelessWidget {
   final double paddingStart;
   final double paddingBottom;
   final double height;
-  final Function()? editOnTap;
+  final Function()? onTap;
   final Function()? removeOnTap;
   final String title;
   final bool isHaghighi;
@@ -35,7 +35,7 @@ class BuyerCardWidget extends StatelessWidget {
           end: paddingEnd,
           start: paddingStart,
           bottom: paddingBottom),
-      child: Ink(
+      child: Container(
         // height: height,
         decoration: BoxDecoration(
           color: Theme.of(context).primaryColor,
@@ -49,7 +49,7 @@ class BuyerCardWidget extends StatelessWidget {
         ),
         child: InkWell(
           borderRadius: BorderRadius.circular(15),
-          onTap: editOnTap,
+          onTap: onTap,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             // mainAxisAlignment: MainAxisAlignment.spaceBetween,
