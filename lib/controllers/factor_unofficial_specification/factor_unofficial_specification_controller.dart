@@ -5,6 +5,7 @@ import 'package:factor_flutter_mobile/core/constans/constans.dart';
 import 'package:factor_flutter_mobile/models/buyer_view_model/buyer_view_model.dart';
 import 'package:factor_flutter_mobile/models/factor_unofficial_item_view_model/factor_unofficial_item_view_model.dart';
 import 'package:factor_flutter_mobile/models/my_profile_view_model/my_profile_view_model.dart';
+import 'package:factor_flutter_mobile/models/specification_cost_view_model/specification_cost_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -15,10 +16,16 @@ class FactorUnofficialSpecificationController extends GetxController {
     super.onInit();
     initSharedPreferences();
     scrollController.addListener(() {
-      print(scrollController.offset);
       offsetScroll.value = scrollController.offset;
     });
   }
+
+  RxList<SpecificationCostViewModel> excessCostList =
+      <SpecificationCostViewModel>[].obs;
+  TextEditingController excessCostTitleTextEditingController =
+      TextEditingController();
+  TextEditingController excessCostPriceTextEditingController =
+      TextEditingController();
 
   RxDouble offsetScroll = 0.0.obs;
   final ScrollController scrollController = ScrollController();

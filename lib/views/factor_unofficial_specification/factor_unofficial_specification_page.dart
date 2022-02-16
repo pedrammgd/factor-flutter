@@ -5,7 +5,9 @@ import 'package:factor_flutter_mobile/controllers/factor_unofficial_specificatio
 import 'package:factor_flutter_mobile/core/constans/constans.dart';
 import 'package:factor_flutter_mobile/core/router/factor_pages.dart';
 import 'package:factor_flutter_mobile/models/factor_unofficial_item_view_model/factor_unofficial_item_view_model.dart';
+import 'package:factor_flutter_mobile/models/specification_cost_view_model/specification_cost_view_model.dart';
 import 'package:factor_flutter_mobile/views/buyer/buyer_page.dart';
+import 'package:factor_flutter_mobile/views/factor_unofficial_specification/widgets/factor_unofficial_specification_dialog.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/bottom_sheet_total_price_widget.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/custom_factor_divider.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/expandable/factor_expandable.dart';
@@ -100,29 +102,54 @@ class FactorUnofficialSpecificationPage
                   }),
               Constants.largeVerticalSpacer,
               _factorSelectButton(
+                itemList: controller.excessCostList,
                 hasBottomItem: true,
                 icon: const Icon(Icons.price_change_outlined),
                 title: 'هزینه مازاد ',
                 bracesWord: 'هزینه ارسال و ...',
-                onTap: () {},
+                onTap: () async {
+                  final result = await Get.dialog(
+                    FactorUnofficialSpecificationDialog(
+                      topTextEditingController:
+                          controller.excessCostTitleTextEditingController,
+                      bottomTextEditingController:
+                          controller.excessCostPriceTextEditingController,
+                      buttonOnTap: () {
+                        controller.excessCostList.add(
+                            SpecificationCostViewModel(
+                                id: '',
+                                price: controller
+                                    .excessCostPriceTextEditingController.text,
+                                title: controller
+                                    .excessCostTitleTextEditingController
+                                    .text));
+                        Get.back();
+                      },
+                    ),
+                  );
+
+                  if (result == true) {
+                    print('eee');
+                  }
+                },
               ),
               _factorSelectButton(
-                  hasBottomItem: true,
+                  hasBottomItem: false,
                   icon: const Icon(Icons.price_change_outlined),
                   title: 'پرداخت نقدی ',
                   bracesWord: 'پول نقد'),
               _factorSelectButton(
-                  hasBottomItem: true,
+                  hasBottomItem: false,
                   icon: const Icon(Icons.price_change_outlined),
                   title: 'پرداخت کارتی ',
                   bracesWord: 'کارت بانکی و پوز و...'),
               _factorSelectButton(
-                  hasBottomItem: true,
+                  hasBottomItem: false,
                   icon: const Icon(Icons.price_change_outlined),
                   title: 'پرداخت آنلاین ',
                   bracesWord: 'اینترنتی و ...'),
               _factorSelectButton(
-                  hasBottomItem: true,
+                  hasBottomItem: false,
                   icon: const Icon(Icons.price_change_outlined),
                   title: 'پرداخت چکی ',
                   bracesWord: 'چک و سفته ...'),
@@ -220,6 +247,7 @@ class FactorUnofficialSpecificationPage
     Function()? onTap,
     bool isSelectedName = false,
     String selectedText = '',
+    RxList<SpecificationCostViewModel>? itemList,
   }) {
     return InkWell(
       onTap: onTap,
@@ -279,21 +307,25 @@ class FactorUnofficialSpecificationPage
               Constants.largeHorizontalSpacer,
             ],
           ),
-          Constants.mediumVerticalSpacer,
+          Constants.largeVerticalSpacer,
           if (hasBottomItem)
-            InkWell(
-              onTap: () {},
-              child: Column(
+            ListView.builder(
+              itemCount: itemList?.length,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemBuilder: (context, index) => Column(
                 children: [
-                  Constants.mediumVerticalSpacer,
+                  // Constants.mediumVerticalSpacer,
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
+                    children: [
                       Padding(
-                        padding: EdgeInsetsDirectional.only(start: 32),
-                        child: Text(' هزینه ارسال : 5456485484968464 ریال'),
+                        padding: const EdgeInsetsDirectional.only(start: 32),
+                        child: Text(
+                            '${itemList![index].title} : ${itemList[index].price} ریال '),
+                        // child: Text('  : $price  ریال $titleCost'),
                       ),
-                      Padding(
+                      const Padding(
                         padding: EdgeInsetsDirectional.only(
                           end: 20,
                           start: 20,
@@ -302,7 +334,7 @@ class FactorUnofficialSpecificationPage
                       ),
                     ],
                   ),
-                  Constants.mediumVerticalSpacer,
+                  Constants.smallVerticalSpacer,
                 ],
               ),
             ),
