@@ -9,6 +9,7 @@ import 'package:factor_flutter_mobile/models/specification_cost_view_model/speci
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:uuid/uuid.dart';
 
 class FactorUnofficialSpecificationController extends GetxController {
   @override
@@ -22,13 +23,48 @@ class FactorUnofficialSpecificationController extends GetxController {
 
   RxList<SpecificationCostViewModel> excessCostList =
       <SpecificationCostViewModel>[].obs;
+
+  RxList<SpecificationCostViewModel> cartList =
+      <SpecificationCostViewModel>[].obs;
+
+  RxList<SpecificationCostViewModel> cashList =
+      <SpecificationCostViewModel>[].obs;
+
+  RxList<SpecificationCostViewModel> onlinePayList =
+      <SpecificationCostViewModel>[].obs;
+
+  RxList<SpecificationCostViewModel> checkPayList =
+      <SpecificationCostViewModel>[].obs;
+
   TextEditingController excessCostTitleTextEditingController =
       TextEditingController();
   TextEditingController excessCostPriceTextEditingController =
       TextEditingController();
 
+  TextEditingController cartTitleTextEditingController =
+      TextEditingController();
+  TextEditingController cartPriceTextEditingController =
+      TextEditingController();
+
+  TextEditingController cashTitleTextEditingController =
+      TextEditingController();
+  TextEditingController cashPriceTextEditingController =
+      TextEditingController();
+
+  TextEditingController onlinePayTitleTextEditingController =
+      TextEditingController();
+  TextEditingController onlinePayPriceTextEditingController =
+      TextEditingController();
+
+  TextEditingController checkPayTitleTextEditingController =
+      TextEditingController();
+  TextEditingController checkPayPriceTextEditingController =
+      TextEditingController();
+
   RxDouble offsetScroll = 0.0.obs;
   final ScrollController scrollController = ScrollController();
+
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   final RxList<FactorUnofficialItemViewModel> factorUnofficialItemList;
   RxBool isExpandedBottomSheet = false.obs;
@@ -41,6 +77,7 @@ class FactorUnofficialSpecificationController extends GetxController {
   Rxn<MyProfileViewModel> myProfileItem = Rxn<MyProfileViewModel>();
   RxBool isSelectedBuyerName = false.obs;
   RxBool isMyProfileItemNull = false.obs;
+  Uuid uUid = const Uuid();
 
   FactorUnofficialSpecificationController({
     required this.factorUnofficialItemList,
@@ -70,6 +107,21 @@ class FactorUnofficialSpecificationController extends GetxController {
     } else {
       log('isEmpty');
     }
+  }
+
+  void buttonOnTapItem({
+    required RxList<SpecificationCostViewModel> listItem,
+    required TextEditingController titleTextEditingController,
+    required TextEditingController priceTextEditingController,
+  }) {
+    // if (!formKey.currentState!.validate()) return;
+    listItem.add(SpecificationCostViewModel(
+        id: uUid.v4(),
+        price: priceTextEditingController.text,
+        title: titleTextEditingController.text));
+    Get.back();
+    priceTextEditingController.clear();
+    titleTextEditingController.clear();
   }
 
   @override
