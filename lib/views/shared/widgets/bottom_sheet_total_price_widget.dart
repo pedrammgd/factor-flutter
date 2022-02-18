@@ -11,7 +11,8 @@ class BottomSheetTotalPriceWidget extends StatelessWidget {
       required this.totalPrice,
       required this.totalWordPrice,
       this.onTap,
-      this.bottomButtonOnTap});
+      this.bottomButtonOnTap,
+      this.statusBracketKeyText = 0});
 
   final String discount;
   final String taxation;
@@ -19,6 +20,7 @@ class BottomSheetTotalPriceWidget extends StatelessWidget {
   final String totalWordPrice;
   final Function()? onTap;
   final VoidCallback? bottomButtonOnTap;
+  final int statusBracketKeyText;
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +43,7 @@ class BottomSheetTotalPriceWidget extends StatelessWidget {
               keyTextSize: 18,
               valueTextSize: 18,
               valueText: totalPrice,
+              bracketKeyText: _statusBracket(),
               keyText: 'قیمت کل :',
             ),
 
@@ -86,5 +89,15 @@ class BottomSheetTotalPriceWidget extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String _statusBracket() {
+    if (statusBracketKeyText == 0) {
+      return '(تسویه نشده)';
+    } else if (statusBracketKeyText == 1) {
+      return '(بستانکار)';
+    } else {
+      return '(تسویه شده)';
+    }
   }
 }

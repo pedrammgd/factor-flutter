@@ -1,8 +1,6 @@
 import 'package:factor_flutter_mobile/controllers/factor_unofficial/factor_unofficial_controller.dart';
-import 'package:factor_flutter_mobile/core/router/factor_pages.dart';
 import 'package:factor_flutter_mobile/views/factor_unofficial/widgets/factor_unofficial_add_modal_bottom_sheet.dart';
 import 'package:factor_flutter_mobile/views/factor_unofficial/widgets/factor_unofficial_list.dart';
-import 'package:factor_flutter_mobile/views/factor_unofficial_specification/factor_unofficial_specification_page.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/bottom_sheet_total_price_widget.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/custom_modal_bottom_sheet.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/exit_popUp.dart';
@@ -58,20 +56,7 @@ class FactorUnofficialPage extends GetView<FactorUnofficialController> {
         children: [
           InkWell(
             child: BottomSheetTotalPriceWidget(
-              bottomButtonOnTap: () {
-                Get.toNamed(FactorRoutes.factorUnofficialSpecification,
-                    arguments: const FactorUnofficialSpecificationPage()
-                        .arguments(
-                            factorUnofficialItemList:
-                                controller.factorUnofficialItemList,
-                            totalPrice: validTotalPrice(),
-                            totalWordPrice: validTotalWordPrice(),
-                            taxation: validTaxation(),
-                            discount: validDiscount()));
-
-                controller.isExpandedBottomSheet.value =
-                    !controller.isExpandedBottomSheet.value;
-              },
+              bottomButtonOnTap: controller.bottomSheetButtonOnTap,
               taxation: validTaxation(),
               discount: validDiscount(),
               totalPrice: validTotalPrice(),
@@ -112,6 +97,7 @@ class FactorUnofficialPage extends GetView<FactorUnofficialController> {
 
   Widget _body(BuildContext context) {
     return FactorBodyAppBarSliver(
+      controller: controller.scrollController,
       body: const FactorUnofficialList(),
       title: Padding(
         padding: const EdgeInsets.only(top: 5),

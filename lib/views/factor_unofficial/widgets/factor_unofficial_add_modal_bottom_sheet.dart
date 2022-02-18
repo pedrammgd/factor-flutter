@@ -11,10 +11,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class FactorUnofficialAddModalBottomSheet
     extends GetView<AddOrEditFactorUnofficialController> {
-  FactorUnofficialAddModalBottomSheet(
-      {required this.factorUnofficialItemList,
-      required this.factorUnofficialItem,
-      required this.sharedPreferences});
+  FactorUnofficialAddModalBottomSheet({
+    required this.factorUnofficialItemList,
+    required this.factorUnofficialItem,
+    required this.sharedPreferences,
+  });
 
   final RxList<FactorUnofficialItemViewModel> factorUnofficialItemList;
   final FactorUnofficialItemViewModel? factorUnofficialItem;

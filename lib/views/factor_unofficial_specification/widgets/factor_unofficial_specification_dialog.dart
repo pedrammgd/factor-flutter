@@ -8,21 +8,23 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 class FactorUnofficialSpecificationDialog extends StatelessWidget {
-  const FactorUnofficialSpecificationDialog(
-      {Key? key,
-      this.title = 'عنوان',
-      this.topTextFormFieldLabel = 'تکست فیلد اول',
-      this.bottomTextFormFieldLabel = 'تکی فیلد دوم',
-      this.closeOnTap,
-      this.bottomTextEditingController,
-      this.topTextEditingController,
-      this.buttonOnTap,
-      required this.titleButton,
-      this.inputFormatters,
-      this.textInputType})
-      : super(key: key);
+  const FactorUnofficialSpecificationDialog({
+    this.title = 'عنوان',
+    this.topTextFormFieldLabel = 'تکست فیلد اول',
+    this.bottomTextFormFieldLabel = 'تکی فیلد دوم',
+    this.closeOnTap,
+    this.bottomTextEditingController,
+    this.topTextEditingController,
+    this.buttonOnTap,
+    required this.titleButton,
+    this.inputFormatters,
+    this.textInputType,
+    this.onFieldSubmitted,
+    this.keyForm,
+  });
 
   final String title;
+  final GlobalKey<FormState>? keyForm;
   final String topTextFormFieldLabel;
   final String bottomTextFormFieldLabel;
   final String titleButton;
@@ -32,6 +34,7 @@ class FactorUnofficialSpecificationDialog extends StatelessWidget {
   final Function()? buttonOnTap;
   final List<TextInputFormatter>? inputFormatters;
   final TextInputType? textInputType;
+  final Function(String)? onFieldSubmitted;
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +46,7 @@ class FactorUnofficialSpecificationDialog extends StatelessWidget {
       contentPadding: const EdgeInsets.only(top: 5, bottom: 20),
       content: SingleChildScrollView(
         child: Form(
-          key: key,
+          key: keyForm,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -81,10 +84,11 @@ class FactorUnofficialSpecificationDialog extends StatelessWidget {
                 textInputAction: TextInputAction.next,
                 labelText: topTextFormFieldLabel,
                 prefixIcon: const Icon(Icons.title),
-                validatorTextField: emptyValidator('fieldName'),
+                validatorTextField: emptyValidator(topTextFormFieldLabel),
               ),
               Constants.smallVerticalSpacer,
               FactorTextFormField(
+                onFieldSubmitted: onFieldSubmitted,
                 controller: bottomTextEditingController,
                 hasBorder: true,
                 labelText: bottomTextFormFieldLabel,
@@ -97,7 +101,7 @@ class FactorUnofficialSpecificationDialog extends StatelessWidget {
                 textInputType: TextInputType.phone,
                 textInputAction: TextInputAction.done,
                 suffixText: 'ریال',
-                validatorTextField: emptyValidator('fieldName2'),
+                validatorTextField: emptyValidator(bottomTextFormFieldLabel),
               ),
               Constants.mediumVerticalSpacer,
               Padding(

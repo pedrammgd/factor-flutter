@@ -7,13 +7,13 @@ import 'package:get/get.dart';
 
 import 'factor_unofficial_specification_dialog.dart';
 
-class FactorUnofficialSpecificationSelectItem extends StatelessWidget {
-  const FactorUnofficialSpecificationSelectItem(
-      {Key? key,
-      required this.title,
+//ignore: must_be_immutable
+class FactorUnofficialSpecificationSelectItem extends StatefulWidget {
+  FactorUnofficialSpecificationSelectItem(
+      {required this.title,
       required this.bracesWord,
       this.onTap,
-      this.itemList,
+      this.itemList = const [],
       this.topTextEditingController,
       this.bottomTextEditingController,
       this.topTextFormFieldLabel,
@@ -26,9 +26,14 @@ class FactorUnofficialSpecificationSelectItem extends StatelessWidget {
       this.isSelectedName = false,
       this.hasCustomBeforeTitle = false,
       this.customBeforeTitle = '',
-      this.selectedText = ''})
-      : super(key: key);
+      this.selectedText = '',
+      this.keyForm,
+      this.textAddColor = Colors.black,
+      required this.totalPrice,
+      required this.statusBracketKeyText});
+
   final String title;
+  final GlobalKey<FormState>? keyForm;
   final String bracesWord;
   final Widget icon;
   final bool hasBottomItem;
@@ -38,7 +43,7 @@ class FactorUnofficialSpecificationSelectItem extends StatelessWidget {
   final String customBeforeTitle;
 
   final String selectedText;
-  final RxList<SpecificationCostViewModel>? itemList;
+  final List<SpecificationCostViewModel> itemList;
   final TextEditingController? topTextEditingController;
   final TextEditingController? bottomTextEditingController;
   final String? topTextFormFieldLabel;
@@ -46,14 +51,24 @@ class FactorUnofficialSpecificationSelectItem extends StatelessWidget {
   final String? titleEdit;
   final List<TextInputFormatter>? inputFormatters;
   final TextInputType? textInputType;
+  final Color textAddColor;
+  RxDouble totalPrice;
+  final RxInt statusBracketKeyText;
 
+  @override
+  State<FactorUnofficialSpecificationSelectItem> createState() =>
+      _FactorUnofficialSpecificationSelectItemState();
+}
+
+class _FactorUnofficialSpecificationSelectItemState
+    extends State<FactorUnofficialSpecificationSelectItem> {
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         InkWell(
-          onTap: onTap,
+          onTap: widget.onTap,
           child: Padding(
             padding: const EdgeInsets.only(bottom: 12, top: 16),
             child: Row(
@@ -63,7 +78,7 @@ class FactorUnofficialSpecificationSelectItem extends StatelessWidget {
                 Expanded(
                     child: RichText(
                   text: TextSpan(
-                    text: title,
+                    text: widget.title,
                     style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         color: Colors.black,
@@ -71,7 +86,7 @@ class FactorUnofficialSpecificationSelectItem extends StatelessWidget {
                         fontFamily: 'IRANSans'),
                     children: <TextSpan>[
                       TextSpan(
-                          text: '($bracesWord)',
+                          text: '(${widget.bracesWord})',
                           style: const TextStyle(
                               color: Colors.black,
                               fontWeight: FontWeight.w500,
@@ -81,14 +96,14 @@ class FactorUnofficialSpecificationSelectItem extends StatelessWidget {
                   ),
                 )),
                 Constants.xLargeHorizontalSpacer,
-                if (isSelectedName)
+                if (widget.isSelectedName)
                   Expanded(
                       child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Text(
-                        selectedText,
+                        widget.selectedText,
                         style: const TextStyle(
                             fontSize: 15, fontWeight: FontWeight.bold),
                       ),
@@ -100,9 +115,12 @@ class FactorUnofficialSpecificationSelectItem extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      icon,
+                      widget.icon,
                       Constants.smallHorizontalSpacer,
-                      const Text('افزودن')
+                      Text(
+                        'افزودن',
+                        style: TextStyle(color: widget.textAddColor),
+                      )
                     ],
                   )),
                 Constants.largeHorizontalSpacer,
@@ -111,9 +129,9 @@ class FactorUnofficialSpecificationSelectItem extends StatelessWidget {
           ),
         ),
 // Constants.largeVerticalSpacer,
-        if (hasBottomItem)
+        if (widget.itemList.isNotEmpty)
           ListView.builder(
-            itemCount: itemList?.length,
+            itemCount: widget.itemList.length,
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (context, index) => Column(
@@ -124,31 +142,55 @@ class FactorUnofficialSpecificationSelectItem extends StatelessWidget {
                       child: InkWell(
                         borderRadius: BorderRadius.circular(10),
                         onTap: () {
-                          topTextEditingController?.text =
-                              itemList![index].title;
-                          bottomTextEditingController?.text =
-                              itemList![index].price;
+                          widget.topTextEditingController?.text =
+                              widget.itemList[index].title;
+                          widget.bottomTextEditingController?.text =
+                              widget.itemList[index].price;
                           Get.dialog(
                             FactorUnofficialSpecificationDialog(
-                              topTextFormFieldLabel: topTextFormFieldLabel!,
+                              keyForm: widget.keyForm,
+                              topTextFormFieldLabel:
+                                  widget.topTextFormFieldLabel!,
                               bottomTextFormFieldLabel:
-                                  bottomTextFormFieldLabel!,
-                              title: titleEdit!,
-                              inputFormatters: inputFormatters,
-                              textInputType: textInputType,
+                                  widget.bottomTextFormFieldLabel!,
+                              title: widget.titleEdit!,
+                              inputFormatters: widget.inputFormatters,
+                              textInputType: widget.textInputType,
                               titleButton: 'ویرایش',
                               topTextEditingController:
-                                  topTextEditingController,
+                                  widget.topTextEditingController,
                               bottomTextEditingController:
-                                  bottomTextEditingController,
-                              buttonOnTap: () {
-                                itemList![index] = SpecificationCostViewModel(
-                                    id: itemList![index].id,
-                                    title: topTextEditingController!.text,
-                                    price: bottomTextEditingController!.text);
+                                  widget.bottomTextEditingController,
+                              onFieldSubmitted: (val) {
+                                widget.itemList[index] =
+                                    SpecificationCostViewModel(
+                                        id: widget.itemList[index].id,
+                                        title: widget
+                                            .topTextEditingController!.text,
+                                        price: widget
+                                            .bottomTextEditingController!.text);
                                 Get.back();
-                                topTextEditingController?.clear();
-                                bottomTextEditingController?.clear();
+                                widget.topTextEditingController?.clear();
+                                widget.bottomTextEditingController?.clear();
+                              },
+                              buttonOnTap: () {
+                                if (!widget.keyForm!.currentState!.validate())
+                                  return;
+
+                                widget.itemList[index] =
+                                    SpecificationCostViewModel(
+                                        id: widget.itemList[index].id,
+                                        title: widget
+                                            .topTextEditingController!.text,
+                                        price: widget
+                                            .bottomTextEditingController!.text);
+                                totalMinesPriceSpecific(widget
+                                    .itemList[index].price
+                                    .replaceAll(RegExp(','), ''));
+                                Get.back();
+                                widget.topTextEditingController?.clear();
+                                widget.bottomTextEditingController?.clear();
+                                setState(() {});
                               },
                             ),
                           );
@@ -156,24 +198,33 @@ class FactorUnofficialSpecificationSelectItem extends StatelessWidget {
                         child: Padding(
                           padding: const EdgeInsetsDirectional.only(
                               start: 32, bottom: 8, top: 8),
-                          child: hasCustomBeforeTitle
+                          child: widget.hasCustomBeforeTitle
                               ? Text(
-                                  '${index + 1}- $customBeforeTitle ${itemList![index].title} : ${itemList![index].price} ریال ')
+                                  '${index + 1}- ${widget.customBeforeTitle} ${widget.itemList[index].title} : ${widget.itemList[index].price} ریال ',
+                                  style: TextStyle(color: widget.textAddColor))
                               : Text(
-                                  '${index + 1}- ${itemList![index].title} : ${itemList![index].price} ریال '),
+                                  '${index + 1}- ${widget.itemList[index].title} : ${widget.itemList[index].price} ریال ',
+                                  style: TextStyle(color: widget.textAddColor),
+                                ),
                         ),
                       ),
                     ),
                     InkWell(
                       borderRadius: BorderRadius.circular(10),
                       onTap: () {
-                        itemList?.removeAt(index);
-                        itemList?.refresh();
+                        totalMinesPriceSpecific(widget.itemList[index].price
+                            .replaceAll(RegExp(','), ''));
+                        setState(() {
+                          widget.itemList.removeAt(index);
+                        });
                       },
                       child: const Padding(
                         padding: EdgeInsetsDirectional.only(
                             end: 20, start: 20, bottom: 8, top: 8),
-                        child: Icon(Icons.remove_circle_outline),
+                        child: Icon(
+                          Icons.remove_circle_outline,
+                          color: Colors.red,
+                        ),
                       ),
                     ),
                   ],
@@ -188,5 +239,17 @@ class FactorUnofficialSpecificationSelectItem extends StatelessWidget {
         Constants.largeVerticalSpacer,
       ],
     );
+  }
+
+  RxDouble totalMinesPriceSpecific(String price) {
+    widget.totalPrice.value -= double.parse(price);
+    if (widget.totalPrice.value < 0) {
+      widget.statusBracketKeyText(1);
+    } else if (widget.totalPrice.value == 0) {
+      widget.statusBracketKeyText(3);
+    } else {
+      widget.statusBracketKeyText(0);
+    }
+    return widget.totalPrice;
   }
 }

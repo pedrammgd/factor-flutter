@@ -4,14 +4,19 @@ import 'package:get/get_navigation/src/extension_navigation.dart';
 
 class FactorBodyAppBarSliver extends StatelessWidget {
   const FactorBodyAppBarSliver(
-      {required this.body, required this.title, required this.bottomWidget});
+      {required this.body,
+      required this.title,
+      required this.bottomWidget,
+      this.controller});
   final Widget body;
   final Widget title;
   final PreferredSizeWidget bottomWidget;
+  final ScrollController? controller;
 
   @override
   Widget build(BuildContext context) {
     return NestedScrollView(
+        controller: controller,
         floatHeaderSlivers: true,
         body: body,
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {

@@ -1,8 +1,12 @@
 import 'dart:convert';
 
 import 'package:factor_flutter_mobile/core/constans/constans.dart';
+import 'package:factor_flutter_mobile/core/router/factor_pages.dart';
 import 'package:factor_flutter_mobile/models/factor_unofficial_item_view_model/factor_unofficial_item_view_model.dart';
+import 'package:factor_flutter_mobile/views/factor_unofficial_specification/factor_unofficial_specification_page.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:persian_number_utility/src/extensions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class FactorUnofficialController extends GetxController {
@@ -12,7 +16,17 @@ class FactorUnofficialController extends GetxController {
   void onInit() {
     super.onInit();
     initSharedPreferences();
+
+    scrollController.addListener(() {
+      offsetScroll.value = scrollController.offset;
+      if (offsetScroll.value > 10) {
+        isExpandedBottomSheet(false);
+      }
+    });
   }
+
+  final ScrollController scrollController = ScrollController();
+  RxDouble offsetScroll = 0.0.obs;
 
   RxBool isLoading = false.obs;
   RxBool isExpandedBottomSheet = false.obs;
@@ -56,10 +70,10 @@ class FactorUnofficialController extends GetxController {
     return _discount;
   }
 
-  double totalPrice() {
-    double _totalPrice = 0;
+  RxDouble totalPrice() {
+    RxDouble _totalPrice = 0.0.obs;
 
-    _totalPrice = price() + taxation() - discount();
+    _totalPrice.value = price() + taxation() - discount();
 
     return _totalPrice;
   }
@@ -110,5 +124,26 @@ class FactorUnofficialController extends GetxController {
 
   void removeItem(FactorUnofficialItemViewModel item) {
     factorUnofficialItemList.remove(item);
+  }
+
+  void bottomSheetButtonOnTap() {
+    if (totalPrice() > 999999999999 ||
+        taxation() > 999999999999 ||
+        discount() > 999999999999) {
+      Get.snackbar('قیمت نامعتبر',
+          'فکر کنم قیمت رو بیشتر از حد مجاز وارد کردی ، دوباره قیمت ها رو نگاه کن ، حداکثر مبلغ مجاز 999,999,999,999');
+      return;
+    }
+    if (factorUnofficialItemList.isEmpty) return;
+
+    Get.toNamed(FactorRoutes.factorUnofficialSpecification,
+        arguments: const FactorUnofficialSpecificationPage().arguments(
+            factorUnofficialItemList: factorUnofficialItemList,
+            totalPrice: totalPrice(),
+            totalWordPrice: '${totalPrice().value}'.toWord(),
+            taxation: taxation().toStringAsFixed(2).seRagham() + ' ریال',
+            discount: discount().toStringAsFixed(2).seRagham() + ' ریال'));
+
+    isExpandedBottomSheet.value = !isExpandedBottomSheet.value;
   }
 }

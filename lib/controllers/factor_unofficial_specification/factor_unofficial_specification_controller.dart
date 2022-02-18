@@ -18,6 +18,9 @@ class FactorUnofficialSpecificationController extends GetxController {
     initSharedPreferences();
     scrollController.addListener(() {
       offsetScroll.value = scrollController.offset;
+      if (offsetScroll.value > 10) {
+        isExpandedBottomSheet(false);
+      }
     });
   }
 
@@ -63,13 +66,17 @@ class FactorUnofficialSpecificationController extends GetxController {
 
   RxDouble offsetScroll = 0.0.obs;
   final ScrollController scrollController = ScrollController();
-
-  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  GlobalKey<FormState> formKey = GlobalKey<FormState>(debugLabel: '1');
+  GlobalKey<FormState> cartFormKey = GlobalKey<FormState>(debugLabel: '2');
+  GlobalKey<FormState> cashFormKey = GlobalKey<FormState>(debugLabel: '3');
+  GlobalKey<FormState> onlinePayFormKey = GlobalKey<FormState>(debugLabel: '4');
+  GlobalKey<FormState> checkPayFormKey = GlobalKey<FormState>(debugLabel: '5');
 
   final RxList<FactorUnofficialItemViewModel> factorUnofficialItemList;
   RxBool isExpandedBottomSheet = false.obs;
+  RxInt statusBracketKeyText = 0.obs;
 
-  final String totalPrice;
+  RxDouble totalPrice;
   final String taxation;
   final String discount;
   final String totalWordPrice;
@@ -114,14 +121,89 @@ class FactorUnofficialSpecificationController extends GetxController {
     required TextEditingController titleTextEditingController,
     required TextEditingController priceTextEditingController,
   }) {
-    // if (!formKey.currentState!.validate()) return;
     listItem.add(SpecificationCostViewModel(
         id: uUid.v4(),
         price: priceTextEditingController.text,
         title: titleTextEditingController.text));
     Get.back();
+
     priceTextEditingController.clear();
     titleTextEditingController.clear();
+  }
+
+  void buttonExcessCostAdd() {
+    if (!formKey.currentState!.validate()) return;
+    totalPlusPriceSpecific(
+        excessCostPriceTextEditingController.text.replaceAll(RegExp(','), ''));
+
+    buttonOnTapItem(
+        listItem: excessCostList,
+        titleTextEditingController: excessCostTitleTextEditingController,
+        priceTextEditingController: excessCostPriceTextEditingController);
+  }
+
+  void buttonCashAdd() {
+    if (!cashFormKey.currentState!.validate()) return;
+    totalMinesPriceSpecific(
+        cashPriceTextEditingController.text.replaceAll(RegExp(','), ''));
+    buttonOnTapItem(
+        listItem: cashList,
+        titleTextEditingController: cashTitleTextEditingController,
+        priceTextEditingController: cashPriceTextEditingController);
+  }
+
+  void buttonCartAdd() {
+    if (!cartFormKey.currentState!.validate()) return;
+    totalMinesPriceSpecific(
+        cartPriceTextEditingController.text.replaceAll(RegExp(','), ''));
+    buttonOnTapItem(
+        listItem: cartList,
+        titleTextEditingController: cartTitleTextEditingController,
+        priceTextEditingController: cartPriceTextEditingController);
+  }
+
+  void buttonOnlinePayAdd() {
+    if (!onlinePayFormKey.currentState!.validate()) return;
+    totalMinesPriceSpecific(
+        onlinePayPriceTextEditingController.text.replaceAll(RegExp(','), ''));
+    buttonOnTapItem(
+        listItem: onlinePayList,
+        titleTextEditingController: onlinePayTitleTextEditingController,
+        priceTextEditingController: onlinePayPriceTextEditingController);
+  }
+
+  void buttonCheckPayAdd() {
+    if (!checkPayFormKey.currentState!.validate()) return;
+    totalMinesPriceSpecific(
+        checkPayPriceTextEditingController.text.replaceAll(RegExp(','), ''));
+    buttonOnTapItem(
+        listItem: checkPayList,
+        titleTextEditingController: checkPayTitleTextEditingController,
+        priceTextEditingController: checkPayPriceTextEditingController);
+  }
+
+  RxDouble totalPlusPriceSpecific(String price) {
+    totalPrice.value += double.parse(price);
+    if (totalPrice.value < 0) {
+      statusBracketKeyText(1);
+    } else if (totalPrice.value == 0) {
+      statusBracketKeyText(3);
+    } else {
+      statusBracketKeyText(0);
+    }
+    return totalPrice;
+  }
+
+  RxDouble totalMinesPriceSpecific(String price) {
+    totalPrice.value -= double.parse(price);
+    if (totalPrice.value < 0) {
+      statusBracketKeyText(1);
+    } else if (totalPrice.value == 0) {
+      statusBracketKeyText(3);
+    } else {
+      statusBracketKeyText(0);
+    }
+    return totalPrice;
   }
 
   @override

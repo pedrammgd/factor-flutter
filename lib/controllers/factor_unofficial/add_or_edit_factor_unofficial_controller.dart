@@ -30,9 +30,11 @@ class AddOrEditFactorUnofficialController extends GetxController {
   final RxList<FactorUnofficialItemViewModel> factorUnofficialItemList;
   RxBool isLoading = true.obs;
 
-  AddOrEditFactorUnofficialController(FactorUnofficialItemViewModel? item,
-      this.factorUnofficialItemList, this.sharedPreferences)
-      : editingFactorUnofficialItem = item,
+  AddOrEditFactorUnofficialController(
+    FactorUnofficialItemViewModel? item,
+    this.factorUnofficialItemList,
+    this.sharedPreferences,
+  )   : editingFactorUnofficialItem = item,
         isEdit = (item != null) {
     if (isEdit) {
       productDescriptionController.text = item!.productDescription;
@@ -58,6 +60,7 @@ class AddOrEditFactorUnofficialController extends GetxController {
 
   void save() {
     if (!formKey.currentState!.validate()) return;
+
     if (isEdit) {
       editUnOfficialItem();
     } else {
@@ -79,6 +82,12 @@ class AddOrEditFactorUnofficialController extends GetxController {
     factorUnofficialItemList.add(factorUnofficialItemDto);
     // saveFactorData();
     Get.back();
+    if (double.parse(factorUnofficialItemDto.productUnitPrice) *
+            factorUnofficialItemDto.productCount >
+        999999999999) {
+      Get.snackbar('قیمت نامعتبر',
+          'فکر کنم قیمت رو بیشتر از حد مجاز وارد کردی ، دوباره قیمت رو نگاه کن ، حداکثر مبلغ مجاز 999,999,999,999');
+    }
     productDescriptionController.clear();
     productCountController.clear();
     productUnitPriceController.clear();
@@ -102,5 +111,11 @@ class AddOrEditFactorUnofficialController extends GetxController {
     // saveFactorData();
 
     Get.back(result: true);
+    if (double.parse(factorUnofficialItemDto.productUnitPrice) *
+            factorUnofficialItemDto.productCount >
+        999999999999) {
+      Get.snackbar('قیمت نامعتبر',
+          'فکر کنم قیمت رو بیشتر از حد مجاز وارد کردی ، دوباره قیمت رو نگاه کن ، حداکثر مبلغ مجاز 999,999,999,999');
+    }
   }
 }
