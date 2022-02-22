@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:factor_flutter_mobile/core/constans/constans.dart';
 import 'package:factor_flutter_mobile/models/buyer_view_model/buyer_view_model.dart';
+import 'package:factor_flutter_mobile/models/factor_header/factor_header_view_model.dart';
 import 'package:factor_flutter_mobile/models/factor_unofficial_item_view_model/factor_unofficial_item_view_model.dart';
 import 'package:factor_flutter_mobile/models/my_profile_view_model/my_profile_view_model.dart';
 import 'package:factor_flutter_mobile/models/specification_cost_view_model/specification_cost_view_model.dart';
@@ -82,6 +83,8 @@ class FactorUnofficialSpecificationController extends GetxController {
   final String totalWordPrice;
   Rxn<BuyerViewModel> buyerItem = Rxn<BuyerViewModel>();
   Rxn<MyProfileViewModel> myProfileItem = Rxn<MyProfileViewModel>();
+  Rxn<FactorHeaderViewModel> factorHeaderViewModel =
+      Rxn<FactorHeaderViewModel>();
   RxBool isSelectedBuyerName = false.obs;
   RxBool isMyProfileItemNull = false.obs;
   Uuid uUid = const Uuid();
@@ -100,6 +103,7 @@ class FactorUnofficialSpecificationController extends GetxController {
     sharedPreferences = await SharedPreferences.getInstance();
 
     loadMyProfileData();
+    loadFactorHeaderData();
   }
 
   void loadMyProfileData() {
@@ -111,6 +115,19 @@ class FactorUnofficialSpecificationController extends GetxController {
           MyProfileViewModel.fromJson(jsonDecode(myProfileData));
       isMyProfileItemNull(true);
       log(myProfileData);
+    } else {
+      log('isEmpty');
+    }
+  }
+
+  void loadFactorHeaderData() {
+    String factorHeaderData =
+        sharedPreferences.getString(factorHeaderSharedPreferencesKey) ?? '';
+
+    if (factorHeaderData.isNotEmpty) {
+      factorHeaderViewModel.value =
+          FactorHeaderViewModel.fromJson(jsonDecode(factorHeaderData));
+      log(factorHeaderData);
     } else {
       log('isEmpty');
     }

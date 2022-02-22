@@ -12,19 +12,10 @@ import 'package:get/get.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 
 class FactorUnofficialPage extends GetView<FactorUnofficialController> {
-  const FactorUnofficialPage();
-
-  void initArguments() {
-    if (Get.arguments == null) return;
-    final arguments = Get.arguments as Map;
-    final isBeforeFactor = arguments['isBeforeFactor'];
-    Get.lazyPut(
-        () => FactorUnofficialController(isBeforeFactor: isBeforeFactor));
-  }
-
   @override
   Widget build(BuildContext context) {
-    initArguments();
+    Get.lazyPut(() => FactorUnofficialController());
+
     return WillPopScope(
       onWillPop: () => ExitPopUp.showExitPopup(
         title: 'خروج از لیست فاکتور',
@@ -101,7 +92,7 @@ class FactorUnofficialPage extends GetView<FactorUnofficialController> {
       body: const FactorUnofficialList(),
       title: Padding(
         padding: const EdgeInsets.only(top: 5),
-        child: Text(controller.isBeforeFactor ? 'پیش فاکتور' : 'فاکتور جدید',
+        child: Text('فاکتور جدید',
             style: TextStyle(
               color: Theme.of(context).colorScheme.secondary,
             )),
@@ -181,11 +172,5 @@ class FactorUnofficialPage extends GetView<FactorUnofficialController> {
     } else {
       return 50;
     }
-  }
-
-  Map arguments({required bool isBeforeFactor}) {
-    final map = {};
-    map['isBeforeFactor'] = isBeforeFactor;
-    return map;
   }
 }

@@ -14,7 +14,10 @@ class CustomTextFormField extends StatelessWidget {
       this.maxLength,
       this.textInputAction = TextInputAction.next,
       this.validatorTextField,
-      this.paddingHorizontal = 0})
+      this.paddingHorizontal = 0,
+      this.contentPadding = 20,
+      this.hasPrefixIcon = true,
+      this.suffixText})
       : super(key: key);
 
   final String labelText;
@@ -27,6 +30,9 @@ class CustomTextFormField extends StatelessWidget {
   final int? maxLength;
   final String? Function(String?)? validatorTextField;
   final double paddingHorizontal;
+  final double contentPadding;
+  final bool hasPrefixIcon;
+  final String? suffixText;
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +52,9 @@ class CustomTextFormField extends StatelessWidget {
         inputFormatters: inputFormatters,
         textInputType: textInputType,
         validatorTextField: validatorTextField,
+        contentPadding: contentPadding,
+        hasPrefixIcon: hasPrefixIcon,
+        suffixText: suffixText,
       ),
     );
   }

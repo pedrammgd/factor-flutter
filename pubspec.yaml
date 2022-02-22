@@ -50,6 +50,8 @@ dependencies:
   file_saver: ^0.0.10
   image_picker: ^0.8.4+6
   mime: ^1.0.1
+  flutter_poolakey: ^2.0.0
+  persian_datetime_picker: ^2.4.0
 
 
 dev_dependencies:
@@ -77,6 +79,7 @@ flutter:
   assets:
      - assets/images/png/
      - assets/images/gif/
+     - assets/
 
   uses-material-design: true
 

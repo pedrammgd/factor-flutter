@@ -21,7 +21,7 @@ class AddOrEditFactorUnofficialController extends GetxController {
   final TextEditingController productTaxationController =
       TextEditingController(text: '0');
 
-  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  // GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   final Uuid uuid = const Uuid();
 
@@ -59,7 +59,38 @@ class AddOrEditFactorUnofficialController extends GetxController {
   }
 
   void save() {
-    if (!formKey.currentState!.validate()) return;
+    // if (!formKey.currentState!.validate()) return;
+    if (productDescriptionController.text.isEmpty) {
+      Get.snackbar('فیلد خالی', 'فیلد شرح کالا رو فراموش کردی وارد کنی',
+          snackPosition: SnackPosition.BOTTOM);
+      return;
+    } else if (productCountController.text.isEmpty) {
+      Get.snackbar('فیلد خالی', 'فیلد تعداد رو فراموش کردی وارد کنی',
+          snackPosition: SnackPosition.BOTTOM);
+      return;
+    } else if (productUnitPriceController.text.isEmpty) {
+      Get.snackbar('فیلد خالی', 'فیلد قیمت واحد رو فراموش کردی وارد کنی',
+          snackPosition: SnackPosition.BOTTOM);
+      return;
+    } else if (productDiscountController.text.isEmpty) {
+      Get.snackbar('فیلد خالی', 'فیلد تخفیف رو فراموش کردی وارد کنی',
+          snackPosition: SnackPosition.BOTTOM);
+      return;
+    } else if (productTaxationController.text.isEmpty) {
+      Get.snackbar('فیلد خالی', 'فیلد مالیات رو فراموش کردی وارد کنی',
+          snackPosition: SnackPosition.BOTTOM);
+      return;
+    }
+    if (double.parse(productTaxationController.text.trim()) > 100) {
+      Get.snackbar('درصد نامعتبر', 'درصد مالیات رو نامعتبر وارد کردی',
+          snackPosition: SnackPosition.BOTTOM);
+      return;
+    }
+    if (double.parse(productDiscountController.text.trim()) > 100) {
+      Get.snackbar('درصد نامعتبر', 'درصد تخفیف رو نامعتبر وارد کردی',
+          snackPosition: SnackPosition.BOTTOM);
+      return;
+    }
 
     if (isEdit) {
       editUnOfficialItem();

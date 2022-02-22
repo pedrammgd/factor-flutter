@@ -17,6 +17,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
+import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 import 'package:persian_number_utility/src/extensions.dart';
 import 'package:printing/printing.dart';
 import 'package:syncfusion_flutter_pdf/pdf.dart';
@@ -50,7 +51,10 @@ class FactorUnofficialSpecificationPage
           title: Padding(
             padding: const EdgeInsets.only(top: 15),
             child: Text(
-              controller.offsetScroll > 30 ? 'فاکتور فروش' : '',
+              controller.offsetScroll > 30
+                  ? controller.factorHeaderViewModel.value?.title ??
+                      'عنوان فاکتور'
+                  : '',
               style: TextStyle(color: Theme.of(context).colorScheme.secondary),
             ),
           ),
@@ -469,7 +473,14 @@ class FactorUnofficialSpecificationPage
     return Container(
       color: Colors.black,
       child: InkWell(
-        onTap: () {},
+        onTap: () async {
+          final result = await Get.toNamed(
+            FactorRoutes.factorHeader,
+          );
+          if (result != null) {
+            controller.loadFactorHeaderData();
+          }
+        },
         child: Column(
           children: [
             Constants.smallVerticalSpacer,
@@ -477,11 +488,18 @@ class FactorUnofficialSpecificationPage
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  'فاکتور فروش',
+                  controller.factorHeaderViewModel.value?.title ??
+                      'فاکتور فروش',
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: MediaQuery.of(context).size.height / 37),
                 ),
+                Constants.tinyHorizontalSpacer,
+                if (controller.factorHeaderViewModel.value?.isBeforeFactor ??
+                    false)
+                  const Text('(پیش فاکتور)',
+                      style: TextStyle(color: Colors.white, fontSize: 12)),
+                Constants.smallHorizontalSpacer,
                 const Icon(
                   Icons.edit,
                   color: Colors.white,
@@ -492,19 +510,19 @@ class FactorUnofficialSpecificationPage
             Row(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: const [
+              children: [
                 Padding(
-                  padding: EdgeInsetsDirectional.only(start: 20),
+                  padding: const EdgeInsetsDirectional.only(start: 20),
                   child: Text(
-                    'تاریخ فاکتور : 1399/10/14',
-                    style: TextStyle(color: Colors.white, fontSize: 12),
+                    'تاریخ فاکتور : ${controller.factorHeaderViewModel.value?.factorDate ?? Jalali.now().formatCompactDate()}',
+                    style: const TextStyle(color: Colors.white, fontSize: 12),
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsetsDirectional.only(end: 30),
+                  padding: const EdgeInsetsDirectional.only(end: 30),
                   child: Text(
-                    '#1561',
-                    style: TextStyle(color: Colors.white, fontSize: 12),
+                    ' ${controller.factorHeaderViewModel.value?.factorNum ?? '1'} #',
+                    style: const TextStyle(color: Colors.white, fontSize: 12),
                   ),
                 ),
               ],

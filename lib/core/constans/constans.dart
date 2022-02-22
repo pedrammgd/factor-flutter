@@ -31,6 +31,8 @@ const String unofficialFactorSharedPreferencesKey = 'unofficialFactorListKey';
 const String myProfileSharedPreferencesKey = 'myProfileSharedPreferencesKey1';
 
 const String buyerSharedPreferencesKey = 'buyerSharedPreferencesKey2';
+const String factorHeaderSharedPreferencesKey =
+    'factorHeaderSharedPreferencesKey2';
 
 // Png
 const String emptyList = 'assets/images/png/empty_list.png';

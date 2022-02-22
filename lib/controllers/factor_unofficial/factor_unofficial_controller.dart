@@ -10,8 +10,6 @@ import 'package:persian_number_utility/src/extensions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class FactorUnofficialController extends GetxController {
-  FactorUnofficialController({required this.isBeforeFactor});
-
   @override
   void onInit() {
     super.onInit();
@@ -30,7 +28,6 @@ class FactorUnofficialController extends GetxController {
 
   RxBool isLoading = false.obs;
   RxBool isExpandedBottomSheet = false.obs;
-  final bool isBeforeFactor;
 
   RxList<FactorUnofficialItemViewModel> factorUnofficialItemList =
       <FactorUnofficialItemViewModel>[].obs;

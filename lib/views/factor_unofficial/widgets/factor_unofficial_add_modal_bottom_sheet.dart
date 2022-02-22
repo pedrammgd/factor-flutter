@@ -27,7 +27,7 @@ class FactorUnofficialAddModalBottomSheet
         factorUnofficialItem, factorUnofficialItemList, sharedPreferences));
     return SingleChildScrollView(
       child: Form(
-        key: controller.formKey,
+        // key: controller.formKey,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[

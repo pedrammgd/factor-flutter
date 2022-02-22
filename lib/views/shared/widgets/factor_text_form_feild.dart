@@ -38,6 +38,7 @@ class FactorTextFormField extends StatelessWidget {
   final String? suffixText;
   final Color suffixColor;
   final Color? labelColor;
+  final bool? enabled;
   final Function(String)? onFieldSubmitted;
   const FactorTextFormField({
     this.controller,
@@ -75,6 +76,7 @@ class FactorTextFormField extends StatelessWidget {
     this.paddingStart = 0,
     this.paddingEnd = 0,
     this.onFieldSubmitted,
+    this.enabled,
   });
 
   @override
@@ -89,6 +91,7 @@ class FactorTextFormField extends StatelessWidget {
         width: width,
         height: height,
         child: TextFormField(
+            enabled: enabled,
             onFieldSubmitted: onFieldSubmitted,
             onTap: onTap,
             textAlignVertical: textAlignVertical,

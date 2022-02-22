@@ -29,7 +29,9 @@ class CustomBorderButton extends StatelessWidget {
         style: TextStyle(color: textColor, fontWeight: FontWeight.bold),
       ),
       style: OutlinedButton.styleFrom(
-        padding: EdgeInsets.only(left: icon == null ? 10 : 0),
+        padding: EdgeInsets.only(
+          left: icon == null ? 10 : 0,
+        ),
         primary: Colors.black,
         backgroundColor: backgroundColor,
         shape: RoundedRectangleBorder(

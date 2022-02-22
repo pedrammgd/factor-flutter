@@ -1,9 +1,11 @@
+import 'package:factor_flutter_mobile/core/constans/constans.dart';
 import 'package:flutter/material.dart';
 
 class CardIconWidget extends StatelessWidget {
   final String title;
   final String icon;
   final Function()? onTap;
+  final Function()? infoOnTap;
   final bool comingSoon;
   final Color? iconColor;
 
@@ -12,7 +14,8 @@ class CardIconWidget extends StatelessWidget {
       required this.icon,
       this.onTap,
       this.comingSoon = false,
-      this.iconColor});
+      this.iconColor,
+      this.infoOnTap});
 
   @override
   Widget build(BuildContext context) {
@@ -21,8 +24,8 @@ class CardIconWidget extends StatelessWidget {
       borderRadius: BorderRadius.circular(25),
       onTap: onTap,
       child: Ink(
-        width: height / 5,
-        height: height / 5,
+        width: 140,
+        height: 140,
         decoration: BoxDecoration(
           color: Theme.of(context).primaryColor,
           borderRadius: BorderRadius.circular(25),
@@ -33,35 +36,43 @@ class CardIconWidget extends StatelessWidget {
             ),
           ],
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: Stack(
           children: [
-            if (comingSoon)
-              const Align(
-                alignment: Alignment.topLeft,
-                child: RotationTransition(
-                  turns: AlwaysStoppedAnimation(-30 / 360),
-                  child: Text(
-                    'به زودی',
-                    style: TextStyle(fontSize: 10, color: Colors.redAccent),
+            Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Constants.largeVerticalSpacer,
+                  Image.asset(
+                    icon,
+                    width: 50,
+                    height: 50,
+                    fit: BoxFit.contain,
+                    color: iconColor,
+                    // Theme.of(context).colorScheme.secondary,
                   ),
-                ),
+                  Padding(
+                    padding: const EdgeInsetsDirectional.only(top: 10),
+                    child: Text(
+                      title,
+                      style: const TextStyle(fontSize: 13),
+                    ),
+                  ),
+                  Constants.smallVerticalSpacer,
+                  if (comingSoon)
+                    const Text(
+                      'به زودی',
+                      style: TextStyle(fontSize: 10, color: Colors.redAccent),
+                    ),
+                ],
               ),
-            Image.asset(
-              icon,
-              width: 50,
-              height: 50,
-              fit: BoxFit.contain,
-              color: iconColor,
-              // Theme.of(context).colorScheme.secondary,
             ),
-            Padding(
-              padding: const EdgeInsetsDirectional.only(top: 15),
-              child: Text(
-                title,
-                style: const TextStyle(fontSize: 13),
-              ),
-            ),
+            Align(
+                alignment: Alignment.topLeft,
+                child: IconButton(
+                  icon: const Icon(Icons.info_outline),
+                  onPressed: infoOnTap,
+                )),
           ],
         ),
       ),

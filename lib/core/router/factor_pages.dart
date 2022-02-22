@@ -1,11 +1,13 @@
 import 'package:factor_flutter_mobile/core/authentication/splash/spalsh_page.dart';
 import 'package:factor_flutter_mobile/views/buyer/buyer_page.dart';
 import 'package:factor_flutter_mobile/views/factor_base/factor_base_page.dart';
+import 'package:factor_flutter_mobile/views/factor_header/factor_header_page.dart';
 import 'package:factor_flutter_mobile/views/factor_unofficial/factor_unofficial_page.dart';
 import 'package:factor_flutter_mobile/views/factor_unofficial_specification/factor_unofficial_specification_page.dart';
 import 'package:factor_flutter_mobile/views/list_type_factor/list_type_factor_page.dart';
 import 'package:factor_flutter_mobile/views/more/more_page.dart';
 import 'package:factor_flutter_mobile/views/my_profile/my_profile_page.dart';
+import 'package:factor_flutter_mobile/views/subscription/subscription_page.dart';
 import 'package:get/get.dart';
 
 part 'factor_routes.dart';
@@ -32,7 +34,7 @@ class FactorPage {
         transition: Transition.noTransition),
     GetPage(
         name: FactorRoutes.factorUnofficial,
-        page: () => const FactorUnofficialPage(),
+        page: () => FactorUnofficialPage(),
         transition: Transition.noTransition),
     GetPage(
         name: FactorRoutes.factorUnofficialSpecification,
@@ -45,6 +47,14 @@ class FactorPage {
     GetPage(
         name: FactorRoutes.buyer,
         page: () => const BuyerPage(),
-        transition: Transition.noTransition)
+        transition: Transition.noTransition),
+    GetPage(
+        name: FactorRoutes.subscription,
+        page: () => const SubscriptionPage(),
+        transition: Transition.noTransition),
+    GetPage(
+        name: FactorRoutes.factorHeader,
+        page: () => const FactorHeaderPage(),
+        transition: Transition.noTransition),
   ];
 }

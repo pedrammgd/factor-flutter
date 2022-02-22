@@ -31,6 +31,15 @@ class MorePage extends GetView<MoreController> {
             icon: purchaseRecordsIcon,
           ),
           MoreItemWidget(
+            title: 'سربرگ فاکتور',
+            icon: settingIcon,
+            onTap: () {
+              Get.toNamed(
+                FactorRoutes.factorHeader,
+              );
+            },
+          ),
+          MoreItemWidget(
             title: 'مشتری ها',
             icon: cartIcon,
             onTap: () {
@@ -44,6 +53,15 @@ class MorePage extends GetView<MoreController> {
             color: Theme.of(context).colorScheme.secondary,
           ),
           Constants.smallVerticalSpacer,
+          MoreItemWidget(
+            title: 'اشتراک',
+            icon: messageIcon,
+            onTap: () {
+              return Get.toNamed(
+                FactorRoutes.subscription,
+              );
+            },
+          ),
           Obx(() {
             return MoreItemWidget(
               onTap: () {
@@ -57,17 +75,11 @@ class MorePage extends GetView<MoreController> {
             );
           }),
           const MoreItemWidget(
-            title: 'تنظیمات',
-            icon: settingIcon,
-          ),
-          const MoreItemWidget(
-            title: 'پیام ها',
-            icon: messageIcon,
-          ),
-          const MoreItemWidget(
             title: 'پشتیبانی',
             icon: supportIcon,
           ),
+          Constants.xxLargeVerticalSpacer,
+          Constants.xxLargeVerticalSpacer,
         ],
       ),
     );
