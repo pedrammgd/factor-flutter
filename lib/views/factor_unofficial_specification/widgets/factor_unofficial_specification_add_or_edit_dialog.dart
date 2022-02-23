@@ -1,43 +1,42 @@
+import 'package:factor_flutter_mobile/controllers/factor_unofficial_specification/factor_unofficial_specification_add_or_edit_controller.dart';
 import 'package:factor_flutter_mobile/core/constans/constans.dart';
 import 'package:factor_flutter_mobile/core/utils/factor_validation/form_feild_validation.dart';
 import 'package:factor_flutter_mobile/core/utils/formatter/thousend_formatter.dart';
+import 'package:factor_flutter_mobile/models/specification_cost_view_model/specification_cost_view_model.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/factor_border_button.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/factor_text_form_feild.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
-class FactorUnofficialSpecificationDialog extends StatelessWidget {
-  const FactorUnofficialSpecificationDialog({
-    this.title = 'عنوان',
-    this.topTextFormFieldLabel = 'تکست فیلد اول',
-    this.bottomTextFormFieldLabel = 'تکی فیلد دوم',
-    this.closeOnTap,
-    this.bottomTextEditingController,
-    this.topTextEditingController,
-    this.buttonOnTap,
-    required this.titleButton,
-    this.inputFormatters,
-    this.textInputType,
-    this.onFieldSubmitted,
-    this.keyForm,
-  });
-
-  final String title;
-  final GlobalKey<FormState>? keyForm;
+class FactorUnofficialSpecificationAddOrEditDialog
+    extends GetView<FactorUnofficialSpecificationAddOrEditController> {
+  final RxList<SpecificationCostViewModel> specificationCostList;
+  final SpecificationCostViewModel? specificationCostItem;
+  final String titleDialog;
   final String topTextFormFieldLabel;
   final String bottomTextFormFieldLabel;
-  final String titleButton;
-  final TextEditingController? bottomTextEditingController;
-  final TextEditingController? topTextEditingController;
-  final Function()? closeOnTap;
-  final Function()? buttonOnTap;
   final List<TextInputFormatter>? inputFormatters;
+
   final TextInputType? textInputType;
-  final Function(String)? onFieldSubmitted;
+  const FactorUnofficialSpecificationAddOrEditDialog({
+    this.inputFormatters,
+    this.textInputType,
+    this.topTextFormFieldLabel = 'عنوان هزینه',
+    this.bottomTextFormFieldLabel = 'قیمت',
+    required this.specificationCostList,
+    this.specificationCostItem,
+    required this.titleDialog,
+  });
 
   @override
   Widget build(BuildContext context) {
+    Get.lazyPut<FactorUnofficialSpecificationAddOrEditController>(
+        () => FactorUnofficialSpecificationAddOrEditController(
+              specificationCostList: specificationCostList,
+              item: specificationCostItem,
+            ));
+
     return AlertDialog(
       shape: RoundedRectangleBorder(
         side: const BorderSide(color: Colors.white70, width: 1),
@@ -46,7 +45,7 @@ class FactorUnofficialSpecificationDialog extends StatelessWidget {
       contentPadding: const EdgeInsets.only(top: 5, bottom: 20),
       content: SingleChildScrollView(
         child: Form(
-          key: keyForm,
+          key: controller.keyForm,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -57,7 +56,9 @@ class FactorUnofficialSpecificationDialog extends StatelessWidget {
                 ),
                 child: InkWell(
                   splashFactory: NoSplash.splashFactory,
-                  onTap: closeOnTap ?? () => Get.back(),
+                  onTap: () {
+                    Get.back();
+                  },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     mainAxisSize: MainAxisSize.max,
@@ -71,33 +72,35 @@ class FactorUnofficialSpecificationDialog extends StatelessWidget {
                 ),
               ),
               Text(
-                title,
+                controller.isEdit
+                    ? 'ویرایش $titleDialog'
+                    : 'افزودن $titleDialog',
                 style:
                     const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
               ),
               Constants.mediumVerticalSpacer,
               FactorTextFormField(
-                controller: topTextEditingController,
+                controller: controller.titleTextEditingController,
                 hasBorder: true,
                 inputFormatters: inputFormatters,
                 textInputType: textInputType,
-                textInputAction: TextInputAction.next,
                 labelText: topTextFormFieldLabel,
+                textInputAction: TextInputAction.next,
                 prefixIcon: const Icon(Icons.title),
                 validatorTextField: emptyValidator(topTextFormFieldLabel),
               ),
               Constants.smallVerticalSpacer,
               FactorTextFormField(
-                onFieldSubmitted: onFieldSubmitted,
-                controller: bottomTextEditingController,
+                onFieldSubmitted: (value) => controller.save(),
+                controller: controller.costPriceTextEditingController,
                 hasBorder: true,
-                labelText: bottomTextFormFieldLabel,
                 prefixIcon: const Icon(Icons.attach_money),
                 inputFormatters: [
                   FilteringTextInputFormatter.digitsOnly,
                   LengthLimitingTextInputFormatter(12),
                   ThousandsSeparatorInputFormatter(),
                 ],
+                labelText: bottomTextFormFieldLabel,
                 textInputType: TextInputType.phone,
                 textInputAction: TextInputAction.done,
                 suffixText: 'ریال',
@@ -110,8 +113,10 @@ class FactorUnofficialSpecificationDialog extends StatelessWidget {
                     height: 50,
                     width: double.infinity,
                     child: CustomBorderButton(
-                      onPressed: buttonOnTap,
-                      titleButton: titleButton,
+                      onPressed: () {
+                        controller.save();
+                      },
+                      titleButton: controller.isEdit ? 'ویرایش' : 'افزودن',
                     )),
               ),
             ],

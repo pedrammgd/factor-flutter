@@ -25,6 +25,9 @@ class FactorUnofficialSpecificationController extends GetxController {
     });
   }
 
+  RxList<SpecificationCostViewModel> emptyList =
+      <SpecificationCostViewModel>[].obs;
+
   RxList<SpecificationCostViewModel> excessCostList =
       <SpecificationCostViewModel>[].obs;
 
@@ -40,10 +43,10 @@ class FactorUnofficialSpecificationController extends GetxController {
   RxList<SpecificationCostViewModel> checkPayList =
       <SpecificationCostViewModel>[].obs;
 
-  TextEditingController excessCostTitleTextEditingController =
-      TextEditingController();
-  TextEditingController excessCostPriceTextEditingController =
-      TextEditingController();
+  // TextEditingController excessCostTitleTextEditingController =
+  //     TextEditingController();
+  // TextEditingController excessCostPriceTextEditingController =
+  //     TextEditingController();
 
   TextEditingController cartTitleTextEditingController =
       TextEditingController();
@@ -67,7 +70,8 @@ class FactorUnofficialSpecificationController extends GetxController {
 
   RxDouble offsetScroll = 0.0.obs;
   final ScrollController scrollController = ScrollController();
-  GlobalKey<FormState> formKey = GlobalKey<FormState>(debugLabel: '1');
+  GlobalKey<FormState> excessCostFormKey =
+      GlobalKey<FormState>(debugLabel: '1');
   GlobalKey<FormState> cartFormKey = GlobalKey<FormState>(debugLabel: '2');
   GlobalKey<FormState> cashFormKey = GlobalKey<FormState>(debugLabel: '3');
   GlobalKey<FormState> onlinePayFormKey = GlobalKey<FormState>(debugLabel: '4');
@@ -96,6 +100,68 @@ class FactorUnofficialSpecificationController extends GetxController {
     required this.discount,
     required this.totalWordPrice,
   });
+
+  RxDouble totalPriceAllItems() {
+    RxDouble _totalPrice = 0.0.obs;
+    _totalPrice.value = totalExcessCostPrice() -
+        totalCashPrice() -
+        totalCartPrice() -
+        totalOnlinePayPrice() -
+        totalCheckPayPrice();
+
+    return _totalPrice;
+  }
+
+  double totalExcessCostPrice() {
+    double _price = 0;
+    _price = totalPrice.value;
+    for (var element in excessCostList) {
+      _price += double.parse(element.price.replaceAll(RegExp(','), ''));
+    }
+    return _price;
+  }
+
+  double totalCashPrice() {
+    double _price = 0;
+    for (var element in cashList) {
+      _price += double.parse(element.price.replaceAll(RegExp(','), ''));
+    }
+    return _price;
+  }
+
+  double totalCartPrice() {
+    double _price = 0;
+    for (var element in cartList) {
+      _price += double.parse(element.price.replaceAll(RegExp(','), ''));
+    }
+    return _price;
+  }
+
+  double totalOnlinePayPrice() {
+    double _price = 0;
+    for (var element in onlinePayList) {
+      _price += double.parse(element.price.replaceAll(RegExp(','), ''));
+    }
+    return _price;
+  }
+
+  double totalCheckPayPrice() {
+    double _price = 0;
+    for (var element in checkPayList) {
+      _price += double.parse(element.price.replaceAll(RegExp(','), ''));
+    }
+    return _price;
+  }
+
+  void statusFunction() {
+    if (totalPriceAllItems().value < 0.0) {
+      statusBracketKeyText(1);
+    } else if (totalPriceAllItems().value == 0.0) {
+      statusBracketKeyText(3);
+    } else {
+      statusBracketKeyText(0);
+    }
+  }
 
   late SharedPreferences sharedPreferences;
 
@@ -148,21 +214,21 @@ class FactorUnofficialSpecificationController extends GetxController {
     titleTextEditingController.clear();
   }
 
-  void buttonExcessCostAdd() {
-    if (!formKey.currentState!.validate()) return;
-    totalPlusPriceSpecific(
-        excessCostPriceTextEditingController.text.replaceAll(RegExp(','), ''));
-
-    buttonOnTapItem(
-        listItem: excessCostList,
-        titleTextEditingController: excessCostTitleTextEditingController,
-        priceTextEditingController: excessCostPriceTextEditingController);
-  }
+  // void buttonExcessCostAdd() {
+  //   if (!formKey.currentState!.validate()) return;
+  //   totalPlusPriceSpecific(
+  //       excessCostPriceTextEditingController.text.replaceAll(RegExp(','), ''));
+  //
+  //   buttonOnTapItem(
+  //       listItem: excessCostList,
+  //       titleTextEditingController: excessCostTitleTextEditingController,
+  //       priceTextEditingController: excessCostPriceTextEditingController);
+  // }
 
   void buttonCashAdd() {
     if (!cashFormKey.currentState!.validate()) return;
-    totalMinesPriceSpecific(
-        cashPriceTextEditingController.text.replaceAll(RegExp(','), ''));
+    // totalMinesPriceSpecific(
+    //     cashPriceTextEditingController.text.replaceAll(RegExp(','), ''));
     buttonOnTapItem(
         listItem: cashList,
         titleTextEditingController: cashTitleTextEditingController,
@@ -171,8 +237,8 @@ class FactorUnofficialSpecificationController extends GetxController {
 
   void buttonCartAdd() {
     if (!cartFormKey.currentState!.validate()) return;
-    totalMinesPriceSpecific(
-        cartPriceTextEditingController.text.replaceAll(RegExp(','), ''));
+    // totalMinesPriceSpecific(
+    //     cartPriceTextEditingController.text.replaceAll(RegExp(','), ''));
     buttonOnTapItem(
         listItem: cartList,
         titleTextEditingController: cartTitleTextEditingController,
@@ -181,8 +247,8 @@ class FactorUnofficialSpecificationController extends GetxController {
 
   void buttonOnlinePayAdd() {
     if (!onlinePayFormKey.currentState!.validate()) return;
-    totalMinesPriceSpecific(
-        onlinePayPriceTextEditingController.text.replaceAll(RegExp(','), ''));
+    // totalMinesPriceSpecific(
+    //     onlinePayPriceTextEditingController.text.replaceAll(RegExp(','), ''));
     buttonOnTapItem(
         listItem: onlinePayList,
         titleTextEditingController: onlinePayTitleTextEditingController,
@@ -191,37 +257,38 @@ class FactorUnofficialSpecificationController extends GetxController {
 
   void buttonCheckPayAdd() {
     if (!checkPayFormKey.currentState!.validate()) return;
-    totalMinesPriceSpecific(
-        checkPayPriceTextEditingController.text.replaceAll(RegExp(','), ''));
+    // totalMinesPriceSpecific(
+    //     checkPayPriceTextEditingController.text.replaceAll(RegExp(','), ''));
     buttonOnTapItem(
         listItem: checkPayList,
         titleTextEditingController: checkPayTitleTextEditingController,
         priceTextEditingController: checkPayPriceTextEditingController);
   }
 
-  RxDouble totalPlusPriceSpecific(String price) {
-    totalPrice.value += double.parse(price);
-    if (totalPrice.value < 0) {
-      statusBracketKeyText(1);
-    } else if (totalPrice.value == 0) {
-      statusBracketKeyText(3);
-    } else {
-      statusBracketKeyText(0);
-    }
-    return totalPrice;
-  }
+  //
+  // RxDouble totalPlusPriceSpecific(String price) {
+  //   totalPrice.value += double.parse(price);
+  //   if (totalPrice.value < 0) {
+  //     statusBracketKeyText(1);
+  //   } else if (totalPrice.value == 0) {
+  //     statusBracketKeyText(3);
+  //   } else {
+  //     statusBracketKeyText(0);
+  //   }
+  //   return totalPrice;
+  // }
 
-  RxDouble totalMinesPriceSpecific(String price) {
-    totalPrice.value -= double.parse(price);
-    if (totalPrice.value < 0) {
-      statusBracketKeyText(1);
-    } else if (totalPrice.value == 0) {
-      statusBracketKeyText(3);
-    } else {
-      statusBracketKeyText(0);
-    }
-    return totalPrice;
-  }
+  // RxDouble totalMinesPriceSpecific(String price) {
+  //   totalPrice.value -= double.parse(price);
+  //   if (totalPrice.value < 0) {
+  //     statusBracketKeyText(1);
+  //   } else if (totalPrice.value == 0) {
+  //     statusBracketKeyText(3);
+  //   } else {
+  //     statusBracketKeyText(0);
+  //   }
+  //   return totalPrice;
+  // }
 
   @override
   void dispose() {

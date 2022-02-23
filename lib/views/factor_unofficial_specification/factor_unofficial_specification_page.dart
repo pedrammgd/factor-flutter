@@ -5,7 +5,7 @@ import 'package:factor_flutter_mobile/core/constans/constans.dart';
 import 'package:factor_flutter_mobile/core/router/factor_pages.dart';
 import 'package:factor_flutter_mobile/models/factor_unofficial_item_view_model/factor_unofficial_item_view_model.dart';
 import 'package:factor_flutter_mobile/views/buyer/buyer_page.dart';
-import 'package:factor_flutter_mobile/views/factor_unofficial_specification/widgets/factor_unofficial_specification_dialog.dart';
+import 'package:factor_flutter_mobile/views/factor_unofficial_specification/widgets/factor_unofficial_specification_add_or_edit_dialog.dart';
 import 'package:factor_flutter_mobile/views/factor_unofficial_specification/widgets/factor_unofficial_specification_select_item.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/bottom_sheet_total_price_widget.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/expandable/factor_expandable.dart';
@@ -16,7 +16,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 import 'package:persian_number_utility/src/extensions.dart';
 import 'package:printing/printing.dart';
@@ -64,15 +63,16 @@ class FactorUnofficialSpecificationPage
           child: Column(
             children: [
               _headerFactor(context),
+              Constants.largeVerticalSpacer,
               _ownerItem(),
               Constants.largeVerticalSpacer,
               _buyerItem(),
               Constants.largeVerticalSpacer,
-              _excessCostItem(),
-              _cashItem(),
-              _cartItem(),
-              _onlinePayItem(),
-              _checkPayItem(),
+              _excessCostListItem(),
+              _cashListItem(),
+              _cartListItem(),
+              _onlinePayListItem(),
+              _checkPayListItem(),
               Constants.largeVerticalSpacer,
             ],
           ),
@@ -84,10 +84,161 @@ class FactorUnofficialSpecificationPage
     });
   }
 
+  Widget _checkPayListItem() {
+    return FactorUnofficialSpecificationSelectItem(
+      icon: const Icon(Icons.book_outlined),
+      inputFormatters: [
+        FilteringTextInputFormatter.digitsOnly,
+        LengthLimitingTextInputFormatter(16),
+      ],
+      textInputType: TextInputType.phone,
+      topTextFormFieldLabel: 'شماره سریال',
+      bottomTextFormFieldLabel: 'مبلغ',
+      statusFunction: () => controller.statusFunction(),
+      title: 'پرداخت چکی ',
+      hasCustomBeforeTitle: true,
+      customBeforeTitle: 'شماره سریال',
+      bracesWord: 'چک و سفته ...',
+      itemList: controller.checkPayList,
+      onTap: () async {
+        final result =
+            await Get.dialog(FactorUnofficialSpecificationAddOrEditDialog(
+          inputFormatters: [
+            FilteringTextInputFormatter.digitsOnly,
+            LengthLimitingTextInputFormatter(16),
+          ],
+          textInputType: TextInputType.phone,
+          topTextFormFieldLabel: 'شماره سریال',
+          bottomTextFormFieldLabel: 'مبلغ',
+          titleDialog: 'پرداخت چکی',
+          specificationCostList: controller.checkPayList,
+          specificationCostItem: null,
+        ));
+        if (result == true) {
+          controller.statusFunction();
+        }
+      },
+    );
+  }
+
+  Widget _onlinePayListItem() {
+    return FactorUnofficialSpecificationSelectItem(
+      icon: const Icon(Icons.book_online_outlined),
+      inputFormatters: [
+        FilteringTextInputFormatter.digitsOnly,
+        LengthLimitingTextInputFormatter(10),
+      ],
+      textInputType: TextInputType.phone,
+      topTextFormFieldLabel: 'شماره پیگیری',
+      statusFunction: () => controller.statusFunction(),
+      title: 'پرداخت آنلاین ',
+      bracesWord: 'اینترنتی و ...',
+      hasCustomBeforeTitle: true,
+      itemList: controller.onlinePayList,
+      onTap: () async {
+        final result =
+            await Get.dialog(FactorUnofficialSpecificationAddOrEditDialog(
+          inputFormatters: [
+            FilteringTextInputFormatter.digitsOnly,
+            LengthLimitingTextInputFormatter(10),
+          ],
+          textInputType: TextInputType.phone,
+          topTextFormFieldLabel: 'شماره پیگیری',
+          titleDialog: 'پرداخت آنلاین',
+          specificationCostList: controller.onlinePayList,
+          specificationCostItem: null,
+        ));
+        if (result == true) {
+          controller.statusFunction();
+        }
+      },
+    );
+  }
+
+  Widget _cartListItem() {
+    return FactorUnofficialSpecificationSelectItem(
+      icon: const Icon(Icons.credit_card),
+      inputFormatters: [
+        FilteringTextInputFormatter.digitsOnly,
+        LengthLimitingTextInputFormatter(16),
+      ],
+      textInputType: TextInputType.phone,
+      topTextFormFieldLabel: 'شماره پیگیری',
+      statusFunction: () => controller.statusFunction(),
+      title: 'پرداخت کارتی ',
+      hasCustomBeforeTitle: true,
+      bracesWord: 'کارت بانکی و پوز و...',
+      itemList: controller.cartList,
+      onTap: () async {
+        final result =
+            await Get.dialog(FactorUnofficialSpecificationAddOrEditDialog(
+          inputFormatters: [
+            FilteringTextInputFormatter.digitsOnly,
+            LengthLimitingTextInputFormatter(16),
+          ],
+          textInputType: TextInputType.phone,
+          topTextFormFieldLabel: 'شماره پیگیری',
+          titleDialog: 'پرداخت کارتی',
+          specificationCostList: controller.cartList,
+          specificationCostItem: null,
+        ));
+
+        if (result == true) {
+          controller.statusFunction();
+        }
+      },
+    );
+  }
+
+  Widget _cashListItem() {
+    return FactorUnofficialSpecificationSelectItem(
+      icon: const Icon(Icons.monetization_on_outlined),
+      statusFunction: () => controller.statusFunction(),
+      title: 'پرداخت نقدی ',
+      bracesWord: 'پول نقد و ...',
+      itemList: controller.cashList,
+      onTap: () async {
+        final result =
+            await Get.dialog(FactorUnofficialSpecificationAddOrEditDialog(
+          titleDialog: 'پرداخت نقدی',
+          specificationCostList: controller.cashList,
+          specificationCostItem: null,
+        ));
+
+        if (result == true) {
+          controller.statusFunction();
+        }
+      },
+    );
+  }
+
+  Widget _excessCostListItem() {
+    return FactorUnofficialSpecificationSelectItem(
+      icon: const Icon(Icons.bike_scooter),
+      statusFunction: () => controller.statusFunction(),
+      title: 'هزینه مازاد ',
+      bracesWord: 'هزینه ارسال و ...',
+      itemList: controller.excessCostList,
+      onTap: () async {
+        print(
+            'controller.totalPriceAllItems1()${controller.totalPriceAllItems()}');
+        final result =
+            await Get.dialog(FactorUnofficialSpecificationAddOrEditDialog(
+          titleDialog: 'هزینه مازاد',
+          specificationCostList: controller.excessCostList,
+          specificationCostItem: null,
+        ));
+        if (result == true) {
+          controller.statusFunction();
+        }
+      },
+    );
+  }
+
   Widget _buyerItem() {
     return FactorUnofficialSpecificationSelectItem(
-        totalPrice: controller.totalPrice,
-        statusBracketKeyText: controller.statusBracketKeyText,
+        itemList: controller.emptyList,
+        statusFunction: () {},
         title: 'طرف حساب ',
         bracesWord: 'مشتری',
         isSelectedName: controller.isSelectedBuyerName.value,
@@ -109,8 +260,8 @@ class FactorUnofficialSpecificationPage
 
   Widget _ownerItem() {
     return FactorUnofficialSpecificationSelectItem(
-      totalPrice: controller.totalPrice,
-      statusBracketKeyText: controller.statusBracketKeyText,
+      itemList: controller.emptyList,
+      statusFunction: () {},
       isSelectedName: controller.isMyProfileItemNull.value,
       selectedText: controller.myProfileItem.value !=
               null?.personBasicInformationViewModel.isHaghighi
@@ -134,259 +285,6 @@ class FactorUnofficialSpecificationPage
     );
   }
 
-  Widget _checkPayItem() {
-    return FactorUnofficialSpecificationSelectItem(
-        totalPrice: controller.totalPrice,
-        statusBracketKeyText: controller.statusBracketKeyText,
-        keyForm: controller.checkPayFormKey,
-        inputFormatters: [
-          FilteringTextInputFormatter.digitsOnly,
-          LengthLimitingTextInputFormatter(16),
-        ],
-        textInputType: TextInputType.phone,
-        topTextFormFieldLabel: 'شماره سریال',
-        bottomTextFormFieldLabel: 'مبلغ',
-        titleEdit: 'ویرایش پرداخت چکی',
-        topTextEditingController: controller.checkPayTitleTextEditingController,
-        bottomTextEditingController:
-            controller.checkPayPriceTextEditingController,
-        itemList: controller.checkPayList(),
-        hasBottomItem: true,
-        textAddColor: Colors.deepOrangeAccent,
-        icon: const Icon(
-          Icons.price_change_outlined,
-          color: Colors.deepOrangeAccent,
-        ),
-        title: 'پرداخت چکی ',
-        hasCustomBeforeTitle: true,
-        customBeforeTitle: 'شماره سریال',
-        bracesWord: 'چک و سفته ...',
-        onTap: () {
-          controller.checkPayPriceTextEditingController.clear();
-          controller.checkPayTitleTextEditingController.clear();
-          Get.dialog(
-            FactorUnofficialSpecificationDialog(
-                keyForm: controller.checkPayFormKey,
-                inputFormatters: [
-                  FilteringTextInputFormatter.digitsOnly,
-                  LengthLimitingTextInputFormatter(16),
-                ],
-                textInputType: TextInputType.phone,
-                topTextFormFieldLabel: 'شماره سریال',
-                bottomTextFormFieldLabel: 'مبلغ',
-                titleButton: 'افزودن',
-                title: 'افزودن پرداخت چکی',
-                topTextEditingController:
-                    controller.checkPayTitleTextEditingController,
-                bottomTextEditingController:
-                    controller.checkPayPriceTextEditingController,
-                onFieldSubmitted: (val) => controller.buttonCheckPayAdd(),
-                buttonOnTap: controller.buttonCheckPayAdd),
-          );
-        });
-  }
-
-  Widget _onlinePayItem() {
-    return FactorUnofficialSpecificationSelectItem(
-        totalPrice: controller.totalPrice,
-        statusBracketKeyText: controller.statusBracketKeyText,
-        keyForm: controller.onlinePayFormKey,
-        inputFormatters: [
-          FilteringTextInputFormatter.digitsOnly,
-          LengthLimitingTextInputFormatter(10),
-        ],
-        textInputType: TextInputType.phone,
-        topTextFormFieldLabel: 'شماره پیگیری',
-        bottomTextFormFieldLabel: 'قیمت',
-        title: ' پرداخت آنلاین ',
-        topTextEditingController:
-            controller.onlinePayTitleTextEditingController,
-        bottomTextEditingController:
-            controller.onlinePayPriceTextEditingController,
-        itemList: controller.onlinePayList(),
-        hasBottomItem: true,
-        hasCustomBeforeTitle: true,
-        customBeforeTitle: 'شماره پیگیری',
-        textAddColor: Colors.blueAccent,
-        icon: const Icon(
-          Icons.price_change_outlined,
-          color: Colors.blueAccent,
-        ),
-        titleEdit: 'ویرایش پرداخت آنلاین',
-        bracesWord: 'اینترنتی و ...',
-        onTap: () async {
-          controller.onlinePayPriceTextEditingController.clear();
-          controller.onlinePayTitleTextEditingController.clear();
-          Get.dialog(
-            FactorUnofficialSpecificationDialog(
-              keyForm: controller.onlinePayFormKey,
-              inputFormatters: [
-                FilteringTextInputFormatter.digitsOnly,
-                LengthLimitingTextInputFormatter(10),
-              ],
-              textInputType: TextInputType.phone,
-              topTextFormFieldLabel: 'شماره پیگیری',
-              bottomTextFormFieldLabel: 'قیمت',
-              titleButton: 'افزودن',
-              title: 'افزودن پرداخت آنلاین',
-              topTextEditingController:
-                  controller.onlinePayTitleTextEditingController,
-              bottomTextEditingController:
-                  controller.onlinePayPriceTextEditingController,
-              onFieldSubmitted: (val) => controller.buttonOnlinePayAdd(),
-              buttonOnTap: controller.buttonOnlinePayAdd,
-            ),
-          );
-        });
-  }
-
-  Widget _cashItem() {
-    return FactorUnofficialSpecificationSelectItem(
-        totalPrice: controller.totalPrice,
-        statusBracketKeyText: controller.statusBracketKeyText,
-        keyForm: controller.cashFormKey,
-        inputFormatters: [
-          LengthLimitingTextInputFormatter(15),
-        ],
-        topTextFormFieldLabel: 'عنوان هزینه',
-        bottomTextFormFieldLabel: 'قیمت',
-        titleEdit: 'ویرایش پول نقد',
-        topTextEditingController: controller.cashTitleTextEditingController,
-        bottomTextEditingController: controller.cashPriceTextEditingController,
-        itemList: controller.cashList(),
-        hasBottomItem: true,
-        textAddColor: Colors.green,
-        icon: const Icon(
-          Icons.price_change_outlined,
-          color: Colors.green,
-        ),
-        title: 'پرداخت نقدی ',
-        bracesWord: 'پول نقد و ...',
-        onTap: () {
-          controller.cashPriceTextEditingController.clear();
-          controller.cashTitleTextEditingController.clear();
-          Get.dialog(
-            FactorUnofficialSpecificationDialog(
-              keyForm: controller.cashFormKey,
-              inputFormatters: [
-                LengthLimitingTextInputFormatter(15),
-              ],
-              topTextFormFieldLabel: 'عنوان هزینه',
-              bottomTextFormFieldLabel: 'قیمت',
-              title: 'افزودن پول نقد',
-              titleButton: 'افزودن',
-              topTextEditingController:
-                  controller.cashTitleTextEditingController,
-              bottomTextEditingController:
-                  controller.cashPriceTextEditingController,
-              onFieldSubmitted: (val) => controller.buttonCashAdd(),
-              buttonOnTap: controller.buttonCashAdd,
-            ),
-          );
-        });
-  }
-
-  Widget _cartItem() {
-    return FactorUnofficialSpecificationSelectItem(
-        totalPrice: controller.totalPrice,
-        statusBracketKeyText: controller.statusBracketKeyText,
-        keyForm: controller.cartFormKey,
-        inputFormatters: [
-          FilteringTextInputFormatter.digitsOnly,
-          LengthLimitingTextInputFormatter(10),
-        ],
-        textInputType: TextInputType.phone,
-        topTextFormFieldLabel: 'شماره پیگیری',
-        bottomTextFormFieldLabel: 'قیمت',
-        titleEdit: 'ویرایش پرداخت کارتی',
-        topTextEditingController: controller.cartTitleTextEditingController,
-        bottomTextEditingController: controller.cartPriceTextEditingController,
-        itemList: controller.cartList(),
-        hasBottomItem: true,
-        hasCustomBeforeTitle: true,
-        customBeforeTitle: 'شماره پیگیری',
-        textAddColor: Colors.brown,
-        icon: const Icon(
-          Icons.price_change_outlined,
-          color: Colors.brown,
-        ),
-        title: 'پرداخت کارتی ',
-        bracesWord: 'کارت بانکی و پوز و...',
-        onTap: () {
-          controller.cartPriceTextEditingController.clear();
-          controller.cartTitleTextEditingController.clear();
-          Get.dialog(
-            FactorUnofficialSpecificationDialog(
-              keyForm: controller.cartFormKey,
-              inputFormatters: [
-                FilteringTextInputFormatter.digitsOnly,
-                LengthLimitingTextInputFormatter(10),
-              ],
-              textInputType: TextInputType.phone,
-              topTextFormFieldLabel: 'شماره پیگیری',
-              bottomTextFormFieldLabel: 'قیمت',
-              title: 'افزودن پرداخت کارتی',
-              titleButton: 'افزودن',
-              topTextEditingController:
-                  controller.cartTitleTextEditingController,
-              bottomTextEditingController:
-                  controller.cartPriceTextEditingController,
-              onFieldSubmitted: (val) => controller.buttonCartAdd(),
-              buttonOnTap: controller.buttonCartAdd,
-            ),
-          );
-        });
-  }
-
-  Widget _excessCostItem() {
-    return FactorUnofficialSpecificationSelectItem(
-      totalPrice: controller.totalPrice,
-      statusBracketKeyText: controller.statusBracketKeyText,
-      keyForm: controller.formKey,
-      inputFormatters: [
-        LengthLimitingTextInputFormatter(15),
-      ],
-      topTextFormFieldLabel: 'عنوان هزینه',
-      bottomTextFormFieldLabel: 'قیمت',
-      titleEdit: 'ویرایش هزینه مازاد',
-      topTextEditingController: controller.excessCostTitleTextEditingController,
-      bottomTextEditingController:
-          controller.excessCostPriceTextEditingController,
-      itemList: controller.excessCostList(),
-      textAddColor: Colors.purpleAccent,
-      icon: const Icon(
-        Icons.price_change_outlined,
-        color: Colors.purpleAccent,
-      ),
-      title: 'هزینه مازاد ',
-      bracesWord: 'هزینه ارسال و ...',
-      onTap: () {
-        controller.excessCostPriceTextEditingController.clear();
-        controller.excessCostTitleTextEditingController.clear();
-        Get.dialog(
-          FactorUnofficialSpecificationDialog(
-            keyForm: controller.formKey,
-            inputFormatters: [
-              LengthLimitingTextInputFormatter(15),
-            ],
-            titleButton: 'افزودن',
-            topTextFormFieldLabel: 'عنوان هزینه',
-            bottomTextFormFieldLabel: 'قیمت',
-            title: 'افزودن هزینه مازاد',
-            topTextEditingController:
-                controller.excessCostTitleTextEditingController,
-            bottomTextEditingController:
-                controller.excessCostPriceTextEditingController,
-            onFieldSubmitted: (val) => controller.buttonExcessCostAdd(),
-            buttonOnTap: controller.buttonExcessCostAdd,
-
-            // controller.buttonExcessCostAdd,
-          ),
-        );
-      },
-    );
-  }
-
   Widget _bottomNavigationBar() {
     return Obx(() {
       return AnimatedContainer(
@@ -404,11 +302,17 @@ class FactorUnofficialSpecificationPage
                 statusBracketKeyText: controller.statusBracketKeyText(),
                 taxation: controller.taxation,
                 discount: controller.discount,
-                totalPrice: controller.totalPrice.value
+                totalPrice: controller
+                        .totalPriceAllItems()
                         .toStringAsFixed(2)
                         .seRagham()
                         .replaceAll(RegExp('-'), '') +
                     ' ریال',
+                // totalPrice: controller.totalPrice.value
+                //         .toStringAsFixed(2)
+                //         .seRagham()
+                //         .replaceAll(RegExp('-'), '') +
+                //     ' ریال',
                 totalWordPrice: controller.totalWordPrice,
                 onTap: () {
                   controller.isExpandedBottomSheet.value =
