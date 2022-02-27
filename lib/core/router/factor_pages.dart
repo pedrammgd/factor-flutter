@@ -38,7 +38,7 @@ class FactorPage {
         transition: Transition.noTransition),
     GetPage(
         name: FactorRoutes.factorUnofficialSpecification,
-        page: () => const FactorUnofficialSpecificationPage(),
+        page: () => FactorUnofficialSpecificationPage(),
         transition: Transition.noTransition),
     GetPage(
         name: FactorRoutes.myProfile,

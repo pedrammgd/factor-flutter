@@ -44,7 +44,8 @@ dependencies:
   firebase_messaging: ^11.2.5
   flutter_local_notifications: ^9.1.5
   signature: ^5.0.0
-  syncfusion_flutter_pdf: ^19.4.48-beta
+#  syncfusion_flutter_pdf: ^19.4.48-beta
+  pdf: ^3.7.1
   syncfusion_flutter_pdfviewer: ^19.4.48-beta
   printing: ^5.7.2
   file_saver: ^0.0.10

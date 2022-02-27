@@ -17,9 +17,9 @@ class AddOrEditFactorUnofficialController extends GetxController {
       TextEditingController();
 
   final TextEditingController productDiscountController =
-      TextEditingController(text: '0');
+      TextEditingController(text: '0.0');
   final TextEditingController productTaxationController =
-      TextEditingController(text: '0');
+      TextEditingController(text: '0.0');
 
   // GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
@@ -48,14 +48,34 @@ class AddOrEditFactorUnofficialController extends GetxController {
 
   FactorUnofficialItemViewModel get factorUnofficialItemDto {
     return FactorUnofficialItemViewModel(
-      id: uuid.v4(),
-      productDescription: productDescriptionController.text,
-      productCount: int.tryParse(productCountController.text) ?? 1,
-      productUnitPrice:
-          productUnitPriceController.text.replaceAll(RegExp(','), ''),
-      productDiscount: double.tryParse(productDiscountController.text) ?? 0,
-      productTaxation: double.tryParse(productTaxationController.text) ?? 0,
-    );
+        id: uuid.v4(),
+        productDescription: productDescriptionController.text,
+        productCount: int.tryParse(productCountController.text) ?? 1,
+        productUnitPrice:
+            productUnitPriceController.text.replaceAll(RegExp(','), ''),
+        productDiscount: double.tryParse(productDiscountController.text) ?? 0,
+        productTaxation: double.tryParse(productTaxationController.text) ?? 0,
+        totalPriceItem: totalPriceItem());
+  }
+
+  double totalPriceItem() {
+    double _totalPrice = 0;
+    String unit =
+        productUnitPriceController.value.text.replaceAll(RegExp(','), '');
+
+    _totalPrice += int.parse(unit) * double.parse(productCountController.text) +
+        ((double.parse(productCountController.text) *
+                double.parse(productUnitPriceController.text
+                    .replaceAll(RegExp(','), '')) *
+                double.parse(productTaxationController.text)) /
+            100) -
+        ((double.parse(productCountController.text) *
+                double.parse(productUnitPriceController.text
+                    .replaceAll(RegExp(','), '')) *
+                double.parse(productDiscountController.text)) /
+            100);
+
+    return _totalPrice;
   }
 
   void save() {
@@ -94,7 +114,9 @@ class AddOrEditFactorUnofficialController extends GetxController {
 
     if (isEdit) {
       editUnOfficialItem();
+      // print(totalPriceItem());
     } else {
+      print(factorUnofficialItemDto.totalPriceItem);
       addUnOfficialItem();
     }
   }
@@ -138,6 +160,7 @@ class AddOrEditFactorUnofficialController extends GetxController {
           productUnitPriceController.text.replaceAll(RegExp(','), ''),
       productDiscount: double.tryParse(productDiscountController.text) ?? 0,
       productTaxation: double.tryParse(productTaxationController.text) ?? 0,
+      totalPriceItem: totalPriceItem(),
     );
     // saveFactorData();
 

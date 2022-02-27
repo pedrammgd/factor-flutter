@@ -134,7 +134,7 @@ class FactorUnofficialController extends GetxController {
     if (factorUnofficialItemList.isEmpty) return;
 
     Get.toNamed(FactorRoutes.factorUnofficialSpecification,
-        arguments: const FactorUnofficialSpecificationPage().arguments(
+        arguments: FactorUnofficialSpecificationPage().arguments(
             factorUnofficialItemList: factorUnofficialItemList,
             totalPrice: totalPrice(),
             totalWordPrice: '${totalPrice().value}'.toWord(),

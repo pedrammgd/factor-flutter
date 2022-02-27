@@ -5,6 +5,7 @@ import 'package:factor_flutter_mobile/core/constans/constans.dart';
 import 'package:factor_flutter_mobile/core/router/factor_pages.dart';
 import 'package:factor_flutter_mobile/models/factor_unofficial_item_view_model/factor_unofficial_item_view_model.dart';
 import 'package:factor_flutter_mobile/views/buyer/buyer_page.dart';
+import 'package:factor_flutter_mobile/views/factor_unofficial_specification/widgets/custom_pdf_widget.dart';
 import 'package:factor_flutter_mobile/views/factor_unofficial_specification/widgets/factor_unofficial_specification_add_or_edit_dialog.dart';
 import 'package:factor_flutter_mobile/views/factor_unofficial_specification/widgets/factor_unofficial_specification_select_item.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/bottom_sheet_total_price_widget.dart';
@@ -16,14 +17,15 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:pdf/pdf.dart';
+import 'package:pdf/widgets.dart' as pw;
 import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 import 'package:persian_number_utility/src/extensions.dart';
 import 'package:printing/printing.dart';
-import 'package:syncfusion_flutter_pdf/pdf.dart';
 
 class FactorUnofficialSpecificationPage
     extends GetView<FactorUnofficialSpecificationController> {
-  const FactorUnofficialSpecificationPage({Key? key}) : super(key: key);
+  FactorUnofficialSpecificationPage({Key? key}) : super(key: key);
 
   void initArguments() {
     if (Get.arguments == null) return;
@@ -40,6 +42,8 @@ class FactorUnofficialSpecificationPage
         discount: discount,
         taxation: taxation));
   }
+
+  Future<void> computeFuture = Future.value();
 
   @override
   Widget build(BuildContext context) {
@@ -263,14 +267,15 @@ class FactorUnofficialSpecificationPage
       itemList: controller.emptyList,
       statusFunction: () {},
       isSelectedName: controller.isMyProfileItemNull.value,
-      selectedText: controller.myProfileItem.value !=
-              null?.personBasicInformationViewModel.isHaghighi
-          ? controller.myProfileItem.value?.personBasicInformationViewModel
-                  .fullName ??
-              ''
-          : controller.myProfileItem.value?.personBasicInformationViewModel
-                  .companyName ??
-              '',
+      selectedText: ownerTitleName(),
+      // controller.myProfileItem.value !=
+      //         null?.personBasicInformationViewModel.isHaghighi
+      //     ? controller.myProfileItem.value?.personBasicInformationViewModel
+      //             .fullName ??
+      //         ''
+      //     : controller.myProfileItem.value?.personBasicInformationViewModel
+      //             .companyName ??
+      //         '',
       title: 'صاحب حساب ',
       bracesWord: 'فروشنده',
       onTap: () async {
@@ -285,6 +290,21 @@ class FactorUnofficialSpecificationPage
     );
   }
 
+  String ownerTitleName() {
+    if (controller.myProfileItem.value != null) {
+      if (controller
+          .myProfileItem.value!.personBasicInformationViewModel.isHaghighi) {
+        return controller
+            .myProfileItem.value!.personBasicInformationViewModel.fullName!;
+      } else {
+        return controller
+            .myProfileItem.value!.personBasicInformationViewModel.companyName!;
+      }
+    } else {
+      return 'صاحب حساب';
+    }
+  }
+
   Widget _bottomNavigationBar() {
     return Obx(() {
       return AnimatedContainer(
@@ -293,11 +313,22 @@ class FactorUnofficialSpecificationPage
         child: Wrap(
           children: [
             InkWell(
-              child: BottomSheetTotalPriceWidget(
-                bottomButtonOnTap: () async {
-                  final pdfView = await _createPdf();
+              child:
+                  // FutureBuilder(
+                  //   future: controller.computeFuture,
+                  //   builder: (context, snapShot) =>
 
-                  Get.to(ShowPdfView(pdfView: pdfView));
+                  BottomSheetTotalPriceWidget(
+                bottomButtonOnTap: () async {
+                  computeFuture = _createPdf().then((value) {
+                    Get.back();
+                    Get.to(ShowPdfView(pdfView: value));
+                  });
+                  // final pdfView = await _createPdf();
+                  //
+                  //
+                  // Get.to(ShowPdfView(pdfView: pdfView));
+                  // controller.isLoadingCreatePdf(false);
                 },
                 statusBracketKeyText: controller.statusBracketKeyText(),
                 taxation: controller.taxation,
@@ -319,6 +350,7 @@ class FactorUnofficialSpecificationPage
                       !controller.isExpandedBottomSheet.value;
                 },
               ),
+              // ),
             ),
           ],
         ),
@@ -327,17 +359,59 @@ class FactorUnofficialSpecificationPage
   }
 
   Future<Uint8List> _createPdf() async {
-    PdfDocument pdfDocument = PdfDocument();
-    final page = pdfDocument.pages.add();
-    page.graphics.drawString(
-        'pedrammojarad', PdfStandardFont(PdfFontFamily.courier, 30));
+    controller.isLoadingCreatePdf(true);
+    final font = await rootBundle
+        .load("assets/fonts/iran_sans/IRANSansMobile_Medium.ttf");
+    final ttf = pw.Font.ttf(font);
 
-    final List<int> pdfBytes = pdfDocument.save();
-    pdfDocument.dispose();
+    final pdf = pw.Document();
 
-    final Uint8List pdfView = Uint8List.fromList(pdfBytes);
-    _pathFile(pdfView);
-    return pdfView;
+    pdf.addPage(pw.MultiPage(
+        theme: pw.ThemeData.withFont(
+          base: ttf,
+        ),
+        pageFormat: PdfPageFormat.a4,
+        build: (pw.Context context) {
+          return [
+            CustomPdfWidget().pdfWidget(
+              totalPrice: controller.totalPriceAllItems().value,
+              totalDiscount: controller.discount,
+              totalTaxation: controller.taxation,
+              myProfileItem: controller.myProfileItem,
+              factorHeaderViewModel: controller.factorHeaderViewModel,
+              factorUnofficialItemList: controller.factorUnofficialItemList,
+              buyerItem: controller.buyerItem,
+              statusFactor: controller.statusBracketKeyText.value,
+            )
+          ]; // Center
+        }));
+
+    // final Future<Uint8List> pdfBytes = pdf.save();
+
+    // pdfBytes.then((value) => _pathFile(value));
+
+    Get.dialog(
+      WillPopScope(
+        onWillPop: () async => false,
+        child: AlertDialog(
+            shape: RoundedRectangleBorder(
+              side: const BorderSide(color: Colors.white70, width: 1),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            content: Column(mainAxisSize: MainAxisSize.min, children: [
+              const Text('در حال آماده سازی پی دی اف '),
+              Constants.largeVerticalSpacer,
+              const LinearProgressIndicator(color: Colors.black),
+            ])),
+      ),
+      barrierDismissible: false,
+    );
+
+    return await compute(pdfSaveBytesIsolate, pdf);
+  }
+
+  static Future<Uint8List> pdfSaveBytesIsolate(pw.Document pdf) {
+    return pdf.save();
   }
 
   Future<void> _pathFile(Uint8List pdfView) async {

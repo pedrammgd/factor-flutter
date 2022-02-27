@@ -16,6 +16,7 @@ class FactorUnofficialSpecificationController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+
     initSharedPreferences();
     scrollController.addListener(() {
       offsetScroll.value = scrollController.offset;
@@ -23,6 +24,7 @@ class FactorUnofficialSpecificationController extends GetxController {
         isExpandedBottomSheet(false);
       }
     });
+    statusFunction();
   }
 
   RxList<SpecificationCostViewModel> emptyList =
@@ -80,6 +82,7 @@ class FactorUnofficialSpecificationController extends GetxController {
   final RxList<FactorUnofficialItemViewModel> factorUnofficialItemList;
   RxBool isExpandedBottomSheet = false.obs;
   RxInt statusBracketKeyText = 0.obs;
+  RxBool isLoadingCreatePdf = false.obs;
 
   RxDouble totalPrice;
   final String taxation;

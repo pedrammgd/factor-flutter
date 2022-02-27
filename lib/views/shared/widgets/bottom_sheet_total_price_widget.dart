@@ -92,6 +92,9 @@ class BottomSheetTotalPriceWidget extends StatelessWidget {
   }
 
   String _statusBracket() {
+    if (statusBracketKeyText == 100) {
+      return '';
+    }
     if (statusBracketKeyText == 0) {
       return '(تسویه نشده)';
     } else if (statusBracketKeyText == 1) {

@@ -47,6 +47,7 @@ class FactorUnofficialPage extends GetView<FactorUnofficialController> {
         children: [
           InkWell(
             child: BottomSheetTotalPriceWidget(
+              statusBracketKeyText: 100,
               bottomButtonOnTap: controller.bottomSheetButtonOnTap,
               taxation: validTaxation(),
               discount: validDiscount(),

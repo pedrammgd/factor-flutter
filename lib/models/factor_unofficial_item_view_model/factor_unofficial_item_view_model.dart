@@ -5,6 +5,7 @@ class FactorUnofficialItemViewModel {
       required this.productCount,
       required this.productUnitPrice,
       required this.productDiscount,
+      required this.totalPriceItem,
       required this.productTaxation});
 
   final String id;
@@ -13,6 +14,7 @@ class FactorUnofficialItemViewModel {
   final String productUnitPrice;
   final double productDiscount;
   final double productTaxation;
+  final double totalPriceItem;
 
   factory FactorUnofficialItemViewModel.fromJson(Map<String, dynamic> json) =>
       FactorUnofficialItemViewModel(
@@ -22,6 +24,7 @@ class FactorUnofficialItemViewModel {
         productUnitPrice: json['productUnitPrice'],
         productDiscount: json['productDiscount'],
         productTaxation: json['productTaxation'],
+        totalPriceItem: json['totalPriceItem'],
       );
 
   Map<String, dynamic> toJson() => {
@@ -31,5 +34,6 @@ class FactorUnofficialItemViewModel {
         'productUnitPrice': productUnitPrice,
         'productDiscount': productDiscount,
         'productTaxation': productTaxation,
+        'totalPriceItem': totalPriceItem,
       };
 }
