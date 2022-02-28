@@ -40,7 +40,7 @@ class BottomSheetTotalPriceWidget extends StatelessWidget {
             //   keyText: 'قیمت :',
             // ),
             KeyValueTextWidget(
-              keyTextSize: 18,
+              keyTextSize: 16,
               valueTextSize: 18,
               valueText: totalPrice,
               bracketKeyText: _statusBracket(),

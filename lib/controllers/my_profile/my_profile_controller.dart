@@ -54,8 +54,6 @@ class MyProfileController extends GetxController {
       TextEditingController();
   TextEditingController nationalCodeCompanyTextEditingController =
       TextEditingController();
-  TextEditingController registrationIDTextEditingController =
-      TextEditingController();
 
   MyProfileViewModel get _haghighiDto {
     return MyProfileViewModel(
@@ -89,24 +87,22 @@ class MyProfileController extends GetxController {
   MyProfileViewModel get _hoghoghiDto {
     return MyProfileViewModel(
       personBasicInformationViewModel: PersonBasicInformationViewModel(
-          isHaghighi: isHaghighi.value,
-          addressHoghoghi: addressTextHoghohgiEditingController.text.isEmpty
-              ? ''
-              : addressTextHoghohgiEditingController.text,
-          mobileNumberHoghoghi: mobileTextHoghoghiEditingController.text.isEmpty
-              ? ''
-              : mobileTextHoghoghiEditingController.text,
-          id: uuid.v4(),
-          companyName: companyNameTextEditingController.text.isEmpty
-              ? ''
-              : companyNameTextEditingController.text,
-          nationalCodeCompany:
-              nationalCodeCompanyTextEditingController.text.isEmpty
-                  ? ''
-                  : nationalCodeCompanyTextEditingController.text,
-          registrationID: registrationIDTextEditingController.text.isEmpty
-              ? ''
-              : registrationIDTextEditingController.text),
+        isHaghighi: isHaghighi.value,
+        addressHoghoghi: addressTextHoghohgiEditingController.text.isEmpty
+            ? ''
+            : addressTextHoghohgiEditingController.text,
+        mobileNumberHoghoghi: mobileTextHoghoghiEditingController.text.isEmpty
+            ? ''
+            : mobileTextHoghoghiEditingController.text,
+        id: uuid.v4(),
+        companyName: companyNameTextEditingController.text.isEmpty
+            ? ''
+            : companyNameTextEditingController.text,
+        nationalCodeCompany:
+            nationalCodeCompanyTextEditingController.text.isEmpty
+                ? ''
+                : nationalCodeCompanyTextEditingController.text,
+      ),
       logoUint8ListHoghoghi: uint8ListLogoHoghoghiImage.value == null
           ? ''
           : base64Encode(uint8ListLogoHoghoghiImage.value!),
@@ -178,9 +174,6 @@ class MyProfileController extends GetxController {
             .value!.personBasicInformationViewModel.nationalCodeCompany ??
         '';
 
-    registrationIDTextEditingController.text = haghighiViewModel
-            .value!.personBasicInformationViewModel.registrationID ??
-        '';
     addressTextHoghohgiEditingController.text = haghighiViewModel
             .value!.personBasicInformationViewModel.addressHoghoghi ??
         '';

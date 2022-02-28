@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 
+
 class FactorUnofficialPage extends GetView<FactorUnofficialController> {
   @override
   Widget build(BuildContext context) {
@@ -42,7 +43,6 @@ class FactorUnofficialPage extends GetView<FactorUnofficialController> {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 500),
       height: heightBottomSheet(),
-      // height: controller.factorUnofficialItemList.isEmpty ? 0 : 245,
       child: Wrap(
         children: [
           InkWell(
@@ -134,31 +134,19 @@ class FactorUnofficialPage extends GetView<FactorUnofficialController> {
   }
 
   String validTaxation() {
-    if (controller.taxation() > 999999999999) {
-      return 'مالیات نامعتبر';
-    } else {
-      return controller.taxation().toStringAsFixed(2).seRagham() + ' ریال';
-    }
+    return controller.taxation().toStringAsFixed(2).seRagham() + ' ریال';
   }
 
   String validDiscount() {
-    if (controller.discount() > 999999999999) {
-      return 'تخفیف نامعتبر';
-    } else {
-      return controller.discount().toStringAsFixed(2).seRagham() + ' ریال';
-    }
+    return controller.discount().toStringAsFixed(2).seRagham() + ' ریال';
   }
 
   String validTotalPrice() {
-    if (controller.totalPrice() > 999999999999) {
-      return 'قیمت کل نامعتبر';
-    } else {
-      return controller.totalPrice().toStringAsFixed(2).seRagham() + ' ریال';
-    }
+    return controller.totalPrice().toStringAsFixed(2).seRagham() + ' ریال ';
   }
 
   String validTotalWordPrice() {
-    if (controller.totalPrice() > 999999999999) {
+    if (controller.totalPrice() > 999999999999999) {
       return 'قیمت کل به حروف  نامعتبر';
     } else {
       return '${controller.totalPrice().toInt()}'.toWord() + ' ریال ';
@@ -171,7 +159,7 @@ class FactorUnofficialPage extends GetView<FactorUnofficialController> {
     } else if (controller.isExpandedBottomSheet.value) {
       return 225;
     } else {
-      return 50;
+      return 45;
     }
   }
 }

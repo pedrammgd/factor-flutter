@@ -417,11 +417,18 @@ class _FactorUnofficialSpecificationSelectItemState
                               children: [
                                 Text('${index + 1}- '),
                                 if (widget.hasCustomBeforeTitle)
-                                  Text(' ${widget.customBeforeTitle}'),
-                                Text(widget.itemList()[index].title),
+                                  Text(
+                                    ' ${widget.customBeforeTitle} ',
+                                    style: const TextStyle(fontSize: 11),
+                                  ),
+                                Text(widget.itemList()[index].title,
+                                    overflow: TextOverflow.ellipsis),
                                 const Text(' : '),
-                                Text(widget.itemList()[index].price),
-                                const Text(' ریال'),
+                                Expanded(
+                                  child: Text(
+                                      '${widget.itemList()[index].price} ریال',
+                                      overflow: TextOverflow.ellipsis),
+                                ),
                               ],
                             ),
                           ),

@@ -97,7 +97,7 @@ class FactorUnofficialSpecificationAddOrEditDialog
                 prefixIcon: const Icon(Icons.attach_money),
                 inputFormatters: [
                   FilteringTextInputFormatter.digitsOnly,
-                  LengthLimitingTextInputFormatter(12),
+                  LengthLimitingTextInputFormatter(15),
                   ThousandsSeparatorInputFormatter(),
                 ],
                 labelText: bottomTextFormFieldLabel,

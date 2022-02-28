@@ -23,8 +23,6 @@ class BuyerAddOrEditController extends GetxController {
           item.personBasicInformationViewModel.nationalCode ?? '';
       mobileTextHoghoghiEditingController.text =
           item.personBasicInformationViewModel.mobileNumberHoghoghi ?? '';
-      registrationIDTextEditingController.text =
-          item.personBasicInformationViewModel.registrationID ?? '';
       nationalCodeCompanyTextEditingController.text =
           item.personBasicInformationViewModel.nationalCodeCompany ?? '';
       companyNameTextEditingController.text =
@@ -54,8 +52,6 @@ class BuyerAddOrEditController extends GetxController {
   TextEditingController companyNameTextEditingController =
       TextEditingController();
   TextEditingController nationalCodeCompanyTextEditingController =
-      TextEditingController();
-  TextEditingController registrationIDTextEditingController =
       TextEditingController();
 
   GlobalKey<FormState> haghighiFormKey = GlobalKey<FormState>();
@@ -123,9 +119,6 @@ class BuyerAddOrEditController extends GetxController {
       nationalCodeCompany: nationalCodeCompanyTextEditingController.text.isEmpty
           ? ''
           : nationalCodeCompanyTextEditingController.text,
-      registrationID: registrationIDTextEditingController.text.isEmpty
-          ? ''
-          : registrationIDTextEditingController.text,
     ));
   }
 

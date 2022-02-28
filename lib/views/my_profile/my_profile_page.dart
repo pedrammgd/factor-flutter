@@ -287,17 +287,6 @@ class MyProfilePage extends GetView<MyProfileController> {
             textInputType: TextInputType.phone,
           ),
           CustomTextFormField(
-            labelText: 'شماره ثبت',
-            textEditingController:
-                controller.registrationIDTextEditingController,
-            prefixIcon: const Icon(Icons.insert_drive_file_outlined),
-            inputFormatters: [
-              FilteringTextInputFormatter.digitsOnly,
-              LengthLimitingTextInputFormatter(15),
-            ],
-            textInputType: TextInputType.phone,
-          ),
-          CustomTextFormField(
             labelText: 'شماره همراه',
             textEditingController:
                 controller.mobileTextHoghoghiEditingController,

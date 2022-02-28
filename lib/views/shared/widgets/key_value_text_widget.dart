@@ -35,30 +35,38 @@ class KeyValueTextWidget extends StatelessWidget {
       mainAxisAlignment: mainAxisAlignment,
       children: [
         startSpacer,
-        RichText(
-          text: TextSpan(
-            text: keyText,
-            style: TextStyle(
-                color: Colors.black,
-                fontSize: keyTextSize,
-                fontFamily: 'IRANSans'),
-            children: <TextSpan>[
-              TextSpan(
-                  text: bracketKeyText,
-                  style: const TextStyle(
-                      color: Colors.red,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 13,
-                      fontFamily: 'IRANSans')),
-            ],
+        Expanded(
+          child: RichText(
+            text: TextSpan(
+              text: keyText,
+              style: TextStyle(
+                  color: Colors.black,
+                  fontSize: keyTextSize,
+                  fontFamily: 'IRANSans'),
+              children: <TextSpan>[
+                TextSpan(
+                    text: bracketKeyText,
+                    style: const TextStyle(
+                        color: Colors.red,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 13,
+                        fontFamily: 'IRANSans')),
+              ],
+            ),
           ),
         ),
+
         betweenSpacer,
-        const Spacer(),
-        Text(
-          valueText,
-          style: TextStyle(
-            fontSize: valueTextSize,
+        // const Spacer(),
+        Expanded(
+          child: FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Text(
+              valueText,
+              style: TextStyle(
+                fontSize: valueTextSize,
+              ),
+            ),
           ),
         ),
         endSpacer,

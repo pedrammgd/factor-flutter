@@ -16,7 +16,6 @@ class FactorUnofficialSpecificationController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-
     initSharedPreferences();
     scrollController.addListener(() {
       offsetScroll.value = scrollController.offset;
@@ -69,6 +68,8 @@ class FactorUnofficialSpecificationController extends GetxController {
       TextEditingController();
   TextEditingController checkPayPriceTextEditingController =
       TextEditingController();
+  TextEditingController descriptionTextEditingController =
+      TextEditingController(text: 'در این قسمت توضیحات قرار می گیرد');
 
   RxDouble offsetScroll = 0.0.obs;
   final ScrollController scrollController = ScrollController();
@@ -87,7 +88,6 @@ class FactorUnofficialSpecificationController extends GetxController {
   RxDouble totalPrice;
   final String taxation;
   final String discount;
-  final String totalWordPrice;
   Rxn<BuyerViewModel> buyerItem = Rxn<BuyerViewModel>();
   Rxn<MyProfileViewModel> myProfileItem = Rxn<MyProfileViewModel>();
   Rxn<FactorHeaderViewModel> factorHeaderViewModel =
@@ -101,7 +101,6 @@ class FactorUnofficialSpecificationController extends GetxController {
     required this.totalPrice,
     required this.taxation,
     required this.discount,
-    required this.totalWordPrice,
   });
 
   RxDouble totalPriceAllItems() {

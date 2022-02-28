@@ -7,7 +7,6 @@ class PersonBasicInformationViewModel {
       this.nationalCode,
       this.companyName,
       this.nationalCodeCompany,
-      this.registrationID,
       this.mobileNumberHoghoghi,
       this.addressHoghoghi,
       required this.isHaghighi});
@@ -21,7 +20,6 @@ class PersonBasicInformationViewModel {
   final String? nationalCode;
   final String? companyName;
   final String? nationalCodeCompany;
-  final String? registrationID;
   final bool isHaghighi;
 
   factory PersonBasicInformationViewModel.fromJson(Map<String, dynamic> json) =>
@@ -32,7 +30,6 @@ class PersonBasicInformationViewModel {
           address: json['address'],
           companyName: json['companyName'],
           nationalCodeCompany: json['nationalCodeCompany'],
-          registrationID: json['registrationID'],
           mobileNumber: json['mobileNumber'],
           mobileNumberHoghoghi: json['mobileNumberHoghoghi'],
           addressHoghoghi: json['addressHoghoghi'],
@@ -44,7 +41,6 @@ class PersonBasicInformationViewModel {
         'nationalCode': nationalCode,
         'companyName': companyName,
         'nationalCodeCompany': nationalCodeCompany,
-        'registrationID': registrationID,
         'address': address,
         'mobileNumber': mobileNumber,
         'mobileNumberHoghoghi': mobileNumberHoghoghi,

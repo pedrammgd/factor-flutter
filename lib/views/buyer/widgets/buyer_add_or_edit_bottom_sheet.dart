@@ -76,15 +76,6 @@ class BuyerAddOrEditBottomSheet extends GetView<BuyerAddOrEditController> {
           textInputType: TextInputType.phone,
         ),
         CustomTextFormField(
-          labelText: 'شماره ثبت',
-          textEditingController: controller.registrationIDTextEditingController,
-          inputFormatters: [
-            FilteringTextInputFormatter.digitsOnly,
-            LengthLimitingTextInputFormatter(15),
-          ],
-          textInputType: TextInputType.phone,
-        ),
-        CustomTextFormField(
           labelText: 'شماره تماس',
           textEditingController: controller.mobileTextHoghoghiEditingController,
           inputFormatters: [

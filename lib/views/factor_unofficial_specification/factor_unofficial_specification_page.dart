@@ -11,6 +11,7 @@ import 'package:factor_flutter_mobile/views/factor_unofficial_specification/widg
 import 'package:factor_flutter_mobile/views/shared/widgets/bottom_sheet_total_price_widget.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/expandable/factor_expandable.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/factor_app_bar.dart';
+import 'package:factor_flutter_mobile/views/shared/widgets/factor_text_form_feild.dart';
 import 'package:factor_flutter_mobile/views/show_pdf/show_pdf_view.dart';
 import 'package:file_saver/file_saver.dart';
 import 'package:flutter/foundation.dart';
@@ -32,13 +33,12 @@ class FactorUnofficialSpecificationPage
     final arguments = Get.arguments as Map;
     final factorUnofficialItemList = arguments['factorUnofficialItemList'];
     final totalPrice = arguments['totalPrice'];
-    final totalWordPrice = arguments['totalWordPrice'];
+
     final discount = arguments['discount'];
     final taxation = arguments['taxation'];
     Get.lazyPut(() => FactorUnofficialSpecificationController(
         factorUnofficialItemList: factorUnofficialItemList,
         totalPrice: totalPrice,
-        totalWordPrice: totalWordPrice,
         discount: discount,
         taxation: taxation));
   }
@@ -77,7 +77,16 @@ class FactorUnofficialSpecificationPage
               _cartListItem(),
               _onlinePayListItem(),
               _checkPayListItem(),
-              Constants.largeVerticalSpacer,
+              Constants.smallVerticalSpacer,
+              FactorTextFormField(
+                textInputAction: TextInputAction.newline,
+                controller: controller.descriptionTextEditingController,
+                hasBorder: true,
+                // height: 100,
+                labelText: 'توضیحات',
+                prefixIcon: const Icon(Icons.description),
+              ),
+              Constants.xxLargeVerticalSpacer,
             ],
           ),
         ),
@@ -198,12 +207,18 @@ class FactorUnofficialSpecificationPage
     return FactorUnofficialSpecificationSelectItem(
       icon: const Icon(Icons.monetization_on_outlined),
       statusFunction: () => controller.statusFunction(),
+      inputFormatters: [
+        LengthLimitingTextInputFormatter(15),
+      ],
       title: 'پرداخت نقدی ',
       bracesWord: 'پول نقد و ...',
       itemList: controller.cashList,
       onTap: () async {
         final result =
             await Get.dialog(FactorUnofficialSpecificationAddOrEditDialog(
+          inputFormatters: [
+            LengthLimitingTextInputFormatter(15),
+          ],
           titleDialog: 'پرداخت نقدی',
           specificationCostList: controller.cashList,
           specificationCostItem: null,
@@ -220,14 +235,18 @@ class FactorUnofficialSpecificationPage
     return FactorUnofficialSpecificationSelectItem(
       icon: const Icon(Icons.bike_scooter),
       statusFunction: () => controller.statusFunction(),
+      inputFormatters: [
+        LengthLimitingTextInputFormatter(15),
+      ],
       title: 'هزینه مازاد ',
       bracesWord: 'هزینه ارسال و ...',
       itemList: controller.excessCostList,
       onTap: () async {
-        print(
-            'controller.totalPriceAllItems1()${controller.totalPriceAllItems()}');
         final result =
             await Get.dialog(FactorUnofficialSpecificationAddOrEditDialog(
+          inputFormatters: [
+            LengthLimitingTextInputFormatter(15),
+          ],
           titleDialog: 'هزینه مازاد',
           specificationCostList: controller.excessCostList,
           specificationCostItem: null,
@@ -313,22 +332,12 @@ class FactorUnofficialSpecificationPage
         child: Wrap(
           children: [
             InkWell(
-              child:
-                  // FutureBuilder(
-                  //   future: controller.computeFuture,
-                  //   builder: (context, snapShot) =>
-
-                  BottomSheetTotalPriceWidget(
+              child: BottomSheetTotalPriceWidget(
                 bottomButtonOnTap: () async {
                   computeFuture = _createPdf().then((value) {
                     Get.back();
                     Get.to(ShowPdfView(pdfView: value));
                   });
-                  // final pdfView = await _createPdf();
-                  //
-                  //
-                  // Get.to(ShowPdfView(pdfView: pdfView));
-                  // controller.isLoadingCreatePdf(false);
                 },
                 statusBracketKeyText: controller.statusBracketKeyText(),
                 taxation: controller.taxation,
@@ -339,12 +348,7 @@ class FactorUnofficialSpecificationPage
                         .seRagham()
                         .replaceAll(RegExp('-'), '') +
                     ' ریال',
-                // totalPrice: controller.totalPrice.value
-                //         .toStringAsFixed(2)
-                //         .seRagham()
-                //         .replaceAll(RegExp('-'), '') +
-                //     ' ریال',
-                totalWordPrice: controller.totalWordPrice,
+                totalWordPrice: validTotalWordPrice(),
                 onTap: () {
                   controller.isExpandedBottomSheet.value =
                       !controller.isExpandedBottomSheet.value;
@@ -374,6 +378,8 @@ class FactorUnofficialSpecificationPage
         build: (pw.Context context) {
           return [
             CustomPdfWidget().pdfWidget(
+              descriptionFactor:
+                  controller.descriptionTextEditingController.text,
               totalPrice: controller.totalPriceAllItems().value,
               totalDiscount: controller.discount,
               totalTaxation: controller.taxation,
@@ -382,6 +388,11 @@ class FactorUnofficialSpecificationPage
               factorUnofficialItemList: controller.factorUnofficialItemList,
               buyerItem: controller.buyerItem,
               statusFactor: controller.statusBracketKeyText.value,
+              cartList: controller.cartList(),
+              cashList: controller.cashList(),
+              checkPayList: controller.checkPayList(),
+              excessCostList: controller.excessCostList(),
+              onlinePayList: controller.onlinePayList(),
             )
           ]; // Center
         }));
@@ -408,10 +419,6 @@ class FactorUnofficialSpecificationPage
     );
 
     return await compute(pdfSaveBytesIsolate, pdf);
-  }
-
-  static Future<Uint8List> pdfSaveBytesIsolate(pw.Document pdf) {
-    return pdf.save();
   }
 
   Future<void> _pathFile(Uint8List pdfView) async {
@@ -518,22 +525,32 @@ class FactorUnofficialSpecificationPage
     } else if (controller.isExpandedBottomSheet.value) {
       return 225;
     } else {
-      return 50;
+      return 45;
+    }
+  }
+
+  String validTotalWordPrice() {
+    if (controller.totalPriceAllItems() > 999999999999999) {
+      return 'قیمت کل به حروف  نامعتبر';
+    } else {
+      return '${controller.totalPriceAllItems().toInt()}'.toWord() + ' ریال ';
     }
   }
 
   Map arguments(
       {required RxList<FactorUnofficialItemViewModel> factorUnofficialItemList,
       required RxDouble totalPrice,
-      required String totalWordPrice,
       required String discount,
       required String taxation}) {
     final map = {};
     map['factorUnofficialItemList'] = factorUnofficialItemList;
     map['totalPrice'] = totalPrice;
-    map['totalWordPrice'] = totalWordPrice;
     map['discount'] = discount;
     map['taxation'] = taxation;
     return map;
   }
+}
+
+Future<Uint8List> pdfSaveBytesIsolate(pw.Document pdf) {
+  return pdf.save();
 }

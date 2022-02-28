@@ -124,20 +124,11 @@ class FactorUnofficialController extends GetxController {
   }
 
   void bottomSheetButtonOnTap() {
-    if (totalPrice() > 999999999999 ||
-        taxation() > 999999999999 ||
-        discount() > 999999999999) {
-      Get.snackbar('قیمت نامعتبر',
-          'فکر کنم قیمت رو بیشتر از حد مجاز وارد کردی ، دوباره قیمت ها رو نگاه کن ، حداکثر مبلغ مجاز 999,999,999,999');
-      return;
-    }
     if (factorUnofficialItemList.isEmpty) return;
-
     Get.toNamed(FactorRoutes.factorUnofficialSpecification,
         arguments: FactorUnofficialSpecificationPage().arguments(
             factorUnofficialItemList: factorUnofficialItemList,
             totalPrice: totalPrice(),
-            totalWordPrice: '${totalPrice().value}'.toWord(),
             taxation: taxation().toStringAsFixed(2).seRagham() + ' ریال',
             discount: discount().toStringAsFixed(2).seRagham() + ' ریال'));
 
