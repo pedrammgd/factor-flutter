@@ -26,13 +26,14 @@ abstract class Constants {
 
 // SharedPreferencesKeys
 
-const String factorHomeListSharedPreferencesKey = 'factorHomeListKey';
+const String factorHomeListSharedPreferencesKey =
+    'factorHomeListSharedPreferencesKey11';
 const String unofficialFactorSharedPreferencesKey = 'unofficialFactorListKey';
 const String myProfileSharedPreferencesKey = 'myProfileSharedPreferencesKey5';
 
 const String buyerSharedPreferencesKey = 'buyerSharedPreferencesKey2';
 const String factorHeaderSharedPreferencesKey =
-    'factorHeaderSharedPreferencesKey3';
+    'factorHeaderSharedPreferencesKey4';
 
 // Png
 const String emptyList = 'assets/images/png/empty_list.png';

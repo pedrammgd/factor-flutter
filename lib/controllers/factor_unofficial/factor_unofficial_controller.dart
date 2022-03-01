@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:factor_flutter_mobile/core/constans/constans.dart';
 import 'package:factor_flutter_mobile/core/router/factor_pages.dart';
 import 'package:factor_flutter_mobile/models/factor_unofficial_item_view_model/factor_unofficial_item_view_model.dart';
+import 'package:factor_flutter_mobile/models/factor_view_model/factor_view_model.dart';
 import 'package:factor_flutter_mobile/views/factor_unofficial_specification/factor_unofficial_specification_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -31,6 +32,9 @@ class FactorUnofficialController extends GetxController {
 
   RxList<FactorUnofficialItemViewModel> factorUnofficialItemList =
       <FactorUnofficialItemViewModel>[].obs;
+  final RxList<FactorHomeViewModel> factorHomeList;
+
+  FactorUnofficialController({required this.factorHomeList});
 
   final List<String> popUpItems = <String>[
     Constants.editPopUp,
@@ -127,6 +131,7 @@ class FactorUnofficialController extends GetxController {
     if (factorUnofficialItemList.isEmpty) return;
     Get.toNamed(FactorRoutes.factorUnofficialSpecification,
         arguments: FactorUnofficialSpecificationPage().arguments(
+            factorHomeList: factorHomeList,
             factorUnofficialItemList: factorUnofficialItemList,
             totalPrice: totalPrice(),
             taxation: taxation().toStringAsFixed(2).seRagham() + ' ریال',

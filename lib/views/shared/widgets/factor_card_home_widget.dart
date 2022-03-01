@@ -10,7 +10,9 @@ class FactorCardHomeWidget extends StatelessWidget {
       this.height = 100,
       this.editOnTap,
       this.removeOnTap,
-      this.title = 'فاکتور فروش محصولات اینترنتی'});
+      this.title = 'فاکتور فروش محصولات اینترنتی',
+      required this.factorNum,
+      required this.factorDate});
 
   final double paddingTop;
   final double paddingEnd;
@@ -20,6 +22,8 @@ class FactorCardHomeWidget extends StatelessWidget {
   final Function()? editOnTap;
   final Function()? removeOnTap;
   final String title;
+  final String factorNum;
+  final String factorDate;
 
   @override
   Widget build(BuildContext context) {
@@ -59,17 +63,18 @@ class FactorCardHomeWidget extends StatelessWidget {
                 const Spacer(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: const [
+                  children: [
                     Padding(
-                      padding:
-                          EdgeInsetsDirectional.only(start: 20, bottom: 10),
-                      child: Text('فاکتور غیر رسمی'),
+                      padding: const EdgeInsetsDirectional.only(
+                          start: 20, bottom: 10),
+                      child: Text(factorNum),
                     ),
                     Padding(
-                      padding: EdgeInsetsDirectional.only(end: 10, bottom: 10),
+                      padding:
+                          const EdgeInsetsDirectional.only(end: 10, bottom: 10),
                       child: Text(
-                        '1400/01/01',
-                        style: TextStyle(
+                        factorDate,
+                        style: const TextStyle(
                           fontSize: 12,
                         ),
                       ),

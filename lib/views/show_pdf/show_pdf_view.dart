@@ -1,6 +1,8 @@
 import 'dart:typed_data';
 
+import 'package:factor_flutter_mobile/core/router/factor_pages.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 class ShowPdfView extends StatelessWidget {
@@ -10,9 +12,15 @@ class ShowPdfView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-          backgroundColor: Colors.white, body: SfPdfViewer.memory(pdfView)),
+    return WillPopScope(
+      onWillPop: () async {
+        Get.offNamedUntil(FactorRoutes.home, (route) => false);
+        return true;
+      },
+      child: SafeArea(
+        child: Scaffold(
+            backgroundColor: Colors.white, body: SfPdfViewer.memory(pdfView)),
+      ),
     );
   }
 }

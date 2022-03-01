@@ -1,14 +1,17 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:typed_data';
 
 import 'package:factor_flutter_mobile/core/constans/constans.dart';
 import 'package:factor_flutter_mobile/models/buyer_view_model/buyer_view_model.dart';
 import 'package:factor_flutter_mobile/models/factor_header/factor_header_view_model.dart';
 import 'package:factor_flutter_mobile/models/factor_unofficial_item_view_model/factor_unofficial_item_view_model.dart';
+import 'package:factor_flutter_mobile/models/factor_view_model/factor_view_model.dart';
 import 'package:factor_flutter_mobile/models/my_profile_view_model/my_profile_view_model.dart';
 import 'package:factor_flutter_mobile/models/specification_cost_view_model/specification_cost_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 
@@ -25,6 +28,8 @@ class FactorUnofficialSpecificationController extends GetxController {
     });
     statusFunction();
   }
+
+  final RxList<FactorHomeViewModel> factorHomeList;
 
   RxList<SpecificationCostViewModel> emptyList =
       <SpecificationCostViewModel>[].obs;
@@ -97,6 +102,7 @@ class FactorUnofficialSpecificationController extends GetxController {
   Uuid uUid = const Uuid();
 
   FactorUnofficialSpecificationController({
+    required this.factorHomeList,
     required this.factorUnofficialItemList,
     required this.totalPrice,
     required this.taxation,
@@ -216,21 +222,9 @@ class FactorUnofficialSpecificationController extends GetxController {
     titleTextEditingController.clear();
   }
 
-  // void buttonExcessCostAdd() {
-  //   if (!formKey.currentState!.validate()) return;
-  //   totalPlusPriceSpecific(
-  //       excessCostPriceTextEditingController.text.replaceAll(RegExp(','), ''));
-  //
-  //   buttonOnTapItem(
-  //       listItem: excessCostList,
-  //       titleTextEditingController: excessCostTitleTextEditingController,
-  //       priceTextEditingController: excessCostPriceTextEditingController);
-  // }
-
   void buttonCashAdd() {
     if (!cashFormKey.currentState!.validate()) return;
-    // totalMinesPriceSpecific(
-    //     cashPriceTextEditingController.text.replaceAll(RegExp(','), ''));
+
     buttonOnTapItem(
         listItem: cashList,
         titleTextEditingController: cashTitleTextEditingController,
@@ -239,8 +233,7 @@ class FactorUnofficialSpecificationController extends GetxController {
 
   void buttonCartAdd() {
     if (!cartFormKey.currentState!.validate()) return;
-    // totalMinesPriceSpecific(
-    //     cartPriceTextEditingController.text.replaceAll(RegExp(','), ''));
+
     buttonOnTapItem(
         listItem: cartList,
         titleTextEditingController: cartTitleTextEditingController,
@@ -249,8 +242,7 @@ class FactorUnofficialSpecificationController extends GetxController {
 
   void buttonOnlinePayAdd() {
     if (!onlinePayFormKey.currentState!.validate()) return;
-    // totalMinesPriceSpecific(
-    //     onlinePayPriceTextEditingController.text.replaceAll(RegExp(','), ''));
+
     buttonOnTapItem(
         listItem: onlinePayList,
         titleTextEditingController: onlinePayTitleTextEditingController,
@@ -259,38 +251,32 @@ class FactorUnofficialSpecificationController extends GetxController {
 
   void buttonCheckPayAdd() {
     if (!checkPayFormKey.currentState!.validate()) return;
-    // totalMinesPriceSpecific(
-    //     checkPayPriceTextEditingController.text.replaceAll(RegExp(','), ''));
+
     buttonOnTapItem(
         listItem: checkPayList,
         titleTextEditingController: checkPayTitleTextEditingController,
         priceTextEditingController: checkPayPriceTextEditingController);
   }
 
-  //
-  // RxDouble totalPlusPriceSpecific(String price) {
-  //   totalPrice.value += double.parse(price);
-  //   if (totalPrice.value < 0) {
-  //     statusBracketKeyText(1);
-  //   } else if (totalPrice.value == 0) {
-  //     statusBracketKeyText(3);
-  //   } else {
-  //     statusBracketKeyText(0);
-  //   }
-  //   return totalPrice;
-  // }
+  void addToHomeFactor({required Uint8List uint8ListPdf}) {
+    factorHomeList.add(FactorHomeViewModel(
+      id: uUid.v4(),
+      uint8ListPdf: base64Encode(uint8ListPdf),
+      dateFactor: factorHeaderViewModel.value?.factorDate ??
+          Jalali.now().formatCompactDate(),
+      numFactor: factorHeaderViewModel.value?.factorNum ?? '1',
+      titleFactor: factorHeaderViewModel.value?.title ?? 'فاکتور فروش',
+    ));
+    saveFactorData();
+  }
 
-  // RxDouble totalMinesPriceSpecific(String price) {
-  //   totalPrice.value -= double.parse(price);
-  //   if (totalPrice.value < 0) {
-  //     statusBracketKeyText(1);
-  //   } else if (totalPrice.value == 0) {
-  //     statusBracketKeyText(3);
-  //   } else {
-  //     statusBracketKeyText(0);
-  //   }
-  //   return totalPrice;
-  // }
+  void saveFactorData() {
+    List<String> factorDataList =
+        factorHomeList.map((element) => json.encode(element.toJson())).toList();
+    sharedPreferences.setStringList(
+        factorHomeListSharedPreferencesKey, factorDataList);
+    print('factorDataListUni$factorDataList');
+  }
 
   @override
   void dispose() {

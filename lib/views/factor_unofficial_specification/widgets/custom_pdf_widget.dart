@@ -353,6 +353,13 @@ class CustomPdfWidget {
                 iamgeUint8ListHoghoghi:
                     myProfileItem.value?.signatureUint8ListHoghoghi,
                 image8ListHaghighi: myProfileItem.value?.signatureUint8List)),
+        pw.SizedBox(height: 20),
+        pw.Align(
+          alignment: pw.Alignment.centerRight,
+          child: pw.Text('توسعه توسط اپلیکیشن فاکتور',
+              style: const pw.TextStyle(fontSize: 5),
+              textDirection: pw.TextDirection.rtl),
+        ),
       ],
     );
   }

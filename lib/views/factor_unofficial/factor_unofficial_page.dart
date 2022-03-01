@@ -1,4 +1,5 @@
 import 'package:factor_flutter_mobile/controllers/factor_unofficial/factor_unofficial_controller.dart';
+import 'package:factor_flutter_mobile/models/factor_view_model/factor_view_model.dart';
 import 'package:factor_flutter_mobile/views/factor_unofficial/widgets/factor_unofficial_add_modal_bottom_sheet.dart';
 import 'package:factor_flutter_mobile/views/factor_unofficial/widgets/factor_unofficial_list.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/bottom_sheet_total_price_widget.dart';
@@ -11,12 +12,18 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 
-
 class FactorUnofficialPage extends GetView<FactorUnofficialController> {
+  void initArguments() {
+    if (Get.arguments == null) return;
+    final arguments = Get.arguments as Map;
+    final factorHomeList = arguments['factorHomeList'];
+    Get.lazyPut(
+        () => FactorUnofficialController(factorHomeList: factorHomeList));
+  }
+
   @override
   Widget build(BuildContext context) {
-    Get.lazyPut(() => FactorUnofficialController());
-
+    initArguments();
     return WillPopScope(
       onWillPop: () => ExitPopUp.showExitPopup(
         title: 'خروج از لیست فاکتور',
@@ -161,5 +168,13 @@ class FactorUnofficialPage extends GetView<FactorUnofficialController> {
     } else {
       return 45;
     }
+  }
+
+  Map arguments({
+    required RxList<FactorHomeViewModel> factorHomeList,
+  }) {
+    final map = {};
+    map['factorHomeList'] = factorHomeList;
+    return map;
   }
 }

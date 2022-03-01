@@ -1,15 +1,22 @@
 import 'package:factor_flutter_mobile/controllers/home_factor/home_factor_controller.dart';
 import 'package:factor_flutter_mobile/core/constans/constans.dart';
+import 'package:factor_flutter_mobile/models/factor_view_model/factor_view_model.dart';
 import 'package:factor_flutter_mobile/views/home_factor/widgets/factor_list.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class HomeFactorPage extends GetView<HomeFactorController> {
-  const HomeFactorPage({required this.scrollController});
+  const HomeFactorPage({
+    required this.scrollController,
+    required this.factorHomeList,
+  });
+
   final ScrollController scrollController;
+  final RxList<FactorHomeViewModel> factorHomeList;
+
   @override
   Widget build(BuildContext context) {
-    Get.lazyPut(() => HomeFactorController());
+    Get.lazyPut(() => HomeFactorController(factorHomeList: factorHomeList));
     return ListView(
       controller: scrollController,
       children: [

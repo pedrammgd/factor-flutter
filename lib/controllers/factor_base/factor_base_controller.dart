@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:factor_flutter_mobile/core/main.dart';
+import 'package:factor_flutter_mobile/models/factor_view_model/factor_view_model.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -9,6 +10,7 @@ import 'package:get/get.dart';
 class FactorBaseController extends GetxController {
   RxInt currentIndex = 0.obs;
   late ScrollController scrollController;
+  RxList<FactorHomeViewModel> factorHomeList = <FactorHomeViewModel>[].obs;
 
   @override
   void onInit() {

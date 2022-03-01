@@ -1,7 +1,6 @@
 import 'package:factor_flutter_mobile/core/constans/constans.dart';
 import 'package:flutter/material.dart';
 
-
 class CustomBottomNavigationBar extends StatelessWidget {
   const CustomBottomNavigationBar(
       {required this.items,
@@ -17,21 +16,21 @@ class CustomBottomNavigationBar extends StatelessWidget {
     return BottomAppBar(
       elevation: 20,
       shape: const CircularNotchedRectangle(),
-      child: Padding(
-        padding: const EdgeInsetsDirectional.only(start: 50, end: 50),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: items.map((e) {
-            var index = items.indexOf(e);
-            return GestureDetector(
-              onTap: () => onItemSelected(index),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: items.map((e) {
+          var index = items.indexOf(e);
+          return InkWell(
+            onTap: () => onItemSelected(index),
+            child: Padding(
+              padding: const EdgeInsetsDirectional.only(start: 50, end: 50),
               child: ItemsBottomNavigation(
                 isSelected: index == selectedIndex,
                 factorBottomNavigationBarItem: e,
               ),
-            );
-          }).toList(),
-        ),
+            ),
+          );
+        }).toList(),
       ),
     );
   }

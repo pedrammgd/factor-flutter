@@ -4,6 +4,7 @@ import 'package:factor_flutter_mobile/controllers/factor_unofficial_specificatio
 import 'package:factor_flutter_mobile/core/constans/constans.dart';
 import 'package:factor_flutter_mobile/core/router/factor_pages.dart';
 import 'package:factor_flutter_mobile/models/factor_unofficial_item_view_model/factor_unofficial_item_view_model.dart';
+import 'package:factor_flutter_mobile/models/factor_view_model/factor_view_model.dart';
 import 'package:factor_flutter_mobile/views/buyer/buyer_page.dart';
 import 'package:factor_flutter_mobile/views/factor_unofficial_specification/widgets/custom_pdf_widget.dart';
 import 'package:factor_flutter_mobile/views/factor_unofficial_specification/widgets/factor_unofficial_specification_add_or_edit_dialog.dart';
@@ -31,12 +32,14 @@ class FactorUnofficialSpecificationPage
   void initArguments() {
     if (Get.arguments == null) return;
     final arguments = Get.arguments as Map;
+    final factorHomeList = arguments['factorHomeList'];
     final factorUnofficialItemList = arguments['factorUnofficialItemList'];
     final totalPrice = arguments['totalPrice'];
 
     final discount = arguments['discount'];
     final taxation = arguments['taxation'];
     Get.lazyPut(() => FactorUnofficialSpecificationController(
+        factorHomeList: factorHomeList,
         factorUnofficialItemList: factorUnofficialItemList,
         totalPrice: totalPrice,
         discount: discount,
@@ -336,6 +339,7 @@ class FactorUnofficialSpecificationPage
                 bottomButtonOnTap: () async {
                   computeFuture = _createPdf().then((value) {
                     Get.back();
+                    controller.addToHomeFactor(uint8ListPdf: value);
                     Get.to(ShowPdfView(pdfView: value));
                   });
                 },
@@ -506,7 +510,7 @@ class FactorUnofficialSpecificationPage
                 Padding(
                   padding: const EdgeInsetsDirectional.only(end: 30),
                   child: Text(
-                    ' ${controller.factorHeaderViewModel.value?.factorNum ?? '1'} #',
+                    ' ${controller.factorHeaderViewModel.value?.factorNum ?? controller.factorHomeList.length + 1} #',
                     style: const TextStyle(color: Colors.white, fontSize: 12),
                   ),
                 ),
@@ -538,11 +542,13 @@ class FactorUnofficialSpecificationPage
   }
 
   Map arguments(
-      {required RxList<FactorUnofficialItemViewModel> factorUnofficialItemList,
+      {required RxList<FactorHomeViewModel> factorHomeList,
+      required RxList<FactorUnofficialItemViewModel> factorUnofficialItemList,
       required RxDouble totalPrice,
       required String discount,
       required String taxation}) {
     final map = {};
+    map['factorHomeList'] = factorHomeList;
     map['factorUnofficialItemList'] = factorUnofficialItemList;
     map['totalPrice'] = totalPrice;
     map['discount'] = discount;

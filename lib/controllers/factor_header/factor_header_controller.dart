@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:factor_flutter_mobile/core/constans/constans.dart';
 import 'package:factor_flutter_mobile/models/factor_header/factor_header_view_model.dart';
+import 'package:factor_flutter_mobile/models/factor_view_model/factor_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:persian_datetime_picker/persian_datetime_picker.dart';
@@ -21,13 +22,14 @@ class FactorHeaderController extends GetxController {
   TextEditingController factorTitleTextEditingController =
       TextEditingController(text: 'فاکتور فروش');
   TextEditingController factorNumTextEditingController =
-      TextEditingController(text: '1');
+      TextEditingController();
   TextEditingController beForeFactorDurationTextEditingController =
       TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   Rxn<FactorHeaderViewModel> factorHeaderViewModel =
       Rxn<FactorHeaderViewModel>();
+  RxList<FactorHomeViewModel> factorHomeList = <FactorHomeViewModel>[].obs;
 
   FactorHeaderViewModel get _dtoFactorHeader {
     return FactorHeaderViewModel(
@@ -44,6 +46,7 @@ class FactorHeaderController extends GetxController {
     sharedPreferences = await SharedPreferences.getInstance();
 
     loadFactorHeaderData();
+    loadFactorData();
   }
 
   void loadFactorHeaderData() {
@@ -56,6 +59,18 @@ class FactorHeaderController extends GetxController {
       log(factorHeaderData);
       loadFactorHeaderReplaceItem();
     }
+  }
+
+  void loadFactorData() {
+    List<String> factorDataList =
+        sharedPreferences.getStringList(factorHomeListSharedPreferencesKey) ??
+            [];
+    factorHomeList.value = factorDataList
+        .map((e) => FactorHomeViewModel.fromJson(json.decode(e)))
+        .toList();
+
+    factorNumTextEditingController.text = '${factorHomeList.length + 1}';
+    print('factorDataList${factorDataList}');
   }
 
   void loadFactorHeaderReplaceItem() {

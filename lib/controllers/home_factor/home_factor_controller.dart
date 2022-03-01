@@ -8,12 +8,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 class HomeFactorController extends GetxController {
   @override
   void onInit() {
+    print('home');
     super.onInit();
     initSharedPreferences();
   }
 
   RxBool isLoading = false.obs;
-  RxList<FactorViewModel> factorList = <FactorViewModel>[].obs;
+  RxList<FactorHomeViewModel> factorHomeList;
+
+  HomeFactorController({required this.factorHomeList});
 
   late SharedPreferences sharedPreferences;
 
@@ -28,14 +31,19 @@ class HomeFactorController extends GetxController {
 
   void saveFactorData() {
     List<String> factorDataList =
-        factorList.map((element) => json.encode(element.toJson())).toList();
-    sharedPreferences.setStringList(factorHomeListSharedPreferencesKey, factorDataList);
+        factorHomeList.map((element) => json.encode(element.toJson())).toList();
+    sharedPreferences.setStringList(
+        factorHomeListSharedPreferencesKey, factorDataList);
   }
 
   void loadFactorData() {
-    List<String> factorDataList = sharedPreferences.getStringList(factorHomeListSharedPreferencesKey) ?? [];
-    factorList.value = factorDataList
-        .map((e) => FactorViewModel.fromJson(json.decode(e)))
+    List<String> factorDataList =
+        sharedPreferences.getStringList(factorHomeListSharedPreferencesKey) ??
+            [];
+    factorHomeList.value = factorDataList
+        .map((e) => FactorHomeViewModel.fromJson(json.decode(e)))
         .toList();
+
+    print('factorDataList${factorDataList}');
   }
 }

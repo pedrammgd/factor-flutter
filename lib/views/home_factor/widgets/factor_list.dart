@@ -23,7 +23,7 @@ class FactorList extends GetView<HomeFactorController> {
                   )),
             ),
           );
-        } else if (controller.factorList.isEmpty) {
+        } else if (controller.factorHomeList.isEmpty) {
           return Padding(
             padding: const EdgeInsetsDirectional.only(top: 100),
             child: Column(
@@ -44,14 +44,14 @@ class FactorList extends GetView<HomeFactorController> {
           );
         } else {
           return Padding(
-            padding: const EdgeInsetsDirectional.only(bottom: 10),
+            padding: const EdgeInsetsDirectional.only(bottom: 100),
             child: ListView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              itemCount: controller.factorList.length,
+              itemCount: controller.factorHomeList.length,
               itemBuilder: (context, index) {
                 return FactorListItem(
-                  factorItem: controller.factorList[index],
+                  factorItem: controller.factorHomeList[index],
                 );
               },
             ),
