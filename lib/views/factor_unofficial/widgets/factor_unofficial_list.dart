@@ -38,7 +38,7 @@ class FactorUnofficialList extends GetView<FactorUnofficialController> {
                 const Center(
                   child: Padding(
                     padding: EdgeInsetsDirectional.only(top: 20),
-                    child: Text('فاکتوری وجود ندارد'),
+                    child: Text('آیتمی وجود ندارد'),
                   ),
                 ),
               ],

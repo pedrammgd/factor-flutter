@@ -12,11 +12,13 @@ class BottomSheetTotalPriceWidget extends StatelessWidget {
       required this.totalWordPrice,
       this.onTap,
       this.bottomButtonOnTap,
-      this.statusBracketKeyText = 0});
+      this.statusBracketKeyText = 0,
+      this.titleButton = 'ادامه'});
 
   final String discount;
   final String taxation;
   final String totalPrice;
+  final String titleButton;
   final String totalWordPrice;
   final Function()? onTap;
   final VoidCallback? bottomButtonOnTap;
@@ -82,7 +84,7 @@ class BottomSheetTotalPriceWidget extends StatelessWidget {
                   height: 50,
                   width: double.infinity,
                   child: CustomBorderButton(
-                      onPressed: bottomButtonOnTap, titleButton: 'ادامه')),
+                      onPressed: bottomButtonOnTap, titleButton: titleButton)),
             ),
             Constants.mediumVerticalSpacer,
           ],

@@ -25,18 +25,19 @@ class FactorUnofficialPage extends GetView<FactorUnofficialController> {
   Widget build(BuildContext context) {
     initArguments();
     return WillPopScope(
-      onWillPop: () => ExitPopUp.showExitPopup(
-        title: 'خروج از لیست فاکتور',
-        description: 'در صورت خروج از لیست فاکتور ، تمامی اطلاعات پاک میشود',
-        onPressedOk: () {
-          // controller.factorUnofficialItemList.value = [];
-          Get.back(result: true);
-        },
-        context: context,
-      ),
+      onWillPop: () async {
+        final result = await ExitPopUp.showExitPopup(
+          title: 'خروج از لیست آیتم فاکتور',
+          description: 'در صورت خروج از لیست فاکتور ، تمامی اطلاعات پاک میشود',
+        );
+        if (result == true) {
+          Get.back();
+        }
+        return false;
+      },
       child: Obx(() {
         return Scaffold(
-          body: _body(context),
+          body: _body(),
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerDocked,
           floatingActionButton: _floatingActionButton(),
@@ -94,15 +95,24 @@ class FactorUnofficialPage extends GetView<FactorUnofficialController> {
           );
   }
 
-  Widget _body(BuildContext context) {
+  Widget _body() {
     return FactorBodyAppBarSliver(
+      backOnTap: () async {
+        final result = await ExitPopUp.showExitPopup(
+          title: 'خروج از لیست آیتم فاکتور',
+          description: 'در صورت خروج از لیست فاکتور ، تمامی اطلاعات پاک میشود',
+        );
+        if (result == true) {
+          Get.back();
+        }
+      },
       controller: controller.scrollController,
       body: const FactorUnofficialList(),
       title: Padding(
         padding: const EdgeInsets.only(top: 5),
         child: Text('فاکتور جدید',
             style: TextStyle(
-              color: Theme.of(context).colorScheme.secondary,
+              color: Theme.of(Get.context!).colorScheme.secondary,
             )),
       ),
       bottomWidget: PreferredSize(
@@ -115,11 +125,11 @@ class FactorUnofficialPage extends GetView<FactorUnofficialController> {
             height: 45,
             width: double.maxFinite,
             child: CustomBorderButton(
-              borderColor: Theme.of(context).colorScheme.secondary,
-              textColor: Theme.of(context).colorScheme.secondary,
+              borderColor: Theme.of(Get.context!).colorScheme.secondary,
+              textColor: Theme.of(Get.context!).colorScheme.secondary,
               onPressed: () {
                 CustomModalBottomSheet.showModalBottomSheet(
-                  color: Theme.of(context).primaryColor,
+                  color: Theme.of(Get.context!).primaryColor,
                   child: FactorUnofficialAddModalBottomSheet(
                     factorUnofficialItemList:
                         controller.factorUnofficialItemList,
@@ -131,7 +141,7 @@ class FactorUnofficialPage extends GetView<FactorUnofficialController> {
               titleButton: ' افزودن به فاکتور',
               icon: Icon(
                 Icons.add,
-                color: Theme.of(context).colorScheme.secondary,
+                color: Theme.of(Get.context!).colorScheme.secondary,
               ),
             ),
           ),
@@ -149,7 +159,11 @@ class FactorUnofficialPage extends GetView<FactorUnofficialController> {
   }
 
   String validTotalPrice() {
+    // if (controller.totalPrice() > 999999999999999) {
+    //   return 'قیمت کل به حروف  نامعتبر';
+    // } else {
     return controller.totalPrice().toStringAsFixed(2).seRagham() + ' ریال ';
+    // }
   }
 
   String validTotalWordPrice() {

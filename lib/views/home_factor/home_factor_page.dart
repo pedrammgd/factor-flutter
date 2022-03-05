@@ -9,14 +9,18 @@ class HomeFactorPage extends GetView<HomeFactorController> {
   const HomeFactorPage({
     required this.scrollController,
     required this.factorHomeList,
+    required this.factorHomeListSearch,
   });
 
   final ScrollController scrollController;
   final RxList<FactorHomeViewModel> factorHomeList;
+  final RxList<FactorHomeViewModel> factorHomeListSearch;
 
   @override
   Widget build(BuildContext context) {
-    Get.lazyPut(() => HomeFactorController(factorHomeList: factorHomeList));
+    Get.lazyPut(() => HomeFactorController(
+        factorHomeList: factorHomeList,
+        factorHomeListSearch: factorHomeListSearch));
     return ListView(
       controller: scrollController,
       children: [

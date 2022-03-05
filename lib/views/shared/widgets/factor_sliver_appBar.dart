@@ -7,11 +7,14 @@ class FactorBodyAppBarSliver extends StatelessWidget {
       {required this.body,
       required this.title,
       required this.bottomWidget,
-      this.controller});
+      this.controller,
+      this.backOnTap});
+
   final Widget body;
   final Widget title;
   final PreferredSizeWidget bottomWidget;
   final ScrollController? controller;
+  final Function()? backOnTap;
 
   @override
   Widget build(BuildContext context) {
@@ -40,9 +43,7 @@ class FactorBodyAppBarSliver extends StatelessWidget {
                                 width: 1.5),
                             borderRadius: BorderRadius.circular(9)),
                         child: InkWell(
-                          onTap: () {
-                            Get.back();
-                          },
+                          onTap: backOnTap ?? () => Get.back(),
                           borderRadius: BorderRadius.circular(9),
                           child: Center(
                               child: Icon(

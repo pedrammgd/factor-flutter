@@ -112,6 +112,13 @@ class AddOrEditFactorUnofficialController extends GetxController {
       return;
     }
 
+    if (totalPriceItem() > 999999999999 || totalPriceItem() < 0) {
+      Get.snackbar('مبلغ نامعتبر', 'عدد نامعتبر وارد کردی',
+          snackPosition: SnackPosition.BOTTOM);
+      return;
+    }
+    print(totalPriceItem());
+
     if (isEdit) {
       editUnOfficialItem();
       // print(totalPriceItem());

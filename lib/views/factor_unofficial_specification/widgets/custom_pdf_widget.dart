@@ -28,6 +28,7 @@ class CustomPdfWidget {
     required List<SpecificationCostViewModel> onlinePayList,
     required List<SpecificationCostViewModel> checkPayList,
     required String descriptionFactor,
+    required String factorNum,
   }) {
     String imageUint8ListCondition(
         {String? uint8List, required String defaultImage}) {
@@ -178,7 +179,7 @@ class CustomPdfWidget {
       if (factorHeaderViewModel.value != null) {
         return factorHeaderViewModel.value!.factorNum;
       } else {
-        return '1';
+        return factorNum;
       }
     }
 

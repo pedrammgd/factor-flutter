@@ -10,6 +10,7 @@ import 'package:factor_flutter_mobile/views/factor_unofficial_specification/widg
 import 'package:factor_flutter_mobile/views/factor_unofficial_specification/widgets/factor_unofficial_specification_add_or_edit_dialog.dart';
 import 'package:factor_flutter_mobile/views/factor_unofficial_specification/widgets/factor_unofficial_specification_select_item.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/bottom_sheet_total_price_widget.dart';
+import 'package:factor_flutter_mobile/views/shared/widgets/exit_popUp.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/expandable/factor_expandable.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/factor_app_bar.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/factor_text_form_feild.dart';
@@ -52,50 +53,76 @@ class FactorUnofficialSpecificationPage
   Widget build(BuildContext context) {
     initArguments();
     return Obx(() {
-      return Scaffold(
-        appBar: FactorAppBar(
-          title: Padding(
-            padding: const EdgeInsets.only(top: 15),
-            child: Text(
-              controller.offsetScroll > 30
-                  ? controller.factorHeaderViewModel.value?.title ??
-                      'عنوان فاکتور'
-                  : '',
-              style: TextStyle(color: Theme.of(context).colorScheme.secondary),
+      return WillPopScope(
+        onWillPop: () async {
+          final result = await ExitPopUp.showExitPopup(
+            title: 'خروج از مشخصات آیتم فاکتور',
+            description:
+                'در صورت خروج از مشخصات فاکتور ، تمامی اطلاعات پاک میشود',
+          );
+          if (result == true) {
+            Get.back();
+          }
+          return false;
+        },
+        child: Scaffold(
+          appBar: FactorAppBar(
+            hasBackButton: true,
+            customBackButtonFunction: () async {
+              final result = await ExitPopUp.showExitPopup(
+                title: 'خروج از مشخصات فاکتور',
+                description:
+                    'در صورت خروج از مشخصات فاکتور ، تمامی اطلاعات پاک میشود',
+              );
+              if (result == true) {
+                Get.back();
+              }
+            },
+            title: Padding(
+              padding: const EdgeInsets.only(top: 15),
+              child: Text(
+                controller.offsetScroll > 30
+                    ? controller.factorHeaderViewModel.value?.title ??
+                        'فاکتور فروش'
+                    : '',
+                style:
+                    TextStyle(color: Theme.of(context).colorScheme.secondary),
+              ),
             ),
           ),
-        ),
-        body: SingleChildScrollView(
-          controller: controller.scrollController,
-          child: Column(
-            children: [
-              _headerFactor(context),
-              Constants.largeVerticalSpacer,
-              _ownerItem(),
-              Constants.largeVerticalSpacer,
-              _buyerItem(),
-              Constants.largeVerticalSpacer,
-              _excessCostListItem(),
-              _cashListItem(),
-              _cartListItem(),
-              _onlinePayListItem(),
-              _checkPayListItem(),
-              Constants.smallVerticalSpacer,
-              FactorTextFormField(
-                textInputAction: TextInputAction.newline,
-                controller: controller.descriptionTextEditingController,
-                hasBorder: true,
-                // height: 100,
-                labelText: 'توضیحات',
-                prefixIcon: const Icon(Icons.description),
-              ),
-              Constants.xxLargeVerticalSpacer,
-            ],
+          body: SingleChildScrollView(
+            controller: controller.scrollController,
+            child: Column(
+              children: [
+                _headerFactor(context),
+                Constants.largeVerticalSpacer,
+                _ownerItem(),
+                Constants.largeVerticalSpacer,
+                _buyerItem(),
+                Constants.largeVerticalSpacer,
+                _excessCostListItem(),
+                _cashListItem(),
+                _cartListItem(),
+                _onlinePayListItem(),
+                _checkPayListItem(),
+                Constants.smallVerticalSpacer,
+                FactorTextFormField(
+                  textInputAction: TextInputAction.newline,
+                  controller: controller.descriptionTextEditingController,
+                  hasBorder: true,
+                  // height: 100,
+                  labelText: 'توضیحات',
+                  prefixIcon: const Icon(Icons.description),
+                ),
+                Constants.xxLargeVerticalSpacer,
+              ],
+            ),
           ),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerDocked,
+          floatingActionButton: _floatingActionButton(),
+          bottomNavigationBar: _bottomNavigationBar(),
         ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        floatingActionButton: _floatingActionButton(),
-        bottomNavigationBar: _bottomNavigationBar(),
       );
     });
   }
@@ -336,11 +363,15 @@ class FactorUnofficialSpecificationPage
           children: [
             InkWell(
               child: BottomSheetTotalPriceWidget(
+                titleButton: 'ذخیره و نمایش فاکتور',
                 bottomButtonOnTap: () async {
                   computeFuture = _createPdf().then((value) {
                     Get.back();
+                    _savePdf(value);
                     controller.addToHomeFactor(uint8ListPdf: value);
-                    Get.to(ShowPdfView(pdfView: value));
+                    Get.toNamed(FactorRoutes.showPdf,
+                        arguments: const ShowPdfView()
+                            .arguments(pdfView: value, isFromHome: false));
                   });
                 },
                 statusBracketKeyText: controller.statusBracketKeyText(),
@@ -382,6 +413,7 @@ class FactorUnofficialSpecificationPage
         build: (pw.Context context) {
           return [
             CustomPdfWidget().pdfWidget(
+              factorNum: controller.factorNumber.toString(),
               descriptionFactor:
                   controller.descriptionTextEditingController.text,
               totalPrice: controller.totalPriceAllItems().value,
@@ -402,8 +434,12 @@ class FactorUnofficialSpecificationPage
         }));
 
     // final Future<Uint8List> pdfBytes = pdf.save();
-
     // pdfBytes.then((value) => _pathFile(value));
+
+    // if (result == null) {
+    //   print('result$result');
+    //   Get.snackbar('title', 'message');
+    // }
 
     Get.dialog(
       WillPopScope(
@@ -425,15 +461,20 @@ class FactorUnofficialSpecificationPage
     return await compute(pdfSaveBytesIsolate, pdf);
   }
 
-  Future<void> _pathFile(Uint8List pdfView) async {
+  Future<void> _savePdf(Uint8List pdfView) async {
     if (kIsWeb) {
       await Printing.sharePdf(
         bytes: pdfView,
-        filename: 'my-document.pdf',
+        filename:
+            controller.factorHeaderViewModel.value?.title ?? 'فاکتور فروش',
       );
     } else {
       MimeType type = MimeType.PDF;
-      await FileSaver.instance.saveAs("File", pdfView, "pdf", type);
+      await FileSaver.instance.saveAs(
+          controller.factorHeaderViewModel.value?.title ?? 'فاکتور فروش',
+          pdfView,
+          "pdf",
+          type);
     }
   }
 

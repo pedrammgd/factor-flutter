@@ -19,6 +19,7 @@ class FactorUnofficialSpecificationController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+
     initSharedPreferences();
     scrollController.addListener(() {
       offsetScroll.value = scrollController.offset;
@@ -100,6 +101,7 @@ class FactorUnofficialSpecificationController extends GetxController {
   RxBool isSelectedBuyerName = false.obs;
   RxBool isMyProfileItemNull = false.obs;
   Uuid uUid = const Uuid();
+  int factorNumber = 1;
 
   FactorUnofficialSpecificationController({
     required this.factorHomeList,
@@ -203,7 +205,8 @@ class FactorUnofficialSpecificationController extends GetxController {
           FactorHeaderViewModel.fromJson(jsonDecode(factorHeaderData));
       log(factorHeaderData);
     } else {
-      log('isEmpty');
+      factorNumber = factorHomeList.length + 1;
+      log('isEmpty3$factorNumber');
     }
   }
 
@@ -264,7 +267,8 @@ class FactorUnofficialSpecificationController extends GetxController {
       uint8ListPdf: base64Encode(uint8ListPdf),
       dateFactor: factorHeaderViewModel.value?.factorDate ??
           Jalali.now().formatCompactDate(),
-      numFactor: factorHeaderViewModel.value?.factorNum ?? '1',
+      numFactor: factorHeaderViewModel.value?.factorNum ??
+          '${factorHomeList.length + 1}',
       titleFactor: factorHeaderViewModel.value?.title ?? 'فاکتور فروش',
     ));
     saveFactorData();

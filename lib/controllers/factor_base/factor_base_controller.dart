@@ -10,7 +10,23 @@ import 'package:get/get.dart';
 class FactorBaseController extends GetxController {
   RxInt currentIndex = 0.obs;
   late ScrollController scrollController;
+  RxBool isShowFoundSearch = false.obs;
   RxList<FactorHomeViewModel> factorHomeList = <FactorHomeViewModel>[].obs;
+
+  RxList<FactorHomeViewModel> factorHomeListSearch =
+      <FactorHomeViewModel>[].obs;
+
+  void searchFactorHome(String value) {
+    if (value.isEmpty) {
+      isShowFoundSearch.value = false;
+    } else {
+      isShowFoundSearch.value = true;
+    }
+    factorHomeListSearch.value = factorHomeList.where((element) {
+      final name = element.titleFactor.toLowerCase();
+      return name.contains(value.toLowerCase());
+    }).toList();
+  }
 
   @override
   void onInit() {

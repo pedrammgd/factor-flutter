@@ -12,7 +12,9 @@ class SquareCardBorder extends StatelessWidget {
       this.onTap,
       this.uint8ListImage,
       this.isShowUint8List = false,
-      this.removeUint8ListOnTap});
+      this.removeUint8ListOnTap,
+      this.height,
+      this.width});
 
   final Widget title;
   final Widget icon;
@@ -20,6 +22,8 @@ class SquareCardBorder extends StatelessWidget {
   final Uint8List? uint8ListImage;
   final bool isShowUint8List;
   final Function()? removeUint8ListOnTap;
+  final double? height;
+  final double? width;
 
   @override
   Widget build(BuildContext context) {
@@ -30,8 +34,8 @@ class SquareCardBorder extends StatelessWidget {
           borderRadius: BorderRadius.circular(15),
           onTap: onTap,
           child: Container(
-            height: MediaQuery.of(context).size.height / 4,
-            width: MediaQuery.of(context).size.width,
+            height: height ?? MediaQuery.of(context).size.height / 4,
+            width: width ?? MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
                 shape: BoxShape.rectangle,
                 border:
@@ -55,8 +59,8 @@ class SquareCardBorder extends StatelessWidget {
                   )
                 else
                   icon,
-                const Spacer(),
-                title,
+                // const Spacer(),
+                Expanded(child: title),
                 Constants.mediumVerticalSpacer,
               ],
             ),

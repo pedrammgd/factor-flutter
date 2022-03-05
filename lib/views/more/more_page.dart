@@ -88,30 +88,6 @@ class MorePage extends GetView<MoreController> {
   Widget _userInfo(BuildContext context) {
     return Column(
       children: [
-        // Constants.mediumVerticalSpacer,
-        // Obx(() {
-        //   return Row(
-        //     mainAxisAlignment: MainAxisAlignment.start,
-        //     children: [
-        //       Constants.mediumHorizontalSpacer,
-        //
-        //       GestureDetector(
-        //           onTap: () {
-        //             controller.isDark.value = !controller.isDark.value;
-        //
-        //             controller.changeTheme();
-        //             controller.saveTheme();
-        //           },
-        //           child: Image.asset(
-        //             controller.isDark.value ? lightIcon : darkIcon,
-        //             height: 30,
-        //             width: 30,
-        //             color:
-        //                 controller.isDark.value ? Colors.white : Colors.black,
-        //           )),
-        //     ],
-        //   );
-        // }),
         Constants.largeVerticalSpacer,
         DraggableCard(
           child: FadeInRight(

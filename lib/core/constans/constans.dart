@@ -22,12 +22,15 @@ abstract class Constants {
 
   static const String editPopUp = 'ویرایش';
   static const String removePopUp = 'حذف';
+  static const String showPopUp = 'نمایش';
+  static const String savePopUp = 'ذخیره در حافظه';
+  static const String sharePopUp = 'اشتراک گذاری';
 }
 
 // SharedPreferencesKeys
 
 const String factorHomeListSharedPreferencesKey =
-    'factorHomeListSharedPreferencesKey11';
+    'factorHomeListSharedPreferencesKey13';
 const String unofficialFactorSharedPreferencesKey = 'unofficialFactorListKey';
 const String myProfileSharedPreferencesKey = 'myProfileSharedPreferencesKey5';
 
@@ -64,6 +67,9 @@ const String logoDesignIcon = 'assets/images/png/logo-design.png';
 const String splashIcon = 'assets/images/gif/receipt.gif';
 // const String emptyList = 'assets/images/gif/empty-list.gif';
 const String pencilLoading = 'assets/images/gif/pencil-loading.gif';
+
+//jpg
+const String adsImage = 'assets/images/jpg/ads_image.jpg';
 
 Color dividerColor = const Color(0xffe6e6e6);
 Color settingIconColor = const Color(0xff74736f);

@@ -8,22 +8,24 @@ class FactorCardHomeWidget extends StatelessWidget {
       this.paddingStart = 20,
       this.paddingBottom = 0,
       this.height = 100,
-      this.editOnTap,
-      this.removeOnTap,
+      this.onTap,
       this.title = 'فاکتور فروش محصولات اینترنتی',
       required this.factorNum,
-      required this.factorDate});
+      required this.factorDate,
+      this.onSelectedPopUp,
+      this.itemPopUp});
 
   final double paddingTop;
   final double paddingEnd;
   final double paddingStart;
   final double paddingBottom;
   final double height;
-  final Function()? editOnTap;
-  final Function()? removeOnTap;
+  final Function()? onTap;
   final String title;
   final String factorNum;
   final String factorDate;
+  final Function(String)? onSelectedPopUp;
+  final List<String>? itemPopUp;
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +49,7 @@ class FactorCardHomeWidget extends StatelessWidget {
         ),
         child: InkWell(
             borderRadius: BorderRadius.circular(25),
-            onTap: editOnTap,
+            onTap: onTap,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
@@ -98,7 +100,7 @@ class FactorCardHomeWidget extends StatelessWidget {
     ));
   }
 
-  Widget _morePopup() => PopupMenuButton(
+  Widget _morePopup() => PopupMenuButton<String>(
         icon: const Icon(Icons.more_vert),
         iconSize: 20,
         elevation: 10,
@@ -106,17 +108,12 @@ class FactorCardHomeWidget extends StatelessWidget {
           side: const BorderSide(color: Colors.white, width: 1),
           borderRadius: BorderRadius.circular(15),
         ),
-        itemBuilder: (context) {
-          return [
-            PopupMenuItem(
-              child: const Text('ویرایش'),
-              onTap: editOnTap,
-            ),
-            PopupMenuItem(
-              child: const Text('حذف'),
-              onTap: removeOnTap,
-            ),
-          ];
-        },
+        onSelected: onSelectedPopUp,
+        itemBuilder: (context) => itemPopUp!
+            .map((e) => PopupMenuItem<String>(
+                  value: e,
+                  child: Text(e),
+                ))
+            .toList(),
       );
 }

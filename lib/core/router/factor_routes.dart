@@ -12,4 +12,5 @@ abstract class FactorRoutes {
   static const String buyer = '/buyerPage';
   static const String subscription = '/subscription';
   static const String factorHeader = '/factorHeader';
+  static const String showPdf = '/showPdf';
 }

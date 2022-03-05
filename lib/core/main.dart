@@ -4,6 +4,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 
 import 'fire_base/fcm/firebase_config.dart';
 
@@ -18,14 +19,14 @@ late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await Firebase.initializeApp(
-      // options: const FirebaseOptions(
-      //   apiKey: "AIzaSyAZfEcUTdlnvO9_19mM7qawAMLiq9MJMdE",
-      //   projectId: "factor-flutter",
-      //   messagingSenderId: "1050573148656",
-      //   appId: "1:1050573148656:web:0066d9606db59d63a6cd35",
-      // ),
-      );
+  const keyApplicationId = 'nZLXEWExCdEBnZpQ06NzKpF8bUmDpdbqUi39BOxO';
+  const keyClientKey = 'SrZA2mfwiAlY7wot7NWw7a2ls31eHTrDiA0NglTw';
+  const keyParseServerUrl = 'https://parseapi.back4app.com';
+
+  await Parse().initialize(keyApplicationId, keyParseServerUrl,
+      clientKey: keyClientKey, debug: true);
+
+  await Firebase.initializeApp();
 
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 

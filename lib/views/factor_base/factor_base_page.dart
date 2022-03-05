@@ -21,8 +21,18 @@ class FactorBasePage extends GetView<FactorBaseController> {
     return Obx(() {
       return Scaffold(
         appBar: FactorAppBar(
+          onChangedSearchBar: controller.searchFactorHome,
           hasBarcodeButton: true,
           hasBackButton: false,
+          height: 70,
+          title: Padding(
+            padding: const EdgeInsets.only(top: 15),
+            child: Text(
+              'داشبورد',
+              style: TextStyle(color: Theme.of(context).colorScheme.secondary),
+            ),
+          ),
+          hasTitle: _getShowTitle().elementAt(controller.currentIndex.value),
           hasSearchBar:
               _getShowSearchBar().elementAt(controller.currentIndex.value),
         ),
@@ -74,6 +84,7 @@ class FactorBasePage extends GetView<FactorBaseController> {
   List<Widget> _getPageList() {
     return [
       HomeFactorPage(
+          factorHomeListSearch: controller.factorHomeListSearch,
           scrollController: controller.scrollController,
           factorHomeList: controller.factorHomeList),
       const MorePage(),
@@ -82,5 +93,9 @@ class FactorBasePage extends GetView<FactorBaseController> {
 
   List<bool> _getShowSearchBar() {
     return [true, false];
+  }
+
+  List<bool> _getShowTitle() {
+    return [false, true];
   }
 }

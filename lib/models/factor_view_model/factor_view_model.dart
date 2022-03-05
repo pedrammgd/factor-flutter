@@ -5,7 +5,6 @@ class FactorHomeViewModel {
     required this.titleFactor,
     required this.dateFactor,
     required this.numFactor,
-    // required this.factorUnofficialItemList,
   });
 
   final String id;
@@ -14,7 +13,6 @@ class FactorHomeViewModel {
   final String dateFactor;
   final String numFactor;
 
-  // final List<FactorUnofficialItemViewModel> factorUnofficialItemList;
 
   factory FactorHomeViewModel.fromJson(Map<String, dynamic> json) =>
       FactorHomeViewModel(
@@ -23,10 +21,7 @@ class FactorHomeViewModel {
         titleFactor: json['titleFactor'],
         dateFactor: json['dateFactor'],
         numFactor: json['numFactor'],
-        // factorUnofficialItemList: (json['factorUnofficialItemList'] as List)
-        //     .map<FactorUnofficialItemViewModel>(
-        //         (e) => FactorUnofficialItemViewModel.fromJson(e))
-        //     .toList(),
+
       );
 
   Map<String, dynamic> toJson() => {
@@ -35,7 +30,6 @@ class FactorHomeViewModel {
         'dateFactor': dateFactor,
         'titleFactor': titleFactor,
         'numFactor': numFactor,
-        // 'factorUnofficialItemList':
-        //     factorUnofficialItemList.map((e) => e.toJson()).toList(),
+
       };
 }

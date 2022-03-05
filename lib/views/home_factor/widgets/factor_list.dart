@@ -23,7 +23,7 @@ class FactorList extends GetView<HomeFactorController> {
                   )),
             ),
           );
-        } else if (controller.factorHomeList.isEmpty) {
+        } else if (controller.factorHomeListSearch.isEmpty) {
           return Padding(
             padding: const EdgeInsetsDirectional.only(top: 100),
             child: Column(
@@ -48,10 +48,10 @@ class FactorList extends GetView<HomeFactorController> {
             child: ListView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              itemCount: controller.factorHomeList.length,
+              itemCount: controller.factorHomeListSearch.length,
               itemBuilder: (context, index) {
                 return FactorListItem(
-                  factorItem: controller.factorHomeList[index],
+                  factorItem: controller.factorHomeListSearch[index],
                 );
               },
             ),

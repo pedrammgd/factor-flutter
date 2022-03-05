@@ -1,7 +1,10 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:factor_flutter_mobile/core/constans/constans.dart';
 import 'package:factor_flutter_mobile/models/factor_view_model/factor_view_model.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -13,10 +16,20 @@ class HomeFactorController extends GetxController {
     initSharedPreferences();
   }
 
+  TextEditingController searchTextEditingController = TextEditingController();
   RxBool isLoading = false.obs;
-  RxList<FactorHomeViewModel> factorHomeList;
 
-  HomeFactorController({required this.factorHomeList});
+  RxList<FactorHomeViewModel> factorHomeList;
+  RxList<FactorHomeViewModel> factorHomeListSearch;
+
+  HomeFactorController(
+      {required this.factorHomeList, required this.factorHomeListSearch});
+
+  final List<String> popUpItems = <String>[
+    Constants.showPopUp,
+    Constants.savePopUp,
+    if (!kIsWeb) Constants.sharePopUp,
+  ];
 
   late SharedPreferences sharedPreferences;
 
@@ -43,7 +56,8 @@ class HomeFactorController extends GetxController {
     factorHomeList.value = factorDataList
         .map((e) => FactorHomeViewModel.fromJson(json.decode(e)))
         .toList();
+    factorHomeListSearch.value = factorHomeList;
 
-    print('factorDataList${factorDataList}');
+    log('factorDataList${factorDataList}');
   }
 }

@@ -7,6 +7,7 @@ import 'package:factor_flutter_mobile/views/factor_unofficial_specification/fact
 import 'package:factor_flutter_mobile/views/list_type_factor/list_type_factor_page.dart';
 import 'package:factor_flutter_mobile/views/more/more_page.dart';
 import 'package:factor_flutter_mobile/views/my_profile/my_profile_page.dart';
+import 'package:factor_flutter_mobile/views/show_pdf/show_pdf_view.dart';
 import 'package:factor_flutter_mobile/views/subscription/subscription_page.dart';
 import 'package:get/get.dart';
 
@@ -55,6 +56,10 @@ class FactorPage {
     GetPage(
         name: FactorRoutes.factorHeader,
         page: () => const FactorHeaderPage(),
+        transition: Transition.noTransition),
+    GetPage(
+        name: FactorRoutes.showPdf,
+        page: () => const ShowPdfView(),
         transition: Transition.noTransition),
   ];
 }

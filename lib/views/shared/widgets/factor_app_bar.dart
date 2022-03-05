@@ -7,10 +7,13 @@ import 'package:get/get.dart';
 class FactorAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool hasSearchBar;
   final bool hasBarcodeButton;
+  final bool hasTitle;
   final bool hasBackButton;
   final double height;
   final Widget title;
   final Widget customWidget;
+  final Function()? customBackButtonFunction;
+  final Function(String)? onChangedSearchBar;
 
   const FactorAppBar({
     this.hasSearchBar = false,
@@ -19,6 +22,9 @@ class FactorAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.height = 80,
     this.title = const SizedBox.shrink(),
     this.customWidget = const SizedBox.shrink(),
+    this.hasTitle = true,
+    this.customBackButtonFunction,
+    this.onChangedSearchBar,
   });
 
   @override
@@ -27,7 +33,7 @@ class FactorAppBar extends StatelessWidget implements PreferredSizeWidget {
         elevation: 2,
         leading: const SizedBox.shrink(),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        title: title,
+        title: hasTitle ? title : const SizedBox.shrink(),
         flexibleSpace: SafeArea(
             child: Column(
           children: [
@@ -59,9 +65,7 @@ class FactorAppBar extends StatelessWidget implements PreferredSizeWidget {
               color: Theme.of(context).colorScheme.secondary, width: 1.5),
           borderRadius: BorderRadius.circular(9)),
       child: InkWell(
-        onTap: () {
-          Get.back();
-        },
+        onTap: customBackButtonFunction ?? () => Get.back(),
         borderRadius: BorderRadius.circular(9),
         child: Center(
             child: Icon(
@@ -76,7 +80,12 @@ class FactorAppBar extends StatelessWidget implements PreferredSizeWidget {
     return InkWell(
       borderRadius: BorderRadius.circular(9),
       splashColor: Colors.red.shade100,
-      onTap: () {},
+      onTap: () {
+        Get.defaultDialog(
+            title: 'بارکد خوان',
+            middleText: 'برای استفاده از بارکد خوان در نسخه جدید منتظر باشید',
+            textCancel: 'باشه (:');
+      },
       child: Container(
         padding: const EdgeInsets.all(5),
         decoration: BoxDecoration(
@@ -85,8 +94,8 @@ class FactorAppBar extends StatelessWidget implements PreferredSizeWidget {
             borderRadius: BorderRadius.circular(10)),
         child: Image.asset(
           barcodeScannerIcon,
-          width: 36,
-          height: 36,
+          width: 34,
+          height: 34,
           fit: BoxFit.contain,
           // color: Theme.of(context).colorScheme.secondary,
           color: Theme.of(context).colorScheme.secondary,
@@ -108,6 +117,7 @@ class FactorAppBar extends StatelessWidget implements PreferredSizeWidget {
         paddingBottom: 0,
         paddingTop: 0,
         contentPadding: 0,
+        onChanged: onChangedSearchBar,
       ),
     );
   }

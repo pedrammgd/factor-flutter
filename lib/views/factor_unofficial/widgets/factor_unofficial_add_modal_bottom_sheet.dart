@@ -1,4 +1,5 @@
 import 'package:factor_flutter_mobile/controllers/factor_unofficial/add_or_edit_factor_unofficial_controller.dart';
+import 'package:factor_flutter_mobile/core/constans/constans.dart';
 import 'package:factor_flutter_mobile/core/utils/factor_validation/form_feild_validation.dart';
 import 'package:factor_flutter_mobile/core/utils/formatter/thousend_formatter.dart';
 import 'package:factor_flutter_mobile/models/factor_unofficial_item_view_model/factor_unofficial_item_view_model.dart';
@@ -28,26 +29,30 @@ class FactorUnofficialAddModalBottomSheet
     return SingleChildScrollView(
       child: Form(
         // key: controller.formKey,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                _topDivider(context),
-              ],
-            ),
-            _descriptionTextFormField(context),
-            _unitPriceTextFormFeild(context),
-            _countTextFormField(context),
-            Row(
-              children: [
-                _discountTextFormField(context),
-                _taxationTextFormFild(context),
-              ],
-            ),
-            _button(context),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  _topDivider(context),
+                ],
+              ),
+              _descriptionTextFormField(context),
+              _unitPriceTextFormFeild(context),
+              _countTextFormField(context),
+              Row(
+                children: [
+                  _discountTextFormField(context),
+                  Constants.smallHorizontalSpacer,
+                  _taxationTextFormFild(context),
+                ],
+              ),
+              _button(context),
+            ],
+          ),
         ),
       ),
     );
@@ -55,7 +60,7 @@ class FactorUnofficialAddModalBottomSheet
 
   Widget _button(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
         child: SizedBox(
             height: 50,
             width: double.infinity,
