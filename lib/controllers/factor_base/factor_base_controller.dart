@@ -24,7 +24,9 @@ class FactorBaseController extends GetxController {
     }
     factorHomeListSearch.value = factorHomeList.where((element) {
       final name = element.titleFactor.toLowerCase();
-      return name.contains(value.toLowerCase());
+      final factorNum = element.numFactor.toLowerCase();
+      return (name.contains(value.toLowerCase()) ||
+          factorNum.contains(value.toLowerCase()));
     }).toList();
   }
 

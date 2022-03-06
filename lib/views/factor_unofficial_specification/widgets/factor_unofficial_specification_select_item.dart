@@ -283,6 +283,7 @@ class FactorUnofficialSpecificationSelectItem extends StatefulWidget {
     this.selectedText = '',
     this.textAddColor = Colors.black,
     required this.statusFunction,
+    required this.currencyTitle,
   });
 
   final String title;
@@ -304,6 +305,7 @@ class FactorUnofficialSpecificationSelectItem extends StatefulWidget {
   final TextInputType? textInputType;
   final Color textAddColor;
   final Function() statusFunction;
+  final String currencyTitle;
 
   @override
   State<FactorUnofficialSpecificationSelectItem> createState() =>
@@ -395,6 +397,7 @@ class _FactorUnofficialSpecificationSelectItemState
                           onTap: () async {
                             final result = await Get.dialog(
                                 FactorUnofficialSpecificationAddOrEditDialog(
+                              currencyTitle: widget.currencyTitle,
                               topTextFormFieldLabel:
                                   widget.topTextFormFieldLabel,
                               bottomTextFormFieldLabel:

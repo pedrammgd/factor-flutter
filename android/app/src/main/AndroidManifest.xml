@@ -37,7 +37,7 @@
 
 
     <application
-        android:label="factor_flutter_mobile"
+        android:label="Factor Par"
         android:name="${applicationName}"
         android:requestLegacyExternalStorage="true"
         android:icon="@mipmap/ic_launcher">

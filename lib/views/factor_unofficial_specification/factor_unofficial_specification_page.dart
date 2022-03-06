@@ -20,7 +20,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 import 'package:persian_number_utility/src/extensions.dart';
@@ -39,12 +38,16 @@ class FactorUnofficialSpecificationPage
 
     final discount = arguments['discount'];
     final taxation = arguments['taxation'];
+    final currencyTitle = arguments['currencyTitle'];
+
     Get.lazyPut(() => FactorUnofficialSpecificationController(
-        factorHomeList: factorHomeList,
-        factorUnofficialItemList: factorUnofficialItemList,
-        totalPrice: totalPrice,
-        discount: discount,
-        taxation: taxation));
+          factorHomeList: factorHomeList,
+          factorUnofficialItemList: factorUnofficialItemList,
+          totalPrice: totalPrice,
+          currencyTitle: currencyTitle,
+          discount: discount,
+          taxation: taxation,
+        ));
   }
 
   Future<void> computeFuture = Future.value();
@@ -129,6 +132,7 @@ class FactorUnofficialSpecificationPage
 
   Widget _checkPayListItem() {
     return FactorUnofficialSpecificationSelectItem(
+      currencyTitle: controller.currencyTitle,
       icon: const Icon(Icons.book_outlined),
       inputFormatters: [
         FilteringTextInputFormatter.digitsOnly,
@@ -146,6 +150,7 @@ class FactorUnofficialSpecificationPage
       onTap: () async {
         final result =
             await Get.dialog(FactorUnofficialSpecificationAddOrEditDialog(
+          currencyTitle: controller.currencyTitle,
           inputFormatters: [
             FilteringTextInputFormatter.digitsOnly,
             LengthLimitingTextInputFormatter(16),
@@ -166,6 +171,7 @@ class FactorUnofficialSpecificationPage
 
   Widget _onlinePayListItem() {
     return FactorUnofficialSpecificationSelectItem(
+      currencyTitle: controller.currencyTitle,
       icon: const Icon(Icons.book_online_outlined),
       inputFormatters: [
         FilteringTextInputFormatter.digitsOnly,
@@ -181,6 +187,7 @@ class FactorUnofficialSpecificationPage
       onTap: () async {
         final result =
             await Get.dialog(FactorUnofficialSpecificationAddOrEditDialog(
+          currencyTitle: controller.currencyTitle,
           inputFormatters: [
             FilteringTextInputFormatter.digitsOnly,
             LengthLimitingTextInputFormatter(10),
@@ -200,6 +207,7 @@ class FactorUnofficialSpecificationPage
 
   Widget _cartListItem() {
     return FactorUnofficialSpecificationSelectItem(
+      currencyTitle: controller.currencyTitle,
       icon: const Icon(Icons.credit_card),
       inputFormatters: [
         FilteringTextInputFormatter.digitsOnly,
@@ -215,6 +223,7 @@ class FactorUnofficialSpecificationPage
       onTap: () async {
         final result =
             await Get.dialog(FactorUnofficialSpecificationAddOrEditDialog(
+          currencyTitle: controller.currencyTitle,
           inputFormatters: [
             FilteringTextInputFormatter.digitsOnly,
             LengthLimitingTextInputFormatter(16),
@@ -235,6 +244,7 @@ class FactorUnofficialSpecificationPage
 
   Widget _cashListItem() {
     return FactorUnofficialSpecificationSelectItem(
+      currencyTitle: controller.currencyTitle,
       icon: const Icon(Icons.monetization_on_outlined),
       statusFunction: () => controller.statusFunction(),
       inputFormatters: [
@@ -246,6 +256,7 @@ class FactorUnofficialSpecificationPage
       onTap: () async {
         final result =
             await Get.dialog(FactorUnofficialSpecificationAddOrEditDialog(
+          currencyTitle: controller.currencyTitle,
           inputFormatters: [
             LengthLimitingTextInputFormatter(15),
           ],
@@ -263,6 +274,7 @@ class FactorUnofficialSpecificationPage
 
   Widget _excessCostListItem() {
     return FactorUnofficialSpecificationSelectItem(
+      currencyTitle: controller.currencyTitle,
       icon: const Icon(Icons.bike_scooter),
       statusFunction: () => controller.statusFunction(),
       inputFormatters: [
@@ -274,6 +286,7 @@ class FactorUnofficialSpecificationPage
       onTap: () async {
         final result =
             await Get.dialog(FactorUnofficialSpecificationAddOrEditDialog(
+          currencyTitle: controller.currencyTitle,
           inputFormatters: [
             LengthLimitingTextInputFormatter(15),
           ],
@@ -290,6 +303,7 @@ class FactorUnofficialSpecificationPage
 
   Widget _buyerItem() {
     return FactorUnofficialSpecificationSelectItem(
+        currencyTitle: controller.currencyTitle,
         itemList: controller.emptyList,
         statusFunction: () {},
         title: 'طرف حساب ',
@@ -313,6 +327,7 @@ class FactorUnofficialSpecificationPage
 
   Widget _ownerItem() {
     return FactorUnofficialSpecificationSelectItem(
+      currencyTitle: controller.currencyTitle,
       itemList: controller.emptyList,
       statusFunction: () {},
       isSelectedName: controller.isMyProfileItemNull.value,
@@ -365,6 +380,16 @@ class FactorUnofficialSpecificationPage
               child: BottomSheetTotalPriceWidget(
                 titleButton: 'ذخیره و نمایش فاکتور',
                 bottomButtonOnTap: () async {
+                  final bool factorNumCond = controller.factorHomeList.any(
+                      (element) =>
+                          element.numFactor ==
+                          controller.factorHeaderViewModel.value?.factorNum);
+                  if (factorNumCond) {
+                    Get.snackbar('خطا در شماره فاکتور',
+                        'شماره فاکتور تکراری می باشد لطفا از شماره ی جدیدی اسفاده کنید');
+                    return;
+                  }
+
                   computeFuture = _createPdf().then((value) {
                     Get.back();
                     _savePdf(value);
@@ -382,7 +407,7 @@ class FactorUnofficialSpecificationPage
                         .toStringAsFixed(2)
                         .seRagham()
                         .replaceAll(RegExp('-'), '') +
-                    ' ریال',
+                    ' ${controller.currencyTitle}',
                 totalWordPrice: validTotalWordPrice(),
                 onTap: () {
                   controller.isExpandedBottomSheet.value =
@@ -409,7 +434,7 @@ class FactorUnofficialSpecificationPage
         theme: pw.ThemeData.withFont(
           base: ttf,
         ),
-        pageFormat: PdfPageFormat.a4,
+        pageFormat: controller.pageFormatFactor(),
         build: (pw.Context context) {
           return [
             CustomPdfWidget().pdfWidget(
@@ -429,6 +454,7 @@ class FactorUnofficialSpecificationPage
               checkPayList: controller.checkPayList(),
               excessCostList: controller.excessCostList(),
               onlinePayList: controller.onlinePayList(),
+              currencyTitle: controller.currencyTitle,
             )
           ]; // Center
         }));
@@ -568,7 +594,7 @@ class FactorUnofficialSpecificationPage
     if (controller.factorUnofficialItemList.isEmpty) {
       return 0;
     } else if (controller.isExpandedBottomSheet.value) {
-      return 225;
+      return 195;
     } else {
       return 45;
     }
@@ -578,22 +604,27 @@ class FactorUnofficialSpecificationPage
     if (controller.totalPriceAllItems() > 999999999999999) {
       return 'قیمت کل به حروف  نامعتبر';
     } else {
-      return '${controller.totalPriceAllItems().toInt()}'.toWord() + ' ریال ';
+      return '${controller.totalPriceAllItems().toInt()}'.toWord() +
+          ' ${controller.currencyTitle}';
     }
   }
 
-  Map arguments(
-      {required RxList<FactorHomeViewModel> factorHomeList,
-      required RxList<FactorUnofficialItemViewModel> factorUnofficialItemList,
-      required RxDouble totalPrice,
-      required String discount,
-      required String taxation}) {
+  Map arguments({
+    required RxList<FactorHomeViewModel> factorHomeList,
+    required RxList<FactorUnofficialItemViewModel> factorUnofficialItemList,
+    required RxDouble totalPrice,
+    required String discount,
+    required String taxation,
+    required String currencyTitle,
+  }) {
     final map = {};
     map['factorHomeList'] = factorHomeList;
     map['factorUnofficialItemList'] = factorUnofficialItemList;
     map['totalPrice'] = totalPrice;
     map['discount'] = discount;
     map['taxation'] = taxation;
+    map['currencyTitle'] = currencyTitle;
+
     return map;
   }
 }

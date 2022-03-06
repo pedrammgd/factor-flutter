@@ -54,11 +54,18 @@ class MorePage extends GetView<MoreController> {
           ),
           Constants.smallVerticalSpacer,
           MoreItemWidget(
-            title: 'اشتراک',
+            title: 'قالب فاکتور',
+            icon: supportIcon,
+            onTap: () {
+              Get.toNamed(FactorRoutes.customPdfSize);
+            },
+          ),
+          MoreItemWidget(
+            title: 'واحد پول',
             icon: messageIcon,
             onTap: () {
               return Get.toNamed(
-                FactorRoutes.subscription,
+                FactorRoutes.currency,
               );
             },
           ),
@@ -74,9 +81,14 @@ class MorePage extends GetView<MoreController> {
               icon: controller.isDark.value ? lightIcon : darkIcon,
             );
           }),
-          const MoreItemWidget(
-            title: 'پشتیبانی',
-            icon: supportIcon,
+          MoreItemWidget(
+            title: 'اشتراک',
+            icon: messageIcon,
+            onTap: () {
+              return Get.toNamed(
+                FactorRoutes.subscription,
+              );
+            },
           ),
           Constants.xxLargeVerticalSpacer,
           Constants.xxLargeVerticalSpacer,

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:factor_flutter_mobile/core/constans/constans.dart';
 import 'package:factor_flutter_mobile/core/router/factor_pages.dart';
+import 'package:factor_flutter_mobile/models/currency/currency_view_model.dart';
 import 'package:factor_flutter_mobile/models/factor_unofficial_item_view_model/factor_unofficial_item_view_model.dart';
 import 'package:factor_flutter_mobile/models/factor_view_model/factor_view_model.dart';
 import 'package:factor_flutter_mobile/views/factor_unofficial_specification/factor_unofficial_specification_page.dart';
@@ -23,6 +24,8 @@ class FactorUnofficialController extends GetxController {
       }
     });
   }
+
+  Rxn<CurrencyViewModel> currencyViewModel = Rxn<CurrencyViewModel>();
 
   final ScrollController scrollController = ScrollController();
   RxDouble offsetScroll = 0.0.obs;
@@ -102,6 +105,7 @@ class FactorUnofficialController extends GetxController {
     Future.delayed(const Duration(milliseconds: 500), () async {
       sharedPreferences = await SharedPreferences.getInstance();
       loadFactorData();
+      loadCurrencyData();
       isLoading.value = false;
     });
   }
@@ -131,12 +135,38 @@ class FactorUnofficialController extends GetxController {
     if (factorUnofficialItemList.isEmpty) return;
     Get.toNamed(FactorRoutes.factorUnofficialSpecification,
         arguments: FactorUnofficialSpecificationPage().arguments(
+            currencyTitle: currencyTitle(),
             factorHomeList: factorHomeList,
             factorUnofficialItemList: factorUnofficialItemList,
             totalPrice: totalPrice(),
-            taxation: taxation().toStringAsFixed(2).seRagham() + ' ریال',
-            discount: discount().toStringAsFixed(2).seRagham() + ' ریال'));
+            taxation: taxation().toStringAsFixed(2).seRagham() +
+                ' ${currencyTitle()}',
+            discount: discount().toStringAsFixed(2).seRagham() +
+                ' ${currencyTitle()}'));
 
     isExpandedBottomSheet.value = !isExpandedBottomSheet.value;
+  }
+
+  void loadCurrencyData() {
+    String currencyData =
+        sharedPreferences.getString(currencySharedPreferencesKey) ?? '';
+
+    if (currencyData.isNotEmpty) {
+      currencyViewModel.value =
+          CurrencyViewModel.fromJson(jsonDecode(currencyData));
+      print(currencyData);
+    }
+  }
+
+  String currencyTitle() {
+    if (currencyViewModel.value == null) {
+      return 'ریال';
+    } else if (currencyViewModel.value?.currencyFormat == 0) {
+      return 'ریال';
+    } else if (currencyViewModel.value?.currencyFormat == 1) {
+      return 'تومان';
+    } else {
+      return 'دلار';
+    }
   }
 }

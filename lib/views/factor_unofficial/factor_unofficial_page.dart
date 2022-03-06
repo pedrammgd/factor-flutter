@@ -135,6 +135,7 @@ class FactorUnofficialPage extends GetView<FactorUnofficialController> {
                         controller.factorUnofficialItemList,
                     factorUnofficialItem: null,
                     sharedPreferences: controller.sharedPreferences,
+                    currencyTitle: controller.currencyTitle(),
                   ),
                 );
               },
@@ -151,26 +152,26 @@ class FactorUnofficialPage extends GetView<FactorUnofficialController> {
   }
 
   String validTaxation() {
-    return controller.taxation().toStringAsFixed(2).seRagham() + ' ریال';
+    return controller.taxation().toStringAsFixed(2).seRagham() +
+        ' ${controller.currencyTitle()}';
   }
 
   String validDiscount() {
-    return controller.discount().toStringAsFixed(2).seRagham() + ' ریال';
+    return controller.discount().toStringAsFixed(2).seRagham() +
+        ' ${controller.currencyTitle()}';
   }
 
   String validTotalPrice() {
-    // if (controller.totalPrice() > 999999999999999) {
-    //   return 'قیمت کل به حروف  نامعتبر';
-    // } else {
-    return controller.totalPrice().toStringAsFixed(2).seRagham() + ' ریال ';
-    // }
+    return controller.totalPrice().toStringAsFixed(2).seRagham() +
+        ' ${controller.currencyTitle()}';
   }
 
   String validTotalWordPrice() {
     if (controller.totalPrice() > 999999999999999) {
       return 'قیمت کل به حروف  نامعتبر';
     } else {
-      return '${controller.totalPrice().toInt()}'.toWord() + ' ریال ';
+      return '${controller.totalPrice().toInt()}'.toWord() +
+          ' ${controller.currencyTitle()}';
     }
   }
 
@@ -178,7 +179,7 @@ class FactorUnofficialPage extends GetView<FactorUnofficialController> {
     if (controller.factorUnofficialItemList.isEmpty) {
       return 0;
     } else if (controller.isExpandedBottomSheet.value) {
-      return 225;
+      return 195;
     } else {
       return 45;
     }

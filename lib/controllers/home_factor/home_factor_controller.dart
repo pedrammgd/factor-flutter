@@ -28,6 +28,7 @@ class HomeFactorController extends GetxController {
   final List<String> popUpItems = <String>[
     Constants.showPopUp,
     Constants.savePopUp,
+    if (!kIsWeb) Constants.printPopUp,
     if (!kIsWeb) Constants.sharePopUp,
   ];
 

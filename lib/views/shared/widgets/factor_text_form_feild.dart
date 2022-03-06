@@ -113,10 +113,11 @@ class FactorTextFormField extends StatelessWidget {
                 floatingLabelBehavior: floatingLabelBehavior,
                 hintStyle: const TextStyle(fontSize: 12, color: Colors.black),
                 hintTextDirection: TextDirection.ltr,
-                suffixIconConstraints: const BoxConstraints(
-                  minHeight: 24,
-                  minWidth: 24,
-                ),
+                // suffixIconConstraints: const BoxConstraints(
+                //     // minHeight: 24,
+                //     // minWidth: 24,
+                //     maxWidth: 100,
+                //     maxHeight: 50),
                 alignLabelWithHint: alignLabelWithHint,
                 contentPadding: EdgeInsets.all(contentPadding),
                 filled: true,

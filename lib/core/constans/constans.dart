@@ -25,6 +25,7 @@ abstract class Constants {
   static const String showPopUp = 'نمایش';
   static const String savePopUp = 'ذخیره در حافظه';
   static const String sharePopUp = 'اشتراک گذاری';
+  static const String printPopUp = 'پرینت';
 }
 
 // SharedPreferencesKeys
@@ -33,11 +34,13 @@ const String factorHomeListSharedPreferencesKey =
     'factorHomeListSharedPreferencesKey13';
 const String unofficialFactorSharedPreferencesKey = 'unofficialFactorListKey';
 const String myProfileSharedPreferencesKey = 'myProfileSharedPreferencesKey5';
+const String customPdfSizeSharedPreferencesKey =
+    'customPdfSizeSharedPreferencesKey2';
 
 const String buyerSharedPreferencesKey = 'buyerSharedPreferencesKey2';
 const String factorHeaderSharedPreferencesKey =
-    'factorHeaderSharedPreferencesKey4';
-
+    'factorHeaderSharedPreferencesKey5';
+const String currencySharedPreferencesKey = 'currencySharedPreferencesKey';
 // Png
 const String emptyList = 'assets/images/png/empty_list.png';
 const String signatureIcon = 'assets/images/png/signature.png';

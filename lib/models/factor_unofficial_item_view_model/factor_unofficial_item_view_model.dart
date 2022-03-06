@@ -6,12 +6,14 @@ class FactorUnofficialItemViewModel {
       required this.productUnitPrice,
       required this.productDiscount,
       required this.totalPriceItem,
+      required this.unitValue,
       required this.productTaxation});
 
   final String id;
   final String productDescription;
   final int productCount;
   final String productUnitPrice;
+  final String unitValue;
   final double productDiscount;
   final double productTaxation;
   final double totalPriceItem;
@@ -25,6 +27,7 @@ class FactorUnofficialItemViewModel {
         productDiscount: json['productDiscount'],
         productTaxation: json['productTaxation'],
         totalPriceItem: json['totalPriceItem'],
+        unitValue: json['unitValue'],
       );
 
   Map<String, dynamic> toJson() => {
@@ -35,5 +38,6 @@ class FactorUnofficialItemViewModel {
         'productDiscount': productDiscount,
         'productTaxation': productTaxation,
         'totalPriceItem': totalPriceItem,
+        'unitValue': unitValue,
       };
 }

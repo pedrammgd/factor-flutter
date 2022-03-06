@@ -4,6 +4,7 @@ import 'dart:typed_data';
 
 import 'package:factor_flutter_mobile/core/constans/constans.dart';
 import 'package:factor_flutter_mobile/models/buyer_view_model/buyer_view_model.dart';
+import 'package:factor_flutter_mobile/models/custom_pdf_size/custom_pdf_size_view_model.dart';
 import 'package:factor_flutter_mobile/models/factor_header/factor_header_view_model.dart';
 import 'package:factor_flutter_mobile/models/factor_unofficial_item_view_model/factor_unofficial_item_view_model.dart';
 import 'package:factor_flutter_mobile/models/factor_view_model/factor_view_model.dart';
@@ -11,6 +12,7 @@ import 'package:factor_flutter_mobile/models/my_profile_view_model/my_profile_vi
 import 'package:factor_flutter_mobile/models/specification_cost_view_model/specification_cost_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pdf/pdf.dart';
 import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
@@ -29,6 +31,9 @@ class FactorUnofficialSpecificationController extends GetxController {
     });
     statusFunction();
   }
+
+  Rxn<CustomPdfSizeViewModel> customPdfSizeViewModel =
+      Rxn<CustomPdfSizeViewModel>();
 
   final RxList<FactorHomeViewModel> factorHomeList;
 
@@ -94,6 +99,7 @@ class FactorUnofficialSpecificationController extends GetxController {
   RxDouble totalPrice;
   final String taxation;
   final String discount;
+  final String currencyTitle;
   Rxn<BuyerViewModel> buyerItem = Rxn<BuyerViewModel>();
   Rxn<MyProfileViewModel> myProfileItem = Rxn<MyProfileViewModel>();
   Rxn<FactorHeaderViewModel> factorHeaderViewModel =
@@ -109,6 +115,7 @@ class FactorUnofficialSpecificationController extends GetxController {
     required this.totalPrice,
     required this.taxation,
     required this.discount,
+    required this.currencyTitle,
   });
 
   RxDouble totalPriceAllItems() {
@@ -177,9 +184,31 @@ class FactorUnofficialSpecificationController extends GetxController {
 
   Future initSharedPreferences() async {
     sharedPreferences = await SharedPreferences.getInstance();
-
     loadMyProfileData();
     loadFactorHeaderData();
+    loadPdfPaperData();
+  }
+
+  void loadPdfPaperData() {
+    String pdfPaperData =
+        sharedPreferences.getString(customPdfSizeSharedPreferencesKey) ?? '';
+
+    if (pdfPaperData.isNotEmpty) {
+      customPdfSizeViewModel.value =
+          CustomPdfSizeViewModel.fromJson(jsonDecode(pdfPaperData));
+    }
+  }
+
+  PdfPageFormat pageFormatFactor() {
+    if (customPdfSizeViewModel.value == null) {
+      return PdfPageFormat.a4;
+    } else if (customPdfSizeViewModel.value?.pdfFormat == 0) {
+      return PdfPageFormat.a3;
+    } else if (customPdfSizeViewModel.value?.pdfFormat == 1) {
+      return PdfPageFormat.a4;
+    } else {
+      return PdfPageFormat.a5;
+    }
   }
 
   void loadMyProfileData() {

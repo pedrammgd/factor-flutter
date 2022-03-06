@@ -8,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 
 class AddOrEditFactorUnofficialController extends GetxController {
+  final String currencyTitle;
   final TextEditingController productDescriptionController =
       TextEditingController();
   final TextEditingController productCountController =
@@ -16,14 +17,22 @@ class AddOrEditFactorUnofficialController extends GetxController {
   final TextEditingController productUnitPriceController =
       TextEditingController();
 
+  final TextEditingController addUnitPriceController = TextEditingController();
+
   final TextEditingController productDiscountController =
       TextEditingController(text: '0.0');
   final TextEditingController productTaxationController =
       TextEditingController(text: '0.0');
 
-  // GlobalKey<FormState> formKey = GlobalKey<FormState>();
-
   final Uuid uuid = const Uuid();
+
+  final RxString unitValue = 'عدد'.obs;
+  RxList<String> unitList = <String>[
+    'افزودن واحد دلخواه +',
+    'عدد',
+    'ساعت',
+    'متر مکعب',
+  ].obs;
 
   final FactorUnofficialItemViewModel? editingFactorUnofficialItem;
   late final bool isEdit;
@@ -34,6 +43,7 @@ class AddOrEditFactorUnofficialController extends GetxController {
     FactorUnofficialItemViewModel? item,
     this.factorUnofficialItemList,
     this.sharedPreferences,
+    this.currencyTitle,
   )   : editingFactorUnofficialItem = item,
         isEdit = (item != null) {
     if (isEdit) {
@@ -43,11 +53,13 @@ class AddOrEditFactorUnofficialController extends GetxController {
           RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]},');
       productDiscountController.text = item.productDiscount.toString();
       productTaxationController.text = item.productTaxation.toString();
+      unitValue.value = item.unitValue;
     }
   }
 
   FactorUnofficialItemViewModel get factorUnofficialItemDto {
     return FactorUnofficialItemViewModel(
+        unitValue: unitValue.value,
         id: uuid.v4(),
         productDescription: productDescriptionController.text,
         productCount: int.tryParse(productCountController.text) ?? 1,
@@ -154,6 +166,7 @@ class AddOrEditFactorUnofficialController extends GetxController {
         .indexWhere((element) => element.id == editingFactorUnofficialItem?.id);
 
     factorUnofficialItemList[index] = FactorUnofficialItemViewModel(
+      unitValue: unitValue.value,
       id: editingFactorUnofficialItem!.id,
       productDescription: productDescriptionController.text,
       productCount: int.tryParse(productCountController.text) ?? 0,

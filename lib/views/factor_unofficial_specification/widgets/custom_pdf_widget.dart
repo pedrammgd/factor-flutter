@@ -29,6 +29,7 @@ class CustomPdfWidget {
     required List<SpecificationCostViewModel> checkPayList,
     required String descriptionFactor,
     required String factorNum,
+    required String currencyTitle,
   }) {
     String imageUint8ListCondition(
         {String? uint8List, required String defaultImage}) {
@@ -297,14 +298,15 @@ class CustomPdfWidget {
           "آدرس : ",
         ),
         pw.SizedBox(height: 16),
-        _gridTableWidget(factorUnofficialItemList),
+        _gridTableWidget(factorUnofficialItemList, currencyTitle),
         pw.SizedBox(height: 16),
         pw.Row(children: [
           pw.Expanded(
             child: _priceTableWidget(
                 totalPrice: '$totalPrice'.replaceAll('-', '').seRagham(),
                 totalTaxation: totalTaxation,
-                totalDiscount: totalDiscount),
+                totalDiscount: totalDiscount,
+                currencyTitle: currencyTitle),
           ),
           pw.Expanded(
               child: pw.Column(
@@ -313,22 +315,27 @@ class CustomPdfWidget {
               _descriptionTextWidget(descriptionFactor),
               pw.SizedBox(height: 15),
               _descriptionListPrice(
+                  currencyTitle: currencyTitle,
                   specificationCostList: excessCostList,
                   kindCost: 'هزینه مازاد ',
                   kindSerial: ' با عنوان '),
               _descriptionListPrice(
+                  currencyTitle: currencyTitle,
                   specificationCostList: cashList,
                   kindCost: 'پرداخت نقدی ',
                   kindSerial: ' با عنوان '),
               _descriptionListPrice(
+                  currencyTitle: currencyTitle,
                   specificationCostList: onlinePayList,
                   kindCost: 'پرداخت آنلاین ',
                   kindSerial: ' به شماره پیگیری'),
               _descriptionListPrice(
+                  currencyTitle: currencyTitle,
                   specificationCostList: cartList,
                   kindCost: 'پرداخت کارتی ',
                   kindSerial: ' به شماره پیگیری'),
               _descriptionListPrice(
+                  currencyTitle: currencyTitle,
                   specificationCostList: checkPayList,
                   kindCost: 'پرداخت چکی ',
                   kindSerial: ' به شماره سریال'),
@@ -369,6 +376,7 @@ class CustomPdfWidget {
     required List<SpecificationCostViewModel> specificationCostList,
     required String kindCost,
     required String kindSerial,
+    required String currencyTitle,
   }) {
     return pw.ListView.builder(
       itemCount: specificationCostList.length,
@@ -378,7 +386,7 @@ class CustomPdfWidget {
           child: pw.Row(
             mainAxisAlignment: pw.MainAxisAlignment.end,
             children: [
-              pw.Text(' ریال',
+              pw.Text(' $currencyTitle',
                   style: const pw.TextStyle(fontSize: 6),
                   textDirection: pw.TextDirection.rtl),
               pw.Text('${specificationCostList[index].price} ',
@@ -445,6 +453,7 @@ class CustomPdfWidget {
     required String totalPrice,
     required String totalTaxation,
     required String totalDiscount,
+    required String currencyTitle,
   }) {
     return pw.Directionality(
       textDirection: pw.TextDirection.rtl,
@@ -455,7 +464,7 @@ class CustomPdfWidget {
           _tableRow(firstKey: 'تخفیف', firstValue: totalDiscount),
           _tableRow(firstKey: 'مالیات', firstValue: totalTaxation),
           _tableRow(
-              firstKey: 'مجموع )ریال(',
+              firstKey: 'مجموع )$currencyTitle(',
               firstValue: totalPrice,
               fontSizeKey: 8,
               fontSizeValue: 8),
@@ -487,17 +496,19 @@ class CustomPdfWidget {
   }
 
   pw.Widget _gridTableWidget(
-      RxList<FactorUnofficialItemViewModel> factorUnofficialItemList) {
+    RxList<FactorUnofficialItemViewModel> factorUnofficialItemList,
+    String currencyTitle,
+  ) {
     return pw.Directionality(
       textDirection: pw.TextDirection.rtl,
       child: pw.Table.fromTextArray(
         cellAlignment: pw.Alignment.center,
         headers: [
-          'قیمت کل )ریال(',
+          ' قیمت کل )$currencyTitle(',
           'مالیات )درصد(',
           'تخفیف )درصد(',
-          'مبلغ )ریال(',
-          'تعداد',
+          'مبلغ )$currencyTitle(',
+          'واحد',
           'نام'
         ],
         data: factorUnofficialItemList
@@ -506,7 +517,7 @@ class CustomPdfWidget {
                   e.productTaxation,
                   e.productDiscount,
                   e.productUnitPrice.seRagham(),
-                  e.productCount,
+                  '${e.productCount} )${e.unitValue}(',
                   e.productDescription,
                 ])
             .toList(),
@@ -563,7 +574,7 @@ class CustomPdfWidget {
               firstValue,
               textDirection: pw.TextDirection.rtl,
               style: const pw.TextStyle(
-                fontSize: 18,
+                fontSize: 16,
               ),
             ),
           ),

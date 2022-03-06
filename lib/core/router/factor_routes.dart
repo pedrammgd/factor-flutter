@@ -13,4 +13,6 @@ abstract class FactorRoutes {
   static const String subscription = '/subscription';
   static const String factorHeader = '/factorHeader';
   static const String showPdf = '/showPdf';
+  static const String customPdfSize = '/customPdfSize';
+  static const String currency = '/currency';
 }

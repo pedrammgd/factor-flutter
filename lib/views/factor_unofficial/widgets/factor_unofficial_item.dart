@@ -19,7 +19,8 @@ class FactorUnofficialItem extends GetView<FactorUnofficialController> {
   @override
   Widget build(BuildContext context) {
     return FactorCardUnOfficialWidget(
-      totalPrice: controller.totalPriceItem(items).toString().seRagham(),
+      totalPrice: controller.totalPriceItem(items).toString().seRagham() +
+          ' ${controller.currencyTitle()}',
       itemPopUp: controller.popUpItems,
       onSelectedPopUp: (value) {
         if (value == Constants.editPopUp) {
@@ -39,6 +40,7 @@ class FactorUnofficialItem extends GetView<FactorUnofficialController> {
   CustomModalBottomSheet editBottomSheet() {
     return CustomModalBottomSheet.showModalBottomSheet(
       child: FactorUnofficialAddModalBottomSheet(
+        currencyTitle: controller.currencyTitle(),
         factorUnofficialItemList: controller.factorUnofficialItemList,
         factorUnofficialItem: items,
         sharedPreferences: controller.sharedPreferences,

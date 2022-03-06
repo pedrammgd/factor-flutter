@@ -16,16 +16,18 @@ class FactorUnofficialAddModalBottomSheet
     required this.factorUnofficialItemList,
     required this.factorUnofficialItem,
     required this.sharedPreferences,
+    required this.currencyTitle,
   });
 
   final RxList<FactorUnofficialItemViewModel> factorUnofficialItemList;
   final FactorUnofficialItemViewModel? factorUnofficialItem;
   final SharedPreferences sharedPreferences;
+  final String currencyTitle;
 
   @override
   Widget build(BuildContext context) {
-    Get.lazyPut(() => AddOrEditFactorUnofficialController(
-        factorUnofficialItem, factorUnofficialItemList, sharedPreferences));
+    Get.lazyPut(() => AddOrEditFactorUnofficialController(factorUnofficialItem,
+        factorUnofficialItemList, sharedPreferences, currencyTitle));
     return SingleChildScrollView(
       child: Form(
         // key: controller.formKey,
@@ -120,16 +122,129 @@ class FactorUnofficialAddModalBottomSheet
       labelColor: Theme.of(context).colorScheme.secondary,
       suffixColor: Theme.of(context).colorScheme.secondary,
       borderColor: Theme.of(context).colorScheme.secondary,
-      labelText: 'تعداد *',
+      labelText: 'واحد *',
       inputFormatters: [
         FilteringTextInputFormatter.digitsOnly,
         LengthLimitingTextInputFormatter(12),
       ],
       textInputAction: TextInputAction.next,
       textInputType: TextInputType.phone,
-      validatorTextField: emptyValidator('تعداد'),
-      suffixText: 'عدد',
+      validatorTextField: emptyValidator('واحد'),
+      suffixIcon: SizedBox(width: 100, child: _unitSuffixIcon()),
       hasBorder: true,
+    );
+  }
+
+  Widget _unitSuffixIcon() => Obx(() {
+        return PopupMenuButton<String>(
+          icon: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Text(
+                controller.unitValue.value,
+                style:
+                    const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+              ),
+              const Icon(
+                Icons.arrow_drop_down_circle_outlined,
+                color: Colors.black,
+              ),
+            ],
+          ),
+          iconSize: 20,
+          elevation: 10,
+          shape: RoundedRectangleBorder(
+            side: const BorderSide(color: Colors.white, width: 1),
+            borderRadius: BorderRadius.circular(15),
+          ),
+          onSelected: (value) async {
+            controller.unitValue.value = value;
+            if (value == 'افزودن واحد دلخواه +') {
+              controller.addUnitPriceController.clear();
+              controller.unitValue.value = 'عدد';
+              final result = await Get.dialog(_unitAlertDialog());
+              if (result != null) {
+                controller.unitValue.value = result;
+              }
+            }
+          },
+          itemBuilder: (context) => controller.unitList
+              .map((e) => PopupMenuItem<String>(
+                    value: e,
+                    child: Text(e),
+                  ))
+              .toList(),
+        );
+      });
+
+  Widget _unitAlertDialog() {
+    return AlertDialog(
+      shape: RoundedRectangleBorder(
+        side: const BorderSide(color: Colors.white70, width: 1),
+        borderRadius: BorderRadius.circular(15),
+      ),
+      contentPadding: const EdgeInsets.only(top: 5, bottom: 20),
+      content: SingleChildScrollView(
+        child: Form(
+          // key: controller.keyForm,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Theme(
+                data: ThemeData(
+                  splashColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
+                ),
+                child: InkWell(
+                  splashFactory: NoSplash.splashFactory,
+                  onTap: () {
+                    Get.back();
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.max,
+                    children: const [
+                      Padding(
+                        padding: EdgeInsetsDirectional.only(top: 5, start: 15),
+                        child: Icon(Icons.close),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const Text(
+                'افزودن واحد',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+              ),
+              Constants.mediumVerticalSpacer,
+              FactorTextFormField(
+                controller: controller.addUnitPriceController,
+                hasBorder: true,
+                labelText: 'واحد جدید',
+                textInputAction: TextInputAction.done,
+                prefixIcon: const Icon(Icons.title),
+                validatorTextField: emptyValidator('واحد جدید'),
+              ),
+              Constants.mediumVerticalSpacer,
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: SizedBox(
+                    height: 50,
+                    width: double.infinity,
+                    child: CustomBorderButton(
+                      onPressed: () {
+                        controller.unitList
+                            .add(controller.addUnitPriceController.text);
+                        Get.back(
+                            result: controller.addUnitPriceController.text);
+                      },
+                      titleButton: 'افزودن',
+                    )),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
@@ -143,13 +258,14 @@ class FactorUnofficialAddModalBottomSheet
       labelText: 'قیمت واحد *',
       inputFormatters: [
         FilteringTextInputFormatter.digitsOnly,
+        FilteringTextInputFormatter.deny(RegExp(r'^0+')),
         LengthLimitingTextInputFormatter(12),
         ThousandsSeparatorInputFormatter(),
       ],
       textInputAction: TextInputAction.next,
       textInputType: TextInputType.phone,
       validatorTextField: emptyValidator('قیمت واحد'),
-      suffixText: 'ریال',
+      suffixText: controller.currencyTitle,
       hasBorder: true,
     );
   }

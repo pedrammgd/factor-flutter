@@ -51,7 +51,7 @@ class SquareCardBorder extends StatelessWidget {
                       borderRadius: BorderRadius.circular(15),
                       child: Image.memory(
                         uint8ListImage!,
-                        fit: BoxFit.fill,
+                        fit: BoxFit.contain,
                         width: MediaQuery.of(Get.context!).size.width / 2,
                         height: MediaQuery.of(Get.context!).size.height / 8,
                       ),
@@ -59,7 +59,7 @@ class SquareCardBorder extends StatelessWidget {
                   )
                 else
                   icon,
-                // const Spacer(),
+                const Spacer(),
                 Expanded(child: title),
                 Constants.mediumVerticalSpacer,
               ],

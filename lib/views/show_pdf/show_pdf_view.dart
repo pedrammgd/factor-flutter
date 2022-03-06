@@ -28,7 +28,9 @@ class ShowPdfView extends GetView<ShowPdfController> {
         if (controller.isFromHome) {
           Get.back();
         } else {
-          Get.offNamedUntil(FactorRoutes.home, (route) => false);
+          Get.back();
+
+          // Get.offNamedUntil(FactorRoutes.home, (route) => false);
         }
         return true;
       },

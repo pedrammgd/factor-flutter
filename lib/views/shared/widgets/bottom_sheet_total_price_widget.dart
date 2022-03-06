@@ -68,25 +68,32 @@ class BottomSheetTotalPriceWidget extends StatelessWidget {
               children: [
                 Constants.mediumHorizontalSpacer,
                 Expanded(
-                  child: Text(
-                    totalWordPrice,
-                    style: const TextStyle(
-                        fontSize: 15, height: 1.5, fontWeight: FontWeight.bold),
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      totalWordPrice,
+                      style: const TextStyle(
+                          fontSize: 13,
+                          height: 1.5,
+                          fontWeight: FontWeight.bold),
+                    ),
                   ),
                 ),
                 Constants.mediumHorizontalSpacer,
               ],
             ),
+
             Padding(
               padding: const EdgeInsetsDirectional.only(
-                  start: 20, end: 10, top: 15, bottom: 20),
+                  start: 20, end: 10, top: 15, bottom: 10),
               child: SizedBox(
                   height: 50,
                   width: double.infinity,
                   child: CustomBorderButton(
                       onPressed: bottomButtonOnTap, titleButton: titleButton)),
             ),
-            Constants.mediumVerticalSpacer,
+
+            Constants.smallVerticalSpacer,
           ],
         ),
       ),

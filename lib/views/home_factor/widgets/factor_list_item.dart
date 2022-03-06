@@ -36,6 +36,10 @@ class FactorListItem extends GetView<HomeFactorController> {
                   isFromHome: true));
         } else if (value == Constants.savePopUp) {
           _savePdf(base64Decode(factorItem.uint8ListPdf));
+        } else if (value == Constants.printPopUp) {
+          await Printing.layoutPdf(
+              onLayout: (_) =>
+                  base64Decode(factorItem.uint8ListPdf).buffer.asUint8List());
         } else {
           final temp = await getTemporaryDirectory();
           final path = '${temp.path}/${factorItem.titleFactor}.pdf';

@@ -69,7 +69,7 @@ class FactorCardUnOfficialWidget extends StatelessWidget {
                   children: [
                     Constants.largeHorizontalSpacer,
                     const Text('قیمت کل : '),
-                    Text('$totalPrice ریال'),
+                    Text(totalPrice),
                   ],
                 ),
                 Constants.tinyVerticalSpacer,

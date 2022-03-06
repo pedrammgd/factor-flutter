@@ -1,5 +1,7 @@
 import 'package:factor_flutter_mobile/core/authentication/splash/spalsh_page.dart';
 import 'package:factor_flutter_mobile/views/buyer/buyer_page.dart';
+import 'package:factor_flutter_mobile/views/currency/currency_page/currency_page.dart';
+import 'package:factor_flutter_mobile/views/custom_pdf_size/custom_pdf_size_page.dart';
 import 'package:factor_flutter_mobile/views/factor_base/factor_base_page.dart';
 import 'package:factor_flutter_mobile/views/factor_header/factor_header_page.dart';
 import 'package:factor_flutter_mobile/views/factor_unofficial/factor_unofficial_page.dart';
@@ -60,6 +62,14 @@ class FactorPage {
     GetPage(
         name: FactorRoutes.showPdf,
         page: () => const ShowPdfView(),
+        transition: Transition.noTransition),
+    GetPage(
+        name: FactorRoutes.customPdfSize,
+        page: () => const CustomPdfSizePage(),
+        transition: Transition.noTransition),
+    GetPage(
+        name: FactorRoutes.currency,
+        page: () => const CurrencyPage(),
         transition: Transition.noTransition),
   ];
 }

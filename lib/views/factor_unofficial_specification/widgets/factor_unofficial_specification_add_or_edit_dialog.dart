@@ -17,6 +17,7 @@ class FactorUnofficialSpecificationAddOrEditDialog
   final String topTextFormFieldLabel;
   final String bottomTextFormFieldLabel;
   final List<TextInputFormatter>? inputFormatters;
+  final String currencyTitle;
 
   final TextInputType? textInputType;
   const FactorUnofficialSpecificationAddOrEditDialog({
@@ -27,6 +28,7 @@ class FactorUnofficialSpecificationAddOrEditDialog
     required this.specificationCostList,
     this.specificationCostItem,
     required this.titleDialog,
+    required this.currencyTitle,
   });
 
   @override
@@ -97,13 +99,14 @@ class FactorUnofficialSpecificationAddOrEditDialog
                 prefixIcon: const Icon(Icons.attach_money),
                 inputFormatters: [
                   FilteringTextInputFormatter.digitsOnly,
+                  FilteringTextInputFormatter.deny(RegExp(r'^0+')),
                   LengthLimitingTextInputFormatter(15),
                   ThousandsSeparatorInputFormatter(),
                 ],
                 labelText: bottomTextFormFieldLabel,
                 textInputType: TextInputType.phone,
                 textInputAction: TextInputAction.done,
-                suffixText: 'ریال',
+                suffixText: currencyTitle,
                 validatorTextField: emptyValidator(bottomTextFormFieldLabel),
               ),
               Constants.mediumVerticalSpacer,
