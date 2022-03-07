@@ -39,6 +39,7 @@ class FactorUnofficialItem extends GetView<FactorUnofficialController> {
 
   CustomModalBottomSheet editBottomSheet() {
     return CustomModalBottomSheet.showModalBottomSheet(
+      color: Theme.of(Get.context!).primaryColor,
       child: FactorUnofficialAddModalBottomSheet(
         currencyTitle: controller.currencyTitle(),
         factorUnofficialItemList: controller.factorUnofficialItemList,

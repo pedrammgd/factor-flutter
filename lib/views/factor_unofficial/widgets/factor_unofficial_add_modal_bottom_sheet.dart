@@ -67,8 +67,6 @@ class FactorUnofficialAddModalBottomSheet
             height: 50,
             width: double.infinity,
             child: CustomBorderButton(
-                borderColor: Theme.of(context).colorScheme.secondary,
-                textColor: Theme.of(context).colorScheme.secondary,
                 onPressed: () {
                   controller.save();
                 },
@@ -78,9 +76,6 @@ class FactorUnofficialAddModalBottomSheet
   Widget _taxationTextFormFild(BuildContext context) {
     return Expanded(
         child: FactorTextFormField(
-      labelColor: Theme.of(context).colorScheme.secondary,
-      borderColor: Theme.of(context).colorScheme.secondary,
-      suffixColor: Theme.of(context).colorScheme.secondary,
       controller: controller.productTaxationController,
       labelText: 'مالیات',
       validatorTextField: percentValidator('مالیات'),
@@ -99,9 +94,6 @@ class FactorUnofficialAddModalBottomSheet
     return Expanded(
         child: FactorTextFormField(
       controller: controller.productDiscountController,
-      labelColor: Theme.of(context).colorScheme.secondary,
-      borderColor: Theme.of(context).colorScheme.secondary,
-      suffixColor: Theme.of(context).colorScheme.secondary,
       labelText: 'تخفیف',
       validatorTextField: percentValidator('تخفیف'),
       inputFormatters: [
@@ -119,9 +111,6 @@ class FactorUnofficialAddModalBottomSheet
     return FactorTextFormField(
       width: double.infinity,
       controller: controller.productCountController,
-      labelColor: Theme.of(context).colorScheme.secondary,
-      suffixColor: Theme.of(context).colorScheme.secondary,
-      borderColor: Theme.of(context).colorScheme.secondary,
       labelText: 'واحد *',
       inputFormatters: [
         FilteringTextInputFormatter.digitsOnly,
@@ -142,12 +131,15 @@ class FactorUnofficialAddModalBottomSheet
             children: [
               Text(
                 controller.unitValue.value,
-                style:
-                    const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                style: const TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-              const Icon(
+              Constants.veryTinyHorizontalSpacer,
+              Icon(
                 Icons.arrow_drop_down_circle_outlined,
-                color: Colors.black,
+                color: Theme.of(Get.context!).colorScheme.secondary,
               ),
             ],
           ),
@@ -186,7 +178,7 @@ class FactorUnofficialAddModalBottomSheet
       contentPadding: const EdgeInsets.only(top: 5, bottom: 20),
       content: SingleChildScrollView(
         child: Form(
-          // key: controller.keyForm,
+          key: controller.formKey,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -221,6 +213,9 @@ class FactorUnofficialAddModalBottomSheet
                 controller: controller.addUnitPriceController,
                 hasBorder: true,
                 labelText: 'واحد جدید',
+                inputFormatters: [
+                  LengthLimitingTextInputFormatter(12),
+                ],
                 textInputAction: TextInputAction.done,
                 prefixIcon: const Icon(Icons.title),
                 validatorTextField: emptyValidator('واحد جدید'),
@@ -233,6 +228,9 @@ class FactorUnofficialAddModalBottomSheet
                     width: double.infinity,
                     child: CustomBorderButton(
                       onPressed: () {
+                        if (!controller.formKey.currentState!.validate()) {
+                          return;
+                        }
                         controller.unitList
                             .add(controller.addUnitPriceController.text);
                         Get.back(
@@ -252,9 +250,6 @@ class FactorUnofficialAddModalBottomSheet
     return FactorTextFormField(
       width: double.infinity,
       controller: controller.productUnitPriceController,
-      labelColor: Theme.of(context).colorScheme.secondary,
-      borderColor: Theme.of(context).colorScheme.secondary,
-      suffixColor: Theme.of(context).colorScheme.secondary,
       labelText: 'قیمت واحد *',
       inputFormatters: [
         FilteringTextInputFormatter.digitsOnly,
@@ -273,10 +268,11 @@ class FactorUnofficialAddModalBottomSheet
   Widget _descriptionTextFormField(BuildContext context) {
     return FactorTextFormField(
       controller: controller.productDescriptionController,
-      suffixColor: Theme.of(context).colorScheme.secondary,
-      labelColor: Theme.of(context).colorScheme.secondary,
       width: double.infinity,
       labelText: 'شرح کالا *',
+      inputFormatters: [
+        LengthLimitingTextInputFormatter(15),
+      ],
       borderColor: Theme.of(context).colorScheme.secondary,
       hasBorder: true,
       validatorTextField: emptyValidator('شرح کالا'),

@@ -27,16 +27,16 @@ class FactorTextFormField extends StatelessWidget {
   final bool readOnly;
   final Function(String)? onChanged;
   final FocusNode? focusNode;
-  final Color fillColor;
+  final Color? fillColor;
   final bool hasBorder;
   final bool? alignLabelWithHint;
   final TextAlignVertical? textAlignVertical;
-  final Color borderColor;
+  final Color? borderColor;
   final double borderRadius;
   final String? hintText;
   final FloatingLabelBehavior? floatingLabelBehavior;
   final String? suffixText;
-  final Color suffixColor;
+  final Color? suffixColor;
   final Color? labelColor;
   final bool? enabled;
   final Function(String)? onFieldSubmitted;
@@ -58,18 +58,18 @@ class FactorTextFormField extends StatelessWidget {
     this.readOnly = false,
     this.onChanged,
     this.focusNode,
-    this.fillColor = Colors.black12,
+    this.fillColor,
     this.hasBorder = false,
     this.alignLabelWithHint,
     this.textAlignVertical,
     this.height,
-    this.borderColor = Colors.grey,
+    this.borderColor,
     this.suffixIcon,
     this.borderRadius = 10,
     this.hintText,
     this.floatingLabelBehavior,
     this.suffixText,
-    this.suffixColor = Colors.grey,
+    this.suffixColor,
     this.labelColor,
     this.paddingTop = 5,
     this.paddingBottom = 5,
@@ -111,7 +111,9 @@ class FactorTextFormField extends StatelessWidget {
             decoration: InputDecoration(
                 hintText: hintText,
                 floatingLabelBehavior: floatingLabelBehavior,
-                hintStyle: const TextStyle(fontSize: 12, color: Colors.black),
+                hintStyle: TextStyle(
+                    fontSize: 12,
+                    color: Theme.of(context).colorScheme.secondary),
                 hintTextDirection: TextDirection.ltr,
                 // suffixIconConstraints: const BoxConstraints(
                 //     // minHeight: 24,
@@ -123,19 +125,26 @@ class FactorTextFormField extends StatelessWidget {
                 filled: true,
                 suffixIcon: suffixIcon,
                 suffixText: suffixText,
-                suffixStyle: TextStyle(color: suffixColor),
-                fillColor: fillColor,
+                suffixStyle: TextStyle(
+                    color:
+                        suffixColor ?? Theme.of(context).colorScheme.secondary),
+                fillColor: fillColor ?? Theme.of(context).primaryColor,
                 prefixIcon:
                     hasPrefixIcon ? prefixIcon : const SizedBox.shrink(),
                 prefixIconConstraints: BoxConstraints(
                     minWidth: hasPrefixIcon ? 48 : 20,
                     minHeight: hasPrefixIcon ? 48 : 0),
                 labelText: labelText,
-                labelStyle: TextStyle(fontSize: 15, color: labelColor),
+                labelStyle: TextStyle(
+                    fontSize: 15,
+                    color:
+                        labelColor ?? Theme.of(context).colorScheme.secondary),
                 focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(
                     width: 1.5,
-                    color: hasBorder ? borderColor : Colors.transparent,
+                    color: hasBorder
+                        ? borderColor ?? Theme.of(context).colorScheme.secondary
+                        : Colors.transparent,
                   ),
                   borderRadius: BorderRadius.circular(borderRadius),
                 ),
@@ -143,7 +152,9 @@ class FactorTextFormField extends StatelessWidget {
                   borderRadius: BorderRadius.circular(borderRadius),
                   borderSide: BorderSide(
                     width: 1.5,
-                    color: hasBorder ? borderColor : Colors.transparent,
+                    color: hasBorder
+                        ? borderColor ?? Theme.of(context).colorScheme.secondary
+                        : Colors.transparent,
                   ),
                 ))),
       ),

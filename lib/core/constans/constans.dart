@@ -31,30 +31,23 @@ abstract class Constants {
 // SharedPreferencesKeys
 
 const String factorHomeListSharedPreferencesKey =
-    'factorHomeListSharedPreferencesKey13';
-const String unofficialFactorSharedPreferencesKey = 'unofficialFactorListKey';
-const String myProfileSharedPreferencesKey = 'myProfileSharedPreferencesKey5';
+    'factorHomeListSharedPreferences';
+const String unofficialFactorSharedPreferencesKey =
+    'unofficialFactorSharedPreferences';
+const String myProfileSharedPreferencesKey = 'myProfileSharedPreferences';
 const String customPdfSizeSharedPreferencesKey =
-    'customPdfSizeSharedPreferencesKey2';
-
-const String buyerSharedPreferencesKey = 'buyerSharedPreferencesKey2';
-const String factorHeaderSharedPreferencesKey =
-    'factorHeaderSharedPreferencesKey5';
-const String currencySharedPreferencesKey = 'currencySharedPreferencesKey';
+    'customPdfSizeSharedPreferences';
+const String buyerSharedPreferencesKey = 'buyerSharedPreferences';
+const String factorHeaderSharedPreferencesKey = 'factorHeaderSharedPreferences';
+const String currencySharedPreferencesKey = 'currencySharedPreferences';
 // Png
 const String emptyList = 'assets/images/png/empty_list.png';
 const String signatureIcon = 'assets/images/png/signature.png';
 const String sealIcon = 'assets/images/png/seal_icon.png';
 const String buyerEmptyListIcon = 'assets/images/png/buyer_empty_list_icon.png';
 
-const String addFactorUnofficialIcon =
-    'assets/images/png/add-factor-unofficial.png';
 const String addFactorOfficialIcon =
     'assets/images/png/add-factor-official.png';
-const String purchaseRecordsIcon = 'assets/images/png/purchase_records.png';
-const String cartIcon = 'assets/images/png/cart.png';
-const String settingIcon = 'assets/images/png/setting.png';
-const String messageIcon = 'assets/images/png/message.png';
 const String supportIcon = 'assets/images/png/support.png';
 const String goldCupIcon = 'assets/images/png/gold_cup.png';
 const String lightIcon = 'assets/images/png/light-icon.png';
@@ -63,16 +56,12 @@ const String moreIcon = 'assets/images/png/more.png';
 const String homeIcon = 'assets/images/png/home.png';
 const String barcodeScannerIcon = 'assets/images/png/barcode-scanner.png';
 const String addTaskIcon = 'assets/images/png/add_task.png';
-const String addTaskIconFilledIcon = 'assets/images/png/addTaskIconFilled.png';
 const String logoDesignIcon = 'assets/images/png/logo-design.png';
-
-//gif
-const String splashIcon = 'assets/images/gif/receipt.gif';
-// const String emptyList = 'assets/images/gif/empty-list.gif';
-const String pencilLoading = 'assets/images/gif/pencil-loading.gif';
-
-//jpg
-const String adsImage = 'assets/images/jpg/ads_image.jpg';
+const String splashIcon = 'assets/images/png/logo_factor.png';
+const String myProfileIcon = 'assets/images/png/my_profile.png';
+const String documentHeaderIcon = 'assets/images/png/document-header.png';
+const String formatSizeIcon = 'assets/images/png/format_size.png';
+const String moneyIcon = 'assets/images/png/money.png';
 
 Color dividerColor = const Color(0xffe6e6e6);
 Color settingIconColor = const Color(0xff74736f);

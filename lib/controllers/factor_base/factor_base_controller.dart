@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:factor_flutter_mobile/core/main.dart';
+import 'package:factor_flutter_mobile/main.dart';
 import 'package:factor_flutter_mobile/models/factor_view_model/factor_view_model.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';

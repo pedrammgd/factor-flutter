@@ -127,7 +127,7 @@ class MyProfilePage extends GetView<MyProfileController> {
               ),
               context: Get.context!,
               builder: (context) {
-                return SignatureBottomSheet();
+                return const SignatureBottomSheet();
               },
             );
             if (result != null) {
@@ -186,7 +186,7 @@ class MyProfilePage extends GetView<MyProfileController> {
               ),
               context: Get.context!,
               builder: (context) {
-                return SignatureBottomSheet();
+                return const SignatureBottomSheet();
               },
             );
             if (result != null) {
@@ -251,6 +251,9 @@ class MyProfilePage extends GetView<MyProfileController> {
           CustomTextFormField(
               maxLines: 3,
               labelText: 'آدرس',
+              inputFormatters: [
+                LengthLimitingTextInputFormatter(40),
+              ],
               textEditingController: controller.addressTextEditingController,
               prefixIcon: const Icon(Icons.add_location_outlined)),
           Constants.mediumVerticalSpacer,
@@ -301,6 +304,9 @@ class MyProfilePage extends GetView<MyProfileController> {
           CustomTextFormField(
               maxLines: 3,
               labelText: 'آدرس',
+              inputFormatters: [
+                LengthLimitingTextInputFormatter(40),
+              ],
               textEditingController:
                   controller.addressTextHoghohgiEditingController),
           Constants.mediumVerticalSpacer,

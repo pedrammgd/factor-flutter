@@ -35,7 +35,7 @@ class CurrencyPage extends GetView<CurrencyController> {
               },
               child: Ink(
                   decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: Theme.of(context).primaryColor,
                       borderRadius: BorderRadius.circular(20)),
                   child: _currencyItem(
                       index: index,

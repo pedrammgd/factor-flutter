@@ -64,7 +64,6 @@ class BuyerPage extends GetView<BuyerController> {
                 prefixIcon: const Icon(Icons.search),
                 hintText: '.....جستجو کن',
                 floatingLabelBehavior: FloatingLabelBehavior.always,
-                fillColor: Colors.white,
                 hasBorder: true,
                 borderColor: Theme.of(context).colorScheme.secondary,
                 paddingBottom: 0,
@@ -85,7 +84,7 @@ class BuyerPage extends GetView<BuyerController> {
               buyerList: controller.buyerList,
               sharedPreferences: controller.sharedPreferences,
             ),
-            backgroundColor: Colors.white,
+            backgroundColor: Theme.of(context).primaryColor,
             shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.vertical(
                 top: Radius.circular(
@@ -97,24 +96,6 @@ class BuyerPage extends GetView<BuyerController> {
             enterBottomSheetDuration: const Duration(milliseconds: 300),
             exitBottomSheetDuration: const Duration(milliseconds: 0),
           );
-          // final result = await showModalBottomSheet(
-          //   context: context,
-          //   backgroundColor: Colors.white,
-          //   shape: const RoundedRectangleBorder(
-          //     borderRadius: BorderRadius.vertical(
-          //       top: Radius.circular(
-          //         30,
-          //       ),
-          //     ),
-          //   ),
-          //   isScrollControlled: true,
-          //   builder: (context) => BuyerAddOrEditBottomSheet(
-          //     buyerItem: null,
-          //     buyerList: controller.buyerListSearch,
-          //     sharedPreferences: controller.sharedPreferences,
-          //   ),
-          // );
-
           if (result == true) {
             controller.isShowFoundSearch.value = false;
             controller.loadBuyerData();

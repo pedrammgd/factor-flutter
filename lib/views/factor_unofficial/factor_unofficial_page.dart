@@ -28,7 +28,8 @@ class FactorUnofficialPage extends GetView<FactorUnofficialController> {
       onWillPop: () async {
         final result = await ExitPopUp.showExitPopup(
           title: 'خروج از لیست آیتم فاکتور',
-          description: 'در صورت خروج از لیست فاکتور ، تمامی اطلاعات پاک میشود',
+          description:
+              'اطلاعات ذخیره نشده ای دارید در صورت خروج از لیست آیتم فاکتور ، اطلاعات شما پاک می شود',
         );
         if (result == true) {
           Get.back();
@@ -89,7 +90,7 @@ class FactorUnofficialPage extends GetView<FactorUnofficialController> {
                   },
                   child: FactorExpandIcon(
                     isExpanded: controller.isExpandedBottomSheet.value,
-                    color: Colors.white,
+                    color: Theme.of(Get.context!).primaryColor,
                   )),
             ),
           );
@@ -100,7 +101,8 @@ class FactorUnofficialPage extends GetView<FactorUnofficialController> {
       backOnTap: () async {
         final result = await ExitPopUp.showExitPopup(
           title: 'خروج از لیست آیتم فاکتور',
-          description: 'در صورت خروج از لیست فاکتور ، تمامی اطلاعات پاک میشود',
+          description:
+              'اطلاعات ذخیره نشده ای دارید در صورت خروج از لیست آیتم فاکتور ، اطلاعات شما پاک می شود',
         );
         if (result == true) {
           Get.back();
@@ -125,8 +127,6 @@ class FactorUnofficialPage extends GetView<FactorUnofficialController> {
             height: 45,
             width: double.maxFinite,
             child: CustomBorderButton(
-              borderColor: Theme.of(Get.context!).colorScheme.secondary,
-              textColor: Theme.of(Get.context!).colorScheme.secondary,
               onPressed: () {
                 CustomModalBottomSheet.showModalBottomSheet(
                   color: Theme.of(Get.context!).primaryColor,

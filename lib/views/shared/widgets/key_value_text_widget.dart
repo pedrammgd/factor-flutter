@@ -40,9 +40,9 @@ class KeyValueTextWidget extends StatelessWidget {
             text: TextSpan(
               text: keyText,
               style: TextStyle(
-                  color: Colors.black,
                   fontSize: keyTextSize,
-                  fontFamily: 'IRANSans'),
+                  fontFamily: 'IRANSans',
+                  color: Theme.of(context).colorScheme.secondary),
               children: <TextSpan>[
                 TextSpan(
                     text: bracketKeyText,

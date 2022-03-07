@@ -332,16 +332,15 @@ class _FactorUnofficialSpecificationSelectItemState
                       child: RichText(
                     text: TextSpan(
                       text: widget.title,
-                      style: const TextStyle(
+                      style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: Colors.black,
                           fontSize: 13,
+                          color: Theme.of(context).colorScheme.secondary,
                           fontFamily: 'IRANSans'),
                       children: <TextSpan>[
                         TextSpan(
                             text: '(${widget.bracesWord})',
                             style: const TextStyle(
-                                color: Colors.black,
                                 fontWeight: FontWeight.w500,
                                 fontSize: 11,
                                 fontFamily: 'IRANSans')),
@@ -370,9 +369,9 @@ class _FactorUnofficialSpecificationSelectItemState
                       children: [
                         widget.icon,
                         Constants.smallHorizontalSpacer,
-                        Text(
+                        const Text(
                           'افزودن',
-                          style: TextStyle(color: widget.textAddColor),
+                          style: TextStyle(),
                         )
                       ],
                     )),

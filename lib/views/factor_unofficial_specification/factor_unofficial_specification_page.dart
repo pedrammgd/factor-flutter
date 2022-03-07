@@ -61,7 +61,7 @@ class FactorUnofficialSpecificationPage
           final result = await ExitPopUp.showExitPopup(
             title: 'خروج از مشخصات آیتم فاکتور',
             description:
-                'در صورت خروج از مشخصات فاکتور ، تمامی اطلاعات پاک میشود',
+                'اطلاعات ذخیره نشده ای دارید در صورت خروج از مشخصات فاکتور ، اطلاعات شما پاک می شود',
           );
           if (result == true) {
             Get.back();
@@ -75,7 +75,7 @@ class FactorUnofficialSpecificationPage
               final result = await ExitPopUp.showExitPopup(
                 title: 'خروج از مشخصات فاکتور',
                 description:
-                    'در صورت خروج از مشخصات فاکتور ، تمامی اطلاعات پاک میشود',
+                    'اطلاعات ذخیره نشده ای دارید در صورت خروج از مشخصات فاکتور ، اطلاعات شما پاک می شود',
               );
               if (result == true) {
                 Get.back();
@@ -386,7 +386,7 @@ class FactorUnofficialSpecificationPage
                           controller.factorHeaderViewModel.value?.factorNum);
                   if (factorNumCond) {
                     Get.snackbar('خطا در شماره فاکتور',
-                        'شماره فاکتور تکراری می باشد لطفا از شماره ی جدیدی اسفاده کنید');
+                        'شماره فاکتور تکراری می باشد لطفا شماره ی فاکتور را تغییر دهید ');
                     return;
                   }
 
@@ -478,7 +478,8 @@ class FactorUnofficialSpecificationPage
             content: Column(mainAxisSize: MainAxisSize.min, children: [
               const Text('در حال آماده سازی پی دی اف '),
               Constants.largeVerticalSpacer,
-              const LinearProgressIndicator(color: Colors.black),
+              LinearProgressIndicator(
+                  color: Theme.of(Get.context!).colorScheme.secondary),
             ])),
       ),
       barrierDismissible: false,
@@ -519,7 +520,7 @@ class FactorUnofficialSpecificationPage
             },
             child: FactorExpandIcon(
               isExpanded: controller.isExpandedBottomSheet.value,
-              color: Colors.white,
+              color: Theme.of(Get.context!).primaryColor,
             )),
       ),
     );

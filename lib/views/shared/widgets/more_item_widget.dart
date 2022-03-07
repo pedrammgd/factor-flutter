@@ -1,5 +1,3 @@
-
-
 import 'package:factor_flutter_mobile/core/constans/constans.dart';
 import 'package:flutter/material.dart';
 
@@ -18,13 +16,12 @@ class MoreItemWidget extends StatelessWidget {
       this.paddingBottom = 10,
       this.paddingStart = 20,
       this.title = 'عنوان',
-      this.icon = purchaseRecordsIcon,
+      this.icon = myProfileIcon,
       this.onTap});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      splashColor: Colors.black54,
       onTap: onTap,
       child: Padding(
         padding: EdgeInsetsDirectional.only(
@@ -44,11 +41,10 @@ class MoreItemWidget extends StatelessWidget {
             Constants.smallHorizontalSpacer,
             Text(
               title,
-              style: const TextStyle(
-                 fontWeight: FontWeight.bold),
+              style: const TextStyle(fontWeight: FontWeight.bold),
             ),
             const Spacer(),
-             Icon(
+            Icon(
               Icons.arrow_forward_ios,
               size: 17,
               color: Theme.of(context).colorScheme.secondary,

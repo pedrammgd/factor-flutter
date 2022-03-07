@@ -54,9 +54,11 @@ class HomeFactorController extends GetxController {
     List<String> factorDataList =
         sharedPreferences.getStringList(factorHomeListSharedPreferencesKey) ??
             [];
-    factorHomeList.value = factorDataList
-        .map((e) => FactorHomeViewModel.fromJson(json.decode(e)))
-        .toList();
+    if (factorDataList.isNotEmpty) {
+      factorHomeList.value = factorDataList
+          .map((e) => FactorHomeViewModel.fromJson(json.decode(e)))
+          .toList();
+    }
     factorHomeListSearch.value = factorHomeList;
 
     log('factorDataList${factorDataList}');

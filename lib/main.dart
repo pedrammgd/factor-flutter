@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 
-import 'fire_base/fcm/firebase_config.dart';
+import 'core/fire_base/fcm/firebase_config.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp(options: DefaultFirebaseConfig.platformOptions);

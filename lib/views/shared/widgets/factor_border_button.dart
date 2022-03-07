@@ -9,13 +9,13 @@ class CustomBorderButton extends StatelessWidget {
       this.backgroundColor,
       this.icon,
       this.textColor,
-      this.borderColor = Colors.black});
+      this.borderColor});
 
   final String titleButton;
   final Function()? onPressed;
   final Color? backgroundColor;
   final Color? textColor;
-  final Color borderColor;
+  final Color? borderColor;
   final Widget? icon;
 
   @override
@@ -26,7 +26,9 @@ class CustomBorderButton extends StatelessWidget {
       label: Text(
         titleButton,
         textAlign: TextAlign.start,
-        style: TextStyle(color: textColor, fontWeight: FontWeight.bold),
+        style: TextStyle(
+            color: textColor ?? Theme.of(context).colorScheme.secondary,
+            fontWeight: FontWeight.bold),
       ),
       style: OutlinedButton.styleFrom(
         padding: EdgeInsets.only(
@@ -39,7 +41,7 @@ class CustomBorderButton extends StatelessWidget {
         ),
         side: BorderSide(
           width: 1.5,
-          color: borderColor,
+          color: borderColor ?? Theme.of(context).colorScheme.secondary,
         ),
       ),
     );

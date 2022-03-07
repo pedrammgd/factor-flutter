@@ -28,11 +28,11 @@ class MorePage extends GetView<MoreController> {
               Get.toNamed(FactorRoutes.myProfile);
             },
             title: 'مشخصات من',
-            icon: purchaseRecordsIcon,
+            icon: myProfileIcon,
           ),
           MoreItemWidget(
             title: 'سربرگ فاکتور',
-            icon: settingIcon,
+            icon: documentHeaderIcon,
             onTap: () {
               Get.toNamed(
                 FactorRoutes.factorHeader,
@@ -41,7 +41,7 @@ class MorePage extends GetView<MoreController> {
           ),
           MoreItemWidget(
             title: 'مشتری ها',
-            icon: cartIcon,
+            icon: buyerEmptyListIcon,
             onTap: () {
               Get.toNamed(FactorRoutes.buyer,
                   arguments: const BuyerPage()
@@ -55,14 +55,14 @@ class MorePage extends GetView<MoreController> {
           Constants.smallVerticalSpacer,
           MoreItemWidget(
             title: 'قالب فاکتور',
-            icon: supportIcon,
+            icon: formatSizeIcon,
             onTap: () {
               Get.toNamed(FactorRoutes.customPdfSize);
             },
           ),
           MoreItemWidget(
             title: 'واحد پول',
-            icon: messageIcon,
+            icon: moneyIcon,
             onTap: () {
               return Get.toNamed(
                 FactorRoutes.currency,
@@ -82,12 +82,14 @@ class MorePage extends GetView<MoreController> {
             );
           }),
           MoreItemWidget(
-            title: 'اشتراک',
-            icon: messageIcon,
+            title: 'پشتیبانی',
+            icon: supportIcon,
             onTap: () {
-              return Get.toNamed(
-                FactorRoutes.subscription,
-              );
+              Get.defaultDialog(
+                  title: 'پشتیبانی',
+                  middleText:
+                      'در صورت هر گونه مشکل در برنامه فاکتور پر با ما در ارتباط باشید (avacompanydeveloper@gmail.com) ',
+                  textCancel: 'باشه');
             },
           ),
           Constants.xxLargeVerticalSpacer,
@@ -118,9 +120,13 @@ class MorePage extends GetView<MoreController> {
         ),
         Constants.smallVerticalSpacer,
         OutlinedButton(
-          onPressed: () {},
+          onPressed: () {
+            Get.toNamed(
+              FactorRoutes.subscription,
+            );
+          },
           child: Text(
-            'ارتقا',
+            'اشتراک',
             style: TextStyle(
               color: Theme.of(context).colorScheme.secondary,
             ),

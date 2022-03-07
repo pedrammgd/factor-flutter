@@ -62,7 +62,7 @@ class ListTypeFactorPage extends GetView<ListTypeFactorPageController> {
                                           controller.factorHomeList));
                             },
                             title: 'فاکتور غیر رسمی',
-                            icon: addFactorUnofficialIcon,
+                            icon: addTaskIcon,
                             infoOnTap: () {
                               Get.defaultDialog(
                                   title: 'فاکتور غیر رسمی',

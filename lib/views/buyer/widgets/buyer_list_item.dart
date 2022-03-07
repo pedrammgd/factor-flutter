@@ -45,7 +45,7 @@ class BuyerListItem extends GetView<BuyerController> {
         buyerList: controller.buyerList,
         sharedPreferences: controller.sharedPreferences,
       ),
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(Get.context!).primaryColor,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
           top: Radius.circular(

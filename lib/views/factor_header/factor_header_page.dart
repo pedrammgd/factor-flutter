@@ -37,6 +37,9 @@ class FactorHeaderPage extends GetView<FactorHeaderController> {
                     controller.factorTitleTextEditingController,
                 labelText: 'عنوان فاکتور',
                 validatorTextField: emptyValidator('عنوان فاکتور'),
+                inputFormatters: [
+                  LengthLimitingTextInputFormatter(20),
+                ],
               ),
               Constants.smallVerticalSpacer,
               CustomTextFormField(

@@ -111,7 +111,6 @@ class FactorAppBar extends StatelessWidget implements PreferredSizeWidget {
         prefixIcon: const Icon(Icons.search),
         hintText: '.....جستجو کن',
         floatingLabelBehavior: FloatingLabelBehavior.always,
-        fillColor: Colors.white,
         hasBorder: true,
         borderColor: Theme.of(context).colorScheme.secondary,
         paddingBottom: 0,

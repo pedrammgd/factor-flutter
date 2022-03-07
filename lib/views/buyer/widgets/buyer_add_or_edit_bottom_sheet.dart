@@ -88,6 +88,9 @@ class BuyerAddOrEditBottomSheet extends GetView<BuyerAddOrEditController> {
         CustomTextFormField(
           labelText: 'آدرس',
           maxLines: 2,
+          inputFormatters: [
+            LengthLimitingTextInputFormatter(40),
+          ],
           textEditingController:
               controller.addressTextHoghohgiEditingController,
           textInputAction: TextInputAction.done,
@@ -129,6 +132,9 @@ class BuyerAddOrEditBottomSheet extends GetView<BuyerAddOrEditController> {
         CustomTextFormField(
           labelText: 'آدرس',
           maxLines: 2,
+          inputFormatters: [
+            LengthLimitingTextInputFormatter(40),
+          ],
           textEditingController: controller.addressTextEditingController,
           textInputAction: TextInputAction.done,
         )

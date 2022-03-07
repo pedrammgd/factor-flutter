@@ -24,6 +24,8 @@ class AddOrEditFactorUnofficialController extends GetxController {
   final TextEditingController productTaxationController =
       TextEditingController(text: '0.0');
 
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
   final Uuid uuid = const Uuid();
 
   final RxString unitValue = 'عدد'.obs;
