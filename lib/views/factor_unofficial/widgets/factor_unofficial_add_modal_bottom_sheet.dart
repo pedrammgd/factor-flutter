@@ -271,7 +271,7 @@ class FactorUnofficialAddModalBottomSheet
       width: double.infinity,
       labelText: 'شرح کالا *',
       inputFormatters: [
-        LengthLimitingTextInputFormatter(15),
+        LengthLimitingTextInputFormatter(20),
       ],
       borderColor: Theme.of(context).colorScheme.secondary,
       hasBorder: true,

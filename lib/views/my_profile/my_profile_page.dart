@@ -252,7 +252,7 @@ class MyProfilePage extends GetView<MyProfileController> {
               maxLines: 3,
               labelText: 'آدرس',
               inputFormatters: [
-                LengthLimitingTextInputFormatter(40),
+                LengthLimitingTextInputFormatter(50),
               ],
               textEditingController: controller.addressTextEditingController,
               prefixIcon: const Icon(Icons.add_location_outlined)),
@@ -305,7 +305,7 @@ class MyProfilePage extends GetView<MyProfileController> {
               maxLines: 3,
               labelText: 'آدرس',
               inputFormatters: [
-                LengthLimitingTextInputFormatter(40),
+                LengthLimitingTextInputFormatter(50),
               ],
               textEditingController:
                   controller.addressTextHoghohgiEditingController),

@@ -6,7 +6,6 @@ import 'package:factor_flutter_mobile/views/list_type_factor/list_type_factor_pa
 import 'package:factor_flutter_mobile/views/more/more_page.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/custom_bottom_navigation_bar.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/factor_app_bar.dart';
-import 'package:factor_flutter_mobile/views/shared/widgets/scroll_to_hide_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -40,16 +39,12 @@ class FactorBasePage extends GetView<FactorBaseController> {
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         bottomNavigationBar: FadeInUp(
           delay: const Duration(milliseconds: 1000),
-          child: ScrollToHideWidget(
-            scrollController: controller.scrollController,
-            height: 55,
-            child: CustomBottomNavigationBar(
-              onItemSelected: (value) {
-                controller.currentIndex.value = value;
-              },
-              selectedIndex: controller.currentIndex.value,
-              items: factorBottomNavigationBarItem,
-            ),
+          child: CustomBottomNavigationBar(
+            onItemSelected: (value) {
+              controller.currentIndex.value = value;
+            },
+            selectedIndex: controller.currentIndex.value,
+            items: factorBottomNavigationBarItem,
           ),
         ),
         body: SafeArea(

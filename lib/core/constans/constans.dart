@@ -55,13 +55,18 @@ const String darkIcon = 'assets/images/png/dark-mode.png';
 const String moreIcon = 'assets/images/png/more.png';
 const String homeIcon = 'assets/images/png/home.png';
 const String barcodeScannerIcon = 'assets/images/png/barcode-scanner.png';
-const String addTaskIcon = 'assets/images/png/add_task.png';
+const String addFactorUnOfficialIcon =
+    'assets/images/png/add_factor_un_official.png';
 const String logoDesignIcon = 'assets/images/png/logo-design.png';
 const String splashIcon = 'assets/images/png/logo_factor.png';
 const String myProfileIcon = 'assets/images/png/my_profile.png';
 const String documentHeaderIcon = 'assets/images/png/document-header.png';
 const String formatSizeIcon = 'assets/images/png/format_size.png';
 const String moneyIcon = 'assets/images/png/money.png';
+
+//jpg
+
+const String adsIconImage = 'assets/images/jpg/ads_image.jpg';
 
 Color dividerColor = const Color(0xffe6e6e6);
 Color settingIconColor = const Color(0xff74736f);

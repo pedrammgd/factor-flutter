@@ -123,6 +123,7 @@ class FactorHeaderPage extends GetView<FactorHeaderController> {
               SizedBox(
                 height: 50,
                 child: CustomBorderButton(
+                  titleButton: 'ثبت',
                   onPressed: () {
                     controller.save();
                   },

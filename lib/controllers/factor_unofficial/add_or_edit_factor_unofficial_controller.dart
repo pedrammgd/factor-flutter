@@ -32,8 +32,8 @@ class AddOrEditFactorUnofficialController extends GetxController {
   RxList<String> unitList = <String>[
     'افزودن واحد دلخواه +',
     'عدد',
-    'ساعت',
-    'متر مکعب',
+    'کیلوگرم',
+    'متر',
   ].obs;
 
   final FactorUnofficialItemViewModel? editingFactorUnofficialItem;

@@ -428,7 +428,7 @@ class _FactorUnofficialSpecificationSelectItemState
                                 const Text(' : '),
                                 Expanded(
                                   child: Text(
-                                      '${widget.itemList()[index].price} ریال',
+                                      '${widget.itemList()[index].price} ${widget.currencyTitle}',
                                       overflow: TextOverflow.ellipsis),
                                 ),
                               ],

@@ -19,8 +19,9 @@ class FactorUnofficialItem extends GetView<FactorUnofficialController> {
   @override
   Widget build(BuildContext context) {
     return FactorCardUnOfficialWidget(
-      totalPrice: controller.totalPriceItem(items).toString().seRagham() +
-          ' ${controller.currencyTitle()}',
+      totalPrice:
+          controller.totalPriceItem(items).toStringAsFixed(2).seRagham() +
+              ' ${controller.currencyTitle()}',
       itemPopUp: controller.popUpItems,
       onSelectedPopUp: (value) {
         if (value == Constants.editPopUp) {

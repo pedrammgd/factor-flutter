@@ -16,7 +16,7 @@ class CurrencyController extends GetxController {
 
   Rxn<CurrencyViewModel> currencyViewModel = Rxn<CurrencyViewModel>();
 
-  RxInt selectedCurrency = 0.obs;
+  RxInt selectedCurrency = 1.obs;
   late SharedPreferences sharedPreferences;
 
   Future initSharedPreferences() async {

@@ -51,20 +51,17 @@ class BuyerCardWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(15),
           onTap: onTap,
           child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            mainAxisSize: MainAxisSize.min,
+            // mainAxisSize: MainAxisSize.min,
             children: [
               _titleWidget(),
               // Constants.largeHorizontalSpacer,
               Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 15),
-                  child: Text(
-                    isHaghighi ? 'حقیقی' : 'حقوقی',
-                    style: const TextStyle(
-                        fontSize: 12, fontWeight: FontWeight.bold),
-                  ),
+                child: Text(
+                  isHaghighi ? 'حقیقی' : 'حقوقی',
+                  style: const TextStyle(
+                      fontSize: 12, fontWeight: FontWeight.bold),
                 ),
               ),
               _morePopup(),
@@ -77,8 +74,8 @@ class BuyerCardWidget extends StatelessWidget {
 
   Widget _titleWidget() {
     return Expanded(
-      child: Padding(
-        padding: const EdgeInsetsDirectional.only(top: 15, start: 20),
+      child: FittedBox(
+        fit: BoxFit.scaleDown,
         child: Text(
           title,
           style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),

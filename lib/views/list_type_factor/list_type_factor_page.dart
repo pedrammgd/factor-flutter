@@ -54,7 +54,6 @@ class ListTypeFactorPage extends GetView<ListTypeFactorPageController> {
                         Constants.smallHorizontalSpacer,
                         FadeInLeft(
                           child: CardIconWidget(
-                            iconColor: Theme.of(context).colorScheme.secondary,
                             onTap: () {
                               Get.toNamed(FactorRoutes.factorUnofficial,
                                   arguments: FactorUnofficialPage().arguments(
@@ -62,7 +61,7 @@ class ListTypeFactorPage extends GetView<ListTypeFactorPageController> {
                                           controller.factorHomeList));
                             },
                             title: 'فاکتور غیر رسمی',
-                            icon: addTaskIcon,
+                            icon: addFactorUnOfficialIcon,
                             infoOnTap: () {
                               Get.defaultDialog(
                                   title: 'فاکتور غیر رسمی',
@@ -105,8 +104,9 @@ class ListTypeFactorPage extends GetView<ListTypeFactorPageController> {
                         autoPlay: true,
                         viewportFraction: 1,
                         height: controller
-                            .adsViewModel[controller.indexImage].heightAd
-                            .toDouble()),
+                                .adsViewModel[controller.indexImage].heightAd
+                                ?.toDouble() ??
+                            80),
                   ),
                 )
 
@@ -124,6 +124,14 @@ class ListTypeFactorPage extends GetView<ListTypeFactorPageController> {
         controller.adsViewModel[index].imageAd,
         fit: BoxFit.cover,
         width: double.infinity,
+        errorBuilder:
+            (BuildContext context, Object exception, StackTrace? stackTrace) {
+          return Image.asset(
+            adsIconImage,
+            fit: BoxFit.cover,
+            width: double.infinity,
+          );
+        },
       );
     } else {
       return SizedBox.fromSize();

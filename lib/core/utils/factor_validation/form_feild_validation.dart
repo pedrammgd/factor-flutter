@@ -3,10 +3,10 @@ import 'package:persian_number_utility/persian_number_utility.dart';
 
 String? Function(String?) mobileNumberValidator(String fieldName) =>
     (String? value) => value?.trim().isNotEmpty != true
-        ? '$fieldName اجباری است '
+        ? '$fieldName رو یادت رفت وارد کنی '
         : value!.isValidIranianMobileNumber()
             ? null
-            : 'شماره همراه اشتباه است';
+            : 'فکر کنم شماره همراهت اشتباهه';
 
 String? Function(String?) shabaNumberValidator(String fieldName) =>
     (String? value) => value?.trim().isNotEmpty != true

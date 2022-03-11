@@ -175,7 +175,7 @@ class FactorUnofficialSpecificationPage
       icon: const Icon(Icons.book_online_outlined),
       inputFormatters: [
         FilteringTextInputFormatter.digitsOnly,
-        LengthLimitingTextInputFormatter(10),
+        LengthLimitingTextInputFormatter(16),
       ],
       textInputType: TextInputType.phone,
       topTextFormFieldLabel: 'شماره پیگیری',
@@ -190,7 +190,7 @@ class FactorUnofficialSpecificationPage
           currencyTitle: controller.currencyTitle,
           inputFormatters: [
             FilteringTextInputFormatter.digitsOnly,
-            LengthLimitingTextInputFormatter(10),
+            LengthLimitingTextInputFormatter(16),
           ],
           textInputType: TextInputType.phone,
           topTextFormFieldLabel: 'شماره پیگیری',
@@ -248,7 +248,7 @@ class FactorUnofficialSpecificationPage
       icon: const Icon(Icons.monetization_on_outlined),
       statusFunction: () => controller.statusFunction(),
       inputFormatters: [
-        LengthLimitingTextInputFormatter(15),
+        LengthLimitingTextInputFormatter(20),
       ],
       title: 'پرداخت نقدی ',
       bracesWord: 'پول نقد و ...',
@@ -258,7 +258,7 @@ class FactorUnofficialSpecificationPage
             await Get.dialog(FactorUnofficialSpecificationAddOrEditDialog(
           currencyTitle: controller.currencyTitle,
           inputFormatters: [
-            LengthLimitingTextInputFormatter(15),
+            LengthLimitingTextInputFormatter(20),
           ],
           titleDialog: 'پرداخت نقدی',
           specificationCostList: controller.cashList,
@@ -278,7 +278,7 @@ class FactorUnofficialSpecificationPage
       icon: const Icon(Icons.bike_scooter),
       statusFunction: () => controller.statusFunction(),
       inputFormatters: [
-        LengthLimitingTextInputFormatter(15),
+        LengthLimitingTextInputFormatter(20),
       ],
       title: 'هزینه مازاد ',
       bracesWord: 'هزینه ارسال و ...',
@@ -288,7 +288,7 @@ class FactorUnofficialSpecificationPage
             await Get.dialog(FactorUnofficialSpecificationAddOrEditDialog(
           currencyTitle: controller.currencyTitle,
           inputFormatters: [
-            LengthLimitingTextInputFormatter(15),
+            LengthLimitingTextInputFormatter(20),
           ],
           titleDialog: 'هزینه مازاد',
           specificationCostList: controller.excessCostList,

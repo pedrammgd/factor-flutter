@@ -61,7 +61,7 @@ class BuyerAddOrEditBottomSheet extends GetView<BuyerAddOrEditController> {
           labelText: 'نام شرکت',
           textEditingController: controller.companyNameTextEditingController,
           inputFormatters: [
-            LengthLimitingTextInputFormatter(16),
+            LengthLimitingTextInputFormatter(20),
           ],
           validatorTextField: emptyValidator('نام شرکت'),
         ),
@@ -89,7 +89,7 @@ class BuyerAddOrEditBottomSheet extends GetView<BuyerAddOrEditController> {
           labelText: 'آدرس',
           maxLines: 2,
           inputFormatters: [
-            LengthLimitingTextInputFormatter(40),
+            LengthLimitingTextInputFormatter(50),
           ],
           textEditingController:
               controller.addressTextHoghohgiEditingController,
@@ -106,7 +106,7 @@ class BuyerAddOrEditBottomSheet extends GetView<BuyerAddOrEditController> {
           labelText: 'نام و نام خانوادگی',
           textEditingController: controller.fullNameTextEditingController,
           inputFormatters: [
-            LengthLimitingTextInputFormatter(16),
+            LengthLimitingTextInputFormatter(20),
           ],
           validatorTextField: emptyValidator('نام و نام خانوادگی'),
         ),
@@ -133,7 +133,7 @@ class BuyerAddOrEditBottomSheet extends GetView<BuyerAddOrEditController> {
           labelText: 'آدرس',
           maxLines: 2,
           inputFormatters: [
-            LengthLimitingTextInputFormatter(40),
+            LengthLimitingTextInputFormatter(50),
           ],
           textEditingController: controller.addressTextEditingController,
           textInputAction: TextInputAction.done,
