@@ -40,7 +40,6 @@ class CustomTextFormField extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: paddingHorizontal),
       child: FactorTextFormField(
         hasBorder: true,
-        labelColor: Theme.of(context).colorScheme.secondary,
         borderColor: Theme.of(context).colorScheme.secondary,
         controller: textEditingController,
         width: double.infinity,

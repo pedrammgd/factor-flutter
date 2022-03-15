@@ -1,3 +1,4 @@
+import 'package:factor_flutter_mobile/core/constans/constans.dart';
 import 'package:flutter/material.dart';
 
 class BuyerCardWidget extends StatelessWidget {
@@ -56,7 +57,7 @@ class BuyerCardWidget extends StatelessWidget {
             // mainAxisSize: MainAxisSize.min,
             children: [
               _titleWidget(),
-              // Constants.largeHorizontalSpacer,
+              Constants.largeHorizontalSpacer,
               Expanded(
                 child: Text(
                   isHaghighi ? 'حقیقی' : 'حقوقی',

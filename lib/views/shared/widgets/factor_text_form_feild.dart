@@ -137,8 +137,11 @@ class FactorTextFormField extends StatelessWidget {
                 labelText: labelText,
                 labelStyle: TextStyle(
                     fontSize: 15,
-                    color:
-                        labelColor ?? Theme.of(context).colorScheme.secondary),
+                    color: labelColor ??
+                        Theme.of(context)
+                            .colorScheme
+                            .secondary
+                            .withOpacity(.6)),
                 focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(
                     width: 1.5,

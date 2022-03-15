@@ -76,6 +76,7 @@ class FactorUnofficialAddModalBottomSheet
   Widget _taxationTextFormFild(BuildContext context) {
     return Expanded(
         child: FactorTextFormField(
+      prefixIcon: const Icon(Icons.price_change_outlined),
       controller: controller.productTaxationController,
       labelText: 'مالیات',
       validatorTextField: percentValidator('مالیات'),
@@ -93,6 +94,7 @@ class FactorUnofficialAddModalBottomSheet
   Widget _discountTextFormField(BuildContext context) {
     return Expanded(
         child: FactorTextFormField(
+      prefixIcon: const Icon(Icons.discount_outlined),
       controller: controller.productDiscountController,
       labelText: 'تخفیف',
       validatorTextField: percentValidator('تخفیف'),
@@ -109,11 +111,12 @@ class FactorUnofficialAddModalBottomSheet
 
   Widget _countTextFormField(BuildContext context) {
     return FactorTextFormField(
+      prefixIcon: const Icon(Icons.bar_chart_outlined),
       width: double.infinity,
       controller: controller.productCountController,
       labelText: 'واحد *',
       inputFormatters: [
-        FilteringTextInputFormatter.digitsOnly,
+        FilteringTextInputFormatter.allow(RegExp(r'^(\d+)?\.?\d{0,2}')),
         LengthLimitingTextInputFormatter(12),
       ],
       textInputAction: TextInputAction.next,
@@ -249,6 +252,7 @@ class FactorUnofficialAddModalBottomSheet
   Widget _unitPriceTextFormFeild(BuildContext context) {
     return FactorTextFormField(
       width: double.infinity,
+      prefixIcon: const Icon(Icons.attach_money),
       controller: controller.productUnitPriceController,
       labelText: 'قیمت واحد *',
       inputFormatters: [
@@ -269,6 +273,7 @@ class FactorUnofficialAddModalBottomSheet
     return FactorTextFormField(
       controller: controller.productDescriptionController,
       width: double.infinity,
+      prefixIcon: const Icon(Icons.description_outlined),
       labelText: 'شرح کالا *',
       inputFormatters: [
         LengthLimitingTextInputFormatter(20),

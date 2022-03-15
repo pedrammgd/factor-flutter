@@ -64,7 +64,7 @@ class AddOrEditFactorUnofficialController extends GetxController {
         unitValue: unitValue.value,
         id: uuid.v4(),
         productDescription: productDescriptionController.text,
-        productCount: int.tryParse(productCountController.text) ?? 1,
+        productCount: double.tryParse(productCountController.text) ?? 1,
         productUnitPrice:
             productUnitPriceController.text.replaceAll(RegExp(','), ''),
         productDiscount: double.tryParse(productDiscountController.text) ?? 0,
@@ -171,7 +171,7 @@ class AddOrEditFactorUnofficialController extends GetxController {
       unitValue: unitValue.value,
       id: editingFactorUnofficialItem!.id,
       productDescription: productDescriptionController.text,
-      productCount: int.tryParse(productCountController.text) ?? 0,
+      productCount: double.tryParse(productCountController.text) ?? 0,
       productUnitPrice:
           productUnitPriceController.text.replaceAll(RegExp(','), ''),
       productDiscount: double.tryParse(productDiscountController.text) ?? 0,

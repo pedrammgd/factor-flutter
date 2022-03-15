@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class FactorCircularProgressIndicator extends StatelessWidget {
-  const FactorCircularProgressIndicator({Key? key}) : super(key: key);
+  const FactorCircularProgressIndicator({Key? key, this.color})
+      : super(key: key);
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
@@ -9,7 +11,7 @@ class FactorCircularProgressIndicator extends StatelessWidget {
       height: 15,
       width: 15,
       child: CircularProgressIndicator(
-        color: Theme.of(context).colorScheme.secondary,
+        color: color ?? Theme.of(context).colorScheme.secondary,
       ),
     );
   }

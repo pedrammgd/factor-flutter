@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+
 import 'dart:typed_data';
 
 import 'package:factor_flutter_mobile/core/constans/constans.dart';
@@ -249,10 +250,10 @@ class MyProfileController extends GetxController {
     saveHoghoghiData();
   }
 
-  void logoTap() {
+  void logoTap(BuildContext context) {
     FocusManager.instance.primaryFocus?.unfocus();
     CameraOrGalleryBottomSheet.chooseCameraOrGallery(
-      Get.context!,
+      context,
       cameraButtonFunction: () {
         Get.back();
         _getLogoImage(imageSource: ImageSource.camera);
@@ -439,7 +440,6 @@ class MyProfileController extends GetxController {
     try {
       var imagePick = await ImagePicker().pickImage(
         source: imageSource,
-        imageQuality: 80,
       );
 
       if (imagePick != null) {

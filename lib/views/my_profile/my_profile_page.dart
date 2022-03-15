@@ -36,7 +36,9 @@ class MyProfilePage extends GetView<MyProfileController> {
               _profileHeaderSwitch(),
               Constants.mediumVerticalSpacer,
               if (controller.isHaghighi.value)
-                Form(key: controller.haghighiFormKey, child: _unLegalItems())
+                Form(
+                    key: controller.haghighiFormKey,
+                    child: _unLegalItems(context))
               else
                 Form(key: controller.hoghoghiFormKey, child: _legalItems()),
               Constants.largeVerticalSpacer,
@@ -49,14 +51,14 @@ class MyProfilePage extends GetView<MyProfileController> {
     );
   }
 
-  Widget _logo() {
+  Widget _logo(BuildContext context) {
     return MyProfileImageCard(
       icon: logoDesignIcon,
       isShowUint8List: controller.isShowLogoImage.value,
       title: 'افزودن لوگو',
       editTitle: 'تغییر لوگو',
       uint8ListImage: controller.uint8ListLogoImage.value,
-      onTap: controller.logoTap,
+      onTap: () => controller.logoTap(context),
       removeUint8ListOnTap: () => controller.removeUint8ListButton(
           title: 'حذف لوگو',
           message: 'برای حذف لوگو دکمه حذف x رو بفشار',
@@ -214,7 +216,7 @@ class MyProfilePage extends GetView<MyProfileController> {
     );
   }
 
-  Widget _unLegalItems() {
+  Widget _unLegalItems(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
@@ -238,15 +240,14 @@ class MyProfilePage extends GetView<MyProfileController> {
             textInputType: TextInputType.phone,
           ),
           CustomTextFormField(
-              labelText: 'شماره همراه',
+              labelText: 'شماره تماس',
               textEditingController: controller.mobileTextEditingController,
               prefixIcon: const Icon(Icons.phone_android),
               maxLength: 11,
               inputFormatters: [
                 FilteringTextInputFormatter.digitsOnly,
               ],
-              validatorTextField:
-                  mobileNumberValidatorWithOutRequiredEmpty('شماره همراه'),
+              validatorTextField: emptyValidator('شماره تماس'),
               textInputType: TextInputType.phone),
           CustomTextFormField(
               maxLines: 3,
@@ -259,7 +260,7 @@ class MyProfilePage extends GetView<MyProfileController> {
           Constants.mediumVerticalSpacer,
           _sealAndSignature(),
           Constants.largeVerticalSpacer,
-          _logo(),
+          _logo(context),
         ],
       ),
     );
@@ -290,7 +291,7 @@ class MyProfilePage extends GetView<MyProfileController> {
             textInputType: TextInputType.phone,
           ),
           CustomTextFormField(
-            labelText: 'شماره همراه',
+            labelText: 'شماره تماس',
             textEditingController:
                 controller.mobileTextHoghoghiEditingController,
             maxLength: 11,
@@ -298,8 +299,7 @@ class MyProfilePage extends GetView<MyProfileController> {
               FilteringTextInputFormatter.digitsOnly,
             ],
             textInputType: TextInputType.phone,
-            validatorTextField:
-                mobileNumberValidatorWithOutRequiredEmpty('شماره همراه'),
+            validatorTextField: emptyValidator('شماره تماس'),
           ),
           CustomTextFormField(
               maxLines: 3,

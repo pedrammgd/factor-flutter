@@ -33,18 +33,26 @@ class ShowPdfView extends GetView<ShowPdfController> {
         return true;
       },
       child: Scaffold(
-          appBar: FactorAppBar(
-              height: 70,
-              hasBackButton: true,
-              customBackButtonFunction: () {
-                if (controller.isFromHome) {
-                  Get.back();
-                } else {
-                  Get.offNamedUntil(FactorRoutes.home, (route) => false);
-                }
-              }),
-          backgroundColor: Colors.white,
-          body: SfPdfViewer.memory(controller.pdfView)),
+        appBar: FactorAppBar(
+            height: 70,
+            hasBackButton: true,
+            customBackButtonFunction: () {
+              if (controller.isFromHome) {
+                Get.back();
+              } else {
+                Get.offNamedUntil(FactorRoutes.home, (route) => false);
+              }
+            }),
+        backgroundColor: Colors.white,
+        body: SfPdfViewer.memory(
+          controller.pdfView,
+          enableDoubleTapZooming: false,
+        ),
+        //   PDFView(
+        //   pdfData: controller.pdfView,
+        //   nightMode: controller.isDark.value,
+        // );
+      ),
     );
   }
 

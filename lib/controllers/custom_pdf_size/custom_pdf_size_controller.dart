@@ -12,7 +12,10 @@ class CustomPdfSizeController extends GetxController {
     initSharedPreferences();
   }
 
-  RxList<String> paperSizeListText = <String>['A3', 'A4', 'A5'].obs;
+  RxList<String> paperSizeListText = <String>[
+    'A3',
+    'A4',
+  ].obs;
   RxInt selectedPaper = 1.obs;
 
   Rxn<CustomPdfSizeViewModel> customPdfSize = Rxn<CustomPdfSizeViewModel>();

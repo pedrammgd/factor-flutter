@@ -60,6 +60,7 @@ class FactorBasePage extends GetView<FactorBaseController> {
               color: Theme.of(context).primaryColor,
             ),
             onPressed: () {
+              FocusManager.instance.primaryFocus?.unfocus();
               Get.toNamed(FactorRoutes.listTypeFactor,
                   arguments: const ListTypeFactorPage()
                       .arguments(factorHomeList: controller.factorHomeList));

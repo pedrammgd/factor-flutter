@@ -44,8 +44,8 @@ class FactorUnofficialController extends GetxController {
     Constants.removePopUp
   ];
 
-  int price() {
-    int _price = 0;
+  double price() {
+    double _price = 0;
     for (var element in factorUnofficialItemList) {
       _price += int.parse(element.productUnitPrice) * element.productCount;
     }

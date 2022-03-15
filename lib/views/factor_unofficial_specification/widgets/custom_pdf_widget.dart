@@ -152,6 +152,20 @@ class CustomPdfWidget {
       }
     }
 
+    String ownerPhoneNumber() {
+      if (myProfileItem.value != null) {
+        if (myProfileItem.value!.personBasicInformationViewModel.isHaghighi) {
+          return myProfileItem
+              .value!.personBasicInformationViewModel.mobileNumber!;
+        } else {
+          return myProfileItem
+              .value!.personBasicInformationViewModel.mobileNumber!;
+        }
+      } else {
+        return 'شماره تماس از قسمت مشخصات من قبل حذف یا ویرایش می باشد';
+      }
+    }
+
     String buyerFunction({
       String? haghighiItem,
       String? hoghoghiItem,
@@ -212,7 +226,7 @@ class CustomPdfWidget {
           return '';
         }
       } else {
-        return '-';
+        return '';
       }
     }
 
@@ -233,8 +247,7 @@ class CustomPdfWidget {
           children: [
             // _barcodeWidget(),
             _headerWidget(ownerAddress(), headerTitle(), ownerName(),
-                _nationalCode(), _nationalOwnerCodeKey()),
-
+                _nationalCode(), _nationalOwnerCodeKey(), ownerPhoneNumber()),
             if (_hasImage(
                 image8ListHaghighi: myProfileItem.value?.logoUint8List,
                 iamgeUint8ListHoghoghi:
@@ -364,7 +377,7 @@ class CustomPdfWidget {
         pw.SizedBox(height: 20),
         pw.Align(
           alignment: pw.Alignment.centerRight,
-          child: pw.Text('توسعه توسط اپلیکیشن فاکتور',
+          child: pw.Text('توسعه توسط اپلیکیشن فاکتور پر',
               style: const pw.TextStyle(fontSize: 5),
               textDirection: pw.TextDirection.rtl),
         ),
@@ -590,8 +603,13 @@ class CustomPdfWidget {
     ]);
   }
 
-  pw.Widget _headerWidget(String ownerAddress, String headerTitle,
-      String ownerTitleName, String nationalCode, String nationalCodeKey) {
+  pw.Widget _headerWidget(
+      String ownerAddress,
+      String headerTitle,
+      String ownerTitleName,
+      String nationalCode,
+      String nationalCodeKey,
+      String ownerPhoneNumber) {
     return pw.Expanded(
       child: pw.Column(
         children: [
@@ -615,11 +633,28 @@ class CustomPdfWidget {
                 style: const pw.TextStyle(fontSize: 14),
               ),
             ),
-            pw.Text(
-              nationalCodeKey,
-              textDirection: pw.TextDirection.rtl,
-              style: const pw.TextStyle(fontSize: 16),
+            if (nationalCode.isNotEmpty)
+              pw.Text(
+                nationalCodeKey,
+                textDirection: pw.TextDirection.rtl,
+                style: const pw.TextStyle(fontSize: 16),
+              ),
+          ]),
+          pw.SizedBox(height: 12),
+          pw.Row(mainAxisAlignment: pw.MainAxisAlignment.end, children: [
+            pw.Expanded(
+              child: pw.Text(
+                ownerPhoneNumber,
+                textDirection: pw.TextDirection.rtl,
+                style: const pw.TextStyle(fontSize: 14),
+              ),
             ),
+            if (ownerPhoneNumber.isNotEmpty)
+              pw.Text(
+                "شماره تماس  :  ",
+                textDirection: pw.TextDirection.rtl,
+                style: const pw.TextStyle(fontSize: 16),
+              ),
           ]),
           pw.SizedBox(height: 12),
           pw.Row(mainAxisAlignment: pw.MainAxisAlignment.end, children: [
@@ -630,11 +665,12 @@ class CustomPdfWidget {
                 style: const pw.TextStyle(fontSize: 14),
               ),
             ),
-            pw.Text(
-              "آدرس  :  ",
-              textDirection: pw.TextDirection.rtl,
-              style: const pw.TextStyle(fontSize: 16),
-            ),
+            if (ownerAddress.isNotEmpty)
+              pw.Text(
+                "آدرس  :  ",
+                textDirection: pw.TextDirection.rtl,
+                style: const pw.TextStyle(fontSize: 16),
+              ),
           ]),
         ],
       ),

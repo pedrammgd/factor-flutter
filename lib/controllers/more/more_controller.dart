@@ -2,9 +2,7 @@ import 'package:factor_flutter_mobile/core/theme/factor_theme.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class MoreController extends GetxController{
-
-
+class MoreController extends GetxController {
   @override
   void onInit() {
     super.onInit();
@@ -13,13 +11,12 @@ class MoreController extends GetxController{
 
   RxBool isDark = false.obs;
 
-  void changeTheme(){
-    if(isDark.value){
+  void changeTheme() {
+    if (isDark.value) {
       Get.changeTheme(FactorTheme.darkTheme);
-    }else{
+    } else {
       Get.changeTheme(FactorTheme.lightTheme);
     }
-
   }
 
   late SharedPreferences sharedPreferences;
@@ -29,17 +26,13 @@ class MoreController extends GetxController{
     getTheme();
   }
 
-
-
   void saveTheme() {
     sharedPreferences.setBool('saveTheme', isDark.value);
   }
 
   void getTheme() {
     isDark.value = sharedPreferences.getBool('saveTheme') ?? false;
-    Get.changeTheme(isDark.value ? FactorTheme.darkTheme :FactorTheme.lightTheme);
+    Get.changeTheme(
+        isDark.value ? FactorTheme.darkTheme : FactorTheme.lightTheme);
   }
-
-
-
 }

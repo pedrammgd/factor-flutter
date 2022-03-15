@@ -46,11 +46,13 @@ dependencies:
   signature: ^5.0.0
   pdf: ^3.7.1
   syncfusion_flutter_pdfviewer: ^19.4.48-beta
+#  native_pdf_view: ^6.0.0+1
+#  flutter_pdfview: ^1.2.2
   printing: ^5.7.2
   file_saver: ^0.0.10
-  image_picker: ^0.8.4+11
+  image_picker: ^0.8.4+1
   mime: ^1.0.1
-#  flutter_poolakey: ^2.0.0
+  flutter_poolakey: ^2.0.0
   persian_datetime_picker: ^2.4.0
   share_plus: ^3.1.0
   path_provider: ^2.0.9
@@ -58,7 +60,7 @@ dependencies:
   dartz: ^0.10.1
   url_launcher: ^6.0.20
   carousel_slider: ^4.0.0
-  myket_iap: ^1.0.2
+#  myket_iap: ^1.0.0
 
 
 dev_dependencies:

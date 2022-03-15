@@ -44,7 +44,7 @@ class FactorList extends GetView<HomeFactorController> {
           );
         } else {
           return Padding(
-            padding: const EdgeInsetsDirectional.only(bottom: 100),
+            padding: const EdgeInsetsDirectional.only(bottom: 40),
             child: ListView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),

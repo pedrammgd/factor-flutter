@@ -11,7 +11,7 @@ class FactorUnofficialItemViewModel {
 
   final String id;
   final String productDescription;
-  final int productCount;
+  final double productCount;
   final String productUnitPrice;
   final String unitValue;
   final double productDiscount;
