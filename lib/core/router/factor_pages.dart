@@ -1,5 +1,6 @@
 import 'package:factor_flutter_mobile/core/authentication/splash/spalsh_page.dart';
 import 'package:factor_flutter_mobile/views/buyer/buyer_page.dart';
+import 'package:factor_flutter_mobile/views/chart_factor/chart_factor_page.dart';
 import 'package:factor_flutter_mobile/views/currency/currency_page/currency_page.dart';
 import 'package:factor_flutter_mobile/views/custom_pdf_size/custom_pdf_size_page.dart';
 import 'package:factor_flutter_mobile/views/factor_base/factor_base_page.dart';
@@ -10,7 +11,7 @@ import 'package:factor_flutter_mobile/views/list_type_factor/list_type_factor_pa
 import 'package:factor_flutter_mobile/views/more/more_page.dart';
 import 'package:factor_flutter_mobile/views/my_profile/my_profile_page.dart';
 import 'package:factor_flutter_mobile/views/show_pdf/show_pdf_view.dart';
-import 'package:factor_flutter_mobile/views/subscription/subscription_page.dart';
+import 'package:factor_flutter_mobile/views/subscription/new_subscription_page.dart';
 import 'package:get/get.dart';
 
 part 'factor_routes.dart';
@@ -53,7 +54,8 @@ class FactorPage {
         transition: Transition.noTransition),
     GetPage(
         name: FactorRoutes.subscription,
-        page: () => const SubscriptionPage(),
+        // page: () => const SubscriptionPage(),
+        page: () => const NewSubscriptionPage(),
         transition: Transition.noTransition),
     GetPage(
         name: FactorRoutes.factorHeader,
@@ -70,6 +72,10 @@ class FactorPage {
     GetPage(
         name: FactorRoutes.currency,
         page: () => const CurrencyPage(),
+        transition: Transition.noTransition),
+    GetPage(
+        name: FactorRoutes.chart,
+        page: () => ChartFactorPage(),
         transition: Transition.noTransition),
   ];
 }

@@ -11,7 +11,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 class HomeFactorController extends GetxController {
   @override
   void onInit() {
-    print('home');
     super.onInit();
     initSharedPreferences();
   }
@@ -21,9 +20,10 @@ class HomeFactorController extends GetxController {
 
   RxList<FactorHomeViewModel> factorHomeList;
   RxList<FactorHomeViewModel> factorHomeListSearch;
-
-  HomeFactorController(
-      {required this.factorHomeList, required this.factorHomeListSearch});
+  HomeFactorController({
+    required this.factorHomeList,
+    required this.factorHomeListSearch,
+  });
 
   final List<String> popUpItems = <String>[
     Constants.showPopUp,

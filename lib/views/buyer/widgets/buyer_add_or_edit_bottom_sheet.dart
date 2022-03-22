@@ -58,14 +58,16 @@ class BuyerAddOrEditBottomSheet extends GetView<BuyerAddOrEditController> {
     return Column(
       children: [
         CustomTextFormField(
+          prefixIcon: const Icon(Icons.apartment),
           labelText: 'نام شرکت',
           textEditingController: controller.companyNameTextEditingController,
           inputFormatters: [
-            LengthLimitingTextInputFormatter(20),
+            LengthLimitingTextInputFormatter(25),
           ],
           validatorTextField: emptyValidator('نام شرکت'),
         ),
         CustomTextFormField(
+          prefixIcon: const Icon(Icons.insert_drive_file_outlined),
           labelText: 'شناسه ملی شرکت',
           textEditingController:
               controller.nationalCodeCompanyTextEditingController,
@@ -76,6 +78,7 @@ class BuyerAddOrEditBottomSheet extends GetView<BuyerAddOrEditController> {
           textInputType: TextInputType.phone,
         ),
         CustomTextFormField(
+          prefixIcon: const Icon(Icons.phone),
           labelText: 'شماره تماس',
           textEditingController: controller.mobileTextHoghoghiEditingController,
           inputFormatters: [
@@ -88,8 +91,9 @@ class BuyerAddOrEditBottomSheet extends GetView<BuyerAddOrEditController> {
         CustomTextFormField(
           labelText: 'آدرس',
           maxLines: 2,
+          prefixIcon: const Icon(Icons.add_location_outlined),
           inputFormatters: [
-            LengthLimitingTextInputFormatter(50),
+            LengthLimitingTextInputFormatter(60),
           ],
           textEditingController:
               controller.addressTextHoghohgiEditingController,
@@ -106,12 +110,13 @@ class BuyerAddOrEditBottomSheet extends GetView<BuyerAddOrEditController> {
           labelText: 'نام و نام خانوادگی',
           textEditingController: controller.fullNameTextEditingController,
           inputFormatters: [
-            LengthLimitingTextInputFormatter(20),
+            LengthLimitingTextInputFormatter(25),
           ],
           validatorTextField: emptyValidator('نام و نام خانوادگی'),
         ),
         CustomTextFormField(
           labelText: 'کد ملی',
+          prefixIcon: const Icon(Icons.confirmation_num_outlined),
           textEditingController: controller.nationalCodeTextEditingController,
           inputFormatters: [
             LengthLimitingTextInputFormatter(10),
@@ -121,6 +126,7 @@ class BuyerAddOrEditBottomSheet extends GetView<BuyerAddOrEditController> {
         ),
         CustomTextFormField(
           labelText: 'شماره تماس',
+          prefixIcon: const Icon(Icons.phone),
           textEditingController: controller.mobileTextEditingController,
           inputFormatters: [
             LengthLimitingTextInputFormatter(11),
@@ -131,9 +137,10 @@ class BuyerAddOrEditBottomSheet extends GetView<BuyerAddOrEditController> {
         ),
         CustomTextFormField(
           labelText: 'آدرس',
+          prefixIcon: const Icon(Icons.add_location_outlined),
           maxLines: 2,
           inputFormatters: [
-            LengthLimitingTextInputFormatter(50),
+            LengthLimitingTextInputFormatter(60),
           ],
           textEditingController: controller.addressTextEditingController,
           textInputAction: TextInputAction.done,

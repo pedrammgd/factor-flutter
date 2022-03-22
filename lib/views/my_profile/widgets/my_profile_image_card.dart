@@ -34,7 +34,7 @@ class MyProfileImageCard extends StatelessWidget {
       icon: Image.asset(
         icon,
         width: MediaQuery.of(context).size.width / 2,
-        height: MediaQuery.of(context).size.height / 8,
+        height: MediaQuery.of(context).size.height / 13,
         fit: BoxFit.contain,
       ),
     );

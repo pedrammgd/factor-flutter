@@ -160,7 +160,7 @@ class FactorUnofficialController extends GetxController {
 
   String currencyTitle() {
     if (currencyViewModel.value == null) {
-      return 'ریال';
+      return 'تومان';
     } else if (currencyViewModel.value?.currencyFormat == 0) {
       return 'ریال';
     } else if (currencyViewModel.value?.currencyFormat == 1) {

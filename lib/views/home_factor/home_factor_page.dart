@@ -1,4 +1,5 @@
 import 'package:factor_flutter_mobile/controllers/home_factor/home_factor_controller.dart';
+import 'package:factor_flutter_mobile/controllers/more/more_controller.dart';
 import 'package:factor_flutter_mobile/core/constans/constans.dart';
 import 'package:factor_flutter_mobile/models/factor_view_model/factor_view_model.dart';
 import 'package:factor_flutter_mobile/views/home_factor/widgets/factor_list.dart';

@@ -79,8 +79,9 @@ class FactorUnofficialSpecificationController extends GetxController {
       TextEditingController();
   TextEditingController checkPayPriceTextEditingController =
       TextEditingController();
-  TextEditingController descriptionTextEditingController =
-      TextEditingController(text: 'در این قسمت توضیحات قرار می گیرد');
+  TextEditingController descriptionTextEditingController = TextEditingController(
+      text:
+          'در این قسمت توضیحات قرار می گیرد میتوانید از قسمت توضیحات فاکتور آن را تغییر یا حذف کنید');
 
   RxDouble offsetScroll = 0.0.obs;
   final ScrollController scrollController = ScrollController();
@@ -187,6 +188,7 @@ class FactorUnofficialSpecificationController extends GetxController {
     loadMyProfileData();
     loadFactorHeaderData();
     loadPdfPaperData();
+    loadSubscription();
   }
 
   void loadPdfPaperData() {
@@ -292,6 +294,7 @@ class FactorUnofficialSpecificationController extends GetxController {
 
   void addToHomeFactor({required Uint8List uint8ListPdf}) {
     factorHomeList.add(FactorHomeViewModel(
+      totalPrice: totalPriceAllItems().value,
       id: uUid.v4(),
       uint8ListPdf: base64Encode(uint8ListPdf),
       dateFactor: factorHeaderViewModel.value?.factorDate ??
@@ -309,6 +312,50 @@ class FactorUnofficialSpecificationController extends GetxController {
     sharedPreferences.setStringList(
         factorHomeListSharedPreferencesKey, factorDataList);
     print('factorDataListUni$factorDataList');
+  }
+
+  RxString subscriptionValue = ''.obs;
+
+  void loadSubscription() {
+    String subscriptionData =
+        sharedPreferences.getString(subscriptionSharedPreferencesKey) ?? '';
+    if (subscriptionData.isNotEmpty) {
+      subscriptionValue.value = subscriptionData;
+    }
+    log('loadSubscription${subscriptionData}');
+  }
+
+  RxBool subscriptionCondition() {
+    if (subscriptionValue.value == 'bronze_buy') {
+      if (factorHomeList.length >= 29) {
+        return false.obs;
+      } else {
+        return true.obs;
+      }
+    } else if (subscriptionValue.value == 'silver') {
+      if (factorHomeList.length >= 59) {
+        return false.obs;
+      } else {
+        return true.obs;
+      }
+    } else if (subscriptionValue.value == 'gold') {
+      if (factorHomeList.length >= 999999999999999999) {
+        return false.obs;
+      } else {
+        return true.obs;
+      }
+    } else {
+      return false.obs;
+    }
+  }
+
+  bool isShowFactorParBottomInPdf() {
+    if (subscriptionValue.value == 'gold' ||
+        subscriptionValue.value == 'silver') {
+      return false;
+    } else {
+      return true;
+    }
   }
 
   @override

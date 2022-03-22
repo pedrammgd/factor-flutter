@@ -15,4 +15,5 @@ abstract class FactorRoutes {
   static const String showPdf = '/showPdf';
   static const String customPdfSize = '/customPdfSize';
   static const String currency = '/currency';
+  static const String chart = '/chart';
 }

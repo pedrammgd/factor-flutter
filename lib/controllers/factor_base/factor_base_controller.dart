@@ -11,6 +11,7 @@ class FactorBaseController extends GetxController {
   RxInt currentIndex = 0.obs;
   late ScrollController scrollController;
   RxBool isShowFoundSearch = false.obs;
+
   RxList<FactorHomeViewModel> factorHomeList = <FactorHomeViewModel>[].obs;
 
   RxList<FactorHomeViewModel> factorHomeListSearch =

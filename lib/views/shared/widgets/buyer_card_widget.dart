@@ -56,6 +56,7 @@ class BuyerCardWidget extends StatelessWidget {
             // mainAxisAlignment: MainAxisAlignment.spaceBetween,
             // mainAxisSize: MainAxisSize.min,
             children: [
+              Constants.smallHorizontalSpacer,
               _titleWidget(),
               Constants.largeHorizontalSpacer,
               Expanded(

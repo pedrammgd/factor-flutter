@@ -1,6 +1,7 @@
 import 'package:factor_flutter_mobile/controllers/buyer/buyer_controller.dart';
 import 'package:factor_flutter_mobile/core/constans/constans.dart';
 import 'package:factor_flutter_mobile/models/buyer_view_model/buyer_view_model.dart';
+import 'package:factor_flutter_mobile/views/shared/widgets/alert_delete_dialog.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/buyer_card_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -19,8 +20,16 @@ class BuyerListItem extends GetView<BuyerController> {
       onSelectedPopUp: (value) {
         if (value == Constants.editPopUp) {
           editBottomSheet();
+          FocusManager.instance.primaryFocus?.unfocus();
         } else {
-          controller.removeItem(items);
+          Get.dialog(AlertDeleteDialog(
+              title: items.personBasicInformationViewModel.fullName ?? 'مشتری',
+              onPressed: () {
+                controller.removeItem(items);
+                Get.back();
+              },
+              index: index));
+          FocusManager.instance.primaryFocus?.unfocus();
         }
       },
       isHaghighi: items.personBasicInformationViewModel.isHaghighi,

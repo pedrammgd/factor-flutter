@@ -255,6 +255,7 @@
 // }
 import 'package:factor_flutter_mobile/core/constans/constans.dart';
 import 'package:factor_flutter_mobile/models/specification_cost_view_model/specification_cost_view_model.dart';
+import 'package:factor_flutter_mobile/views/shared/widgets/alert_delete_dialog.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/custom_factor_divider.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/factor_border_button.dart';
 import 'package:flutter/material.dart';
@@ -355,10 +356,16 @@ class _FactorUnofficialSpecificationSelectItemState
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        Text(
-                          widget.selectedText,
-                          style: const TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.bold),
+                        Expanded(
+                          child: FittedBox(
+                            child: Text(
+                              widget.selectedText,
+                              // overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                  fontSize: 15, fontWeight: FontWeight.bold),
+                            ),
+                            fit: BoxFit.scaleDown,
+                          ),
                         ),
                       ],
                     ))
@@ -395,6 +402,7 @@ class _FactorUnofficialSpecificationSelectItemState
                         child: InkWell(
                           borderRadius: BorderRadius.circular(10),
                           onTap: () async {
+                            FocusManager.instance.primaryFocus?.unfocus();
                             final result = await Get.dialog(
                                 FactorUnofficialSpecificationAddOrEditDialog(
                               currencyTitle: widget.currencyTitle,
@@ -440,7 +448,18 @@ class _FactorUnofficialSpecificationSelectItemState
                       InkWell(
                         borderRadius: BorderRadius.circular(10),
                         onTap: () {
-                          Get.dialog(_alertDialogDelete(index));
+                          FocusManager.instance.primaryFocus?.unfocus();
+                          Get.dialog(AlertDeleteDialog(
+                              title: widget.itemList()[index].title,
+                              onPressed: () {
+                                setState(() {
+                                  widget.itemList
+                                      .remove(widget.itemList()[index]);
+                                  widget.statusFunction();
+                                  Get.back();
+                                });
+                              },
+                              index: index));
                         },
                         child: const Padding(
                           padding: EdgeInsetsDirectional.only(
@@ -466,71 +485,4 @@ class _FactorUnofficialSpecificationSelectItemState
     });
   }
 
-  Widget _alertDialogDelete(int index) {
-    return AlertDialog(
-      shape: RoundedRectangleBorder(
-        side: const BorderSide(color: Colors.white70, width: 1),
-        borderRadius: BorderRadius.circular(15),
-      ),
-      contentPadding: const EdgeInsets.only(top: 5, bottom: 20),
-      content: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Theme(
-              data: ThemeData(
-                splashColor: Colors.transparent,
-                highlightColor: Colors.transparent,
-              ),
-              child: InkWell(
-                splashFactory: NoSplash.splashFactory,
-                onTap: () {
-                  Get.back();
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.max,
-                  children: const [
-                    Padding(
-                      padding: EdgeInsetsDirectional.only(top: 5, start: 15),
-                      child: Icon(Icons.close),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Constants.mediumVerticalSpacer,
-            FittedBox(
-              fit: BoxFit.scaleDown,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 30),
-                child: Text(
-                  ' آیا می خواهید ${widget.itemList()[index].title} حذف کنید',
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 16),
-                ),
-              ),
-            ),
-            Constants.largeVerticalSpacer,
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: SizedBox(
-                  height: 50,
-                  width: double.infinity,
-                  child: CustomBorderButton(
-                    onPressed: () {
-                      setState(() {
-                        widget.itemList.remove(widget.itemList()[index]);
-                        widget.statusFunction();
-                        Get.back();
-                      });
-                    },
-                    titleButton: 'حذف',
-                  )),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
 }

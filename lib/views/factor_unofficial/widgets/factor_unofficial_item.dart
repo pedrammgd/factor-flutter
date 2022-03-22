@@ -2,6 +2,7 @@ import 'package:factor_flutter_mobile/controllers/factor_unofficial/factor_unoff
 import 'package:factor_flutter_mobile/core/constans/constans.dart';
 import 'package:factor_flutter_mobile/models/factor_unofficial_item_view_model/factor_unofficial_item_view_model.dart';
 import 'package:factor_flutter_mobile/views/factor_unofficial/widgets/factor_unofficial_add_modal_bottom_sheet.dart';
+import 'package:factor_flutter_mobile/views/shared/widgets/alert_delete_dialog.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/custom_modal_bottom_sheet.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/factor_card_unofficial_widget.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +28,13 @@ class FactorUnofficialItem extends GetView<FactorUnofficialController> {
         if (value == Constants.editPopUp) {
           editBottomSheet();
         } else {
-          controller.removeItem(items);
+          Get.dialog(AlertDeleteDialog(
+              title: items.productDescription,
+              onPressed: () {
+                controller.removeItem(items);
+                Get.back();
+              },
+              index: index));
         }
       },
       title: items.productDescription,

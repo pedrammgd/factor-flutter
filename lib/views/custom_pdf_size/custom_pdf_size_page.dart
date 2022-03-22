@@ -50,13 +50,12 @@ class CustomPdfSizePage extends GetView<CustomPdfSizeController> {
     return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
       Text(
         controller.paperSizeListText[index],
-        style: TextStyle(
-            fontSize: 20, color: Theme.of(Get.context!).colorScheme.secondary),
+        style: const TextStyle(fontSize: 20, color: Colors.black),
       ),
       if (selectedItem)
-        Icon(
+        const Icon(
           Icons.check,
-          color: Theme.of(Get.context!).colorScheme.secondary,
+          color: Colors.black,
         ),
     ]);
   }

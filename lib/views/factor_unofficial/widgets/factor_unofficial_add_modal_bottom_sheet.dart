@@ -140,9 +140,11 @@ class FactorUnofficialAddModalBottomSheet
                 ),
               ),
               Constants.veryTinyHorizontalSpacer,
-              Icon(
-                Icons.arrow_drop_down_circle_outlined,
-                color: Theme.of(Get.context!).colorScheme.secondary,
+              Flexible(
+                child: Icon(
+                  Icons.arrow_drop_down_circle_outlined,
+                  color: Theme.of(Get.context!).colorScheme.secondary,
+                ),
               ),
             ],
           ),
@@ -273,6 +275,7 @@ class FactorUnofficialAddModalBottomSheet
     return FactorTextFormField(
       controller: controller.productDescriptionController,
       width: double.infinity,
+      textInputAction: TextInputAction.next,
       prefixIcon: const Icon(Icons.description_outlined),
       labelText: 'شرح کالا *',
       inputFormatters: [

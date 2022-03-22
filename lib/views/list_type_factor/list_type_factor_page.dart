@@ -27,7 +27,14 @@ class ListTypeFactorPage extends GetView<ListTypeFactorPageController> {
   Widget build(BuildContext context) {
     initArguments();
     return Scaffold(
-      appBar: const FactorAppBar(),
+      appBar: FactorAppBar(
+          title: Padding(
+        padding: const EdgeInsets.only(top: 15),
+        child: Text(
+          'افزودن فاکتور',
+          style: TextStyle(color: Theme.of(context).colorScheme.secondary),
+        ),
+      )),
       body: Center(
         child: Obx(() {
           return Column(
@@ -77,7 +84,9 @@ class ListTypeFactorPage extends GetView<ListTypeFactorPageController> {
                   ],
                 ),
               ),
-              if (!controller.isLoadingAd.value)
+              if (controller.isLoadingAd.value)
+                const SizedBox.shrink()
+              else if (controller.isShowAd.value)
                 FadeInUp(
                   child: CarouselSlider.builder(
                     itemCount: controller.adsViewModel.length,

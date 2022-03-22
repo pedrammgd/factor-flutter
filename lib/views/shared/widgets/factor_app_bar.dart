@@ -19,7 +19,7 @@ class FactorAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.hasSearchBar = false,
     this.hasBarcodeButton = false,
     this.hasBackButton = true,
-    this.height = 80,
+    this.height = 70,
     this.title = const SizedBox.shrink(),
     this.customWidget = const SizedBox.shrink(),
     this.hasTitle = true,
@@ -81,6 +81,7 @@ class FactorAppBar extends StatelessWidget implements PreferredSizeWidget {
       borderRadius: BorderRadius.circular(9),
       splashColor: Colors.red.shade100,
       onTap: () {
+        FocusManager.instance.primaryFocus?.unfocus();
         Get.defaultDialog(
             title: 'بارکد خوان',
             middleText: 'برای استفاده از بارکد خوان در نسخه جدید منتظر باشید',

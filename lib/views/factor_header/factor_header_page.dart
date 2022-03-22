@@ -49,7 +49,7 @@ class FactorHeaderPage extends GetView<FactorHeaderController> {
                 suffixText: '#',
                 inputFormatters: [
                   FilteringTextInputFormatter.digitsOnly,
-                  LengthLimitingTextInputFormatter(3),
+                  LengthLimitingTextInputFormatter(4),
                 ],
                 textInputType: TextInputType.phone,
                 validatorTextField: emptyValidator('شماره فکتور'),

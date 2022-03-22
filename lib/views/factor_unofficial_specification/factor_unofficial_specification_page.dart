@@ -15,6 +15,7 @@ import 'package:factor_flutter_mobile/views/shared/widgets/expandable/factor_exp
 import 'package:factor_flutter_mobile/views/shared/widgets/factor_app_bar.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/factor_text_form_feild.dart';
 import 'package:factor_flutter_mobile/views/show_pdf/show_pdf_view.dart';
+import 'package:factor_flutter_mobile/views/subscription/new_subscription_page.dart';
 import 'package:file_saver/file_saver.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -95,30 +96,35 @@ class FactorUnofficialSpecificationPage
           ),
           body: SingleChildScrollView(
             controller: controller.scrollController,
-            child: Column(
-              children: [
-                _headerFactor(context),
-                Constants.largeVerticalSpacer,
-                _ownerItem(),
-                Constants.largeVerticalSpacer,
-                _buyerItem(),
-                Constants.largeVerticalSpacer,
-                _excessCostListItem(),
-                _cashListItem(),
-                _cartListItem(),
-                _onlinePayListItem(),
-                _checkPayListItem(),
-                Constants.smallVerticalSpacer,
-                FactorTextFormField(
-                  textInputAction: TextInputAction.newline,
-                  controller: controller.descriptionTextEditingController,
-                  hasBorder: true,
-                  // height: 100,
-                  labelText: 'توضیحات',
-                  prefixIcon: const Icon(Icons.description),
-                ),
-                Constants.xxLargeVerticalSpacer,
-              ],
+            child: InkWell(
+              onTap: () {
+                FocusManager.instance.primaryFocus?.unfocus();
+              },
+              child: Column(
+                children: [
+                  _headerFactor(context),
+                  Constants.largeVerticalSpacer,
+                  _ownerItem(),
+                  Constants.largeVerticalSpacer,
+                  _buyerItem(),
+                  Constants.largeVerticalSpacer,
+                  _excessCostListItem(),
+                  _cashListItem(),
+                  _cartListItem(),
+                  _onlinePayListItem(),
+                  _checkPayListItem(),
+                  Constants.smallVerticalSpacer,
+                  FactorTextFormField(
+                    textInputAction: TextInputAction.newline,
+                    controller: controller.descriptionTextEditingController,
+                    hasBorder: true,
+                    // height: 100,
+                    labelText: 'توضیحات',
+                    prefixIcon: const Icon(Icons.description),
+                  ),
+                  Constants.xxLargeVerticalSpacer,
+                ],
+              ),
             ),
           ),
           floatingActionButtonLocation:
@@ -142,12 +148,13 @@ class FactorUnofficialSpecificationPage
       topTextFormFieldLabel: 'شماره سریال',
       bottomTextFormFieldLabel: 'مبلغ',
       statusFunction: () => controller.statusFunction(),
-      title: 'پرداخت چکی ',
+      title: 'پرداخت برات ',
       hasCustomBeforeTitle: true,
       customBeforeTitle: 'شماره سریال',
       bracesWord: 'چک و سفته ...',
       itemList: controller.checkPayList,
       onTap: () async {
+        FocusManager.instance.primaryFocus?.unfocus();
         final result =
             await Get.dialog(FactorUnofficialSpecificationAddOrEditDialog(
           currencyTitle: controller.currencyTitle,
@@ -158,7 +165,7 @@ class FactorUnofficialSpecificationPage
           textInputType: TextInputType.phone,
           topTextFormFieldLabel: 'شماره سریال',
           bottomTextFormFieldLabel: 'مبلغ',
-          titleDialog: 'پرداخت چکی',
+          titleDialog: 'پرداخت برات',
           specificationCostList: controller.checkPayList,
           specificationCostItem: null,
         ));
@@ -185,6 +192,7 @@ class FactorUnofficialSpecificationPage
       hasCustomBeforeTitle: true,
       itemList: controller.onlinePayList,
       onTap: () async {
+        FocusManager.instance.primaryFocus?.unfocus();
         final result =
             await Get.dialog(FactorUnofficialSpecificationAddOrEditDialog(
           currencyTitle: controller.currencyTitle,
@@ -221,6 +229,7 @@ class FactorUnofficialSpecificationPage
       bracesWord: 'کارت بانکی و پوز و...',
       itemList: controller.cartList,
       onTap: () async {
+        FocusManager.instance.primaryFocus?.unfocus();
         final result =
             await Get.dialog(FactorUnofficialSpecificationAddOrEditDialog(
           currencyTitle: controller.currencyTitle,
@@ -254,6 +263,7 @@ class FactorUnofficialSpecificationPage
       bracesWord: 'پول نقد و ...',
       itemList: controller.cashList,
       onTap: () async {
+        FocusManager.instance.primaryFocus?.unfocus();
         final result =
             await Get.dialog(FactorUnofficialSpecificationAddOrEditDialog(
           currencyTitle: controller.currencyTitle,
@@ -284,6 +294,7 @@ class FactorUnofficialSpecificationPage
       bracesWord: 'هزینه ارسال و ...',
       itemList: controller.excessCostList,
       onTap: () async {
+        FocusManager.instance.primaryFocus?.unfocus();
         final result =
             await Get.dialog(FactorUnofficialSpecificationAddOrEditDialog(
           currencyTitle: controller.currencyTitle,
@@ -315,6 +326,7 @@ class FactorUnofficialSpecificationPage
                 .buyerItem.value?.personBasicInformationViewModel.companyName ??
             '',
         onTap: () async {
+          FocusManager.instance.primaryFocus?.unfocus();
           final result = await Get.toNamed(FactorRoutes.buyer,
               arguments:
                   const BuyerPage().arguments(isEnterFromSpecificFactor: true));
@@ -343,6 +355,7 @@ class FactorUnofficialSpecificationPage
       title: 'صاحب حساب ',
       bracesWord: 'فروشنده',
       onTap: () async {
+        FocusManager.instance.primaryFocus?.unfocus();
         final result = await Get.toNamed(
           FactorRoutes.myProfile,
         );
@@ -389,15 +402,29 @@ class FactorUnofficialSpecificationPage
                         'شماره فاکتور تکراری می باشد لطفا شماره ی فاکتور را تغییر دهید ');
                     return;
                   }
+                  if (controller.subscriptionCondition().value) {
+                    computeFuture = _createPdf().then((value) {
+                      Get.back();
+                      _savePdf(value);
+                      controller.addToHomeFactor(uint8ListPdf: value);
+                      Get.toNamed(FactorRoutes.showPdf,
+                          arguments: const ShowPdfView()
+                              .arguments(pdfView: value, isFromHome: false));
+                    });
+                  } else {
+                    final result = await Get.bottomSheet(
+                      const NewSubscriptionPage(),
+                      enterBottomSheetDuration:
+                          const Duration(milliseconds: 300),
+                      exitBottomSheetDuration:
+                          const Duration(milliseconds: 250),
+                    );
 
-                  computeFuture = _createPdf().then((value) {
-                    Get.back();
-                    _savePdf(value);
-                    controller.addToHomeFactor(uint8ListPdf: value);
-                    Get.toNamed(FactorRoutes.showPdf,
-                        arguments: const ShowPdfView()
-                            .arguments(pdfView: value, isFromHome: false));
-                  });
+                    if (result == true) {
+                      controller.loadSubscription();
+                      controller.subscriptionCondition();
+                    }
+                  }
                 },
                 statusBracketKeyText: controller.statusBracketKeyText(),
                 taxation: controller.taxation,
@@ -406,7 +433,8 @@ class FactorUnofficialSpecificationPage
                         .totalPriceAllItems()
                         .toStringAsFixed(2)
                         .seRagham()
-                        .replaceAll(RegExp('-'), '') +
+                    // .replaceAll(RegExp('-'), '')
+                    +
                     ' ${controller.currencyTitle}',
                 totalWordPrice: validTotalWordPrice(),
                 onTap: () {
@@ -438,6 +466,8 @@ class FactorUnofficialSpecificationPage
         build: (pw.Context context) {
           return [
             CustomPdfWidget().pdfWidget(
+              isShowFactorParBottomInPdf:
+                  controller.isShowFactorParBottomInPdf(),
               factorNum: controller.factorNumber.toString(),
               descriptionFactor:
                   controller.descriptionTextEditingController.text,
@@ -531,6 +561,7 @@ class FactorUnofficialSpecificationPage
       color: Colors.black,
       child: InkWell(
         onTap: () async {
+          FocusManager.instance.primaryFocus?.unfocus();
           final result = await Get.toNamed(
             FactorRoutes.factorHeader,
           );

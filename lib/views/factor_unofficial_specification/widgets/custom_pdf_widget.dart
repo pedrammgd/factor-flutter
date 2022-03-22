@@ -30,6 +30,7 @@ class CustomPdfWidget {
     required String descriptionFactor,
     required String factorNum,
     required String currencyTitle,
+    required bool isShowFactorParBottomInPdf,
   }) {
     String imageUint8ListCondition(
         {String? uint8List, required String defaultImage}) {
@@ -350,7 +351,7 @@ class CustomPdfWidget {
               _descriptionListPrice(
                   currencyTitle: currencyTitle,
                   specificationCostList: checkPayList,
-                  kindCost: 'پرداخت چکی ',
+                  kindCost: 'پرداخت برات ',
                   kindSerial: ' به شماره سریال'),
             ],
           )),
@@ -375,12 +376,13 @@ class CustomPdfWidget {
                     myProfileItem.value?.signatureUint8ListHoghoghi,
                 image8ListHaghighi: myProfileItem.value?.signatureUint8List)),
         pw.SizedBox(height: 20),
-        pw.Align(
-          alignment: pw.Alignment.centerRight,
-          child: pw.Text('توسعه توسط اپلیکیشن فاکتور پر',
-              style: const pw.TextStyle(fontSize: 5),
-              textDirection: pw.TextDirection.rtl),
-        ),
+        if (isShowFactorParBottomInPdf)
+          pw.Align(
+            alignment: pw.Alignment.centerRight,
+            child: pw.Text('توسعه توسط اپلیکیشن فاکتور پر',
+                style: const pw.TextStyle(fontSize: 5),
+                textDirection: pw.TextDirection.rtl),
+          ),
       ],
     );
   }
@@ -477,7 +479,7 @@ class CustomPdfWidget {
           _tableRow(firstKey: 'تخفیف', firstValue: totalDiscount),
           _tableRow(firstKey: 'مالیات', firstValue: totalTaxation),
           _tableRow(
-              firstKey: 'مجموع )$currencyTitle(',
+              firstKey: 'مبلغ قابل پرداخت )$currencyTitle(',
               firstValue: totalPrice,
               fontSizeKey: 8,
               fontSizeValue: 8),

@@ -1,5 +1,6 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:factor_flutter_mobile/controllers/factor_base/factor_base_controller.dart';
+import 'package:factor_flutter_mobile/controllers/more/more_controller.dart';
 import 'package:factor_flutter_mobile/core/constans/constans.dart';
 import 'package:factor_flutter_mobile/core/router/factor_pages.dart';
 import 'package:factor_flutter_mobile/views/list_type_factor/list_type_factor_page.dart';
@@ -42,6 +43,9 @@ class FactorBasePage extends GetView<FactorBaseController> {
           child: CustomBottomNavigationBar(
             onItemSelected: (value) {
               controller.currentIndex.value = value;
+              if (value == 1) {
+                Get.find<MoreController>().loadSubscription();
+              }
             },
             selectedIndex: controller.currentIndex.value,
             items: factorBottomNavigationBarItem,

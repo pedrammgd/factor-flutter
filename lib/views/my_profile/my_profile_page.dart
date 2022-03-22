@@ -225,7 +225,7 @@ class MyProfilePage extends GetView<MyProfileController> {
             labelText: 'نام و نام خانوادگی',
             textEditingController: controller.fullNameTextEditingController,
             inputFormatters: [
-              LengthLimitingTextInputFormatter(15),
+              LengthLimitingTextInputFormatter(25),
             ],
             validatorTextField: emptyValidator('نام و نام خانوادگی'),
           ),
@@ -242,7 +242,7 @@ class MyProfilePage extends GetView<MyProfileController> {
           CustomTextFormField(
               labelText: 'شماره تماس',
               textEditingController: controller.mobileTextEditingController,
-              prefixIcon: const Icon(Icons.phone_android),
+              prefixIcon: const Icon(Icons.phone),
               maxLength: 11,
               inputFormatters: [
                 FilteringTextInputFormatter.digitsOnly,
@@ -268,10 +268,11 @@ class MyProfilePage extends GetView<MyProfileController> {
 
   Widget _legalItems() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 25),
       child: Column(
         children: [
           CustomTextFormField(
+            prefixIcon: const Icon(Icons.apartment),
             labelText: 'نام شرکت',
             textEditingController: controller.companyNameTextEditingController,
             inputFormatters: [
@@ -291,6 +292,7 @@ class MyProfilePage extends GetView<MyProfileController> {
             textInputType: TextInputType.phone,
           ),
           CustomTextFormField(
+            prefixIcon: const Icon(Icons.phone),
             labelText: 'شماره تماس',
             textEditingController:
                 controller.mobileTextHoghoghiEditingController,
@@ -303,6 +305,7 @@ class MyProfilePage extends GetView<MyProfileController> {
           ),
           CustomTextFormField(
               maxLines: 3,
+              prefixIcon: const Icon(Icons.add_location_outlined),
               labelText: 'آدرس',
               inputFormatters: [
                 LengthLimitingTextInputFormatter(50),

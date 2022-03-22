@@ -30,17 +30,21 @@ class FactorListItem extends GetView<HomeFactorController> {
       itemPopUp: controller.popUpItems,
       onSelectedPopUp: (value) async {
         if (value == Constants.showPopUp) {
+          FocusManager.instance.primaryFocus?.unfocus();
           Get.toNamed(FactorRoutes.showPdf,
               arguments: const ShowPdfView().arguments(
                   pdfView: base64Decode(factorItem.uint8ListPdf),
                   isFromHome: true));
         } else if (value == Constants.savePopUp) {
+          FocusManager.instance.primaryFocus?.unfocus();
           _savePdf(base64Decode(factorItem.uint8ListPdf));
         } else if (value == Constants.printPopUp) {
+          FocusManager.instance.primaryFocus?.unfocus();
           await Printing.layoutPdf(
               onLayout: (_) =>
                   base64Decode(factorItem.uint8ListPdf).buffer.asUint8List());
         } else {
+          FocusManager.instance.primaryFocus?.unfocus();
           final temp = await getTemporaryDirectory();
           final path = '${temp.path}/${factorItem.titleFactor}.pdf';
           File(path).writeAsBytesSync(base64Decode(factorItem.uint8ListPdf));
@@ -48,6 +52,7 @@ class FactorListItem extends GetView<HomeFactorController> {
         }
       },
       onTap: () {
+        FocusManager.instance.primaryFocus?.unfocus();
         Get.toNamed(FactorRoutes.showPdf,
             arguments: const ShowPdfView().arguments(
                 pdfView: base64Decode(factorItem.uint8ListPdf),

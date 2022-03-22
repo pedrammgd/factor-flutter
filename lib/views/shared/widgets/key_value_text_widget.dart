@@ -36,22 +36,25 @@ class KeyValueTextWidget extends StatelessWidget {
       children: [
         startSpacer,
         Expanded(
-          child: RichText(
-            text: TextSpan(
-              text: keyText,
-              style: TextStyle(
-                  fontSize: keyTextSize,
-                  fontFamily: 'IRANSans',
-                  color: Theme.of(context).colorScheme.secondary),
-              children: <TextSpan>[
-                TextSpan(
-                    text: bracketKeyText,
-                    style: const TextStyle(
-                        color: Colors.red,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 13,
-                        fontFamily: 'IRANSans')),
-              ],
+          child: FittedBox(
+            fit: BoxFit.scaleDown,
+            child: RichText(
+              text: TextSpan(
+                text: keyText,
+                style: TextStyle(
+                    fontSize: keyTextSize,
+                    fontFamily: 'IRANSans',
+                    color: Theme.of(context).colorScheme.secondary),
+                children: <TextSpan>[
+                  TextSpan(
+                      text: bracketKeyText,
+                      style: const TextStyle(
+                          color: Colors.red,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 13,
+                          fontFamily: 'IRANSans')),
+                ],
+              ),
             ),
           ),
         ),

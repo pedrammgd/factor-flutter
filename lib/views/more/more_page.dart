@@ -54,6 +54,13 @@ class MorePage extends GetView<MoreController> {
           ),
           Constants.smallVerticalSpacer,
           MoreItemWidget(
+            title: 'نمودار فاکتور',
+            icon: chartIcon,
+            onTap: () {
+              Get.toNamed(FactorRoutes.chart);
+            },
+          ),
+          MoreItemWidget(
             title: 'قالب فاکتور',
             icon: formatSizeIcon,
             onTap: () {
@@ -94,51 +101,57 @@ class MorePage extends GetView<MoreController> {
           ),
           Constants.xxLargeVerticalSpacer,
           Constants.xxLargeVerticalSpacer,
+          Constants.mediumVerticalSpacer,
         ],
       ),
     );
   }
 
   Widget _userInfo(BuildContext context) {
-    return Column(
-      children: [
-        Constants.largeVerticalSpacer,
-        DraggableCard(
-          child: FadeInRight(
-            child: Image.asset(
-              goldCupIcon,
-              width: 80,
-              height: 80,
-              fit: BoxFit.contain,
-            ),
-          ),
-        ),
-        Constants.mediumVerticalSpacer,
-        const Text(
-          'اشتراک طلایی',
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
-        ),
-        Constants.smallVerticalSpacer,
-        OutlinedButton(
-          onPressed: () {
-            Get.toNamed(
+    return Obx(() {
+      return InkWell(
+          onTap: () async {
+            final result = await Get.toNamed(
               FactorRoutes.subscription,
             );
+
+            if (result == true) {
+              controller.loadSubscription();
+            }
           },
-          child: Text(
-            'اشتراک',
-            style: TextStyle(
-              color: Theme.of(context).colorScheme.secondary,
-            ),
-          ),
-          style: OutlinedButton.styleFrom(
-            side: BorderSide(
-              width: 1.0,
-              color: Theme.of(context).colorScheme.secondary,
-            ),
-          ),
-        )
-      ],
-    );
+          child: Column(
+            children: [
+              Constants.largeVerticalSpacer,
+              DraggableCard(
+                child: FadeInRight(
+                  child: Image.asset(
+                    controller.subscriptionIcon().value,
+                    width: 80,
+                    height: 80,
+                    fit: BoxFit.contain,
+                  ),
+                ),
+              ),
+              Constants.mediumVerticalSpacer,
+              Text(
+                controller.subscriptionTitle().value,
+                style:
+                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+              ),
+              Constants.smallVerticalSpacer,
+              Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Text(
+                    controller.subscriptionTextButton().value,
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.secondary,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ));
+    });
   }
 }
