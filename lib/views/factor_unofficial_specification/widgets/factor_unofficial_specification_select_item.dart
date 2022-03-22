@@ -484,5 +484,4 @@ class _FactorUnofficialSpecificationSelectItemState
       );
     });
   }
-
 }
