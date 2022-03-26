@@ -339,11 +339,7 @@ class FactorUnofficialSpecificationController extends GetxController {
         return true.obs;
       }
     } else if (subscriptionValue.value == 'gold') {
-      if (factorHomeList.length >= 999999999999999999) {
-        return false.obs;
-      } else {
-        return true.obs;
-      }
+      return true.obs;
     } else {
       return false.obs;
     }

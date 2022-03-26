@@ -1,5 +1,4 @@
 import 'package:factor_flutter_mobile/controllers/chart_factor/chart_factor_controller.dart';
-import 'package:factor_flutter_mobile/controllers/factor_unofficial/factor_unofficial_controller.dart';
 import 'package:factor_flutter_mobile/controllers/home_factor/home_factor_controller.dart';
 import 'package:factor_flutter_mobile/models/factor_view_model/factor_view_model.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/factor_app_bar.dart';
@@ -22,26 +21,28 @@ class ChartFactorPage extends GetView<ChartFactorController> {
         child: Text('نمودار پرداختی ها',
             style: TextStyle(color: Theme.of(context).colorScheme.secondary)),
       )),
-      body: Center(
-          child: SfCartesianChart(
-              tooltipBehavior: TooltipBehavior(enable: true, header: ''),
-              primaryXAxis: CategoryAxis(
-                autoScrollingDelta: 4,
-              ),
-              primaryYAxis: NumericAxis(
-                  title: AxisTitle(text: controller.currencyTitle())),
-              zoomPanBehavior: ZoomPanBehavior(
-                enablePanning: true,
-              ),
-              series: <LineSeries<FactorHomeViewModel, String>>[
-            LineSeries<FactorHomeViewModel, String>(
-                markerSettings: const MarkerSettings(isVisible: true),
-                dataSource: homeController.factorHomeList,
-                xValueMapper: (FactorHomeViewModel factorHome, _) =>
-                    factorHome.dateFactor,
-                yValueMapper: (FactorHomeViewModel factorHome, _) =>
-                    factorHome.totalPrice)
-          ])),
+      body: Obx(() {
+        return Center(
+            child: SfCartesianChart(
+                tooltipBehavior: TooltipBehavior(enable: true, header: ''),
+                primaryXAxis: CategoryAxis(
+                  autoScrollingDelta: 4,
+                ),
+                primaryYAxis: NumericAxis(
+                    title: AxisTitle(text: controller.currencyTitle().value)),
+                zoomPanBehavior: ZoomPanBehavior(
+                  enablePanning: true,
+                ),
+                series: <LineSeries<FactorHomeViewModel, String>>[
+              LineSeries<FactorHomeViewModel, String>(
+                  markerSettings: const MarkerSettings(isVisible: true),
+                  dataSource: homeController.factorHomeList,
+                  xValueMapper: (FactorHomeViewModel factorHome, _) =>
+                      factorHome.dateFactor,
+                  yValueMapper: (FactorHomeViewModel factorHome, _) =>
+                      factorHome.totalPrice)
+            ]));
+      }),
     );
   }
 }

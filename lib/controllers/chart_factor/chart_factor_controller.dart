@@ -30,18 +30,20 @@ class ChartFactorController extends GetxController {
       currencyViewModel.value =
           CurrencyViewModel.fromJson(jsonDecode(currencyData));
       print(currencyData);
+    } else {
+      print(currencyData);
     }
   }
 
-  String currencyTitle() {
+  RxString currencyTitle() {
     if (currencyViewModel.value == null) {
-      return 'تومان';
+      return 'تومان'.obs;
     } else if (currencyViewModel.value?.currencyFormat == 0) {
-      return 'ریال';
+      return 'ریال'.obs;
     } else if (currencyViewModel.value?.currencyFormat == 1) {
-      return 'تومان';
+      return 'تومان'.obs;
     } else {
-      return 'دلار';
+      return 'دلار'.obs;
     }
   }
 }

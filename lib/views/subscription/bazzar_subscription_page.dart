@@ -6,7 +6,6 @@ import 'package:animate_do/animate_do.dart';
 import 'package:factor_flutter_mobile/core/constans/constans.dart';
 import 'package:factor_flutter_mobile/models/factor_product_model/factor_product_model.dart';
 import 'package:factor_flutter_mobile/models/factor_view_model/factor_view_model.dart';
-import 'package:factor_flutter_mobile/views/shared/factor_circular_progress_indicator.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/factor_app_bar.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/subscription_card_widget.dart';
 import 'package:flutter/material.dart';
@@ -14,14 +13,14 @@ import 'package:flutter_poolakey/flutter_poolakey.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class NewSubscriptionPage extends StatefulWidget {
-  const NewSubscriptionPage({Key? key}) : super(key: key);
+class BazzarSubscriptionPage extends StatefulWidget {
+  const BazzarSubscriptionPage({Key? key}) : super(key: key);
 
   @override
-  State<NewSubscriptionPage> createState() => _NewSubscriptionPageState();
+  State<BazzarSubscriptionPage> createState() => _BazzarSubscriptionPageState();
 }
 
-class _NewSubscriptionPageState extends State<NewSubscriptionPage> {
+class _BazzarSubscriptionPageState extends State<BazzarSubscriptionPage> {
   final Map<String, ProductItem> _productsMap = {};
 
   int coins = 4;
