@@ -1,0 +1,4 @@
+storePassword=pedram77
+keyPassword=pedram77
+keyAlias=upload
+storeFile=E:/factorKey/upload-keystore.jks
