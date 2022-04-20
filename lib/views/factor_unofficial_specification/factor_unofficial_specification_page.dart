@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:factor_flutter_mobile/controllers/factor_unofficial_specification/factor_unofficial_specification_controller.dart';
 import 'package:factor_flutter_mobile/core/constans/constans.dart';
 import 'package:factor_flutter_mobile/core/router/factor_pages.dart';
@@ -15,7 +16,7 @@ import 'package:factor_flutter_mobile/views/shared/widgets/expandable/factor_exp
 import 'package:factor_flutter_mobile/views/shared/widgets/factor_app_bar.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/factor_text_form_feild.dart';
 import 'package:factor_flutter_mobile/views/show_pdf/show_pdf_view.dart';
-import 'package:factor_flutter_mobile/views/subscription/bazzar_subscription_page.dart';
+import 'package:factor_flutter_mobile/views/subscription/my_ket_subscription_page.dart';
 import 'package:file_saver/file_saver.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -412,17 +413,27 @@ class FactorUnofficialSpecificationPage
                               .arguments(pdfView: value, isFromHome: false));
                     });
                   } else {
-                    final result = await Get.bottomSheet(
-                      const BazzarSubscriptionPage(),
-                      enterBottomSheetDuration:
-                          const Duration(milliseconds: 300),
-                      exitBottomSheetDuration:
-                          const Duration(milliseconds: 250),
-                    );
+                    var connectivityResult =
+                        await (Connectivity().checkConnectivity());
+                    if (connectivityResult == ConnectivityResult.mobile ||
+                        connectivityResult == ConnectivityResult.wifi) {
+                      final result = await Get.bottomSheet(
+                        // const BazzarSubscriptionPage(),
+                        const MyKetSubscriptionPage(),
+                        enterBottomSheetDuration:
+                            const Duration(milliseconds: 300),
+                        exitBottomSheetDuration:
+                            const Duration(milliseconds: 250),
+                      );
 
-                    if (result == true) {
-                      controller.loadSubscription();
-                      controller.subscriptionCondition();
+                      if (result == true) {
+                        controller.loadSubscription();
+                        controller.subscriptionCondition();
+                      }
+                    } else {
+                      Get.snackbar('خطا در اتصال به اینترنت',
+                          'جهت ادامه لطفا ابتدا از اتصال به اینترنت مطمعن شوید',
+                          backgroundColor: Colors.yellow.shade800);
                     }
                   }
                 },

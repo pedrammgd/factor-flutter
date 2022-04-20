@@ -26,14 +26,19 @@ class FactorUnofficialPage extends GetView<FactorUnofficialController> {
     initArguments();
     return WillPopScope(
       onWillPop: () async {
-        final result = await ExitPopUp.showExitPopup(
-          title: 'خروج از لیست آیتم فاکتور',
-          description:
-              'اطلاعات ذخیره نشده ای دارید در صورت خروج از لیست آیتم فاکتور ، اطلاعات شما پاک می شود',
-        );
-        if (result == true) {
+        if (controller.factorUnofficialItemList.isNotEmpty) {
+          final result = await ExitPopUp.showExitPopup(
+            title: 'خروج از لیست آیتم فاکتور',
+            description:
+                'اطلاعات ذخیره نشده ای دارید در صورت خروج از لیست آیتم فاکتور ، اطلاعات شما پاک می شود',
+          );
+          if (result == true) {
+            Get.back();
+          }
+        } else {
           Get.back();
         }
+
         return false;
       },
       child: Obx(() {
@@ -99,12 +104,16 @@ class FactorUnofficialPage extends GetView<FactorUnofficialController> {
   Widget _body() {
     return FactorBodyAppBarSliver(
       backOnTap: () async {
-        final result = await ExitPopUp.showExitPopup(
-          title: 'خروج از لیست آیتم فاکتور',
-          description:
-              'اطلاعات ذخیره نشده ای دارید در صورت خروج از لیست آیتم فاکتور ، اطلاعات شما پاک می شود',
-        );
-        if (result == true) {
+        if (controller.factorUnofficialItemList.isNotEmpty) {
+          final result = await ExitPopUp.showExitPopup(
+            title: 'خروج از لیست آیتم فاکتور',
+            description:
+                'اطلاعات ذخیره نشده ای دارید در صورت خروج از لیست آیتم فاکتور ، اطلاعات شما پاک می شود',
+          );
+          if (result == true) {
+            Get.back();
+          }
+        } else {
           Get.back();
         }
       },

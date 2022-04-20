@@ -1,4 +1,5 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:factor_flutter_mobile/controllers/more/more_controller.dart';
 import 'package:factor_flutter_mobile/core/constans/constans.dart';
 import 'package:factor_flutter_mobile/core/router/factor_pages.dart';
@@ -111,12 +112,20 @@ class MorePage extends GetView<MoreController> {
     return Obx(() {
       return InkWell(
           onTap: () async {
-            final result = await Get.toNamed(
-              FactorRoutes.subscription,
-            );
+            var connectivityResult = await (Connectivity().checkConnectivity());
+            if (connectivityResult == ConnectivityResult.mobile ||
+                connectivityResult == ConnectivityResult.wifi) {
+              final result = await Get.toNamed(
+                FactorRoutes.subscription,
+              );
 
-            if (result == true) {
-              controller.loadSubscription();
+              if (result == true) {
+                controller.loadSubscription();
+              }
+            } else {
+              Get.snackbar('خطا در اتصال به اینترنت',
+                  'جهت خرید اشتراک ابتدا از اتصال به اینترنت مطمعن شوید',
+                  backgroundColor: Colors.yellow.shade800);
             }
           },
           child: Column(
