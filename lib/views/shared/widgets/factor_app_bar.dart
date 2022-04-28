@@ -31,7 +31,10 @@ class FactorAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
         elevation: 2,
-        leading: const SizedBox.shrink(),
+        leading: Padding(
+          padding: const EdgeInsetsDirectional.only(top: 12.0, start: 8),
+          child: hasBackButton ? _backButton(context) : const SizedBox.shrink(),
+        ),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         title: hasTitle ? title : const SizedBox.shrink(),
         flexibleSpace: SafeArea(
@@ -48,7 +51,7 @@ class FactorAppBar extends StatelessWidget implements PreferredSizeWidget {
                     if (hasSearchBar) _searchBar(context) else customWidget,
                     Constants.largeHorizontalSpacer,
                     if (hasBarcodeButton) _barcodeFactorButton(context),
-                    if (hasBackButton) _backButton(context),
+                    // if (hasBackButton) _backButton(context),
                     if (hasBackButton) Constants.largeHorizontalSpacer,
                   ]),
             ),
@@ -60,6 +63,8 @@ class FactorAppBar extends StatelessWidget implements PreferredSizeWidget {
     return Container(
       width: 40,
       height: 40,
+      margin:
+          const EdgeInsetsDirectional.only(start: 3, end: 5, top: 2, bottom: 2),
       decoration: BoxDecoration(
           border: Border.all(
               color: Theme.of(context).colorScheme.secondary, width: 1.5),
@@ -70,6 +75,7 @@ class FactorAppBar extends StatelessWidget implements PreferredSizeWidget {
         child: Center(
             child: Icon(
           Icons.arrow_forward_ios,
+          textDirection: TextDirection.ltr,
           color: Theme.of(context).colorScheme.secondary,
         )),
       ),

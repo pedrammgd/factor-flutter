@@ -21,28 +21,33 @@ class ChartFactorPage extends GetView<ChartFactorController> {
         child: Text('نمودار پرداختی ها',
             style: TextStyle(color: Theme.of(context).colorScheme.secondary)),
       )),
-      body: Obx(() {
-        return Center(
+      body: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Center(
             child: SfCartesianChart(
-                tooltipBehavior: TooltipBehavior(enable: true, header: ''),
+                tooltipBehavior: TooltipBehavior(
+                  enable: true,
+                  header: '',
+                ),
                 primaryXAxis: CategoryAxis(
                   autoScrollingDelta: 4,
                 ),
                 primaryYAxis: NumericAxis(
-                    title: AxisTitle(text: controller.currencyTitle().value)),
-                zoomPanBehavior: ZoomPanBehavior(
-                  enablePanning: true,
+                  title: AxisTitle(text: 'مبلغ'),
                 ),
+                zoomPanBehavior: ZoomPanBehavior(),
                 series: <LineSeries<FactorHomeViewModel, String>>[
               LineSeries<FactorHomeViewModel, String>(
+                  color: Theme.of(context).colorScheme.secondary,
                   markerSettings: const MarkerSettings(isVisible: true),
+                  enableTooltip: true,
                   dataSource: homeController.factorHomeList,
                   xValueMapper: (FactorHomeViewModel factorHome, _) =>
-                      factorHome.dateFactor,
+                      '${factorHome.dateFactor}  ${factorHome.currencyType ?? ''}',
                   yValueMapper: (FactorHomeViewModel factorHome, _) =>
                       factorHome.totalPrice)
-            ]));
-      }),
+            ])),
+      ),
     );
   }
 }

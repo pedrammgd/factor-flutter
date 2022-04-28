@@ -93,7 +93,7 @@ class FactorUnofficialSpecificationController extends GetxController {
   GlobalKey<FormState> checkPayFormKey = GlobalKey<FormState>(debugLabel: '5');
 
   final RxList<FactorUnofficialItemViewModel> factorUnofficialItemList;
-  RxBool isExpandedBottomSheet = false.obs;
+  RxBool isExpandedBottomSheet = true.obs;
   RxInt statusBracketKeyText = 0.obs;
   RxBool isLoadingCreatePdf = false.obs;
 
@@ -294,6 +294,7 @@ class FactorUnofficialSpecificationController extends GetxController {
 
   void addToHomeFactor({required Uint8List uint8ListPdf}) {
     factorHomeList.add(FactorHomeViewModel(
+      currencyType: currencyTitle,
       totalPrice: totalPriceAllItems().value,
       id: uUid.v4(),
       uint8ListPdf: base64Encode(uint8ListPdf),
@@ -341,7 +342,7 @@ class FactorUnofficialSpecificationController extends GetxController {
     } else if (subscriptionValue.value == 'gold') {
       return true.obs;
     } else {
-      if (factorHomeList.isEmpty) {
+      if (factorHomeList.length < 3) {
         return true.obs;
       } else {
         return false.obs;

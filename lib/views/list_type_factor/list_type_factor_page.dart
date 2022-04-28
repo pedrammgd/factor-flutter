@@ -5,6 +5,7 @@ import 'package:factor_flutter_mobile/core/constans/constans.dart';
 import 'package:factor_flutter_mobile/core/router/factor_pages.dart';
 import 'package:factor_flutter_mobile/models/factor_view_model/factor_view_model.dart';
 import 'package:factor_flutter_mobile/views/factor_unofficial/factor_unofficial_page.dart';
+import 'package:factor_flutter_mobile/views/shared/factor_circular_progress_indicator.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/card_icon_widget.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/factor_app_bar.dart';
 import 'package:flutter/material.dart';
@@ -85,7 +86,10 @@ class ListTypeFactorPage extends GetView<ListTypeFactorPageController> {
                 ),
               ),
               if (controller.isLoadingAd.value)
-                const SizedBox.shrink()
+                const Padding(
+                  padding: EdgeInsets.only(bottom: 10),
+                  child: FactorCircularProgressIndicator(),
+                )
               else if (controller.isShowAd.value)
                 FadeInUp(
                   child: CarouselSlider.builder(
@@ -99,9 +103,12 @@ class ListTypeFactorPage extends GetView<ListTypeFactorPageController> {
                           borderRadius: BorderRadius.circular(15),
                           child: InkWell(
                               onTap: () async {
-                                if (!await launch(controller
-                                    .adsViewModel[itemIndex].linkAd)) {
-                                  throw 'Could not launch';
+                                if (controller
+                                    .adsViewModel[itemIndex].isShowAd) {
+                                  if (!await launch(controller
+                                      .adsViewModel[itemIndex].linkAd)) {
+                                    throw 'Could not launch';
+                                  }
                                 }
                               },
                               child: _showImage(itemIndex))),
@@ -143,7 +150,11 @@ class ListTypeFactorPage extends GetView<ListTypeFactorPageController> {
         },
       );
     } else {
-      return SizedBox.fromSize();
+      return Image.asset(
+        adsIconImage,
+        fit: BoxFit.cover,
+        width: double.infinity,
+      );
     }
   }
 

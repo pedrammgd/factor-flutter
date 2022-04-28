@@ -59,7 +59,7 @@ class MoreController extends GetxController {
     } else if (subscriptionValue.value == 'gold') {
       return 'اشتراک طلایی'.obs;
     } else {
-      return 'بدون اشتراک'.obs;
+      return 'اشتراک رایگان'.obs;
     }
   }
 

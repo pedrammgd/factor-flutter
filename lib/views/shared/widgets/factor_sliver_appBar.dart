@@ -26,38 +26,67 @@ class FactorBodyAppBarSliver extends StatelessWidget {
           return [
             SliverAppBar(
               actions: [
-                Wrap(
-                  children: [
-                    // Constants.mediumVerticalSpacer,
-                    Padding(
-                      padding: const EdgeInsetsDirectional.only(
-                        top: 10,
-                        end: 34,
-                      ),
-                      child: Container(
-                        width: 40,
-                        height: 40,
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                                color: Theme.of(context).colorScheme.secondary,
-                                width: 1.5),
-                            borderRadius: BorderRadius.circular(9)),
-                        child: InkWell(
-                          onTap: backOnTap ?? () => Get.back(),
-                          borderRadius: BorderRadius.circular(9),
-                          child: Center(
-                              child: Icon(
-                            Icons.arrow_forward_ios,
-                            color: Theme.of(context).colorScheme.secondary,
-                          )),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                // Wrap(
+                //   children: [
+                //     // Constants.mediumVerticalSpacer,
+                //     Padding(
+                //       padding: const EdgeInsetsDirectional.only(
+                //         top: 10,
+                //         end: 34,
+                //       ),
+                //       child: Container(
+                //         width: 40,
+                //         height: 40,
+                //         decoration: BoxDecoration(
+                //             border: Border.all(
+                //                 color: Theme.of(context).colorScheme.secondary,
+                //                 width: 1.5),
+                //             borderRadius: BorderRadius.circular(9)),
+                //         child: InkWell(
+                //           onTap: backOnTap ?? () => Get.back(),
+                //           borderRadius: BorderRadius.circular(9),
+                //           child: Center(
+                //               child: Icon(
+                //             Icons.arrow_forward_ios,
+                //             color: Theme.of(context).colorScheme.secondary,
+                //           )),
+                //         ),
+                //       ),
+                //     ),
+                //   ],
+                // ),
               ],
               backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-              leading: const SizedBox.shrink(),
+              leading: Wrap(
+                children: [
+                  // Constants.mediumVerticalSpacer,
+                  Padding(
+                    padding: const EdgeInsetsDirectional.only(
+                      top: 10,
+                      start: 10,
+                    ),
+                    child: Container(
+                      width: 40,
+                      height: 40,
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                              color: Theme.of(context).colorScheme.secondary,
+                              width: 1.5),
+                          borderRadius: BorderRadius.circular(9)),
+                      child: InkWell(
+                        onTap: backOnTap ?? () => Get.back(),
+                        borderRadius: BorderRadius.circular(9),
+                        child: Center(
+                            child: Icon(
+                          Icons.arrow_forward_ios,
+                          textDirection: TextDirection.ltr,
+                          color: Theme.of(context).colorScheme.secondary,
+                        )),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
               floating: true,
               pinned: true,
               centerTitle: true,

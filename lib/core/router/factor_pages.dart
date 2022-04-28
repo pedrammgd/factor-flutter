@@ -11,7 +11,7 @@ import 'package:factor_flutter_mobile/views/list_type_factor/list_type_factor_pa
 import 'package:factor_flutter_mobile/views/more/more_page.dart';
 import 'package:factor_flutter_mobile/views/my_profile/my_profile_page.dart';
 import 'package:factor_flutter_mobile/views/show_pdf/show_pdf_view.dart';
-import 'package:factor_flutter_mobile/views/subscription/my_ket_subscription_page.dart';
+import 'package:factor_flutter_mobile/views/subscription/bazzar_subscription_page.dart';
 import 'package:get/get.dart';
 
 part 'factor_routes.dart';
@@ -55,8 +55,8 @@ class FactorPage {
     GetPage(
         name: FactorRoutes.subscription,
         // page: () => const ZarinPalSubscriptionPage(),
-        // page: () => const BazzarSubscriptionPage(),
-        page: () => const MyKetSubscriptionPage(),
+        page: () => const BazzarSubscriptionPage(),
+        // page: () => const MyKetSubscriptionPage(),
         transition: Transition.noTransition),
     GetPage(
         name: FactorRoutes.factorHeader,

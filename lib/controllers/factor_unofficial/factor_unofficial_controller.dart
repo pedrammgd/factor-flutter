@@ -31,7 +31,7 @@ class FactorUnofficialController extends GetxController {
   RxDouble offsetScroll = 0.0.obs;
 
   RxBool isLoading = false.obs;
-  RxBool isExpandedBottomSheet = false.obs;
+  RxBool isExpandedBottomSheet = true.obs;
 
   RxList<FactorUnofficialItemViewModel> factorUnofficialItemList =
       <FactorUnofficialItemViewModel>[].obs;

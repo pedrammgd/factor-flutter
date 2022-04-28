@@ -23,7 +23,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
           return InkWell(
             onTap: () => onItemSelected(index),
             child: Padding(
-              padding: const EdgeInsetsDirectional.only(start: 50, end: 50),
+              padding: const EdgeInsetsDirectional.only(start: 60, end: 60),
               child: ItemsBottomNavigation(
                 isSelected: index == selectedIndex,
                 factorBottomNavigationBarItem: e,

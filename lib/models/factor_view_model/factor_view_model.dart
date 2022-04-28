@@ -6,6 +6,7 @@ class FactorHomeViewModel {
     required this.dateFactor,
     required this.numFactor,
     required this.totalPrice,
+    this.currencyType,
   });
 
   final String id;
@@ -13,6 +14,7 @@ class FactorHomeViewModel {
   final String titleFactor;
   final String dateFactor;
   final String numFactor;
+  final String? currencyType;
   final double? totalPrice;
 
   factory FactorHomeViewModel.fromJson(Map<String, dynamic> json) =>
@@ -23,6 +25,7 @@ class FactorHomeViewModel {
         dateFactor: json['dateFactor'],
         numFactor: json['numFactor'],
         totalPrice: json['totalPrice'],
+        currencyType: json['currencyType'],
       );
 
   Map<String, dynamic> toJson() => {
@@ -32,5 +35,6 @@ class FactorHomeViewModel {
         'titleFactor': titleFactor,
         'numFactor': numFactor,
         'totalPrice': totalPrice,
+        'currencyType': currencyType,
       };
 }

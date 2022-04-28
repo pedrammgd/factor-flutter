@@ -67,7 +67,6 @@ const String myProfileIcon = 'assets/images/png/my_profile.png';
 const String documentHeaderIcon = 'assets/images/png/document-header.png';
 const String formatSizeIcon = 'assets/images/png/format_size.png';
 const String moneyIcon = 'assets/images/png/money.png';
-const String bazarIcon = 'assets/images/png/bazar-logo.png';
 const String coffeeCupIcon = 'assets/images/png/coffee-cup.png';
 const String chartIcon = 'assets/images/png/chart.png';
 
