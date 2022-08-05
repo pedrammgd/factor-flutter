@@ -1,14 +1,14 @@
+import 'package:factor_flutter_mobile/core/constans/constans.dart';
+import 'package:factor_flutter_mobile/views/shared/widgets/factor_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import 'factor_border_button.dart';
 
 abstract class ExitPopUp {
   static Future<bool> showExitPopup({
     String title = 'عنوان',
     String description = 'بدنه پیام',
-    String okButtonTitle = 'بله',
-    String noButtonTitle = 'خیر',
+    String okButtonTitle = 'خروج',
+    String noButtonTitle = 'هستم فعلا',
   }) async {
     return await showDialog(
             context: Get.context!,
@@ -22,17 +22,19 @@ abstract class ExitPopUp {
                   title: Text(title),
                   content: Text(description),
                   actions: [
-                    CustomBorderButton(
-                      onPressed: () => Get.back(result: false),
-                      titleButton: noButtonTitle,
-                      textColor: Theme.of(Get.context!).colorScheme.secondary,
-                      borderColor: Theme.of(Get.context!).colorScheme.secondary,
-                    ),
-                    CustomBorderButton(
-                      borderColor: Theme.of(Get.context!).colorScheme.secondary,
-                      textColor: Theme.of(Get.context!).colorScheme.secondary,
+                    FactorButton.elevated(
+                      primaryColor: redColor,
+                      borderColor: redColor,
+                      width: 70,
+                      textColor: Theme.of(Get.context!).primaryColor,
                       onPressed: () => Get.back(result: true),
                       titleButton: okButtonTitle,
+                    ),
+                    FactorButton.elevated(
+                      width: 90,
+                      onPressed: () => Get.back(result: false),
+                      titleButton: noButtonTitle,
+                      textColor: Theme.of(Get.context!).primaryColor,
                     ),
                   ],
                 )) ??

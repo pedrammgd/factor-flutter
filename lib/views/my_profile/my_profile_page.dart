@@ -1,5 +1,4 @@
 import 'dart:typed_data';
-
 import 'package:factor_flutter_mobile/controllers/my_profile/my_profile_controller.dart';
 import 'package:factor_flutter_mobile/core/constans/constans.dart';
 import 'package:factor_flutter_mobile/core/utils/factor_validation/form_feild_validation.dart';
@@ -7,7 +6,7 @@ import 'package:factor_flutter_mobile/views/more/widgets/signature_bottom_sheet/
 import 'package:factor_flutter_mobile/views/my_profile/widgets/my_profile_image_card.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/custom_text_form_field.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/factor_app_bar.dart';
-import 'package:factor_flutter_mobile/views/shared/widgets/factor_border_button.dart';
+import 'package:factor_flutter_mobile/views/shared/widgets/factor_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -38,9 +37,13 @@ class MyProfilePage extends GetView<MyProfileController> {
               if (controller.isHaghighi.value)
                 Form(
                     key: controller.haghighiFormKey,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
                     child: _unLegalItems(context))
               else
-                Form(key: controller.hoghoghiFormKey, child: _legalItems()),
+                Form(
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    key: controller.hoghoghiFormKey,
+                    child: _legalItems()),
               Constants.largeVerticalSpacer,
               _button(),
               Constants.largeVerticalSpacer,
@@ -51,47 +54,87 @@ class MyProfilePage extends GetView<MyProfileController> {
     );
   }
 
-  Widget _logo(BuildContext context) {
+  Widget _signature(BuildContext context) {
     return MyProfileImageCard(
-      icon: logoDesignIcon,
-      isShowUint8List: controller.isShowLogoImage.value,
-      title: 'افزودن لوگو',
-      editTitle: 'تغییر لوگو',
-      uint8ListImage: controller.uint8ListLogoImage.value,
-      onTap: () => controller.logoTap(context),
+      icon: signatureIcon,
+      isShowUint8List: controller.isShowSignature.value,
+      title: 'افزودن امضا',
+      editTitle: 'تغییر امضا',
+      uint8ListImage: controller.uint8ListSignature.value,
       removeUint8ListOnTap: () => controller.removeUint8ListButton(
-          title: 'حذف لوگو',
-          message: 'برای حذف لوگو دکمه حذف x رو بفشار',
-          isShow: controller.isShowLogoImage,
-          uint8List: controller.uint8ListLogoImage),
+          title: 'حذف امضا',
+          message: 'برای حذف امضا دکمه حذف x رو بفشار',
+          isShow: controller.isShowSignature,
+          uint8List: controller.uint8ListSignature),
+      onTap: () async {
+        FocusManager.instance.primaryFocus?.unfocus();
+        final result = await showModalBottomSheet<Uint8List>(
+          isScrollControlled: true,
+          backgroundColor: Colors.white,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(
+              top: Radius.circular(
+                30,
+              ),
+            ),
+          ),
+          context: Get.context!,
+          builder: (context) {
+            return const SignatureBottomSheet();
+          },
+        );
+        if (result != null) {
+          controller.isShowSignature.value = true;
+          controller.uint8ListSignature.value = result;
+        }
+      },
     );
   }
 
-  Widget _logoHoghoghi() {
+  Widget _signatureHoghoghi() {
     return MyProfileImageCard(
-      icon: logoDesignIcon,
-      isShowUint8List: controller.isShowLogoHoghoghiImage.value,
-      title: 'افزودن لوگو',
-      editTitle: 'تغییر لوگو',
-      onTap: controller.logoHoghoghiTap,
-      uint8ListImage: controller.uint8ListLogoHoghoghiImage.value,
+      icon: signatureIcon,
+      isShowUint8List: controller.isShowSignatureHoghoghi.value,
+      title: 'افزودن امضا',
+      editTitle: 'تغییر امضا',
+      uint8ListImage: controller.uint8ListSignatureHoghoghi.value,
       removeUint8ListOnTap: () => controller.removeUint8ListButton(
-          title: 'حذف لوگو',
-          message: 'برای حذف لوگو دکمه حذف x رو بفشار',
-          isShow: controller.isShowLogoHoghoghiImage,
-          uint8List: controller.uint8ListLogoHoghoghiImage),
+          title: 'حذف امضا',
+          message: 'برای حذف امضا دکمه حذف x رو بفشار',
+          isShow: controller.isShowSignatureHoghoghi,
+          uint8List: controller.uint8ListSignatureHoghoghi),
+      onTap: () async {
+        FocusManager.instance.primaryFocus?.unfocus();
+        final result = await showModalBottomSheet<Uint8List>(
+          isScrollControlled: true,
+          backgroundColor: Colors.white,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(
+              top: Radius.circular(
+                30,
+              ),
+            ),
+          ),
+          context: Get.context!,
+          builder: (context) {
+            return const SignatureBottomSheet();
+          },
+        );
+        if (result != null) {
+          controller.isShowSignatureHoghoghi.value = true;
+          controller.uint8ListSignatureHoghoghi.value = result;
+        }
+      },
     );
   }
 
   Widget _button() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
+      padding: const EdgeInsetsDirectional.only(end: 20, start: 20, bottom: 20),
       child: SizedBox(
         width: double.infinity,
-        height: 50,
-        child: CustomBorderButton(
-          borderColor: Theme.of(Get.context!).colorScheme.secondary,
-          textColor: Theme.of(Get.context!).colorScheme.secondary,
+        // height: 50,
+        child: FactorButton.elevated(
           titleButton: 'ثبت',
           onPressed: controller.save,
         ),
@@ -99,44 +142,23 @@ class MyProfilePage extends GetView<MyProfileController> {
     );
   }
 
-  Widget _sealAndSignature() {
+  Widget _sealAndLogo() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Expanded(
             child: MyProfileImageCard(
-          icon: signatureIcon,
-          isShowUint8List: controller.isShowSignature.value,
-          title: 'افزودن امضا',
-          editTitle: 'تغییر امضا',
-          uint8ListImage: controller.uint8ListSignature.value,
+          icon: logoDesignIcon,
+          isShowUint8List: controller.isShowLogoImage.value,
+          title: 'افزودن لوگو',
+          editTitle: 'تغییر لوگو',
+          uint8ListImage: controller.uint8ListLogoImage.value,
+          onTap: () => controller.logoTap(Get.context!),
           removeUint8ListOnTap: () => controller.removeUint8ListButton(
-              title: 'حذف امضا',
-              message: 'برای حذف امضا دکمه حذف x رو بفشار',
-              isShow: controller.isShowSignature,
-              uint8List: controller.uint8ListSignature),
-          onTap: () async {
-            FocusManager.instance.primaryFocus?.unfocus();
-            final result = await showModalBottomSheet<Uint8List>(
-              isScrollControlled: true,
-              backgroundColor: Colors.white,
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.vertical(
-                  top: Radius.circular(
-                    30,
-                  ),
-                ),
-              ),
-              context: Get.context!,
-              builder: (context) {
-                return const SignatureBottomSheet();
-              },
-            );
-            if (result != null) {
-              controller.isShowSignature.value = true;
-              controller.uint8ListSignature.value = result;
-            }
-          },
+              title: 'حذف لوگو',
+              message: 'برای حذف لوگو دکمه حذف x رو بفشار',
+              isShow: controller.isShowLogoImage,
+              uint8List: controller.uint8ListLogoImage),
         )),
         Constants.mediumHorizontalSpacer,
         Expanded(
@@ -158,45 +180,25 @@ class MyProfilePage extends GetView<MyProfileController> {
     );
   }
 
-  Widget _sealAndSignatureHoghoghi() {
+  Widget _sealAndLogoHoghoghi() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Expanded(
-            child: MyProfileImageCard(
-          icon: signatureIcon,
-          isShowUint8List: controller.isShowSignatureHoghoghi.value,
-          title: 'افزودن امضا',
-          editTitle: 'تغییر امضا',
-          uint8ListImage: controller.uint8ListSignatureHoghoghi.value,
-          removeUint8ListOnTap: () => controller.removeUint8ListButton(
-              title: 'حذف امضا',
-              message: 'برای حذف امضا دکمه حذف x رو بفشار',
-              isShow: controller.isShowSignatureHoghoghi,
-              uint8List: controller.uint8ListSignatureHoghoghi),
-          onTap: () async {
-            FocusManager.instance.primaryFocus?.unfocus();
-            final result = await showModalBottomSheet<Uint8List>(
-              isScrollControlled: true,
-              backgroundColor: Colors.white,
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.vertical(
-                  top: Radius.circular(
-                    30,
-                  ),
-                ),
-              ),
-              context: Get.context!,
-              builder: (context) {
-                return const SignatureBottomSheet();
-              },
-            );
-            if (result != null) {
-              controller.isShowSignatureHoghoghi.value = true;
-              controller.uint8ListSignatureHoghoghi.value = result;
-            }
-          },
-        )),
+          child: MyProfileImageCard(
+            icon: logoDesignIcon,
+            isShowUint8List: controller.isShowLogoHoghoghiImage.value,
+            title: 'افزودن لوگو',
+            editTitle: 'تغییر لوگو',
+            onTap: controller.logoHoghoghiTap,
+            uint8ListImage: controller.uint8ListLogoHoghoghiImage.value,
+            removeUint8ListOnTap: () => controller.removeUint8ListButton(
+                title: 'حذف لوگو',
+                message: 'برای حذف لوگو دکمه حذف x رو بفشار',
+                isShow: controller.isShowLogoHoghoghiImage,
+                uint8List: controller.uint8ListLogoHoghoghiImage),
+          ),
+        ),
         Constants.mediumHorizontalSpacer,
         Expanded(
             child: MyProfileImageCard(
@@ -222,6 +224,7 @@ class MyProfilePage extends GetView<MyProfileController> {
       child: Column(
         children: [
           CustomTextFormField(
+            autofocus: false,
             labelText: 'نام و نام خانوادگی',
             textEditingController: controller.fullNameTextEditingController,
             inputFormatters: [
@@ -230,6 +233,7 @@ class MyProfilePage extends GetView<MyProfileController> {
             validatorTextField: emptyValidator('نام و نام خانوادگی'),
           ),
           CustomTextFormField(
+            autofocus: false,
             labelText: 'کدملی',
             textEditingController: controller.nationalCodeTextEditingController,
             prefixIcon: const Icon(Icons.confirmation_num_outlined),
@@ -240,6 +244,7 @@ class MyProfilePage extends GetView<MyProfileController> {
             textInputType: TextInputType.phone,
           ),
           CustomTextFormField(
+              autofocus: false,
               labelText: 'شماره تماس',
               textEditingController: controller.mobileTextEditingController,
               prefixIcon: const Icon(Icons.phone),
@@ -250,6 +255,7 @@ class MyProfilePage extends GetView<MyProfileController> {
               validatorTextField: emptyValidator('شماره تماس'),
               textInputType: TextInputType.phone),
           CustomTextFormField(
+              autofocus: false,
               maxLines: 3,
               labelText: 'آدرس',
               inputFormatters: [
@@ -258,9 +264,9 @@ class MyProfilePage extends GetView<MyProfileController> {
               textEditingController: controller.addressTextEditingController,
               prefixIcon: const Icon(Icons.add_location_outlined)),
           Constants.mediumVerticalSpacer,
-          _sealAndSignature(),
+          _sealAndLogo(),
           Constants.largeVerticalSpacer,
-          _logo(context),
+          _signature(context),
         ],
       ),
     );
@@ -268,7 +274,7 @@ class MyProfilePage extends GetView<MyProfileController> {
 
   Widget _legalItems() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 25),
+      padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
         children: [
           CustomTextFormField(
@@ -281,6 +287,7 @@ class MyProfilePage extends GetView<MyProfileController> {
             validatorTextField: emptyValidator('نام شرکت'),
           ),
           CustomTextFormField(
+            autofocus: false,
             labelText: 'شناسه ملی شرکت',
             textEditingController:
                 controller.nationalCodeCompanyTextEditingController,
@@ -305,6 +312,7 @@ class MyProfilePage extends GetView<MyProfileController> {
           ),
           CustomTextFormField(
               maxLines: 3,
+              autofocus: false,
               prefixIcon: const Icon(Icons.add_location_outlined),
               labelText: 'آدرس',
               inputFormatters: [
@@ -313,9 +321,9 @@ class MyProfilePage extends GetView<MyProfileController> {
               textEditingController:
                   controller.addressTextHoghohgiEditingController),
           Constants.mediumVerticalSpacer,
-          _sealAndSignatureHoghoghi(),
+          _sealAndLogoHoghoghi(),
           Constants.largeVerticalSpacer,
-          _logoHoghoghi(),
+          _signatureHoghoghi(),
         ],
       ),
     );

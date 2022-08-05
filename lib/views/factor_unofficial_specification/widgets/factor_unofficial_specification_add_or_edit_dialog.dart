@@ -3,7 +3,7 @@ import 'package:factor_flutter_mobile/core/constans/constans.dart';
 import 'package:factor_flutter_mobile/core/utils/factor_validation/form_feild_validation.dart';
 import 'package:factor_flutter_mobile/core/utils/formatter/thousend_formatter.dart';
 import 'package:factor_flutter_mobile/models/specification_cost_view_model/specification_cost_view_model.dart';
-import 'package:factor_flutter_mobile/views/shared/widgets/factor_border_button.dart';
+import 'package:factor_flutter_mobile/views/shared/widgets/factor_button.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/factor_text_form_feild.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -115,7 +115,7 @@ class FactorUnofficialSpecificationAddOrEditDialog
                 child: SizedBox(
                     height: 50,
                     width: double.infinity,
-                    child: CustomBorderButton(
+                    child: FactorButton(
                       onPressed: () {
                         controller.save();
                       },

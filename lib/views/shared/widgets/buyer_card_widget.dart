@@ -14,7 +14,8 @@ class BuyerCardWidget extends StatelessWidget {
       required this.isHaghighi,
       this.onSelectedPopUp,
       this.itemPopUp,
-      this.isPaintingBorder = false});
+      this.isPaintingBorder = false,
+      required this.numberItem});
 
   final double paddingTop;
   final double paddingEnd;
@@ -28,6 +29,7 @@ class BuyerCardWidget extends StatelessWidget {
   final Function(String)? onSelectedPopUp;
   final List<String>? itemPopUp;
   final bool isPaintingBorder;
+  final int numberItem;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -56,14 +58,24 @@ class BuyerCardWidget extends StatelessWidget {
             // mainAxisAlignment: MainAxisAlignment.spaceBetween,
             // mainAxisSize: MainAxisSize.min,
             children: [
-              Constants.smallHorizontalSpacer,
-              _titleWidget(),
+              Constants.mediumHorizontalSpacer,
+              Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text('$numberItem - '),
+                    _titleWidget(),
+                  ],
+                ),
+              ),
               Constants.largeHorizontalSpacer,
               Expanded(
                 child: Text(
                   isHaghighi ? 'حقیقی' : 'حقوقی',
-                  style: const TextStyle(
-                      fontSize: 12, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      color: isHaghighi ? greenColor : Colors.yellow.shade700,
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold),
                 ),
               ),
               _morePopup(),
@@ -75,7 +87,7 @@ class BuyerCardWidget extends StatelessWidget {
   }
 
   Widget _titleWidget() {
-    return Expanded(
+    return Flexible(
       child: FittedBox(
         fit: BoxFit.scaleDown,
         child: Text(

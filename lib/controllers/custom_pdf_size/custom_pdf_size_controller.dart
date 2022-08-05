@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:factor_flutter_mobile/core/constans/constans.dart';
 import 'package:factor_flutter_mobile/models/custom_pdf_size/custom_pdf_size_view_model.dart';
+import 'package:factor_flutter_mobile/views/shared/widgets/factor_snack_bar.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -48,5 +49,10 @@ class CustomPdfSizeController extends GetxController {
     String paperSizeData = json.encode(_customPdfSizeDto.toJson());
     sharedPreferences.setString(
         customPdfSizeSharedPreferencesKey, paperSizeData);
+    Get.back();
+    FactorSnackBar.getxSnackBar(
+        title: 'قالب فاکتور ${paperSizeListText[selectedPaper.value]}',
+        message: ' قالب فاکتور با موفقیت آپدیت شد ',
+        icon: formatSizeIcon);
   }
 }

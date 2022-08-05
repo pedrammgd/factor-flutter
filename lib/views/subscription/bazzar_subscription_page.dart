@@ -3,10 +3,12 @@ import 'dart:developer';
 import 'dart:math' as math;
 
 import 'package:animate_do/animate_do.dart';
+import 'package:device_apps/device_apps.dart';
 import 'package:factor_flutter_mobile/core/constans/constans.dart';
 import 'package:factor_flutter_mobile/models/factor_product_model/factor_product_model.dart';
 import 'package:factor_flutter_mobile/models/factor_view_model/factor_view_model.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/factor_app_bar.dart';
+import 'package:factor_flutter_mobile/views/shared/widgets/factor_snack_bar.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/subscription_card_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_poolakey/flutter_poolakey.dart';
@@ -23,7 +25,7 @@ class BazzarSubscriptionPage extends StatefulWidget {
 class _BazzarSubscriptionPageState extends State<BazzarSubscriptionPage> {
   final Map<String, ProductItem> _productsMap = {};
 
-  int coins = 4;
+  // int coins = 4;
   List<Color> bacGroundColor = <Color>[
     bronzeColor,
     silverColor,
@@ -36,6 +38,7 @@ class _BazzarSubscriptionPageState extends State<BazzarSubscriptionPage> {
   void initState() {
     super.initState();
     _initShop(0);
+
     initSharedPreferences();
   }
 
@@ -50,16 +53,16 @@ class _BazzarSubscriptionPageState extends State<BazzarSubscriptionPage> {
     bool connected = false;
     try {
       connected = await FlutterPoolakey.connect(rsaKey, onDisconnected: () {
-        message = "Poolakey disconnected!";
         log('connected${connected}');
       });
       isEnterToBazar = true;
     } on Exception catch (e) {
       message = e.toString();
 
-      log('message${message}');
+      log('messagesss${message}');
       if (mounted) {
         setState(() {
+          log('message mou${message}');
           isEnterToBazar = false;
         });
       }
@@ -73,7 +76,10 @@ class _BazzarSubscriptionPageState extends State<BazzarSubscriptionPage> {
           return;
         });
       }
+    } else {
+      log('message con${message}');
     }
+
     _reteriveProducts(tryCount);
   }
 
@@ -85,9 +91,9 @@ class _BazzarSubscriptionPageState extends State<BazzarSubscriptionPage> {
       var allPurchases = <PurchaseInfo>[];
       allPurchases.addAll(purchases);
       allPurchases.addAll(subscribes);
-      for (var purchase in allPurchases) {
-        _handlePurchase(purchase);
-      }
+      // for (var purchase in allPurchases) {
+      //   _handlePurchase(purchase);
+      // }
 
       var skuDetailsList =
           await FlutterPoolakey.getInAppSkuDetails(_productsMap.keys.toList());
@@ -109,13 +115,23 @@ class _BazzarSubscriptionPageState extends State<BazzarSubscriptionPage> {
       }
       isLoading = false;
     } catch (e) {
+      if (tryCount < 1) {
+        FactorSnackBar.getxSnackBar(
+            duration: const Duration(seconds: 5),
+            title: 'خطا در اتصال به حساب کافه بازار',
+            message: 'ابتدا از اتصال خود به کافه بازار مطمعن شوید',
+            backgroundColor: redColor,
+            mainButton: TextButton(
+                onPressed: () async {
+                  DeviceApps.openApp('com.farsitel.bazaar');
+                },
+                child: const Text('ورود به کافه بازار')));
+      }
       isEnterToBazar = false;
       print(e.toString());
 
       Future.delayed(Duration(seconds: math.min(10, tryCount))).then((value) {
         if (!isEnterToBazar) _initShop(tryCount + 1);
-
-        print(tryCount);
 
         // isEnterToBazar = false;
 
@@ -126,29 +142,29 @@ class _BazzarSubscriptionPageState extends State<BazzarSubscriptionPage> {
     }
   }
 
-  Future<void> _handlePurchase(PurchaseInfo purchase) async {
-    log(purchase.originalJson);
-    // log(purchase.productId);
-    // log(purchase.dataSignature);
-    if (purchase.productId == "bronze_buy") {
-      if (coins < 5) coins = (coins + 1);
-    } else if (purchase.productId == "silver") {
-      coins = 5;
-    } else if (purchase.productId == "gold") {
-      coins = 10;
-    }
-
-    if (_productsMap[purchase.productId]!.consumable) {
-      var result = await FlutterPoolakey.consume(purchase.purchaseToken);
-      log(result.toString());
-      if (!result) {
-        log("object");
-      }
-    }
-    if (mounted) {
-      setState(() {});
-    }
-  }
+  // Future<void> _handlePurchase(PurchaseInfo purchase) async {
+  //   log(purchase.originalJson);
+  //   // log(purchase.productId);
+  //   // log(purchase.dataSignature);
+  //   if (purchase.productId == "bronze_buy") {
+  //     if (coins < 5) coins = (coins + 1);
+  //   } else if (purchase.productId == "silver") {
+  //     coins = 5;
+  //   } else if (purchase.productId == "gold") {
+  //     coins = 10;
+  //   }
+  //
+  //   if (_productsMap[purchase.productId]!.consumable) {
+  //     var result = await FlutterPoolakey.consume(purchase.purchaseToken);
+  //     log(result.toString());
+  //     if (!result) {
+  //       log("object");
+  //     }
+  //   }
+  //   if (mounted) {
+  //     setState(() {});
+  //   }
+  // }
 
   final RxList<FactorHomeViewModel> factorHomeList =
       <FactorHomeViewModel>[].obs;
@@ -280,10 +296,18 @@ class _BazzarSubscriptionPageState extends State<BazzarSubscriptionPage> {
         onTap: () async {
           print('whhhhh${items[index].skuDetails}');
           if (!isEnterToBazar) {
-            Get.snackbar(
-              'خطا در اتصال',
-              'ابتدا از اتصال خود به اینترنت یا کافه بازار مطمعن شوید',
-            );
+            FactorSnackBar.getxSnackBar(
+                duration: const Duration(seconds: 5),
+                title: 'خطا در اتصال به حساب کافه بازار',
+                message: 'ابتدا از اتصال خود به کافه بازار مطمعن شوید',
+                backgroundColor: redColor,
+                mainButton: TextButton(
+                    onPressed: () async {
+                      DeviceApps.openApp('com.farsitel.bazaar');
+
+                      // await DeviceApps.openAppSettings('com.farsitel.bazaar');
+                    },
+                    child: const Text('ورود به کافه بازار')));
           }
           if (items[index].skuDetails == null) return;
           // if (index == 0 && subscriptionValue == 'silver') {
@@ -301,14 +325,20 @@ class _BazzarSubscriptionPageState extends State<BazzarSubscriptionPage> {
             purchaseInfo =
                 await FlutterPoolakey.purchase(items[index].skuDetails!.sku);
             saveSubscription(items[index].skuDetails!.sku);
-            _handlePurchase(purchaseInfo);
+            // _handlePurchase(purchaseInfo);
             Get.back(result: true);
-            Get.snackbar('عملیات موفق',
-                '${items[index].skuDetails?.title} برای شما فعال شد ',
-                backgroundColor: Colors.green);
+            Get.snackbar(
+              'عملیات موفق',
+              '${items[index].skuDetails?.title} برای شما فعال شد ',
+              backgroundColor: greenColor,
+            );
           } catch (e) {
-            Get.snackbar('خرید ناموفق', 'خرید ناموفق مجددا تلاش کنید',
-                backgroundColor: Colors.red);
+            FactorSnackBar.getxSnackBar(
+              title: 'خرید ناموفق',
+              message: 'خرید ناموفق مجددا تلاش کنید',
+              backgroundColor: redColor,
+            );
+
             return;
           }
         });

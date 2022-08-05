@@ -64,7 +64,7 @@ class ItemsBottomNavigation extends StatelessWidget {
                 height: 5,
                 width: 5,
                 child: CircleAvatar(
-                  backgroundColor: Theme.of(context).colorScheme.secondary,
+                  backgroundColor: greenColor,
                 ))
         ],
       ),

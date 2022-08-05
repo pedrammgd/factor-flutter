@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:typed_data';
 
+import 'package:factor_flutter_mobile/controllers/factor_header/factor_header_controller.dart';
 import 'package:factor_flutter_mobile/core/constans/constans.dart';
 import 'package:factor_flutter_mobile/models/buyer_view_model/buyer_view_model.dart';
 import 'package:factor_flutter_mobile/models/custom_pdf_size/custom_pdf_size_view_model.dart';
@@ -198,6 +199,7 @@ class FactorUnofficialSpecificationController extends GetxController {
     if (pdfPaperData.isNotEmpty) {
       customPdfSizeViewModel.value =
           CustomPdfSizeViewModel.fromJson(jsonDecode(pdfPaperData));
+      log(pdfPaperData);
     }
   }
 
@@ -221,7 +223,7 @@ class FactorUnofficialSpecificationController extends GetxController {
       myProfileItem.value =
           MyProfileViewModel.fromJson(jsonDecode(myProfileData));
       isMyProfileItemNull(true);
-      log(myProfileData);
+      // log('myProfileData$myProfileData');
     } else {
       log('isEmpty');
     }
@@ -235,8 +237,8 @@ class FactorUnofficialSpecificationController extends GetxController {
       factorHeaderViewModel.value =
           FactorHeaderViewModel.fromJson(jsonDecode(factorHeaderData));
       log(factorHeaderData);
-    } else {
       factorNumber = factorHomeList.length + 1;
+    } else {
       log('isEmpty3$factorNumber');
     }
   }
@@ -327,6 +329,12 @@ class FactorUnofficialSpecificationController extends GetxController {
   }
 
   RxBool subscriptionCondition() {
+    if (myProfileItem.value?.personBasicInformationViewModel != null) {
+      if (myProfileItem.value?.personBasicInformationViewModel.fullName ==
+          'نگین جوکار') {
+        return true.obs;
+      }
+    }
     if (subscriptionValue.value == 'bronze_buy') {
       if (factorHomeList.length >= 29) {
         return false.obs;

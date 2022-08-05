@@ -3,7 +3,7 @@ import 'package:factor_flutter_mobile/core/constans/constans.dart';
 import 'package:factor_flutter_mobile/core/utils/factor_validation/form_feild_validation.dart';
 import 'package:factor_flutter_mobile/core/utils/formatter/thousend_formatter.dart';
 import 'package:factor_flutter_mobile/models/factor_unofficial_item_view_model/factor_unofficial_item_view_model.dart';
-import 'package:factor_flutter_mobile/views/shared/widgets/factor_border_button.dart';
+import 'package:factor_flutter_mobile/views/shared/widgets/factor_button.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/factor_text_form_feild.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -45,13 +45,8 @@ class FactorUnofficialAddModalBottomSheet
               _descriptionTextFormField(context),
               _unitPriceTextFormFeild(context),
               _countTextFormField(context),
-              Row(
-                children: [
-                  _discountTextFormField(context),
-                  Constants.smallHorizontalSpacer,
-                  _taxationTextFormFild(context),
-                ],
-              ),
+              _discountTextFormField(context),
+              _taxationTextFormFild(context),
               _button(context),
             ],
           ),
@@ -66,7 +61,7 @@ class FactorUnofficialAddModalBottomSheet
         child: SizedBox(
             height: 50,
             width: double.infinity,
-            child: CustomBorderButton(
+            child: FactorButton.elevated(
                 onPressed: () {
                   controller.save();
                 },
@@ -74,8 +69,8 @@ class FactorUnofficialAddModalBottomSheet
   }
 
   Widget _taxationTextFormFild(BuildContext context) {
-    return Expanded(
-        child: FactorTextFormField(
+    return FactorTextFormField(
+      width: double.infinity,
       prefixIcon: const Icon(Icons.price_change_outlined),
       controller: controller.productTaxationController,
       labelText: 'مالیات',
@@ -84,16 +79,16 @@ class FactorUnofficialAddModalBottomSheet
         LengthLimitingTextInputFormatter(4),
         FilteringTextInputFormatter.allow(RegExp(r'^(\d+)?\.?\d{0,2}')),
       ],
-      textInputAction: TextInputAction.next,
+      textInputAction: TextInputAction.done,
       textInputType: TextInputType.phone,
       suffixText: '%',
       hasBorder: true,
-    ));
+    );
   }
 
   Widget _discountTextFormField(BuildContext context) {
-    return Expanded(
-        child: FactorTextFormField(
+    return FactorTextFormField(
+      width: double.infinity,
       prefixIcon: const Icon(Icons.discount_outlined),
       controller: controller.productDiscountController,
       labelText: 'تخفیف',
@@ -106,7 +101,7 @@ class FactorUnofficialAddModalBottomSheet
       textInputType: TextInputType.phone,
       suffixText: '%',
       hasBorder: true,
-    ));
+    );
   }
 
   Widget _countTextFormField(BuildContext context) {
@@ -122,7 +117,7 @@ class FactorUnofficialAddModalBottomSheet
       textInputAction: TextInputAction.next,
       textInputType: TextInputType.phone,
       validatorTextField: emptyValidator('واحد'),
-      suffixIcon: SizedBox(width: 100, child: _unitSuffixIcon()),
+      suffixIcon: SizedBox(width: 105, child: _unitSuffixIcon()),
       hasBorder: true,
     );
   }
@@ -231,7 +226,7 @@ class FactorUnofficialAddModalBottomSheet
                 child: SizedBox(
                     height: 50,
                     width: double.infinity,
-                    child: CustomBorderButton(
+                    child: FactorButton(
                       onPressed: () {
                         if (!controller.formKey.currentState!.validate()) {
                           return;

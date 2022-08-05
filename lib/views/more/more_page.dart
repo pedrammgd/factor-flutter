@@ -1,11 +1,13 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:device_apps/device_apps.dart';
 import 'package:factor_flutter_mobile/controllers/more/more_controller.dart';
 import 'package:factor_flutter_mobile/core/constans/constans.dart';
 import 'package:factor_flutter_mobile/core/router/factor_pages.dart';
 import 'package:factor_flutter_mobile/views/buyer/buyer_page.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/custom_factor_divider.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/dragable_widget.dart';
+import 'package:factor_flutter_mobile/views/shared/widgets/factor_snack_bar.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/more_item_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -20,13 +22,13 @@ class MorePage extends GetView<MoreController> {
       child: Column(
         children: [
           _userInfo(context),
-          CustomFactorDivider(
-            color: Theme.of(context).colorScheme.secondary,
-          ),
+          const CustomFactorDivider(),
           Constants.smallVerticalSpacer,
           MoreItemWidget(
             onTap: () {
-              Get.toNamed(FactorRoutes.myProfile);
+              Get.toNamed(
+                FactorRoutes.myProfile,
+              );
             },
             title: 'مشخصات من',
             icon: myProfileIcon,
@@ -50,9 +52,7 @@ class MorePage extends GetView<MoreController> {
             },
           ),
           Constants.smallVerticalSpacer,
-          CustomFactorDivider(
-            color: Theme.of(context).colorScheme.secondary,
-          ),
+          const CustomFactorDivider(),
           Constants.smallVerticalSpacer,
           MoreItemWidget(
             title: 'نمودار فاکتور',
@@ -112,9 +112,15 @@ class MorePage extends GetView<MoreController> {
     return Obx(() {
       return InkWell(
           onTap: () async {
+            //Todo todo
+            bool isBazzarInstalled =
+                await DeviceApps.isAppInstalled('com.farsitel.bazaar');
+
             var connectivityResult = await (Connectivity().checkConnectivity());
-            if (connectivityResult == ConnectivityResult.mobile ||
-                connectivityResult == ConnectivityResult.wifi) {
+            final bool isConnectedInternet =
+                connectivityResult == ConnectivityResult.mobile ||
+                    connectivityResult == ConnectivityResult.wifi;
+            if (isConnectedInternet && isBazzarInstalled) {
               final result = await Get.toNamed(
                 FactorRoutes.subscription,
               );
@@ -123,9 +129,21 @@ class MorePage extends GetView<MoreController> {
                 controller.loadSubscription();
               }
             } else {
-              Get.snackbar('خطا در اتصال به اینترنت',
-                  'جهت خرید اشتراک ابتدا از اتصال به اینترنت مطمعن شوید',
-                  backgroundColor: Colors.yellow.shade800);
+              if (!isConnectedInternet) {
+                FactorSnackBar.getxSnackBar(
+                    title: 'خطا در اتصال به اینترنت',
+                    message:
+                        'جهت خرید اشتراک ابتدا از اتصال به اینترنت مطمعن شوید',
+                    backgroundColor: Colors.yellow.shade800,
+                    icon: controller.subscriptionIcon().value);
+              } else {
+                FactorSnackBar.getxSnackBar(
+                    title: 'خطا در اتصال به کافه بازار',
+                    message:
+                        'جهت خرید اشتراک ابتدا برنامه را از دستگاه خود حذف کنید و از کافه بازار دانلود کنید',
+                    backgroundColor: Colors.yellow.shade800,
+                    icon: controller.subscriptionIcon().value);
+              }
             }
           },
           child: Column(

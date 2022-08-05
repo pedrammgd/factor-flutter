@@ -1,5 +1,5 @@
 import 'package:factor_flutter_mobile/core/constans/constans.dart';
-import 'package:factor_flutter_mobile/views/shared/widgets/factor_border_button.dart';
+import 'package:factor_flutter_mobile/views/shared/widgets/factor_button.dart';
 import 'package:flutter/material.dart';
 
 import 'key_value_text_widget.dart';
@@ -89,7 +89,7 @@ class BottomSheetTotalPriceWidget extends StatelessWidget {
               child: SizedBox(
                   height: 50,
                   width: double.infinity,
-                  child: CustomBorderButton(
+                  child: FactorButton.elevated(
                       onPressed: bottomButtonOnTap, titleButton: titleButton)),
             ),
 

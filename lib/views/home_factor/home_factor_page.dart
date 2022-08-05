@@ -8,12 +8,10 @@ import 'package:get/get.dart';
 
 class HomeFactorPage extends GetView<HomeFactorController> {
   const HomeFactorPage({
-    required this.scrollController,
     required this.factorHomeList,
     required this.factorHomeListSearch,
   });
 
-  final ScrollController scrollController;
   final RxList<FactorHomeViewModel> factorHomeList;
   final RxList<FactorHomeViewModel> factorHomeListSearch;
 
@@ -23,14 +21,28 @@ class HomeFactorPage extends GetView<HomeFactorController> {
         factorHomeList: factorHomeList,
         factorHomeListSearch: factorHomeListSearch));
     return ListView(
-      controller: scrollController,
+      // shrinkWrap: true,
+
       children: [
-        Constants.xxLargeVerticalSpacer,
-        const Padding(
-          padding: EdgeInsetsDirectional.only(start: 20),
-          child: Text(
-            'فاکتور های من',
-            style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+        Constants.largeVerticalSpacer,
+        Padding(
+          padding: const EdgeInsets.only(right: 20),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Card(
+                child: Padding(
+                  padding: const EdgeInsetsDirectional.all(15),
+                  child: Text(
+                    'فاکتور های من',
+                    style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                        color: greenColor),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
         Constants.mediumVerticalSpacer,

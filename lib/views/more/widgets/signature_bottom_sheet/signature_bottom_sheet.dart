@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:factor_flutter_mobile/controllers/signature_bottom_sheet/signature_bottom_sheet_controller.dart';
-import 'package:factor_flutter_mobile/views/shared/widgets/factor_border_button.dart';
+import 'package:factor_flutter_mobile/views/shared/widgets/factor_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:signature/signature.dart';
@@ -63,7 +63,7 @@ class SignatureBottomSheet extends GetView<SignatureBottomSheetController> {
               child: Padding(
                 padding: const EdgeInsetsDirectional.only(
                     bottom: 20, end: 20, start: 20),
-                child: CustomBorderButton(
+                child: FactorButton(
                   borderColor: Colors.black,
                   textColor: Colors.black,
                   onPressed: () async {

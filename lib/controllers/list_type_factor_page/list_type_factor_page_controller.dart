@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:factor_flutter_mobile/controllers/factor_base/factor_base_controller.dart';
 import 'package:factor_flutter_mobile/core/constans/constans.dart';
 import 'package:factor_flutter_mobile/models/ads/ads_view_model.dart';
 import 'package:factor_flutter_mobile/models/factor_view_model/factor_view_model.dart';
@@ -11,35 +12,40 @@ class ListTypeFactorPageController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    loadAds();
+    if (isLoadingAd.value == true) {
+      Get.find<FactorBaseController>().loadAds();
+    }
     initSharedPreferences();
   }
 
   final RxList<FactorHomeViewModel> factorHomeList;
 
-  ListTypeFactorPageController({required this.factorHomeList});
+  ListTypeFactorPageController({
+    required this.factorHomeList,
+    required this.adsViewModel,
+    required this.isLoadingAd,
+  });
 
-  RxList<AdsViewModel> adsViewModel = RxList<AdsViewModel>();
+  final RxList<AdsViewModel> adsViewModel;
 
-  final AdsRepository _repository = AdsRepository();
-  RxBool isLoadingAd = false.obs;
+  final RxBool isLoadingAd;
   RxBool isShowAd = false.obs;
   RxBool isErrorAd = false.obs;
   int indexImage = 0;
 
-  Future<void> loadAds() async {
-    isLoadingAd(true);
-
-    var resultOrException = await _repository.getAds();
-    resultOrException.fold((exception) {
-      isErrorAd(true);
-      log('exception${exception}');
-    }, (List<AdsViewModel> r) {
-      adsViewModel(r);
-      print(r);
-      isLoadingAd(false);
-    });
-  }
+  // Future<void> loadAds() async {
+  //   isLoadingAd(true);
+  //
+  //   var resultOrException = await _repository.getAds();
+  //   resultOrException.fold((exception) {
+  //     isErrorAd(true);
+  //     log('eeeerrrr${exception}');
+  //   }, (List<AdsViewModel> r) {
+  //     adsViewModel(r);
+  //     print(r);
+  //     isLoadingAd(false);
+  //   });
+  // }
 
   late SharedPreferences sharedPreferences;
 

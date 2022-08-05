@@ -1,7 +1,8 @@
 import 'package:factor_flutter_mobile/controllers/buyer/buyer_controller.dart';
+import 'package:factor_flutter_mobile/core/constans/constans.dart';
 import 'package:factor_flutter_mobile/views/buyer/widgets/buyer_add_or_edit_bottom_sheet.dart';
 import 'package:factor_flutter_mobile/views/buyer/widgets/buyer_list.dart';
-import 'package:factor_flutter_mobile/views/shared/widgets/factor_sliver_appBar.dart';
+import 'package:factor_flutter_mobile/views/shared/widgets/factor_app_bar.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/factor_text_form_feild.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -21,7 +22,7 @@ class BuyerPage extends GetView<BuyerController> {
   Widget build(BuildContext context) {
     initArguments();
     return Scaffold(
-      body: FactorBodyAppBarSliver(
+      body: FactorAppBar.silver(
         body: SingleChildScrollView(
           child: Obx(() {
             return Column(
@@ -59,6 +60,7 @@ class BuyerPage extends GetView<BuyerController> {
               height: 45,
               width: double.maxFinite,
               child: FactorTextFormField(
+                autofocus: false,
                 controller: controller.searchTextEditingController,
                 width: double.infinity,
                 prefixIcon: const Icon(Icons.search),
@@ -69,6 +71,10 @@ class BuyerPage extends GetView<BuyerController> {
                 paddingBottom: 0,
                 paddingTop: 0,
                 contentPadding: 0,
+                onPressedClearButton: () {
+                  controller.isShowFoundSearch.value = false;
+                  controller.loadBuyerData();
+                },
                 onChanged: controller.searchBuyer,
               ),
             ),
@@ -77,7 +83,9 @@ class BuyerPage extends GetView<BuyerController> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          FocusManager.instance.primaryFocus?.unfocus();
+          Get.closeAllSnackbars();
+          // FocusManager.instance.primaryFocus?.unfocus();
+
           final result = await Get.bottomSheet(
             BuyerAddOrEditBottomSheet(
               buyerItem: null,

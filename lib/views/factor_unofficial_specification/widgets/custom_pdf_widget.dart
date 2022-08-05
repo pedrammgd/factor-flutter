@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:factor_flutter_mobile/core/constans/constans.dart';
 import 'package:factor_flutter_mobile/models/buyer_view_model/buyer_view_model.dart';
@@ -31,6 +32,8 @@ class CustomPdfWidget {
     required String factorNum,
     required String currencyTitle,
     required bool isShowFactorParBottomInPdf,
+    pw.MemoryImage? assetImage,
+    // Uint8List? pdfValue,
   }) {
     String imageUint8ListCondition(
         {String? uint8List, required String defaultImage}) {
@@ -160,7 +163,7 @@ class CustomPdfWidget {
               .value!.personBasicInformationViewModel.mobileNumber!;
         } else {
           return myProfileItem
-              .value!.personBasicInformationViewModel.mobileNumber!;
+              .value!.personBasicInformationViewModel.mobileNumberHoghoghi!;
         }
       } else {
         return 'شماره تماس از قسمت مشخصات من قبل حذف یا ویرایش می باشد';
@@ -246,7 +249,7 @@ class CustomPdfWidget {
         pw.Row(
           mainAxisAlignment: pw.MainAxisAlignment.spaceAround,
           children: [
-            // _barcodeWidget(),
+            // if (pdfValue != null) _barcodeWidget(pdfValue),
             _headerWidget(ownerAddress(), headerTitle(), ownerName(),
                 _nationalCode(), _nationalOwnerCodeKey(), ownerPhoneNumber()),
             if (_hasImage(
@@ -261,7 +264,7 @@ class CustomPdfWidget {
           ],
         ),
         pw.SizedBox(height: 16),
-        pw.Divider(thickness: 2),
+        pw.Divider(thickness: 2, color: const PdfColor.fromInt(0xff4AA96C)),
         pw.SizedBox(height: 16),
         _informationRowWidget(
           firstKey: "طرف حساب : ",
@@ -375,14 +378,24 @@ class CustomPdfWidget {
                 iamgeUint8ListHoghoghi:
                     myProfileItem.value?.signatureUint8ListHoghoghi,
                 image8ListHaghighi: myProfileItem.value?.signatureUint8List)),
-        pw.SizedBox(height: 20),
+        pw.SizedBox(height: 5),
         if (isShowFactorParBottomInPdf)
           pw.Align(
             alignment: pw.Alignment.centerRight,
-            child: pw.Text('توسعه توسط اپلیکیشن فاکتور پر',
-                style: const pw.TextStyle(fontSize: 5),
-                textDirection: pw.TextDirection.rtl),
-          ),
+            child: pw.Row(
+              children: [
+                pw.SizedBox(
+                    child: pw.Image(
+                      assetImage!,
+                    ),
+                    width: 25,
+                    height: 25),
+                pw.Text('توسعه توسط اپلیکیشن فاکتور پر',
+                    style: const pw.TextStyle(fontSize: 5),
+                    textDirection: pw.TextDirection.rtl),
+              ],
+            ),
+          )
       ],
     );
   }
@@ -437,8 +450,8 @@ class CustomPdfWidget {
         if (hasSignature)
           pw.Image(
             signature,
-            height: 50,
-            width: 50,
+            height: 40,
+            width: 40,
           ),
         pw.SizedBox(width: 20),
         if (hasSeal)
@@ -482,7 +495,9 @@ class CustomPdfWidget {
               firstKey: 'مبلغ قابل پرداخت )$currencyTitle(',
               firstValue: totalPrice,
               fontSizeKey: 8,
-              fontSizeValue: 8),
+              fontSizeValue: 8,
+              decoration: pw.BoxDecoration(
+                  color: const PdfColor.fromInt(0xff4AA96C).shade(.1))),
         ],
       ),
     );
@@ -493,8 +508,9 @@ class CustomPdfWidget {
     required String firstValue,
     double fontSizeValue = 6,
     double fontSizeKey = 6,
+    pw.BoxDecoration? decoration,
   }) {
-    return pw.TableRow(children: [
+    return pw.TableRow(decoration: decoration, children: [
       pw.Align(
         heightFactor: 3,
         alignment: pw.Alignment.center,
@@ -517,6 +533,12 @@ class CustomPdfWidget {
     return pw.Directionality(
       textDirection: pw.TextDirection.rtl,
       child: pw.Table.fromTextArray(
+        // headerStyle: const pw.TextStyle(color: PdfColors.red400),
+        // cellDecoration: (index, data, rowNum) {
+        //   return const pw.BoxDecoration(color: PdfColors.red400);
+        // },
+        headerDecoration:
+            const pw.BoxDecoration(color: PdfColor.fromInt(0xff4AA96C)),
         cellAlignment: pw.Alignment.center,
         headers: [
           ' قیمت کل )$currencyTitle(',
@@ -679,7 +701,8 @@ class CustomPdfWidget {
     );
   }
 
-  pw.Widget _barcodeWidget() {
+  pw.Widget _barcodeWidget(Uint8List pdfValue) {
+    return pw.Text('pdfValue.toString()');
     return pw.Container(
         width: 50, height: 50, color: PdfColor.fromHex('#32a852'));
   }

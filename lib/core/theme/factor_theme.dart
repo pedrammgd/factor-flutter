@@ -6,12 +6,15 @@ class FactorTheme {
     fontFamily: 'IRANSans',
     scaffoldBackgroundColor: Colors.grey.shade900,
     primaryColor: Colors.black,
-    colorScheme: const ColorScheme.dark(secondary: Colors.white),
+    colorScheme: ColorScheme.dark(secondary: Colors.white, primary: greenColor),
   );
   static final lightTheme = ThemeData(
+    floatingActionButtonTheme:
+        FloatingActionButtonThemeData(backgroundColor: greenColor),
     fontFamily: 'IRANSans',
     scaffoldBackgroundColor: backGroundScaffoldColor,
     primaryColor: Colors.white,
-    colorScheme: const ColorScheme.light(secondary: Colors.black),
+    colorScheme:
+        ColorScheme.light(secondary: Colors.black, primary: greenColor),
   );
 }

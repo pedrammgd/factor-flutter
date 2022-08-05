@@ -1,7 +1,9 @@
 import 'dart:developer';
 
 import 'package:factor_flutter_mobile/main.dart';
+import 'package:factor_flutter_mobile/models/ads/ads_view_model.dart';
 import 'package:factor_flutter_mobile/models/factor_view_model/factor_view_model.dart';
+import 'package:factor_flutter_mobile/repositories/ads/ads_repository.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -9,13 +11,16 @@ import 'package:get/get.dart';
 
 class FactorBaseController extends GetxController {
   RxInt currentIndex = 0.obs;
-  late ScrollController scrollController;
   RxBool isShowFoundSearch = false.obs;
-
+  RxBool isLoadingAd = false.obs;
   RxList<FactorHomeViewModel> factorHomeList = <FactorHomeViewModel>[].obs;
+  RxList<AdsViewModel> adsViewModel = RxList<AdsViewModel>();
+  final AdsRepository _repository = AdsRepository();
 
   RxList<FactorHomeViewModel> factorHomeListSearch =
       <FactorHomeViewModel>[].obs;
+
+  TextEditingController searchEditingController = TextEditingController();
 
   void searchFactorHome(String value) {
     if (value.isEmpty) {
@@ -34,7 +39,7 @@ class FactorBaseController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    scrollController = ScrollController();
+    loadAds();
 
     FirebaseMessaging.instance.getInitialMessage().then(
           (message) {},
@@ -111,9 +116,16 @@ class FactorBaseController extends GetxController {
     return Future.value();
   }
 
-  @override
-  void dispose() {
-    scrollController.dispose();
-    super.dispose();
+  Future<void> loadAds() async {
+    isLoadingAd(true);
+
+    var resultOrException = await _repository.getAds();
+    resultOrException.fold((exception) {
+      print('eeeeeeeee${exception.error}');
+    }, (List<AdsViewModel> r) {
+      adsViewModel(r);
+      print(r);
+      isLoadingAd(false);
+    });
   }
 }

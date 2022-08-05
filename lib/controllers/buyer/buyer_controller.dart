@@ -18,7 +18,6 @@ class BuyerController extends GetxController {
 
   TextEditingController searchTextEditingController = TextEditingController();
   late SharedPreferences sharedPreferences;
-  RxBool isLoading = false.obs;
   RxList<BuyerViewModel> buyerList = <BuyerViewModel>[].obs;
 
   RxList<BuyerViewModel> buyerListSearch = <BuyerViewModel>[].obs;
@@ -38,6 +37,7 @@ class BuyerController extends GetxController {
               ?.toLowerCase() ??
           element.personBasicInformationViewModel.companyName?.toLowerCase();
 
+      print(name);
       return name!.contains(value.toLowerCase());
     }).toList();
   }
@@ -47,14 +47,9 @@ class BuyerController extends GetxController {
     Constants.removePopUp
   ];
 
-  initSharedPreferences() {
-    isLoading.value = true;
-    Future.delayed(const Duration(milliseconds: 500), () async {
-      sharedPreferences = await SharedPreferences.getInstance();
-      loadBuyerData();
-
-      isLoading.value = false;
-    });
+  initSharedPreferences() async {
+    sharedPreferences = await SharedPreferences.getInstance();
+    loadBuyerData();
   }
 
   Future loadBuyerData() async {
@@ -74,7 +69,7 @@ class BuyerController extends GetxController {
     loadBuyerData();
   }
 
-  void removeItem(BuyerViewModel item) {
+  Future<void> removeItem(BuyerViewModel item) async {
     buyerListSearch.remove(item);
     buyerList.remove(item);
     searchTextEditingController.clear();

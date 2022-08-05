@@ -1,8 +1,9 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:factor_flutter_mobile/core/constans/constans.dart';
+import 'package:factor_flutter_mobile/models/ads/ads_view_model.dart';
 import 'package:factor_flutter_mobile/models/factor_view_model/factor_view_model.dart';
+import 'package:factor_flutter_mobile/repositories/ads/ads_repository.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -34,13 +35,9 @@ class HomeFactorController extends GetxController {
 
   late SharedPreferences sharedPreferences;
 
-  initSharedPreferences() {
-    isLoading.value = true;
-    Future.delayed(const Duration(milliseconds: 500), () async {
-      sharedPreferences = await SharedPreferences.getInstance();
-      loadFactorData();
-      isLoading.value = false;
-    });
+  Future initSharedPreferences() async {
+    sharedPreferences = await SharedPreferences.getInstance();
+    loadFactorData();
   }
 
   void saveFactorData() {
@@ -51,6 +48,7 @@ class HomeFactorController extends GetxController {
   }
 
   void loadFactorData() {
+    isLoading(true);
     List<String> factorDataList =
         sharedPreferences.getStringList(factorHomeListSharedPreferencesKey) ??
             [];
@@ -61,6 +59,12 @@ class HomeFactorController extends GetxController {
     }
     factorHomeListSearch.value = factorHomeList;
 
-    log('factorDataList${factorDataList}');
+    isLoading(false);
+
+    // JsonDecoder decoder = const JsonDecoder();
+    // String prettyprint = decoder.convert(factorDataList);
+    // logger.i(
+    //   'factorDataList${jsonDecode(factorDataList)}',
+    // );
   }
 }

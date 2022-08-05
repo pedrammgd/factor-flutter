@@ -35,7 +35,6 @@ class ShowPdfView extends GetView<ShowPdfController> {
       child: Scaffold(
         appBar: FactorAppBar(
             height: 70,
-            hasBackButton: true,
             customBackButtonFunction: () {
               if (controller.isFromHome) {
                 Get.back();
@@ -47,6 +46,7 @@ class ShowPdfView extends GetView<ShowPdfController> {
         body: SfPdfViewer.memory(
           controller.pdfView,
           enableDoubleTapZooming: false,
+          canShowScrollStatus: true,
         ),
         //   PDFView(
         //   pdfData: controller.pdfView,

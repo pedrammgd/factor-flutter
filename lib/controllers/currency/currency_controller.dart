@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:factor_flutter_mobile/core/constans/constans.dart';
 import 'package:factor_flutter_mobile/models/currency/currency_view_model.dart';
+import 'package:factor_flutter_mobile/views/shared/widgets/factor_snack_bar.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -44,5 +45,11 @@ class CurrencyController extends GetxController {
   void saveCurrencyData() {
     String currencyData = json.encode(_customCurrencyDto.toJson());
     sharedPreferences.setString(currencySharedPreferencesKey, currencyData);
+
+    Get.back();
+    FactorSnackBar.getxSnackBar(
+        title: 'واحد پول ${currencyList[selectedCurrency.value]}',
+        message: 'واحد پول با موفقیت آپدیت شد',
+        icon: formatSizeIcon);
   }
 }

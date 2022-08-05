@@ -5,7 +5,7 @@ import 'package:factor_flutter_mobile/core/constans/constans.dart';
 import 'package:factor_flutter_mobile/core/utils/factor_validation/form_feild_validation.dart';
 import 'package:factor_flutter_mobile/models/buyer_view_model/buyer_view_model.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/custom_text_form_field.dart';
-import 'package:factor_flutter_mobile/views/shared/widgets/factor_border_button.dart';
+import 'package:factor_flutter_mobile/views/shared/widgets/factor_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -43,9 +43,15 @@ class BuyerAddOrEditBottomSheet extends GetView<BuyerAddOrEditController> {
               ),
               _radioButton(),
               if (controller.isHaghighi.value)
-                Form(key: controller.haghighiFormKey, child: _haghighiForm())
+                Form(
+                    key: controller.haghighiFormKey,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    child: _haghighiForm())
               else
-                Form(key: controller.hoghoghiFormKey, child: _hoghoghiForm()),
+                Form(
+                    key: controller.hoghoghiFormKey,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    child: _hoghoghiForm()),
               _button(),
             ],
           ),
@@ -67,6 +73,7 @@ class BuyerAddOrEditBottomSheet extends GetView<BuyerAddOrEditController> {
           validatorTextField: emptyValidator('نام شرکت'),
         ),
         CustomTextFormField(
+          autofocus: false,
           prefixIcon: const Icon(Icons.insert_drive_file_outlined),
           labelText: 'شناسه ملی شرکت',
           textEditingController:
@@ -89,6 +96,7 @@ class BuyerAddOrEditBottomSheet extends GetView<BuyerAddOrEditController> {
           textInputType: TextInputType.phone,
         ),
         CustomTextFormField(
+          autofocus: false,
           labelText: 'آدرس',
           maxLines: 2,
           prefixIcon: const Icon(Icons.add_location_outlined),
@@ -115,6 +123,7 @@ class BuyerAddOrEditBottomSheet extends GetView<BuyerAddOrEditController> {
           validatorTextField: emptyValidator('نام و نام خانوادگی'),
         ),
         CustomTextFormField(
+          autofocus: false,
           labelText: 'کد ملی',
           prefixIcon: const Icon(Icons.confirmation_num_outlined),
           textEditingController: controller.nationalCodeTextEditingController,
@@ -136,6 +145,7 @@ class BuyerAddOrEditBottomSheet extends GetView<BuyerAddOrEditController> {
           validatorTextField: emptyValidator('شماره تماس'),
         ),
         CustomTextFormField(
+          autofocus: false,
           labelText: 'آدرس',
           prefixIcon: const Icon(Icons.add_location_outlined),
           maxLines: 2,
@@ -215,9 +225,8 @@ class BuyerAddOrEditBottomSheet extends GetView<BuyerAddOrEditController> {
         child: SizedBox(
             height: 50,
             width: double.infinity,
-            child: CustomBorderButton(
-                borderColor: Theme.of(Get.context!).colorScheme.secondary,
-                textColor: Theme.of(Get.context!).colorScheme.secondary,
+            child: FactorButton.elevated(
+                isLoading: controller.isLoadingButton.value,
                 onPressed: () {
                   controller.save();
                 },

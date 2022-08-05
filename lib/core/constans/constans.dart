@@ -69,6 +69,7 @@ const String formatSizeIcon = 'assets/images/png/format_size.png';
 const String moneyIcon = 'assets/images/png/money.png';
 const String coffeeCupIcon = 'assets/images/png/coffee-cup.png';
 const String chartIcon = 'assets/images/png/chart.png';
+const String warehouseIcon = 'assets/images/png/warehouse.png';
 
 //jpg
 const String adsIconImage = 'assets/images/jpg/ads_image.jpg';
@@ -80,6 +81,8 @@ Color backGroundScaffoldColor = const Color(0xfff2f6fc);
 Color goldColor = const Color(0xffffd700);
 Color silverColor = const Color(0xffc0c0c0);
 Color bronzeColor = const Color(0xffcd7032);
+Color greenColor = const Color(0xff4AA96C);
+Color redColor = const Color(0xffc70000);
 
 //Base64 String
 const String defaultSeal =

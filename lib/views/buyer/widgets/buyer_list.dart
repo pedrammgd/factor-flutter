@@ -1,9 +1,6 @@
-import 'dart:ui';
-
 import 'package:factor_flutter_mobile/controllers/buyer/buyer_controller.dart';
 import 'package:factor_flutter_mobile/core/constans/constans.dart';
 import 'package:factor_flutter_mobile/views/buyer/widgets/buyer_list_item.dart';
-import 'package:factor_flutter_mobile/views/shared/factor_circular_progress_indicator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -15,14 +12,7 @@ class BuyerList extends GetView<BuyerController> {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      if (controller.isLoading.value) {
-        return const Padding(
-          padding: EdgeInsets.only(top: 100),
-          child: Center(
-            child: FactorCircularProgressIndicator(),
-          ),
-        );
-      } else if (controller.buyerListSearch.isEmpty) {
+      if (controller.buyerListSearch.isEmpty) {
         return Padding(
           padding: const EdgeInsets.only(top: 100),
           child: Column(

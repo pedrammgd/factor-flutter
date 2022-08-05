@@ -10,14 +10,15 @@ class MoreItemWidget extends StatelessWidget {
   final String icon;
   final Function()? onTap;
 
-  const MoreItemWidget(
-      {this.paddingTop = 10,
-      this.paddingEnd = 20,
-      this.paddingBottom = 10,
-      this.paddingStart = 20,
-      this.title = 'عنوان',
-      this.icon = myProfileIcon,
-      this.onTap});
+  const MoreItemWidget({
+    this.paddingTop = 10,
+    this.paddingEnd = 20,
+    this.paddingBottom = 10,
+    this.paddingStart = 20,
+    this.title = 'عنوان',
+    this.icon = myProfileIcon,
+    this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {

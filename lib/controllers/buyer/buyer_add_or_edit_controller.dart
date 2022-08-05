@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:factor_flutter_mobile/core/constans/constans.dart';
 import 'package:factor_flutter_mobile/models/buyer_view_model/buyer_view_model.dart';
 import 'package:factor_flutter_mobile/models/sheard/person_basic_information_view_model.dart/person_basic_information_view_model.dart';
+import 'package:factor_flutter_mobile/views/shared/widgets/factor_snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -34,7 +35,10 @@ class BuyerAddOrEditController extends GetxController {
           item.personBasicInformationViewModel.addressHoghoghi ?? '';
     }
   }
+
   RxBool isHaghighi = true.obs;
+  RxBool isLoadingButton = false.obs;
+  RxBool isShowSnackBar = false.obs;
   RxList<BuyerViewModel> buyerList;
   final BuyerViewModel? editBuyerViewModel;
   late final bool isEdit;
@@ -64,23 +68,89 @@ class BuyerAddOrEditController extends GetxController {
   void save() {
     if (isEdit) {
       if (isHaghighi.value) {
-        if (!haghighiFormKey.currentState!.validate()) return;
+        if (!haghighiFormKey.currentState!.validate()) {
+          _snackBarError();
+
+          return;
+        }
         editUnOfficialItem();
+        Get.back(result: true);
+        _snackBarSuccess(
+            isHaghighi: true,
+            message: 'ویرایش',
+            title: 'ویرایش ${fullNameTextEditingController.text}');
       } else {
-        if (!hoghoghiFormKey.currentState!.validate()) return;
+        if (!hoghoghiFormKey.currentState!.validate()) {
+          _snackBarError();
+          return;
+        }
         editUnOfficialItem();
+        Get.back(result: true);
+        _snackBarSuccess(
+          isHaghighi: false,
+          title: 'ویرایش ${companyNameTextEditingController.text}',
+          message: 'ویرایش',
+        );
       }
     } else {
       if (isHaghighi.value) {
-        if (!haghighiFormKey.currentState!.validate()) return;
+        if (!haghighiFormKey.currentState!.validate()) {
+          _snackBarError();
+          return;
+        }
         addToBuyerHaghighiList();
+        Get.back(result: true);
+        _snackBarSuccess(
+          isHaghighi: true,
+          title: 'ثبت ${fullNameTextEditingController.text}',
+          message: 'ثبت',
+        );
       } else {
-        if (!hoghoghiFormKey.currentState!.validate()) return;
+        if (!hoghoghiFormKey.currentState!.validate()) {
+          _snackBarError();
+          return;
+        }
         addToBuyerHoghoghiList();
+        Get.back(result: true);
+        _snackBarSuccess(
+          isHaghighi: false,
+          title: 'ثبت ${companyNameTextEditingController.text}',
+          message: 'ثبت',
+        );
       }
     }
 
-    Get.back(result: true);
+    // Get.back(result: true);
+    // _snackBarSuccess(title: 'ثبت مشتری');
+  }
+
+  void buttonTimerLoading() {
+    isLoadingButton(true);
+    Future.delayed(const Duration(milliseconds: 4000), () {
+      isLoadingButton(false);
+    });
+  }
+
+  void _snackBarSuccess(
+      {required String title,
+      required String message,
+      required bool isHaghighi}) {
+    FactorSnackBar.getxSnackBar(
+        title: title,
+        message: '$message مشتری با موفقیت انجام شد ',
+        iconWidget: isHaghighi
+            ? const Icon(Icons.person_outline)
+            : const Icon(Icons.apartment));
+    buttonTimerLoading();
+  }
+
+  void _snackBarError() {
+    FactorSnackBar.getxSnackBar(
+        title: 'مشکلی پیش اومده',
+        message: 'انگار بعضی از فیلد ها رو تکمیل نکردی یا اشتباه وارد کردی',
+        iconWidget: const Icon(Icons.error_outline),
+        backgroundColor: Colors.red);
+    buttonTimerLoading();
   }
 
   BuyerViewModel get _haghighiDto {

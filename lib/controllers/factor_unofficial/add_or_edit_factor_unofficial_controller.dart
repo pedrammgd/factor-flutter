@@ -2,13 +2,16 @@ import 'dart:convert';
 
 import 'package:factor_flutter_mobile/core/constans/constans.dart';
 import 'package:factor_flutter_mobile/models/factor_unofficial_item_view_model/factor_unofficial_item_view_model.dart';
+import 'package:factor_flutter_mobile/views/shared/widgets/factor_snack_bar.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 
 class AddOrEditFactorUnofficialController extends GetxController {
   final String currencyTitle;
+
   final TextEditingController productDescriptionController =
       TextEditingController();
   final TextEditingController productCountController =
@@ -95,40 +98,76 @@ class AddOrEditFactorUnofficialController extends GetxController {
   void save() {
     // if (!formKey.currentState!.validate()) return;
     if (productDescriptionController.text.isEmpty) {
-      Get.snackbar('فیلد خالی', 'فیلد شرح کالا رو فراموش کردی وارد کنی',
+      FactorSnackBar.getxSnackBar(
+          title: 'شرح کالا',
+          message: 'فیلد شرح کالا رو فراموش کردی وارد کنی',
+          backgroundColor: redColor,
+          iconWidget: const Icon(Icons.description_outlined),
           snackPosition: SnackPosition.BOTTOM);
       return;
     } else if (productCountController.text.isEmpty) {
-      Get.snackbar('فیلد خالی', 'فیلد تعداد رو فراموش کردی وارد کنی',
+      FactorSnackBar.getxSnackBar(
+          title: 'واحد',
+          message: 'فیلد واحد رو فراموش کردی وارد کنی',
+          backgroundColor: redColor,
+          iconWidget: const Icon(Icons.bar_chart_outlined),
           snackPosition: SnackPosition.BOTTOM);
       return;
     } else if (productUnitPriceController.text.isEmpty) {
-      Get.snackbar('فیلد خالی', 'فیلد قیمت واحد رو فراموش کردی وارد کنی',
+      FactorSnackBar.getxSnackBar(
+          title: 'قیمت واحد',
+          message: 'فیلد قیمت واحد رو فراموش کردی وارد کنی',
+          backgroundColor: redColor,
+          iconWidget: const Icon(Icons.attach_money),
           snackPosition: SnackPosition.BOTTOM);
       return;
     } else if (productDiscountController.text.isEmpty) {
-      Get.snackbar('فیلد خالی', 'فیلد تخفیف رو فراموش کردی وارد کنی',
+      FactorSnackBar.getxSnackBar(
+          title: 'تخفیف',
+          message: 'فیلد تخفیف رو فراموش کردی وارد کنی',
+          backgroundColor: redColor,
+          iconWidget: const Icon(Icons.discount_outlined),
           snackPosition: SnackPosition.BOTTOM);
+
       return;
     } else if (productTaxationController.text.isEmpty) {
-      Get.snackbar('فیلد خالی', 'فیلد مالیات رو فراموش کردی وارد کنی',
+      FactorSnackBar.getxSnackBar(
+          title: 'مالیات',
+          message: 'فیلد مالیات رو فراموش کردی وارد کنی',
+          backgroundColor: redColor,
+          iconWidget: const Icon(Icons.price_change_outlined),
           snackPosition: SnackPosition.BOTTOM);
+
       return;
     }
     if (double.parse(productTaxationController.text.trim()) > 100) {
-      Get.snackbar('درصد نامعتبر', 'درصد مالیات رو نامعتبر وارد کردی',
+      FactorSnackBar.getxSnackBar(
+          title: 'درصد نامعتبر مالیات',
+          message: 'درصد مالیات رو نامعتبر وارد کردی',
+          backgroundColor: redColor,
+          iconWidget: const Icon(Icons.price_change_outlined),
           snackPosition: SnackPosition.BOTTOM);
       return;
     }
     if (double.parse(productDiscountController.text.trim()) > 100) {
-      Get.snackbar('درصد نامعتبر', 'درصد تخفیف رو نامعتبر وارد کردی',
+      FactorSnackBar.getxSnackBar(
+          title: 'درصد نامعتبر تخفیف',
+          message: 'درصد تخفیف رو نامعتبر وارد کردی',
+          backgroundColor: redColor,
+          iconWidget: const Icon(Icons.discount_outlined),
           snackPosition: SnackPosition.BOTTOM);
+
       return;
     }
 
     if (totalPriceItem() > 999999999999 || totalPriceItem() < 0) {
-      Get.snackbar('مبلغ نامعتبر', 'عدد نامعتبر وارد کردی',
+      FactorSnackBar.getxSnackBar(
+          title: 'مبلغ نامعتبر',
+          message: 'عدد نامعتبر وارد کردی',
+          backgroundColor: redColor,
+          iconWidget: const Icon(Icons.numbers),
           snackPosition: SnackPosition.BOTTOM);
+
       return;
     }
     print(totalPriceItem());

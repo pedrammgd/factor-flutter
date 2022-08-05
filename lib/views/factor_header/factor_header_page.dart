@@ -1,9 +1,10 @@
 import 'package:factor_flutter_mobile/controllers/factor_header/factor_header_controller.dart';
 import 'package:factor_flutter_mobile/core/constans/constans.dart';
 import 'package:factor_flutter_mobile/core/utils/factor_validation/form_feild_validation.dart';
+import 'package:factor_flutter_mobile/views/shared/factor_circular_progress_indicator.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/custom_text_form_field.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/factor_app_bar.dart';
-import 'package:factor_flutter_mobile/views/shared/widgets/factor_border_button.dart';
+import 'package:factor_flutter_mobile/views/shared/widgets/factor_button.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/factor_text_form_feild.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -16,23 +17,27 @@ class FactorHeaderPage extends GetView<FactorHeaderController> {
   @override
   Widget build(BuildContext context) {
     Get.lazyPut(() => FactorHeaderController());
-    return Obx(() {
-      return Scaffold(
-        appBar: FactorAppBar(
-          title: Padding(
-            padding: const EdgeInsets.only(top: 15),
-            child: Text(
-              'سربرگ فاکتور',
-              style: TextStyle(color: Theme.of(context).colorScheme.secondary),
-            ),
+    return Scaffold(
+      appBar: FactorAppBar(
+        title: Padding(
+          padding: const EdgeInsets.only(top: 15),
+          child: Text(
+            'سربرگ فاکتور',
+            style: TextStyle(color: Theme.of(context).colorScheme.secondary),
           ),
         ),
-        body: Form(
+      ),
+      body: Obx(() {
+        return Form(
+          autovalidateMode: AutovalidateMode.onUserInteraction,
           key: controller.formKey,
           child: ListView(
             padding: const EdgeInsets.only(left: 10, right: 10, top: 30),
             children: [
               CustomTextFormField(
+                prefixIcon: const Icon(
+                  Icons.title,
+                ),
                 textEditingController:
                     controller.factorTitleTextEditingController,
                 labelText: 'عنوان فاکتور',
@@ -43,6 +48,7 @@ class FactorHeaderPage extends GetView<FactorHeaderController> {
               ),
               Constants.smallVerticalSpacer,
               CustomTextFormField(
+                prefixIcon: const Icon(Icons.format_list_numbered_rtl_sharp),
                 textEditingController:
                     controller.factorNumTextEditingController,
                 labelText: 'شماره فاکتور',
@@ -52,7 +58,7 @@ class FactorHeaderPage extends GetView<FactorHeaderController> {
                   LengthLimitingTextInputFormatter(4),
                 ],
                 textInputType: TextInputType.phone,
-                validatorTextField: emptyValidator('شماره فکتور'),
+                validatorTextField: emptyValidator('شماره فاکتور'),
               ),
               _datePicker(context),
               Constants.largeVerticalSpacer,
@@ -61,6 +67,14 @@ class FactorHeaderPage extends GetView<FactorHeaderController> {
                   controller.beForeFactorDurationTextEditingController.clear();
                   controller.isBeforeFactor.value =
                       !controller.isBeforeFactor.value;
+                  if (controller.isBeforeFactor.value == true) {
+                    Future.delayed(
+                      const Duration(milliseconds: 200),
+                      () {
+                        controller.focusNode.requestFocus();
+                      },
+                    );
+                  }
                 },
                 child: Row(
                   children: [
@@ -75,6 +89,14 @@ class FactorHeaderPage extends GetView<FactorHeaderController> {
                         controller.beForeFactorDurationTextEditingController
                             .clear();
                         controller.isBeforeFactor.value = value!;
+                        if (value == true) {
+                          Future.delayed(
+                            const Duration(milliseconds: 200),
+                            () {
+                              controller.focusNode.requestFocus();
+                            },
+                          );
+                        }
                       },
                     ),
                     const Text(
@@ -99,12 +121,13 @@ class FactorHeaderPage extends GetView<FactorHeaderController> {
                   Constants.mediumHorizontalSpacer,
                   Expanded(
                     child: FactorTextFormField(
+                      focusNode: controller.focusNode,
+                      prefixIcon: const Icon(Icons.calendar_today_outlined),
                       controller:
                           controller.beForeFactorDurationTextEditingController,
                       contentPadding: 12,
                       hasBorder: true,
                       enabled: controller.isBeforeFactor.value ? true : false,
-                      hasPrefixIcon: false,
                       inputFormatters: [
                         FilteringTextInputFormatter.digitsOnly,
                         LengthLimitingTextInputFormatter(3),
@@ -114,27 +137,26 @@ class FactorHeaderPage extends GetView<FactorHeaderController> {
                       labelText: 'مدت اعتبار',
                       validatorTextField: controller.isBeforeFactor.value
                           ? emptyValidator('مدت اعتبار')
-                          : null,
+                          : (valid) {
+                              return null;
+                            },
                     ),
                   ),
                 ],
               ),
               Constants.xxLargeVerticalSpacer,
-              SizedBox(
-                height: 50,
-                child: CustomBorderButton(
-                  titleButton: 'ثبت',
-                  onPressed: () {
-                    controller.save();
-                  },
-                ),
+              FactorButton.elevated(
+                titleButton: 'ثبت',
+                onPressed: () {
+                  controller.save();
+                },
               ),
-              Constants.largeVerticalSpacer,
+              Constants.xxLargeVerticalSpacer,
             ],
           ),
-        ),
-      );
-    });
+        );
+      }),
+    );
   }
 
   Widget _datePicker(BuildContext context) {
@@ -159,10 +181,17 @@ class FactorHeaderPage extends GetView<FactorHeaderController> {
               'تاریخ فاکتور',
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
             ),
-            Text(
-              controller.dateSelected.value,
-              style: const TextStyle(
-                  fontWeight: FontWeight.bold, fontSize: 14, color: Colors.red),
+            Card(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  controller.dateSelected.value,
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,
+                      color: greenColor),
+                ),
+              ),
             ),
           ],
         ),

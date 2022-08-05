@@ -3,22 +3,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class CustomTextFormField extends StatelessWidget {
-  const CustomTextFormField(
-      {Key? key,
-      required this.labelText,
-      this.textEditingController,
-      this.maxLines,
-      this.textInputType,
-      this.prefixIcon = const Icon(Icons.person_outline),
-      this.inputFormatters,
-      this.maxLength,
-      this.textInputAction = TextInputAction.next,
-      this.validatorTextField,
-      this.paddingHorizontal = 0,
-      this.contentPadding = 20,
-      this.hasPrefixIcon = true,
-      this.suffixText})
-      : super(key: key);
+  const CustomTextFormField({
+    Key? key,
+    required this.labelText,
+    this.textEditingController,
+    this.maxLines,
+    this.textInputType,
+    this.prefixIcon = const Icon(Icons.person_outline),
+    this.inputFormatters,
+    this.maxLength,
+    this.textInputAction = TextInputAction.next,
+    this.validatorTextField,
+    this.paddingHorizontal = 0,
+    this.contentPadding = 20,
+    this.hasPrefixIcon = true,
+    this.suffixText,
+    this.autofocus = true,
+  }) : super(key: key);
 
   final String labelText;
   final TextEditingController? textEditingController;
@@ -33,6 +34,7 @@ class CustomTextFormField extends StatelessWidget {
   final double contentPadding;
   final bool hasPrefixIcon;
   final String? suffixText;
+  final bool autofocus;
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +42,7 @@ class CustomTextFormField extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: paddingHorizontal),
       child: FactorTextFormField(
         hasBorder: true,
+        autofocus: autofocus,
         borderColor: Theme.of(context).colorScheme.secondary,
         controller: textEditingController,
         width: double.infinity,

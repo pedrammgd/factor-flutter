@@ -19,7 +19,7 @@ class FactorUnofficialController extends GetxController {
 
     scrollController.addListener(() {
       offsetScroll.value = scrollController.offset;
-      if (offsetScroll.value > 10) {
+      if (offsetScroll.value > 50 && factorUnofficialItemList.length > 2) {
         isExpandedBottomSheet(false);
       }
     });

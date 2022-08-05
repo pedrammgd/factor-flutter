@@ -257,7 +257,6 @@ import 'package:factor_flutter_mobile/core/constans/constans.dart';
 import 'package:factor_flutter_mobile/models/specification_cost_view_model/specification_cost_view_model.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/alert_delete_dialog.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/custom_factor_divider.dart';
-import 'package:factor_flutter_mobile/views/shared/widgets/factor_border_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -465,7 +464,7 @@ class _FactorUnofficialSpecificationSelectItemState
                           padding: EdgeInsetsDirectional.only(
                               end: 20, start: 20, bottom: 8, top: 8),
                           child: Icon(
-                            Icons.remove_circle_outline,
+                            Icons.delete_outline,
                             color: Colors.red,
                           ),
                         ),

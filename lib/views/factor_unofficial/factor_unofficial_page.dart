@@ -6,13 +6,15 @@ import 'package:factor_flutter_mobile/views/shared/widgets/bottom_sheet_total_pr
 import 'package:factor_flutter_mobile/views/shared/widgets/custom_modal_bottom_sheet.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/exit_popUp.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/expandable/factor_expandable.dart';
-import 'package:factor_flutter_mobile/views/shared/widgets/factor_border_button.dart';
-import 'package:factor_flutter_mobile/views/shared/widgets/factor_sliver_appBar.dart';
+import 'package:factor_flutter_mobile/views/shared/widgets/factor_app_bar.dart';
+import 'package:factor_flutter_mobile/views/shared/widgets/factor_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 
 class FactorUnofficialPage extends GetView<FactorUnofficialController> {
+  const FactorUnofficialPage({Key? key}) : super(key: key);
+
   void initArguments() {
     if (Get.arguments == null) return;
     final arguments = Get.arguments as Map;
@@ -102,62 +104,116 @@ class FactorUnofficialPage extends GetView<FactorUnofficialController> {
   }
 
   Widget _body() {
-    return FactorBodyAppBarSliver(
-      backOnTap: () async {
-        if (controller.factorUnofficialItemList.isNotEmpty) {
-          final result = await ExitPopUp.showExitPopup(
-            title: 'خروج از لیست آیتم فاکتور',
-            description:
-                'اطلاعات ذخیره نشده ای دارید در صورت خروج از لیست آیتم فاکتور ، اطلاعات شما پاک می شود',
-          );
-          if (result == true) {
+    return FactorAppBar.silver(
+        customBackButtonFunction: () async {
+          if (controller.factorUnofficialItemList.isNotEmpty) {
+            final result = await ExitPopUp.showExitPopup(
+              title: 'خروج از لیست آیتم فاکتور',
+              description:
+                  'اطلاعات ذخیره نشده ای دارید در صورت خروج از لیست آیتم فاکتور ، اطلاعات شما پاک می شود',
+            );
+            if (result == true) {
+              Get.back();
+            }
+          } else {
             Get.back();
           }
-        } else {
-          Get.back();
-        }
-      },
-      controller: controller.scrollController,
-      body: const FactorUnofficialList(),
-      title: Padding(
-        padding: const EdgeInsets.only(top: 5),
-        child: Text('فاکتور جدید',
-            style: TextStyle(
-              color: Theme.of(Get.context!).colorScheme.secondary,
-            )),
-      ),
-      bottomWidget: PreferredSize(
-        preferredSize: const Size.fromHeight(45),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 34,
-          ),
-          child: SizedBox(
-            height: 45,
-            width: double.maxFinite,
-            child: CustomBorderButton(
-              onPressed: () {
-                CustomModalBottomSheet.showModalBottomSheet(
-                  color: Theme.of(Get.context!).primaryColor,
-                  child: FactorUnofficialAddModalBottomSheet(
-                    factorUnofficialItemList:
-                        controller.factorUnofficialItemList,
-                    factorUnofficialItem: null,
-                    sharedPreferences: controller.sharedPreferences,
-                    currencyTitle: controller.currencyTitle(),
-                  ),
-                );
-              },
-              titleButton: ' افزودن به فاکتور',
-              icon: Icon(
-                Icons.add,
+        },
+        controller: controller.scrollController,
+        title: Padding(
+          padding: const EdgeInsets.only(top: 5),
+          child: Text('فاکتور جدید',
+              style: TextStyle(
                 color: Theme.of(Get.context!).colorScheme.secondary,
+              )),
+        ),
+        body: const FactorUnofficialList(),
+        bottomWidget: PreferredSize(
+          preferredSize: const Size.fromHeight(50),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 34,
+            ),
+            child: SizedBox(
+              height: 50,
+              width: double.maxFinite,
+              child: FactorButton(
+                onPressed: () {
+                  CustomModalBottomSheet.showModalBottomSheet(
+                    color: Theme.of(Get.context!).primaryColor,
+                    child: FactorUnofficialAddModalBottomSheet(
+                      factorUnofficialItemList:
+                          controller.factorUnofficialItemList,
+                      factorUnofficialItem: null,
+                      sharedPreferences: controller.sharedPreferences,
+                      currencyTitle: controller.currencyTitle(),
+                    ),
+                  );
+                },
+                titleButton: ' افزودن به فاکتور',
+                icon: const Icon(
+                  Icons.add,
+                ),
               ),
             ),
           ),
-        ),
-      ),
-    );
+        ));
+    // return FactorBodyAppBarSliver(
+    //   backOnTap: () async {
+    //     if (controller.factorUnofficialItemList.isNotEmpty) {
+    //       final result = await ExitPopUp.showExitPopup(
+    //         title: 'خروج از لیست آیتم فاکتور',
+    //         description:
+    //             'اطلاعات ذخیره نشده ای دارید در صورت خروج از لیست آیتم فاکتور ، اطلاعات شما پاک می شود',
+    //       );
+    //       if (result == true) {
+    //         Get.back();
+    //       }
+    //     } else {
+    //       Get.back();
+    //     }
+    //   },
+    //   controller: controller.scrollController,
+    //   body: const FactorUnofficialList(),
+    //   title: Padding(
+    //     padding: const EdgeInsets.only(top: 5),
+    //     child: Text('فاکتور جدید',
+    //         style: TextStyle(
+    //           color: Theme.of(Get.context!).colorScheme.secondary,
+    //         )),
+    //   ),
+    //   bottomWidget: PreferredSize(
+    //     preferredSize: const Size.fromHeight(45),
+    //     child: Padding(
+    //       padding: const EdgeInsets.symmetric(
+    //         horizontal: 34,
+    //       ),
+    //       child: SizedBox(
+    //         height: 45,
+    //         width: double.maxFinite,
+    //         child: CustomBorderButton(
+    //           onPressed: () {
+    //             CustomModalBottomSheet.showModalBottomSheet(
+    //               color: Theme.of(Get.context!).primaryColor,
+    //               child: FactorUnofficialAddModalBottomSheet(
+    //                 factorUnofficialItemList:
+    //                     controller.factorUnofficialItemList,
+    //                 factorUnofficialItem: null,
+    //                 sharedPreferences: controller.sharedPreferences,
+    //                 currencyTitle: controller.currencyTitle(),
+    //               ),
+    //             );
+    //           },
+    //           titleButton: ' افزودن به فاکتور',
+    //           icon: Icon(
+    //             Icons.add,
+    //             color: Theme.of(Get.context!).colorScheme.secondary,
+    //           ),
+    //         ),
+    //       ),
+    //     ),
+    //   ),
+    // );
   }
 
   String validTaxation() {

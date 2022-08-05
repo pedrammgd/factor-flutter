@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
@@ -14,6 +15,7 @@ import 'package:factor_flutter_mobile/views/shared/widgets/bottom_sheet_total_pr
 import 'package:factor_flutter_mobile/views/shared/widgets/exit_popUp.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/expandable/factor_expandable.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/factor_app_bar.dart';
+import 'package:factor_flutter_mobile/views/shared/widgets/factor_snack_bar.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/factor_text_form_feild.dart';
 import 'package:factor_flutter_mobile/views/show_pdf/show_pdf_view.dart';
 import 'package:factor_flutter_mobile/views/subscription/bazzar_subscription_page.dart';
@@ -72,7 +74,6 @@ class FactorUnofficialSpecificationPage
         },
         child: Scaffold(
           appBar: FactorAppBar(
-            hasBackButton: true,
             customBackButtonFunction: () async {
               final result = await ExitPopUp.showExitPopup(
                 title: 'خروج از مشخصات فاکتور',
@@ -399,8 +400,36 @@ class FactorUnofficialSpecificationPage
                           element.numFactor ==
                           controller.factorHeaderViewModel.value?.factorNum);
                   if (factorNumCond) {
-                    Get.snackbar('خطا در شماره فاکتور',
-                        'شماره فاکتور تکراری می باشد لطفا شماره ی فاکتور را تغییر دهید ');
+                    FactorSnackBar.getxSnackBar(
+                        backgroundColor: redColor,
+                        iconWidget:
+                            const Icon(Icons.format_list_numbered_rtl_sharp),
+                        title: 'خطا در شماره فاکتور',
+                        message:
+                            'شماره فاکتور تکراری می باشد لطفا شماره ی فاکتور را تغییر دهید ',
+                        mainButton: TextButton(
+                            onPressed: () async {
+                              final result = await Get.toNamed(
+                                FactorRoutes.factorHeader,
+                              );
+                              if (result != null) {
+                                controller.loadFactorHeaderData();
+                              }
+                            },
+                            child: Card(
+                              color: Colors.white,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  'تغییر شماره فاکتور',
+                                  style: TextStyle(
+                                      color: Theme.of(Get.context!)
+                                          .colorScheme
+                                          .secondary),
+                                ),
+                              ),
+                            )));
+
                     return;
                   }
                   if (controller.subscriptionCondition().value) {
@@ -466,42 +495,50 @@ class FactorUnofficialSpecificationPage
 
   Future<Uint8List> _createPdf() async {
     controller.isLoadingCreatePdf(true);
+    pw.MemoryImage assetImage = pw.MemoryImage(
+      (await rootBundle.load(splashIcon)).buffer.asUint8List(),
+    );
+
     final font = await rootBundle
         .load("assets/fonts/iran_sans/IRANSansMobile_Medium.ttf");
     final ttf = pw.Font.ttf(font);
 
     final pdf = pw.Document();
 
-    pdf.addPage(pw.MultiPage(
-        theme: pw.ThemeData.withFont(
-          base: ttf,
-        ),
-        pageFormat: controller.pageFormatFactor(),
-        build: (pw.Context context) {
-          return [
-            CustomPdfWidget().pdfWidget(
-              isShowFactorParBottomInPdf:
-                  controller.isShowFactorParBottomInPdf(),
-              factorNum: controller.factorNumber.toString(),
-              descriptionFactor:
-                  controller.descriptionTextEditingController.text,
-              totalPrice: controller.totalPriceAllItems().value,
-              totalDiscount: controller.discount,
-              totalTaxation: controller.taxation,
-              myProfileItem: controller.myProfileItem,
-              factorHeaderViewModel: controller.factorHeaderViewModel,
-              factorUnofficialItemList: controller.factorUnofficialItemList,
-              buyerItem: controller.buyerItem,
-              statusFactor: controller.statusBracketKeyText.value,
-              cartList: controller.cartList(),
-              cashList: controller.cashList(),
-              checkPayList: controller.checkPayList(),
-              excessCostList: controller.excessCostList(),
-              onlinePayList: controller.onlinePayList(),
-              currencyTitle: controller.currencyTitle,
-            )
-          ]; // Center
-        }));
+    pdf.addPage(
+      pw.MultiPage(
+          theme: pw.ThemeData.withFont(
+            base: ttf,
+          ),
+          pageFormat: controller.pageFormatFactor(),
+          build: (pw.Context context) {
+            return [
+              CustomPdfWidget().pdfWidget(
+                  isShowFactorParBottomInPdf:
+                      controller.isShowFactorParBottomInPdf(),
+                  factorNum: controller.factorNumber.toString(),
+                  descriptionFactor:
+                      controller.descriptionTextEditingController.text,
+                  totalPrice: controller.totalPriceAllItems().value,
+                  totalDiscount: controller.discount,
+                  totalTaxation: controller.taxation,
+                  myProfileItem: controller.myProfileItem,
+                  factorHeaderViewModel: controller.factorHeaderViewModel,
+                  factorUnofficialItemList: controller.factorUnofficialItemList,
+                  buyerItem: controller.buyerItem,
+                  statusFactor: controller.statusBracketKeyText.value,
+                  cartList: controller.cartList(),
+                  cashList: controller.cashList(),
+                  checkPayList: controller.checkPayList(),
+                  excessCostList: controller.excessCostList(),
+                  onlinePayList: controller.onlinePayList(),
+                  currencyTitle: controller.currencyTitle,
+                  assetImage: assetImage
+                  // pdfValue: null,
+                  )
+            ]; // Center
+          }),
+    );
 
     // final Future<Uint8List> pdfBytes = pdf.save();
     // pdfBytes.then((value) => _pathFile(value));

@@ -12,28 +12,26 @@ class FactorList extends GetView<HomeFactorController> {
     return Obx(
       () {
         if (controller.isLoading.value) {
-          return Padding(
-            padding: const EdgeInsetsDirectional.only(top: 100),
-            child: Center(
-              child: SizedBox(
-                  height: 15,
-                  width: 15,
-                  child: CircularProgressIndicator(
-                    color: Theme.of(context).colorScheme.secondary,
-                  )),
+          return Center(
+            child: SizedBox(
+              height: 15,
+              width: 15,
+              child: CircularProgressIndicator(
+                color: Theme.of(context).colorScheme.secondary,
+              ),
             ),
           );
         } else if (controller.factorHomeListSearch.isEmpty) {
           return Padding(
-            padding: const EdgeInsetsDirectional.only(top: 100),
+            padding: const EdgeInsetsDirectional.only(top: 90),
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 Image.asset(
                   emptyList,
                   width: 150,
                   height: 150,
                   fit: BoxFit.contain,
-                  color: Theme.of(context).colorScheme.secondary,
                 ),
                 const Padding(
                   padding: EdgeInsetsDirectional.only(top: 20),

@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:factor_flutter_mobile/core/constans/constans.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
@@ -34,35 +35,63 @@ class SquareCardBorder extends StatelessWidget {
           borderRadius: BorderRadius.circular(15),
           onTap: onTap,
           child: Container(
-            height: height ?? MediaQuery.of(context).size.height / 4,
+            height: height ?? MediaQuery.of(context).size.height / 3.5,
             width: width ?? MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
                 shape: BoxShape.rectangle,
                 border:
                     Border.all(color: Theme.of(context).colorScheme.secondary),
                 borderRadius: BorderRadius.circular(15)),
-            child: Column(
-              children: [
-                Constants.mediumVerticalSpacer,
-                if (isShowUint8List)
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(15),
-                      child: Image.memory(
-                        uint8ListImage!,
-                        fit: BoxFit.contain,
-                        width: MediaQuery.of(Get.context!).size.width / 2,
-                        height: MediaQuery.of(Get.context!).size.height / 8,
+            // child: isShowUint8List
+            //     ? Padding(
+            //         padding: const EdgeInsets.symmetric(vertical: 20),
+            //         child: ClipRRect(
+            //           borderRadius: BorderRadius.circular(15),
+            //           child: Image.memory(
+            //             uint8ListImage!,
+            //             fit: BoxFit.contain,
+            //             // width: MediaQuery.of(Get.context!).size.width / 2,
+            //             height: MediaQuery.of(Get.context!).size.height / 2,
+            //           ),
+            //         ),
+            //       )
+            //     : Column(
+            //         children: [
+            //           const Spacer(),
+            //           icon,
+            //           Constants.mediumVerticalSpacer,
+            //           Expanded(child: title),
+            //           Constants.mediumVerticalSpacer,
+            //         ],
+            //       ),
+
+            child: Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Constants.mediumVerticalSpacer,
+                  if (isShowUint8List)
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 1),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(15),
+                          child: Image.memory(
+                            uint8ListImage!,
+                            fit: BoxFit.contain,
+                            width: MediaQuery.of(Get.context!).size.width / 2,
+                            height: MediaQuery.of(Get.context!).size.height / 5,
+                          ),
+                        ),
                       ),
-                    ),
-                  )
-                else
-                  icon,
-                const Spacer(),
-                Expanded(child: title),
-                Constants.mediumVerticalSpacer,
-              ],
+                    )
+                  else
+                    Expanded(child: Center(child: icon)),
+                  Constants.smallVerticalSpacer,
+                  title,
+                  Constants.smallVerticalSpacer,
+                ],
+              ),
             ),
           ),
         ),

@@ -1,11 +1,11 @@
 import 'dart:convert';
 import 'dart:developer';
-
 import 'dart:typed_data';
 
 import 'package:factor_flutter_mobile/core/constans/constans.dart';
 import 'package:factor_flutter_mobile/models/my_profile_view_model/my_profile_view_model.dart';
 import 'package:factor_flutter_mobile/models/sheard/person_basic_information_view_model.dart/person_basic_information_view_model.dart';
+import 'package:factor_flutter_mobile/views/shared/widgets/factor_snack_bar.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/image_picker/camera_gallery_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -24,6 +24,7 @@ class MyProfileController extends GetxController {
   RxBool isHaghighi = true.obs;
   RxInt loopLegal = 1.obs;
   RxBool isShowSignature = false.obs;
+
   RxBool isShowSignatureHoghoghi = false.obs;
   RxBool isDeleteCompleteSignature = false.obs;
   RxBool isShowSealImage = false.obs;
@@ -119,27 +120,36 @@ class MyProfileController extends GetxController {
   void save() {
     if (isHaghighi.value) {
       if (!haghighiFormKey.currentState!.validate()) {
-        Get.snackbar(
-          'مشکلی پیش اومده',
-          'انگار بعضی از فیلد ها رو تکمیل نکردی یا اشتباه وارد کردی',
-          snackPosition: SnackPosition.BOTTOM,
-        );
+        _snackBarError();
         return;
       }
       saveHaghighiProfile();
     } else {
       if (!hoghoghiFormKey.currentState!.validate()) {
-        Get.snackbar(
-          'مشکلی پیش اومده',
-          'انگار بعضی از فیلد ها رو تکمیل نکردی یا اشتباه وارد کردی',
-          snackPosition: SnackPosition.BOTTOM,
-        );
+        _snackBarError();
+
         return;
       }
       saveHoghoghiProfile();
     }
 
     Get.back(result: haghighiViewModel);
+    _snackBarSuccess();
+  }
+
+  void _snackBarError() {
+    FactorSnackBar.getxSnackBar(
+        title: 'مشکلی پیش اومده',
+        message: 'انگار بعضی از فیلد ها رو تکمیل نکردی یا اشتباه وارد کردی',
+        iconWidget: const Icon(Icons.error_outline),
+        backgroundColor: Colors.red);
+  }
+
+  void _snackBarSuccess() {
+    FactorSnackBar.getxSnackBar(
+        title: 'ثبت مشخصات من',
+        message: 'مشخصات من با موفقیت ویرایش شد',
+        icon: myProfileIcon);
   }
 
   late SharedPreferences sharedPreferences;

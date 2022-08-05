@@ -1,5 +1,5 @@
 import 'package:factor_flutter_mobile/core/constans/constans.dart';
-import 'package:factor_flutter_mobile/views/shared/widgets/factor_border_button.dart';
+import 'package:factor_flutter_mobile/views/shared/widgets/factor_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -54,8 +54,13 @@ class AlertDeleteDialog extends StatelessWidget {
               fit: BoxFit.scaleDown,
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 30),
-                child: Text(
-                  '  آیا می خواهید $title را حذف کنید  ',
+                child: Text.rich(
+                  TextSpan(text: 'آیا می خواهید ', children: [
+                    TextSpan(
+                        text: title, style: const TextStyle(color: Colors.red)),
+                    const TextSpan(text: ' را حذف کنید')
+                  ]),
+                  // ''''  آیا می خواهید $title'  را حذف کنید     ''',
                   style: const TextStyle(
                       fontWeight: FontWeight.bold, fontSize: 16),
                 ),
@@ -67,7 +72,9 @@ class AlertDeleteDialog extends StatelessWidget {
               child: SizedBox(
                   height: 50,
                   width: double.infinity,
-                  child: CustomBorderButton(
+                  child: FactorButton(
+                    borderColor: Colors.red,
+                    textColor: Colors.red,
                     onPressed: onPressed,
                     titleButton: 'حذف',
                   )),

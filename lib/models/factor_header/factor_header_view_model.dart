@@ -8,7 +8,7 @@ class FactorHeaderViewModel {
   });
 
   final String title;
-  final String factorNum;
+   String factorNum;
   final String factorDate;
   final bool isBeforeFactor;
   final String? durationBeforeFactor;
