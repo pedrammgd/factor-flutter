@@ -55,7 +55,7 @@ dependencies:
       ref: main
   image_picker: ^0.8.4+1
   mime: ^1.0.1
-  flutter_poolakey: ^2.0.1
+#  flutter_poolakey: ^2.0.1
   persian_datetime_picker: ^2.5.0
   share_plus: ^4.0.7
   path_provider: ^2.0.11
@@ -67,12 +67,11 @@ dependencies:
 #  zarinpal: ^1.0.4+1
 #  uni_links: ^0.5.1
 #  webview_flutter: ^3.0.1
-#  myket_iap: ^1.0.4
+  myket_iap: ^1.0.4
   connectivity_plus: ^1.0.1
   barcode_widget: ^2.0.2
   cached_network_image: ^3.2.1
   device_apps: ^2.2.0
-  flutter_svg: ^1.1.2
 
 
 

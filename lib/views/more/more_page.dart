@@ -113,14 +113,16 @@ class MorePage extends GetView<MoreController> {
       return InkWell(
           onTap: () async {
             //Todo todo
-            bool isBazzarInstalled =
-                await DeviceApps.isAppInstalled('com.farsitel.bazaar');
+            // bool isBazzarInstalled =
+            //     await DeviceApps.isAppInstalled('com.farsitel.bazaar');
+            bool isMyketInstalled =
+                await DeviceApps.isAppInstalled('ir.mservices.market');
 
             var connectivityResult = await (Connectivity().checkConnectivity());
             final bool isConnectedInternet =
                 connectivityResult == ConnectivityResult.mobile ||
                     connectivityResult == ConnectivityResult.wifi;
-            if (isConnectedInternet && isBazzarInstalled) {
+            if (isConnectedInternet && isMyketInstalled) {
               final result = await Get.toNamed(
                 FactorRoutes.subscription,
               );
@@ -138,9 +140,9 @@ class MorePage extends GetView<MoreController> {
                     icon: controller.subscriptionIcon().value);
               } else {
                 FactorSnackBar.getxSnackBar(
-                    title: 'خطا در اتصال به کافه بازار',
+                    title: 'خطا در اتصال به مایکت',
                     message:
-                        'جهت خرید اشتراک ابتدا برنامه را از دستگاه خود حذف کنید و از کافه بازار دانلود کنید',
+                        'جهت خرید اشتراک ابتدا برنامه را از دستگاه خود حذف کنید و از مایکت دانلود کنید',
                     backgroundColor: Colors.yellow.shade800,
                     icon: controller.subscriptionIcon().value);
               }
