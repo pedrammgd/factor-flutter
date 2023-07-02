@@ -18,8 +18,9 @@ class HomeFactorPage extends GetView<HomeFactorController> {
   @override
   Widget build(BuildContext context) {
     Get.lazyPut(() => HomeFactorController(
-        factorHomeList: factorHomeList,
-        factorHomeListSearch: factorHomeListSearch));
+        // factorHomeList: factorHomeList,
+        // factorHomeListSearch: factorHomeListSearch
+        ));
     return ListView(
       // shrinkWrap: true,
 

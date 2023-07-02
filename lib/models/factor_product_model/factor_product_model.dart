@@ -6,5 +6,5 @@
 //   SkuDetails? skuDetails;
 //   PurchaseInfo? purchaseInfo;
 //
-//   ProductItem(this.icon, this.consumable);
+//   ProductItem(this.icon, this.consumable, {this.purchaseInfo});
 // }

@@ -43,7 +43,7 @@ class _SplashPageState extends State<SplashPage> {
                 baseColor: Colors.black,
                 highlightColor: Colors.grey[300]!,
                 child: const Text(
-                  'فاکتور پر',
+                  'فاکتور پَر',
                   style: TextStyle(fontSize: 17),
                 )),
             Constants.mediumVerticalSpacer,

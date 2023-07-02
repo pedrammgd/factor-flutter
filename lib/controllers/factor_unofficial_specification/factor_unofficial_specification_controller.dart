@@ -3,12 +3,14 @@ import 'dart:developer';
 import 'dart:typed_data';
 
 import 'package:factor_flutter_mobile/controllers/factor_header/factor_header_controller.dart';
+import 'package:factor_flutter_mobile/controllers/home_factor/home_factor_controller.dart';
 import 'package:factor_flutter_mobile/core/constans/constans.dart';
 import 'package:factor_flutter_mobile/models/buyer_view_model/buyer_view_model.dart';
 import 'package:factor_flutter_mobile/models/custom_pdf_size/custom_pdf_size_view_model.dart';
 import 'package:factor_flutter_mobile/models/factor_header/factor_header_view_model.dart';
 import 'package:factor_flutter_mobile/models/factor_unofficial_item_view_model/factor_unofficial_item_view_model.dart';
 import 'package:factor_flutter_mobile/models/factor_view_model/factor_view_model.dart';
+import 'package:factor_flutter_mobile/models/factor_view_model/hive/factor_view_model_hive.dart';
 import 'package:factor_flutter_mobile/models/my_profile_view_model/my_profile_view_model.dart';
 import 'package:factor_flutter_mobile/models/specification_cost_view_model/specification_cost_view_model.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +21,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 
 class FactorUnofficialSpecificationController extends GetxController {
+  final HomeFactorController homeFactorController =
+      Get.find<HomeFactorController>();
+
   @override
   void onInit() {
     super.onInit();
@@ -36,7 +41,7 @@ class FactorUnofficialSpecificationController extends GetxController {
   Rxn<CustomPdfSizeViewModel> customPdfSizeViewModel =
       Rxn<CustomPdfSizeViewModel>();
 
-  final RxList<FactorHomeViewModel> factorHomeList;
+  // final RxList<FactorHomeViewModel> factorHomeList;
 
   RxList<SpecificationCostViewModel> emptyList =
       <SpecificationCostViewModel>[].obs;
@@ -112,7 +117,6 @@ class FactorUnofficialSpecificationController extends GetxController {
   int factorNumber = 1;
 
   FactorUnofficialSpecificationController({
-    required this.factorHomeList,
     required this.factorUnofficialItemList,
     required this.totalPrice,
     required this.taxation,
@@ -199,7 +203,7 @@ class FactorUnofficialSpecificationController extends GetxController {
     if (pdfPaperData.isNotEmpty) {
       customPdfSizeViewModel.value =
           CustomPdfSizeViewModel.fromJson(jsonDecode(pdfPaperData));
-      log(pdfPaperData);
+      // log(pdfPaperData);
     }
   }
 
@@ -225,7 +229,7 @@ class FactorUnofficialSpecificationController extends GetxController {
       isMyProfileItemNull(true);
       // log('myProfileData$myProfileData');
     } else {
-      log('isEmpty');
+      // log('isEmpty');
     }
   }
 
@@ -236,10 +240,10 @@ class FactorUnofficialSpecificationController extends GetxController {
     if (factorHeaderData.isNotEmpty) {
       factorHeaderViewModel.value =
           FactorHeaderViewModel.fromJson(jsonDecode(factorHeaderData));
-      log(factorHeaderData);
-      factorNumber = factorHomeList.length + 1;
+      // log(factorHeaderViewModel.value!.toJson().toString());
+      factorNumber = homeFactorController.factorHomeListHive.length + 1;
     } else {
-      log('isEmpty3$factorNumber');
+      // log('isEmpty3$factorNumber');
     }
   }
 
@@ -294,8 +298,31 @@ class FactorUnofficialSpecificationController extends GetxController {
         priceTextEditingController: checkPayPriceTextEditingController);
   }
 
-  void addToHomeFactor({required Uint8List uint8ListPdf}) {
-    factorHomeList.add(FactorHomeViewModel(
+  // void addToHomeFactor({required Uint8List uint8ListPdf}) {
+  //   homeFactorController.factorHomeList.add(FactorHomeViewModel(
+  //     currencyType: currencyTitle,
+  //     totalPrice: totalPriceAllItems().value,
+  //     id: uUid.v4(),
+  //     uint8ListPdf: base64Encode(uint8ListPdf),
+  //     dateFactor: factorHeaderViewModel.value?.factorDate ??
+  //         Jalali.now().formatCompactDate(),
+  //     numFactor: factorHeaderViewModel.value?.factorNum ??
+  //         '${homeFactorController.factorHomeList.length + 1}',
+  //     titleFactor: factorHeaderViewModel.value?.title ?? 'فاکتور فروش',
+  //   ));
+  //   saveFactorData();
+  // }
+
+  // void saveFactorData() {
+  //   List<String> factorDataList = homeFactorController.factorHomeList
+  //       .map((element) => json.encode(element.toJson()))
+  //       .toList();
+  //   sharedPreferences.setStringList(
+  //       factorHomeListSharedPreferencesKey, factorDataList);
+  // }
+
+  void saveFactorDataHive({required Uint8List uint8ListPdf}) {
+    homeFactorController.boxFactorHome.value?.add(FactorHomeViewModelHive(
       currencyType: currencyTitle,
       totalPrice: totalPriceAllItems().value,
       id: uUid.v4(),
@@ -303,18 +330,9 @@ class FactorUnofficialSpecificationController extends GetxController {
       dateFactor: factorHeaderViewModel.value?.factorDate ??
           Jalali.now().formatCompactDate(),
       numFactor: factorHeaderViewModel.value?.factorNum ??
-          '${factorHomeList.length + 1}',
+          '${homeFactorController.factorHomeListHive.length + 1}',
       titleFactor: factorHeaderViewModel.value?.title ?? 'فاکتور فروش',
     ));
-    saveFactorData();
-  }
-
-  void saveFactorData() {
-    List<String> factorDataList =
-        factorHomeList.map((element) => json.encode(element.toJson())).toList();
-    sharedPreferences.setStringList(
-        factorHomeListSharedPreferencesKey, factorDataList);
-    print('factorDataListUni$factorDataList');
   }
 
   RxString subscriptionValue = ''.obs;
@@ -325,7 +343,7 @@ class FactorUnofficialSpecificationController extends GetxController {
     if (subscriptionData.isNotEmpty) {
       subscriptionValue.value = subscriptionData;
     }
-    log('loadSubscription${subscriptionData}');
+    // log('loadSubscription${subscriptionData}');
   }
 
   RxBool subscriptionCondition() {
@@ -336,13 +354,13 @@ class FactorUnofficialSpecificationController extends GetxController {
       }
     }
     if (subscriptionValue.value == 'bronze_buy') {
-      if (factorHomeList.length >= 29) {
+      if (homeFactorController.factorHomeListHive.length >= 29) {
         return false.obs;
       } else {
         return true.obs;
       }
     } else if (subscriptionValue.value == 'silver') {
-      if (factorHomeList.length >= 59) {
+      if (homeFactorController.factorHomeListHive.length >= 59) {
         return false.obs;
       } else {
         return true.obs;
@@ -350,7 +368,7 @@ class FactorUnofficialSpecificationController extends GetxController {
     } else if (subscriptionValue.value == 'gold') {
       return true.obs;
     } else {
-      if (factorHomeList.length < 3) {
+      if (homeFactorController.factorHomeListHive.length < 3) {
         return true.obs;
       } else {
         return false.obs;

@@ -1,5 +1,6 @@
 import 'package:factor_flutter_mobile/controllers/home_factor/home_factor_controller.dart';
 import 'package:factor_flutter_mobile/core/constans/constans.dart';
+import 'package:factor_flutter_mobile/models/factor_view_model/hive/factor_view_model_hive.dart';
 import 'package:factor_flutter_mobile/views/home_factor/widgets/factor_list_item.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -21,7 +22,9 @@ class FactorList extends GetView<HomeFactorController> {
               ),
             ),
           );
-        } else if (controller.factorHomeListSearch.isEmpty) {
+        } else
+        // if (controller.factorHomeListSearch.isEmpty) {
+        if (controller.boxFactorHome.value!.isEmpty) {
           return Padding(
             padding: const EdgeInsetsDirectional.only(top: 90),
             child: Column(
@@ -46,10 +49,14 @@ class FactorList extends GetView<HomeFactorController> {
             child: ListView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              itemCount: controller.factorHomeListSearch.length,
+              // itemCount: controller.factorHomeListSearch.length,
+              itemCount: controller.boxFactorHome.value?.length,
               itemBuilder: (context, index) {
+                FactorHomeViewModelHive _factorHomeViewModelHive =
+                    controller.boxFactorHome.value?.getAt(index);
                 return FactorListItem(
-                  factorItem: controller.factorHomeListSearch[index],
+                  // factorItem: controller.factorHomeListSearch[index],
+                  factorItem: _factorHomeViewModelHive,
                 );
               },
             ),

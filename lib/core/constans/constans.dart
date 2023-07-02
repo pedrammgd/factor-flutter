@@ -26,6 +26,7 @@ abstract class Constants {
   static const String savePopUp = 'ذخیره در حافظه';
   static const String sharePopUp = 'اشتراک گذاری';
   static const String printPopUp = 'پرینت';
+  static const String deletePopUp = 'حذف';
 }
 
 // SharedPreferencesKeys

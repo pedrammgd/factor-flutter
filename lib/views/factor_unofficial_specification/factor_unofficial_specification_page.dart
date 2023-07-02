@@ -1,6 +1,6 @@
-import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:barcode_widget/barcode_widget.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:factor_flutter_mobile/controllers/factor_unofficial_specification/factor_unofficial_specification_controller.dart';
 import 'package:factor_flutter_mobile/core/constans/constans.dart';
@@ -17,9 +17,7 @@ import 'package:factor_flutter_mobile/views/shared/widgets/expandable/factor_exp
 import 'package:factor_flutter_mobile/views/shared/widgets/factor_app_bar.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/factor_snack_bar.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/factor_text_form_feild.dart';
-import 'package:factor_flutter_mobile/views/show_pdf/show_pdf_view.dart';
 import 'package:factor_flutter_mobile/views/subscription/bazzar_subscription_page.dart';
-import 'package:factor_flutter_mobile/views/subscription/my_ket_subscription_page.dart';
 import 'package:file_saver/file_saver.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -29,6 +27,8 @@ import 'package:pdf/widgets.dart' as pw;
 import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 import 'package:persian_number_utility/src/extensions.dart';
 import 'package:printing/printing.dart';
+
+import '../show_pdf/show_pdf_view.dart';
 
 class FactorUnofficialSpecificationPage
     extends GetView<FactorUnofficialSpecificationController> {
@@ -46,7 +46,6 @@ class FactorUnofficialSpecificationPage
     final currencyTitle = arguments['currencyTitle'];
 
     Get.lazyPut(() => FactorUnofficialSpecificationController(
-          factorHomeList: factorHomeList,
           factorUnofficialItemList: factorUnofficialItemList,
           totalPrice: totalPrice,
           currencyTitle: currencyTitle,
@@ -396,8 +395,9 @@ class FactorUnofficialSpecificationPage
               child: BottomSheetTotalPriceWidget(
                 titleButton: 'ذخیره و نمایش فاکتور',
                 bottomButtonOnTap: () async {
-                  final bool factorNumCond = controller.factorHomeList.any(
-                      (element) =>
+                  final bool factorNumCond = controller
+                      .homeFactorController.boxFactorHome.value!.values
+                      .any((element) =>
                           element.numFactor ==
                           controller.factorHeaderViewModel.value?.factorNum);
                   if (factorNumCond) {
@@ -436,8 +436,13 @@ class FactorUnofficialSpecificationPage
                   if (controller.subscriptionCondition().value) {
                     computeFuture = _createPdf().then((value) {
                       Get.back();
+                      // String barcodeString = base64Encode(value);
+                      // print('value$value');
+                      // Get.defaultDialog(content: _barcode(data: value));
                       _savePdf(value);
-                      controller.addToHomeFactor(uint8ListPdf: value);
+                      // controller.addToHomeFactor(uint8ListPdf: value);
+                      controller.saveFactorDataHive(uint8ListPdf: value);
+                      // Get.toNamed(FactorRoutes.home);
                       Get.toNamed(FactorRoutes.showPdf,
                           arguments: const ShowPdfView()
                               .arguments(pdfView: value, isFromHome: false));
@@ -446,28 +451,29 @@ class FactorUnofficialSpecificationPage
                     var connectivityResult =
                         await (Connectivity().checkConnectivity());
 
-                    // if (controller.subscriptionCondition().value) {
-                    //   if (connectivityResult == ConnectivityResult.mobile ||
-                    //       connectivityResult == ConnectivityResult.wifi) {
-                    final result = await Get.bottomSheet(
-                      // const BazzarSubscriptionPage(),
-                      const MyKetSubscriptionPage(),
-                      enterBottomSheetDuration:
-                          const Duration(milliseconds: 300),
-                      exitBottomSheetDuration:
-                          const Duration(milliseconds: 250),
-                    );
+                    if (controller.subscriptionCondition().value) {
+                      if (connectivityResult == ConnectivityResult.mobile ||
+                          connectivityResult == ConnectivityResult.wifi) {
+                        final result = await Get.bottomSheet(
+                          const BazzarSubscriptionPage(),
+                          // const MyKetSubscriptionPage(),
+                          // const ZarinPalSubscriptionPage(),
+                          enterBottomSheetDuration:
+                              const Duration(milliseconds: 300),
+                          exitBottomSheetDuration:
+                              const Duration(milliseconds: 250),
+                        );
 
-                    if (result == true) {
-                      controller.loadSubscription();
-                      controller.subscriptionCondition();
+                        if (result == true) {
+                          controller.loadSubscription();
+                          controller.subscriptionCondition();
+                        }
+                      } else {
+                        Get.snackbar('خطا در اتصال به اینترنت',
+                            'جهت ادامه لطفا ابتدا از اتصال به اینترنت مطمعن شوید',
+                            backgroundColor: Colors.yellow.shade800);
+                      }
                     }
-                    // } else {
-                    //   Get.snackbar('خطا در اتصال به اینترنت',
-                    //       'جهت ادامه لطفا ابتدا از اتصال به اینترنت مطمعن شوید',
-                    //       backgroundColor: Colors.yellow.shade800);
-                    // }
-                    // }
                   }
                 },
                 statusBracketKeyText: controller.statusBracketKeyText(),
@@ -492,6 +498,15 @@ class FactorUnofficialSpecificationPage
         ),
       );
     });
+  }
+
+  Future<pw.Document> pdfForTestCreate() async {
+    final font = await rootBundle
+        .load("assets/fonts/iran_sans/IRANSansMobile_Medium.ttf");
+    final ttf = pw.Font.ttf(font);
+
+    final pdf = pw.Document();
+    return pdf;
   }
 
   Future<Uint8List> _createPdf() async {
@@ -578,12 +593,12 @@ class FactorUnofficialSpecificationPage
             controller.factorHeaderViewModel.value?.title ?? 'فاکتور فروش',
       );
     } else {
-      MimeType type = MimeType.PDF;
+      MimeType type = MimeType.pdf;
       await FileSaver.instance.saveAs(
-          controller.factorHeaderViewModel.value?.title ?? 'فاکتور فروش',
-          pdfView,
-          "pdf",
-          type);
+          bytes: pdfView,
+          name: controller.factorHeaderViewModel.value?.title ?? 'فاکتور فروش',
+          ext: 'pdf',
+          mimeType: type);
     }
   }
 
@@ -605,6 +620,16 @@ class FactorUnofficialSpecificationPage
               color: Theme.of(Get.context!).primaryColor,
             )),
       ),
+    );
+  }
+
+  Widget _barcode({
+    required Uint8List data,
+  }) {
+    return BarcodeWidget.fromBytes(
+      data: data,
+      barcode: Barcode.code128(),
+      drawText: false,
     );
   }
 
@@ -661,7 +686,7 @@ class FactorUnofficialSpecificationPage
                 Padding(
                   padding: const EdgeInsetsDirectional.only(end: 30),
                   child: Text(
-                    ' ${controller.factorHeaderViewModel.value?.factorNum ?? controller.factorHomeList.length + 1} #',
+                    ' ${controller.factorHeaderViewModel.value?.factorNum ?? controller.homeFactorController.factorHomeListHive.length + 1} #',
                     style: const TextStyle(color: Colors.white, fontSize: 12),
                   ),
                 ),

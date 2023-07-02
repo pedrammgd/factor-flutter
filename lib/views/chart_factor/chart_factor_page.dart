@@ -41,7 +41,7 @@ class ChartFactorPage extends GetView<ChartFactorController> {
                   color: Theme.of(context).colorScheme.secondary,
                   markerSettings: const MarkerSettings(isVisible: true),
                   enableTooltip: true,
-                  dataSource: homeController.factorHomeList,
+                  dataSource: homeController.factorHomeListHive,
                   xValueMapper: (FactorHomeViewModel factorHome, _) =>
                       '${factorHome.dateFactor}  ${factorHome.currencyType ?? ''}',
                   yValueMapper: (FactorHomeViewModel factorHome, _) =>

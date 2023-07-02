@@ -1,9 +1,12 @@
 import 'package:factor_flutter_mobile/core/my_app.dart';
+import 'package:factor_flutter_mobile/firebase_options.dart';
+import 'package:factor_flutter_mobile/models/factor_view_model/hive/factor_view_model_hive.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 
 import 'core/fire_base/fcm/firebase_config.dart';
@@ -18,6 +21,8 @@ late AndroidNotificationChannel channel;
 late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
+  Hive.registerAdapter(FactorHomeViewModelHiveAdapter());
 
   const keyApplicationId = 'nZLXEWExCdEBnZpQ06NzKpF8bUmDpdbqUi39BOxO';
   const keyClientKey = 'SrZA2mfwiAlY7wot7NWw7a2ls31eHTrDiA0NglTw';
@@ -26,7 +31,10 @@ Future<void> main() async {
   await Parse().initialize(keyApplicationId, keyParseServerUrl,
       clientKey: keyClientKey, debug: true);
 
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  // await Firebase.initializeApp();
 
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 

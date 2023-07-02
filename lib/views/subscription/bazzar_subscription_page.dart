@@ -12,6 +12,7 @@
 // import 'package:factor_flutter_mobile/views/shared/widgets/subscription_card_widget.dart';
 // import 'package:flutter/material.dart';
 // import 'package:flutter_poolakey/flutter_poolakey.dart';
+//
 // import 'package:get/get.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
 //
@@ -33,6 +34,12 @@
 //   ];
 //   bool isEnterToBazar = true;
 //   bool isLoading = true;
+//
+//   @override
+//   void didChangeDependencies() {
+//     _initShop(0);
+//     super.didChangeDependencies();
+//   }
 //
 //   @override
 //   void initState() {
@@ -344,3 +351,14 @@
 //         });
 //   }
 // }
+
+import 'package:flutter/material.dart';
+
+class BazzarSubscriptionPage extends StatelessWidget {
+  const BazzarSubscriptionPage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
+}

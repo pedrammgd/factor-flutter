@@ -25,7 +25,20 @@ class MorePage extends GetView<MoreController> {
           const CustomFactorDivider(),
           Constants.smallVerticalSpacer,
           MoreItemWidget(
-            onTap: () {
+            onTap: () async {
+              //launches comment bazaar dialog
+              // CafebazaarMarket.setComment().whenComplete(() => print('aaa'));
+              // if (CafebazaarMarket.isUpdateAvailable() != null) {
+              //   print('update');
+              // } else {
+              //   print('noUpdate');
+              // }
+              // Cafebazaar.commentOnBazaar().then((value) => print('value'));
+              // final _bazaar = CafebazaarFlutter.instance;
+              // await _bazaar
+              //     .openCommentForm('com.example.factor_flutter_mobile');
+              // print('USER BACK TO YOUR APP');
+
               Get.toNamed(
                 FactorRoutes.myProfile,
               );
@@ -115,14 +128,14 @@ class MorePage extends GetView<MoreController> {
             //Todo todo
             // bool isBazzarInstalled =
             //     await DeviceApps.isAppInstalled('com.farsitel.bazaar');
-            bool isMyketInstalled =
-                await DeviceApps.isAppInstalled('ir.mservices.market');
+            // bool isMyketInstalled =
+            //     await DeviceApps.isAppInstalled('ir.mservices.market');
 
             var connectivityResult = await (Connectivity().checkConnectivity());
             final bool isConnectedInternet =
                 connectivityResult == ConnectivityResult.mobile ||
                     connectivityResult == ConnectivityResult.wifi;
-            if (isConnectedInternet && isMyketInstalled) {
+            if (isConnectedInternet) {
               final result = await Get.toNamed(
                 FactorRoutes.subscription,
               );
@@ -131,21 +144,21 @@ class MorePage extends GetView<MoreController> {
                 controller.loadSubscription();
               }
             } else {
-              if (!isConnectedInternet) {
-                FactorSnackBar.getxSnackBar(
-                    title: 'خطا در اتصال به اینترنت',
-                    message:
-                        'جهت خرید اشتراک ابتدا از اتصال به اینترنت مطمعن شوید',
-                    backgroundColor: Colors.yellow.shade800,
-                    icon: controller.subscriptionIcon().value);
-              } else {
-                FactorSnackBar.getxSnackBar(
-                    title: 'خطا در اتصال به مایکت',
-                    message:
-                        'جهت خرید اشتراک ابتدا برنامه را از دستگاه خود حذف کنید و از مایکت دانلود کنید',
-                    backgroundColor: Colors.yellow.shade800,
-                    icon: controller.subscriptionIcon().value);
-              }
+              // if (!isConnectedInternet) {
+              FactorSnackBar.getxSnackBar(
+                  title: 'خطا در اتصال به اینترنت',
+                  message:
+                      'جهت خرید اشتراک ابتدا از اتصال به اینترنت مطمعن شوید',
+                  backgroundColor: Colors.yellow.shade800,
+                  icon: controller.subscriptionIcon().value);
+              // } else {
+              //   FactorSnackBar.getxSnackBar(
+              //       title: 'خطا در اتصال به مایکت',
+              //       message:
+              //           'جهت خرید اشتراک ابتدا برنامه را از دستگاه خود حذف کنید و از مایکت دانلود کنید',
+              //       backgroundColor: Colors.yellow.shade800,
+              //       icon: controller.subscriptionIcon().value);
+              // }
             }
           },
           child: Column(

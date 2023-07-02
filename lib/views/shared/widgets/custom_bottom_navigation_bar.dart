@@ -17,16 +17,22 @@ class CustomBottomNavigationBar extends StatelessWidget {
       elevation: 20,
       shape: const CircularNotchedRectangle(),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: items.map((e) {
           var index = items.indexOf(e);
           return InkWell(
+            highlightColor: Colors.transparent,
+            splashColor: Colors.transparent,
+            hoverColor: Colors.transparent,
             onTap: () => onItemSelected(index),
             child: Padding(
-              padding: const EdgeInsetsDirectional.only(start: 60, end: 60),
-              child: ItemsBottomNavigation(
-                isSelected: index == selectedIndex,
-                factorBottomNavigationBarItem: e,
+              padding: const EdgeInsetsDirectional.only(),
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width / 2,
+                child: ItemsBottomNavigation(
+                  isSelected: index == selectedIndex,
+                  factorBottomNavigationBarItem: e,
+                ),
               ),
             ),
           );

@@ -33,13 +33,15 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.2
+  cupertino_icons: ^1.0.5
   get: ^4.6.5
   shimmer: ^2.0.0
-  shared_preferences: ^2.0.11
+  shared_preferences: ^2.0.15
   animate_do: ^2.0.0
   uuid: ^3.0.5
   persian_number_utility: ^1.1.1
+#  Desktop FireBase
+  firebase_core_desktop: ^0.1.1-dev.2
   firebase_core: ^1.11.0
   firebase_messaging: ^11.2.5
   flutter_local_notifications: ^9.1.5
@@ -49,10 +51,11 @@ dependencies:
 #  native_pdf_view: ^6.0.0+1
 #  flutter_pdfview: ^1.2.2
   printing: ^5.9.2
-  file_saver:
-    git:
-      url: https://github.com/incrediblezayed/file_saver.git
-      ref: main
+  file_saver: ^0.2.0
+#  file_saver:
+#    git:
+#      url: https://github.com/incrediblezayed/file_saver.git
+#      ref: main
   image_picker: ^0.8.4+1
   mime: ^1.0.1
 #  flutter_poolakey: ^2.0.1
@@ -67,11 +70,19 @@ dependencies:
 #  zarinpal: ^1.0.4+1
 #  uni_links: ^0.5.1
 #  webview_flutter: ^3.0.1
-  myket_iap: ^1.0.4
+#  myket_iap: ^1.0.4
   connectivity_plus: ^1.0.1
   barcode_widget: ^2.0.2
+#  qrscan: ^0.3.0
   cached_network_image: ^3.2.1
   device_apps: ^2.2.0
+#  cafebazaar_market: ^0.9.9
+#  cafebazaar_flutter: ^1.0.2
+#  idpay_payment_package: ^0.0.1
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+
+
 
 
 
@@ -79,12 +90,9 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  # The "flutter_lints" package below contains a set of recommended lints to
-  # encourage good coding practices. The lint set provided by the package is
-  # activated in the `analysis_options.yaml` file located at the root of your
-  # package. See that file for information about deactivating specific lint
-  # rules and activating additional ones.
   flutter_lints: ^1.0.0
+  hive_generator: ^2.0.0
+  build_runner: ^2.3.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

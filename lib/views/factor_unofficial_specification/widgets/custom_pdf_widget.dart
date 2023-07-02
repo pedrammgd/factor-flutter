@@ -320,7 +320,9 @@ class CustomPdfWidget {
         pw.Row(children: [
           pw.Expanded(
             child: _priceTableWidget(
-                totalPrice: '$totalPrice'.replaceAll('-', '').seRagham(),
+                totalPrice: totalPrice == 0.0
+                    ? 'مبلغ نامعتبر'
+                    : '$totalPrice'.replaceAll('-', '').seRagham(),
                 totalTaxation: totalTaxation,
                 totalDiscount: totalDiscount,
                 currencyTitle: currencyTitle),

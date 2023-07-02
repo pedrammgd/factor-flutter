@@ -36,7 +36,8 @@ class FactorBasePage extends GetView<FactorBaseController> {
             hasBarcodeButton: true,
             height: 70,
             onPressedClearButton: () {
-              Get.find<HomeFactorController>().loadFactorData();
+              // Get.find<HomeFactorController>().loadFactorData();
+              Get.find<HomeFactorController>().openBoxHive();
             },
             title: Padding(
               padding: const EdgeInsets.only(top: 15),

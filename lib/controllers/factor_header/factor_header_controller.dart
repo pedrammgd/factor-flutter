@@ -15,7 +15,7 @@ class FactorHeaderController extends GetxController {
     super.onInit();
     initSharedPreferences();
     factorNumTextEditingController.text =
-        '${factorHomeController.factorHomeList.length + 1}';
+        '${factorHomeController.factorHomeListHive.length + 1}';
   }
 
   RxString dateSelected = Jalali.now().formatCompactDate().obs;
