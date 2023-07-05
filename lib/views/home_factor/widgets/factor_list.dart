@@ -49,14 +49,15 @@ class FactorList extends GetView<HomeFactorController> {
             child: ListView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
-              // itemCount: controller.factorHomeListSearch.length,
+              // itemCount: controller.factorHomeList.length,
               itemCount: controller.boxFactorHome.value?.length,
               itemBuilder: (context, index) {
                 FactorHomeViewModelHive _factorHomeViewModelHive =
-                    controller.boxFactorHome.value?.getAt(index);
+                  controller.boxFactorHome.value?.getAt(index);
                 return FactorListItem(
-                  // factorItem: controller.factorHomeListSearch[index],
-                  factorItem: _factorHomeViewModelHive,
+                  // factorItem: controller.factorHomeList[index],
+                  index: index,
+                  factorItem:controller.boxFactorHome.value?.getAt(index),
                 );
               },
             ),

@@ -7,6 +7,7 @@ import 'package:factor_flutter_mobile/core/constans/constans.dart';
 import 'package:factor_flutter_mobile/core/router/factor_pages.dart';
 import 'package:factor_flutter_mobile/models/factor_unofficial_item_view_model/factor_unofficial_item_view_model.dart';
 import 'package:factor_flutter_mobile/models/factor_view_model/factor_view_model.dart';
+import 'package:factor_flutter_mobile/models/factor_view_model/hive/factor_view_model_hive.dart';
 import 'package:factor_flutter_mobile/views/buyer/buyer_page.dart';
 import 'package:factor_flutter_mobile/views/factor_unofficial_specification/widgets/custom_pdf_widget.dart';
 import 'package:factor_flutter_mobile/views/factor_unofficial_specification/widgets/factor_unofficial_specification_add_or_edit_dialog.dart';
@@ -18,6 +19,7 @@ import 'package:factor_flutter_mobile/views/shared/widgets/factor_app_bar.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/factor_snack_bar.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/factor_text_form_feild.dart';
 import 'package:factor_flutter_mobile/views/subscription/bazzar_subscription_page.dart';
+import 'package:factor_flutter_mobile/views/subscription/my_ket_subscription_page.dart';
 import 'package:file_saver/file_saver.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -397,6 +399,7 @@ class FactorUnofficialSpecificationPage
                 bottomButtonOnTap: () async {
                   final bool factorNumCond = controller
                       .homeFactorController.boxFactorHome.value!.values
+                      // .homeFactorController.factorHomeList.value
                       .any((element) =>
                           element.numFactor ==
                           controller.factorHeaderViewModel.value?.factorNum);
@@ -455,8 +458,8 @@ class FactorUnofficialSpecificationPage
                       if (connectivityResult == ConnectivityResult.mobile ||
                           connectivityResult == ConnectivityResult.wifi) {
                         final result = await Get.bottomSheet(
-                          const BazzarSubscriptionPage(),
-                          // const MyKetSubscriptionPage(),
+                          // const BazzarSubscriptionPage(),
+                          const MyKetSubscriptionPage(),
                           // const ZarinPalSubscriptionPage(),
                           enterBottomSheetDuration:
                               const Duration(milliseconds: 300),
@@ -528,6 +531,7 @@ class FactorUnofficialSpecificationPage
           ),
           pageFormat: controller.pageFormatFactor(),
           build: (pw.Context context) {
+            print(controller.totalPriceAllItems().value);
             return [
               CustomPdfWidget().pdfWidget(
                   isShowFactorParBottomInPdf:
@@ -719,7 +723,7 @@ class FactorUnofficialSpecificationPage
   }
 
   Map arguments({
-    required RxList<FactorHomeViewModel> factorHomeList,
+    required RxList<FactorHomeViewModelHive> factorHomeList,
     required RxList<FactorUnofficialItemViewModel> factorUnofficialItemList,
     required RxDouble totalPrice,
     required String discount,

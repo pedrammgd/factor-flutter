@@ -6,6 +6,7 @@ import 'package:factor_flutter_mobile/core/constans/constans.dart';
 import 'package:factor_flutter_mobile/core/router/factor_pages.dart';
 import 'package:factor_flutter_mobile/models/ads/ads_view_model.dart';
 import 'package:factor_flutter_mobile/models/factor_view_model/factor_view_model.dart';
+import 'package:factor_flutter_mobile/models/factor_view_model/hive/factor_view_model_hive.dart';
 import 'package:factor_flutter_mobile/views/factor_unofficial/factor_unofficial_page.dart';
 import 'package:factor_flutter_mobile/views/shared/factor_circular_progress_indicator.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/card_icon_widget.dart';
@@ -206,7 +207,7 @@ class ListTypeFactorPage extends GetView<ListTypeFactorPageController> {
   }
 
   Map arguments({
-    required RxList<FactorHomeViewModel> factorHomeList,
+    required RxList<FactorHomeViewModelHive> factorHomeList,
     required RxList<AdsViewModel> adsViewModel,
     required RxBool isLoadingAd,
   }) {

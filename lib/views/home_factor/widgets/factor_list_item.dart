@@ -19,20 +19,21 @@ import 'package:printing/printing.dart';
 import 'package:share_plus/share_plus.dart';
 
 class FactorListItem extends GetView<HomeFactorController> {
-  const FactorListItem({required this.factorItem});
+  const FactorListItem( {required this.factorItem,required this.index,});
 
   // final FactorHomeViewModel factorItem;
   final FactorHomeViewModelHive factorItem;
+  final int index;
 
   @override
   Widget build(BuildContext context) {
     return FactorCardHomeWidget(
       factorDate: factorItem.dateFactor ?? '',
       factorNum: '${factorItem.numFactor} #',
-      itemPopUp: controller.popUpItems,
+      itemPopUp: controller.popUpItems(),
       onSelectedPopUp: (value) async {
         if (value == Constants.deletePopUp) {
-          // controller.deleteFactor(factorItem);
+          controller.deleteFactor(index);
         } else if (value == Constants.showPopUp) {
           FocusManager.instance.primaryFocus?.unfocus();
           Get.toNamed(FactorRoutes.showPdf,

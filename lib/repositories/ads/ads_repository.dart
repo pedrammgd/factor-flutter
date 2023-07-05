@@ -12,13 +12,13 @@ class AdsRepository {
     var getAds = await _dio.get('/ads');
     try {
       final result = getAds.data['results'].map<AdsViewModel>((element) {
-        print(element);
+        // print(element);
         return AdsViewModel.fromJson(element);
       }).toList();
       return Right(result);
     } on DioError catch (e) {
       if (e.error is SocketException) {
-        print('woooooww');
+        // print('woooooww');
       }
       return Left(throw e.error);
       // return Left(e.toString());

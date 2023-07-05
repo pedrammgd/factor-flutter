@@ -1,5 +1,6 @@
 import 'package:factor_flutter_mobile/controllers/factor_unofficial/factor_unofficial_controller.dart';
 import 'package:factor_flutter_mobile/models/factor_view_model/factor_view_model.dart';
+import 'package:factor_flutter_mobile/models/factor_view_model/hive/factor_view_model_hive.dart';
 import 'package:factor_flutter_mobile/views/factor_unofficial/widgets/factor_unofficial_add_modal_bottom_sheet.dart';
 import 'package:factor_flutter_mobile/views/factor_unofficial/widgets/factor_unofficial_list.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/bottom_sheet_total_price_widget.dart';
@@ -251,7 +252,7 @@ class FactorUnofficialPage extends GetView<FactorUnofficialController> {
   }
 
   Map arguments({
-    required RxList<FactorHomeViewModel> factorHomeList,
+    required RxList<FactorHomeViewModelHive> factorHomeList,
   }) {
     final map = {};
     map['factorHomeList'] = factorHomeList;

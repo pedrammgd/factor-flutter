@@ -4,6 +4,7 @@ import 'package:factor_flutter_mobile/controllers/factor_base/factor_base_contro
 import 'package:factor_flutter_mobile/core/constans/constans.dart';
 import 'package:factor_flutter_mobile/models/ads/ads_view_model.dart';
 import 'package:factor_flutter_mobile/models/factor_view_model/factor_view_model.dart';
+import 'package:factor_flutter_mobile/models/factor_view_model/hive/factor_view_model_hive.dart';
 import 'package:factor_flutter_mobile/repositories/ads/ads_repository.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -18,7 +19,7 @@ class ListTypeFactorPageController extends GetxController {
     initSharedPreferences();
   }
 
-  final RxList<FactorHomeViewModel> factorHomeList;
+  final RxList<FactorHomeViewModelHive> factorHomeList;
 
   ListTypeFactorPageController({
     required this.factorHomeList,
@@ -69,6 +70,6 @@ class ListTypeFactorPageController extends GetxController {
     } else {
       isShowAd(true);
     }
-    log('loadSubscription${subscriptionData}');
+    // log('loadSubscription${subscriptionData}');
   }
 }

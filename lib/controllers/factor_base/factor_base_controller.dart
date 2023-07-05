@@ -9,16 +9,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 
+import '../../models/factor_view_model/hive/factor_view_model_hive.dart';
+
 class FactorBaseController extends GetxController {
   RxInt currentIndex = 0.obs;
   RxBool isShowFoundSearch = false.obs;
   RxBool isLoadingAd = false.obs;
-  RxList<FactorHomeViewModel> factorHomeList = <FactorHomeViewModel>[].obs;
+  // RxList<FactorHomeViewModel> factorHomeList = <FactorHomeViewModel>[].obs;
   RxList<AdsViewModel> adsViewModel = RxList<AdsViewModel>();
   final AdsRepository _repository = AdsRepository();
 
-  RxList<FactorHomeViewModel> factorHomeListSearch =
-      <FactorHomeViewModel>[].obs;
+  // RxList<FactorHomeViewModel> factorHomeListSearch =
+  //     <FactorHomeViewModel>[].obs;
+
+  RxList<FactorHomeViewModelHive> factorHomeListHive = <FactorHomeViewModelHive>[].obs;
+  RxList<FactorHomeViewModelHive> factorHomeListHiveSearch =<FactorHomeViewModelHive>[].obs;
 
   TextEditingController searchEditingController = TextEditingController();
 
@@ -28,9 +33,9 @@ class FactorBaseController extends GetxController {
     } else {
       isShowFoundSearch.value = true;
     }
-    factorHomeListSearch.value = factorHomeList.where((element) {
-      final name = element.titleFactor.toLowerCase();
-      final factorNum = element.numFactor.toLowerCase();
+    factorHomeListHiveSearch.value = factorHomeListHive.where((element) {
+      final name = element.titleFactor!.toLowerCase();
+      final factorNum = element.numFactor!.toLowerCase();
       return (name.contains(value.toLowerCase()) ||
           factorNum.contains(value.toLowerCase()));
     }).toList();

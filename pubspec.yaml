@@ -15,7 +15,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.5.0+1007
+version: 1.6.0+1008
 
 environment:
   sdk: ">=2.15.1 <3.0.0"
@@ -70,7 +70,7 @@ dependencies:
 #  zarinpal: ^1.0.4+1
 #  uni_links: ^0.5.1
 #  webview_flutter: ^3.0.1
-#  myket_iap: ^1.0.4
+  myket_iap: 1.0.4
   connectivity_plus: ^1.0.1
   barcode_widget: ^2.0.2
 #  qrscan: ^0.3.0
@@ -81,6 +81,8 @@ dependencies:
 #  idpay_payment_package: ^0.0.1
   hive: ^2.2.3
   hive_flutter: ^1.1.0
+  iran_appmarket: ^2.0.0
+
 
 
 
@@ -106,9 +108,10 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-     - assets/images/png/
-     - assets/images/jpg/
-     - assets/
+    - assets/images/png/
+    - assets/images/jpg/
+    - assets/
+    - android/gradle/wrapper/gradle-wrapper.properties
 
   uses-material-design: true
 

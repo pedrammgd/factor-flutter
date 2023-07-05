@@ -45,6 +45,7 @@ const String subscriptionSharedPreferencesKey =
 
 // Png
 const String emptyList = 'assets/images/png/empty_list.png';
+const String taskParLogo = 'assets/images/png/task_par_logo.png';
 const String signatureIcon = 'assets/images/png/signature.png';
 const String sealIcon = 'assets/images/png/seal_icon.png';
 const String buyerEmptyListIcon = 'assets/images/png/buyer_empty_list_icon.png';

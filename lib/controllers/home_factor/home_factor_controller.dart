@@ -16,12 +16,14 @@ class HomeFactorController extends GetxController {
   void onInit() {
     super.onInit();
     openBoxHive();
+    // initSharedPreferences();
+
   }
 
   RxBool isLoading = true.obs;
 
   Rxn<Box> boxFactorHome = Rxn<Box>();
-
+  RxString subscriptionValue = ''.obs;
   void openBoxHive() async {
     isLoading(true);
 
@@ -32,30 +34,42 @@ class HomeFactorController extends GetxController {
 
   TextEditingController searchTextEditingController = TextEditingController();
 
-  // RxList<FactorHomeViewModel> factorHomeList;
-  RxList<FactorHomeViewModel> factorHomeListHive = <FactorHomeViewModel>[].obs;
+  // RxList<FactorHomeViewModel> factorHomeList =<FactorHomeViewModel>[].obs;
+  RxList<FactorHomeViewModelHive> factorHomeListHive ;
+  RxList<FactorHomeViewModelHive> factorHomeListHiveSearch ;
 
   // RxList<FactorHomeViewModel> factorHomeListSearch;
-  HomeFactorController(// {
-      // required this.factorHomeList,
-      // required this.factorHomeListSearch,
-      // }
+  HomeFactorController({
+      required this.factorHomeListHive,
+      required this.factorHomeListHiveSearch,
+      }
       );
 
-  final List<String> popUpItems = <String>[
+   List<String> popUpItems() => <String>[
     Constants.showPopUp,
     Constants.savePopUp,
-    Constants.deletePopUp,
+    if (subscriptionValue.value == 'gold') Constants.deletePopUp,
     if (!kIsWeb) Constants.printPopUp,
     if (!kIsWeb) Constants.sharePopUp,
   ];
 
   late SharedPreferences sharedPreferences;
 
+
   Future initSharedPreferences() async {
     sharedPreferences = await SharedPreferences.getInstance();
+    loadSubscription();
     loadFactorData();
   }
+  void loadSubscription() {
+    String subscriptionData =
+        sharedPreferences.getString(subscriptionSharedPreferencesKey) ?? '';
+    if (subscriptionData.isNotEmpty) {
+      subscriptionValue.value = subscriptionData;
+    }
+    // log('loadSubscription${subscriptionData}');
+  }
+
 
   // void saveFactorData() {
   //   List<String> factorDataList =
@@ -64,13 +78,15 @@ class HomeFactorController extends GetxController {
   //       factorHomeListSharedPreferencesKey, factorDataList);
   // }
 
-  // void deleteFactor(FactorHomeViewModel itemModel) {
-  //   factorHomeList.removeWhere((item) => item == itemModel);
-  //   List<String> factorDataList =
-  //       factorHomeList.map((element) => json.encode(element.toJson())).toList();
-  //   sharedPreferences.setStringList(
-  //       factorHomeListSharedPreferencesKey, factorDataList);
-  // }
+  void deleteFactor(int index) {
+    boxFactorHome.value?.deleteAt(index);
+    openBoxHive();
+    // factorHomeList.removeWhere((item) => item == itemModel);
+    // List<String> factorDataList =
+    //     factorHomeList.map((element) => json.encode(element.toJson())).toList();
+    // sharedPreferences.setStringList(
+    //     factorHomeListSharedPreferencesKey, factorDataList);
+  }
 
   void loadFactorData() {
     List<String> factorDataList =
@@ -79,9 +95,10 @@ class HomeFactorController extends GetxController {
     if (factorDataList.isNotEmpty) {
       // factorHomeList.value=
       factorDataList.map<FactorHomeViewModel>((e) {
+        
         final bool addLastListCon = boxFactorHome.value!.values
-            .any((element) => element.id != json.decode(e)['id']);
-        if (addLastListCon) {
+            .any((element) => element.id == json.decode(e)['id']);
+        if (!addLastListCon) {
           boxFactorHome.value?.add(FactorHomeViewModelHive(
               currencyType: json.decode(e)['currencyType'],
               id: json.decode(e)['id'],
@@ -90,8 +107,13 @@ class HomeFactorController extends GetxController {
               dateFactor: json.decode(e)['dateFactor'],
               numFactor: json.decode(e)['numFactor'],
               totalPrice: json.decode(e)['totalPrice']));
+        }else{
+
+            // sharedPreferences.setStringList(
+            //     factorHomeListSharedPreferencesKey, []);
+
         }
-        // print('jsonDecode${json.decode(e)['totalPrice']}');
+        print('jsonDecode${json.decode(e)}');
         return FactorHomeViewModel.fromJson(json.decode(e));
       }).toList();
     }

@@ -2,27 +2,28 @@ import 'package:factor_flutter_mobile/controllers/home_factor/home_factor_contro
 import 'package:factor_flutter_mobile/controllers/more/more_controller.dart';
 import 'package:factor_flutter_mobile/core/constans/constans.dart';
 import 'package:factor_flutter_mobile/models/factor_view_model/factor_view_model.dart';
+import 'package:factor_flutter_mobile/models/factor_view_model/hive/factor_view_model_hive.dart';
 import 'package:factor_flutter_mobile/views/home_factor/widgets/factor_list.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class HomeFactorPage extends GetView<HomeFactorController> {
   const HomeFactorPage({
-    required this.factorHomeList,
-    required this.factorHomeListSearch,
+    required this.factorHomeListHive,
+    required this.factorHomeListHiveSearch,
   });
 
-  final RxList<FactorHomeViewModel> factorHomeList;
-  final RxList<FactorHomeViewModel> factorHomeListSearch;
+ final RxList<FactorHomeViewModelHive> factorHomeListHive ;
+ final RxList<FactorHomeViewModelHive> factorHomeListHiveSearch ;
 
   @override
   Widget build(BuildContext context) {
     Get.lazyPut(() => HomeFactorController(
-        // factorHomeList: factorHomeList,
-        // factorHomeListSearch: factorHomeListSearch
+        factorHomeListHive: factorHomeListHive,
+        factorHomeListHiveSearch: factorHomeListHiveSearch
         ));
     return ListView(
-      // shrinkWrap: true,
+      shrinkWrap: true,
 
       children: [
         Constants.largeVerticalSpacer,
