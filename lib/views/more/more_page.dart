@@ -1,6 +1,5 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:device_apps/device_apps.dart';
 import 'package:factor_flutter_mobile/controllers/more/more_controller.dart';
 import 'package:factor_flutter_mobile/core/constans/constans.dart';
 import 'package:factor_flutter_mobile/core/router/factor_pages.dart';
@@ -67,13 +66,13 @@ class MorePage extends GetView<MoreController> {
           Constants.smallVerticalSpacer,
           const CustomFactorDivider(),
           Constants.smallVerticalSpacer,
-          MoreItemWidget(
-            title: 'نمودار فاکتور',
-            icon: chartIcon,
-            onTap: () {
-              Get.toNamed(FactorRoutes.chart);
-            },
-          ),
+          // MoreItemWidget(
+          //   title: 'نمودار فاکتور',
+          //   icon: chartIcon,
+          //   onTap: () {
+          //     Get.toNamed(FactorRoutes.chart);
+          //   },
+          // ),
           MoreItemWidget(
             title: 'قالب فاکتور',
             icon: formatSizeIcon,
@@ -151,6 +150,7 @@ class MorePage extends GetView<MoreController> {
                       'جهت خرید اشتراک ابتدا از اتصال به اینترنت مطمعن شوید',
                   backgroundColor: Colors.yellow.shade800,
                   icon: controller.subscriptionIcon().value);
+
               // } else {
               //   FactorSnackBar.getxSnackBar(
               //       title: 'خطا در اتصال به مایکت',

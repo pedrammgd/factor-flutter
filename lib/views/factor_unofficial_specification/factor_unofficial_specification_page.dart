@@ -1,4 +1,4 @@
-import 'dart:typed_data';
+import 'dart:isolate';
 
 import 'package:barcode_widget/barcode_widget.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
@@ -31,6 +31,7 @@ import 'package:persian_number_utility/src/extensions.dart';
 import 'package:printing/printing.dart';
 
 import '../show_pdf/show_pdf_view.dart';
+import '../subscription/zarin_pal_subscription_page.dart';
 
 class FactorUnofficialSpecificationPage
     extends GetView<FactorUnofficialSpecificationController> {
@@ -39,10 +40,8 @@ class FactorUnofficialSpecificationPage
   void initArguments() {
     if (Get.arguments == null) return;
     final arguments = Get.arguments as Map;
-    final factorHomeList = arguments['factorHomeList'];
     final factorUnofficialItemList = arguments['factorUnofficialItemList'];
     final totalPrice = arguments['totalPrice'];
-
     final discount = arguments['discount'];
     final taxation = arguments['taxation'];
     final currencyTitle = arguments['currencyTitle'];
@@ -50,6 +49,7 @@ class FactorUnofficialSpecificationPage
     Get.lazyPut(() => FactorUnofficialSpecificationController(
           factorUnofficialItemList: factorUnofficialItemList,
           totalPrice: totalPrice,
+
           currencyTitle: currencyTitle,
           discount: discount,
           taxation: taxation,
@@ -57,7 +57,7 @@ class FactorUnofficialSpecificationPage
   }
 
   Future<void> computeFuture = Future.value();
-
+  bool isFuckFlutter = true;
   @override
   Widget build(BuildContext context) {
     initArguments();
@@ -436,16 +436,16 @@ class FactorUnofficialSpecificationPage
 
                     return;
                   }
+
                   if (controller.subscriptionCondition().value) {
-                    computeFuture = _createPdf().then((value) {
-                      Get.back();
-                      // String barcodeString = base64Encode(value);
-                      // print('value$value');
-                      // Get.defaultDialog(content: _barcode(data: value));
-                      _savePdf(value);
-                      // controller.addToHomeFactor(uint8ListPdf: value);
+
+                    print('lentgh home${controller.homeFactorController.boxFactorHome.value?.length}');
+
+
+                        _createPdf().then((value) {
+
+                      // _savePdf(value);
                       controller.saveFactorDataHive(uint8ListPdf: value);
-                      // Get.toNamed(FactorRoutes.home);
                       Get.toNamed(FactorRoutes.showPdf,
                           arguments: const ShowPdfView()
                               .arguments(pdfView: value, isFromHome: false));
@@ -454,7 +454,7 @@ class FactorUnofficialSpecificationPage
                     var connectivityResult =
                         await (Connectivity().checkConnectivity());
 
-                    if (controller.subscriptionCondition().value) {
+                    // if (controller.subscriptionCondition().value) {
                       if (connectivityResult == ConnectivityResult.mobile ||
                           connectivityResult == ConnectivityResult.wifi) {
                         final result = await Get.bottomSheet(
@@ -475,7 +475,7 @@ class FactorUnofficialSpecificationPage
                         Get.snackbar('خطا در اتصال به اینترنت',
                             'جهت ادامه لطفا ابتدا از اتصال به اینترنت مطمعن شوید',
                             backgroundColor: Colors.yellow.shade800);
-                      }
+                      // }
                     }
                   }
                 },
@@ -503,14 +503,6 @@ class FactorUnofficialSpecificationPage
     });
   }
 
-  Future<pw.Document> pdfForTestCreate() async {
-    final font = await rootBundle
-        .load("assets/fonts/iran_sans/IRANSansMobile_Medium.ttf");
-    final ttf = pw.Font.ttf(font);
-
-    final pdf = pw.Document();
-    return pdf;
-  }
 
   Future<Uint8List> _createPdf() async {
     controller.isLoadingCreatePdf(true);
@@ -531,8 +523,10 @@ class FactorUnofficialSpecificationPage
           ),
           pageFormat: controller.pageFormatFactor(),
           build: (pw.Context context) {
-            print(controller.totalPriceAllItems().value);
+            // print(controller.totalPriceAllItems().value);
             return [
+
+
               CustomPdfWidget().pdfWidget(
                   isShowFactorParBottomInPdf:
                       controller.isShowFactorParBottomInPdf(),
@@ -568,25 +562,27 @@ class FactorUnofficialSpecificationPage
     //   Get.snackbar('title', 'message');
     // }
 
-    Get.dialog(
-      WillPopScope(
-        onWillPop: () async => false,
-        child: AlertDialog(
-            shape: RoundedRectangleBorder(
-              side: const BorderSide(color: Colors.white70, width: 1),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            content: Column(mainAxisSize: MainAxisSize.min, children: [
-              const Text('در حال آماده سازی پی دی اف '),
-              Constants.largeVerticalSpacer,
-              LinearProgressIndicator(
-                  color: Theme.of(Get.context!).colorScheme.secondary),
-            ])),
-      ),
-      barrierDismissible: false,
-    );
+    // Get.dialog(
+    //   WillPopScope(
+    //     onWillPop: () async => false,
+    //     child: AlertDialog(
+    //         shape: RoundedRectangleBorder(
+    //           side: const BorderSide(color: Colors.white70, width: 1),
+    //           borderRadius: BorderRadius.circular(10),
+    //         ),
+    //         content: Column(mainAxisSize: MainAxisSize.min, children: [
+    //           const Text('در حال آماده سازی پی دی اف '),
+    //           Constants.largeVerticalSpacer,
+    //           LinearProgressIndicator(
+    //               color: Theme.of(Get.context!).colorScheme.secondary),
+    //         ])),
+    //   ),
+    //   barrierDismissible: false,
+    // );
 
-    return await compute(pdfSaveBytesIsolate, pdf);
+    return await    pdf.save();
+
+    // return await compute(pdfSaveBytesIsolate, pdf);
   }
 
   Future<void> _savePdf(Uint8List pdfView) async {
@@ -690,7 +686,7 @@ class FactorUnofficialSpecificationPage
                 Padding(
                   padding: const EdgeInsetsDirectional.only(end: 30),
                   child: Text(
-                    ' ${controller.factorHeaderViewModel.value?.factorNum ?? controller.homeFactorController.factorHomeListHive.length + 1} #',
+                    ' ${controller.factorHeaderViewModel.value?.factorNum ?? controller.homeFactorController.boxFactorHome.value!.length + 1} #',
                     style: const TextStyle(color: Colors.white, fontSize: 12),
                   ),
                 ),
@@ -723,7 +719,6 @@ class FactorUnofficialSpecificationPage
   }
 
   Map arguments({
-    required RxList<FactorHomeViewModelHive> factorHomeList,
     required RxList<FactorUnofficialItemViewModel> factorUnofficialItemList,
     required RxDouble totalPrice,
     required String discount,
@@ -731,7 +726,7 @@ class FactorUnofficialSpecificationPage
     required String currencyTitle,
   }) {
     final map = {};
-    map['factorHomeList'] = factorHomeList;
+
     map['factorUnofficialItemList'] = factorUnofficialItemList;
     map['totalPrice'] = totalPrice;
     map['discount'] = discount;
@@ -743,5 +738,5 @@ class FactorUnofficialSpecificationPage
 }
 
 Future<Uint8List> pdfSaveBytesIsolate(pw.Document pdf) {
-  return pdf.save();
+  return  pdf.save();
 }

@@ -17,6 +17,8 @@ import 'package:factor_flutter_mobile/views/subscription/zarin_pal_subscription_
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
+import '../../views/store/store_page.dart';
+
 part 'factor_routes.dart';
 
 class FactorPage {
@@ -81,6 +83,10 @@ class FactorPage {
     GetPage(
         name: FactorRoutes.chart,
         page: () => ChartFactorPage(),
+        transition: Transition.noTransition),
+    GetPage(
+        name: FactorRoutes.store,
+        page: () => const StorePage(),
         transition: Transition.noTransition),
     // GetPage(
     //     name: FactorRoutes.pay,

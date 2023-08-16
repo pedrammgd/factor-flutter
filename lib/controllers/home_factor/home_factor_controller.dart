@@ -21,7 +21,7 @@ class HomeFactorController extends GetxController {
   }
 
   RxBool isLoading = true.obs;
-
+   Rxn<String> avatar = Rxn<String>();
   Rxn<Box> boxFactorHome = Rxn<Box>();
   RxString subscriptionValue = ''.obs;
   void openBoxHive() async {
@@ -35,14 +35,9 @@ class HomeFactorController extends GetxController {
   TextEditingController searchTextEditingController = TextEditingController();
 
   // RxList<FactorHomeViewModel> factorHomeList =<FactorHomeViewModel>[].obs;
-  RxList<FactorHomeViewModelHive> factorHomeListHive ;
-  RxList<FactorHomeViewModelHive> factorHomeListHiveSearch ;
 
   // RxList<FactorHomeViewModel> factorHomeListSearch;
-  HomeFactorController({
-      required this.factorHomeListHive,
-      required this.factorHomeListHiveSearch,
-      }
+  HomeFactorController(
       );
 
    List<String> popUpItems() => <String>[
@@ -109,11 +104,10 @@ class HomeFactorController extends GetxController {
               totalPrice: json.decode(e)['totalPrice']));
         }else{
 
-            // sharedPreferences.setStringList(
-            //     factorHomeListSharedPreferencesKey, []);
+            sharedPreferences.setStringList(
+                factorHomeListSharedPreferencesKey, []);
 
         }
-        print('jsonDecode${json.decode(e)}');
         return FactorHomeViewModel.fromJson(json.decode(e));
       }).toList();
     }

@@ -22,24 +22,21 @@ class FactorBaseController extends GetxController {
   // RxList<FactorHomeViewModel> factorHomeListSearch =
   //     <FactorHomeViewModel>[].obs;
 
-  RxList<FactorHomeViewModelHive> factorHomeListHive = <FactorHomeViewModelHive>[].obs;
-  RxList<FactorHomeViewModelHive> factorHomeListHiveSearch =<FactorHomeViewModelHive>[].obs;
+ TextEditingController searchEditingController = TextEditingController();
 
-  TextEditingController searchEditingController = TextEditingController();
-
-  void searchFactorHome(String value) {
-    if (value.isEmpty) {
-      isShowFoundSearch.value = false;
-    } else {
-      isShowFoundSearch.value = true;
-    }
-    factorHomeListHiveSearch.value = factorHomeListHive.where((element) {
-      final name = element.titleFactor!.toLowerCase();
-      final factorNum = element.numFactor!.toLowerCase();
-      return (name.contains(value.toLowerCase()) ||
-          factorNum.contains(value.toLowerCase()));
-    }).toList();
-  }
+  // void searchFactorHome(String value) {
+  //   if (value.isEmpty) {
+  //     isShowFoundSearch.value = false;
+  //   } else {
+  //     isShowFoundSearch.value = true;
+  //   }
+  //   factorHomeListHiveSearch.value = factorHomeListHive.where((element) {
+  //     final name = element.titleFactor!.toLowerCase();
+  //     final factorNum = element.numFactor!.toLowerCase();
+  //     return (name.contains(value.toLowerCase()) ||
+  //         factorNum.contains(value.toLowerCase()));
+  //   }).toList();
+  // }
 
   @override
   void onInit() {
@@ -96,11 +93,11 @@ class FactorBaseController extends GetxController {
       Map<String, dynamic> dataRequestNotification) async {
     const initializationSettings = InitializationSettings(
       android: AndroidInitializationSettings('@mipmap/ic_launcher'),
-      iOS: IOSInitializationSettings(),
+      iOS: DarwinInitializationSettings(),
     );
     final initialized = await FlutterLocalNotificationsPlugin().initialize(
       initializationSettings,
-      onSelectNotification: (payload) =>
+      onDidReceiveNotificationResponse: (payload) =>
           _onSelectNotification(context, dataRequestNotification),
     );
     print('_initializeLocalNotifications $initialized');

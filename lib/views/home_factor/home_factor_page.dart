@@ -5,26 +5,20 @@ import 'package:factor_flutter_mobile/models/factor_view_model/factor_view_model
 import 'package:factor_flutter_mobile/models/factor_view_model/hive/factor_view_model_hive.dart';
 import 'package:factor_flutter_mobile/views/home_factor/widgets/factor_list.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:persian_datetime_picker/persian_datetime_picker.dart';
+import 'package:random_avatar/random_avatar.dart';
 
 class HomeFactorPage extends GetView<HomeFactorController> {
-  const HomeFactorPage({
-    required this.factorHomeListHive,
-    required this.factorHomeListHiveSearch,
-  });
-
- final RxList<FactorHomeViewModelHive> factorHomeListHive ;
- final RxList<FactorHomeViewModelHive> factorHomeListHiveSearch ;
+  const HomeFactorPage();
 
   @override
   Widget build(BuildContext context) {
-    Get.lazyPut(() => HomeFactorController(
-        factorHomeListHive: factorHomeListHive,
-        factorHomeListHiveSearch: factorHomeListHiveSearch
-        ));
+    Get.lazyPut(() => HomeFactorController());
     return ListView(
       shrinkWrap: true,
-
+      physics: NeverScrollableScrollPhysics(),
       children: [
         Constants.largeVerticalSpacer,
         Padding(
@@ -32,18 +26,7 @@ class HomeFactorPage extends GetView<HomeFactorController> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Card(
-                child: Padding(
-                  padding: const EdgeInsetsDirectional.all(15),
-                  child: Text(
-                    'فاکتور های من',
-                    style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                        color: greenColor),
-                  ),
-                ),
-              ),
+              _avatar(),
             ],
           ),
         ),
@@ -51,5 +34,47 @@ class HomeFactorPage extends GetView<HomeFactorController> {
         const FactorList(),
       ],
     );
+  }
+
+  Widget _avatar() {
+    return Obx(() {
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 32.0, horizontal: 18),
+        child: Row(
+          // crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Material(
+              shape: const CircleBorder(),
+              clipBehavior: Clip.hardEdge,
+              child: InkWell(
+                radius: 32,
+                onTap: () {
+                  controller.avatar.value = RandomAvatarString(
+                    DateTime.now().toIso8601String(),
+                  );
+                  // getStorage.write(Keys.avatarKey, avatar);
+                },
+                child: CircleAvatar(
+                  radius: 32,
+                  child: controller.avatar.value != null
+                      ? SvgPicture.string(controller.avatar.value!)
+                      : RandomAvatar('saytoonz', height: 65, width: 65),
+                ),
+              ),
+            ),
+            const SizedBox(
+              width: 12,
+            ),
+            Text(
+              'فاکتور های من',
+              style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(Get.context!).colorScheme.secondary),
+            ),
+          ],
+        ),
+      );
+    });
   }
 }

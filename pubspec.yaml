@@ -15,7 +15,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.6.0+1008
+version: 1.8.1+1112
 
 environment:
   sdk: ">=2.15.1 <3.0.0"
@@ -41,16 +41,15 @@ dependencies:
   uuid: ^3.0.5
   persian_number_utility: ^1.1.1
 #  Desktop FireBase
-  firebase_core_desktop: ^0.1.1-dev.2
-  firebase_core: ^1.11.0
-  firebase_messaging: ^11.2.5
-  flutter_local_notifications: ^9.1.5
+  firebase_core: ^2.15.0
+  firebase_messaging: ^14.6.5
+  flutter_local_notifications: ^14.1.1
   signature: ^5.0.0
   pdf: ^3.7.1
   syncfusion_flutter_pdfviewer: ^20.2.40-beta
 #  native_pdf_view: ^6.0.0+1
 #  flutter_pdfview: ^1.2.2
-  printing: ^5.9.2
+  printing: ^5.10.0
   file_saver: ^0.2.0
 #  file_saver:
 #    git:
@@ -62,7 +61,7 @@ dependencies:
   persian_datetime_picker: ^2.5.0
   share_plus: ^4.0.7
   path_provider: ^2.0.11
-  parse_server_sdk_flutter: ^3.1.0
+  parse_server_sdk_flutter: ^5.1.0
   dartz: ^0.10.1
   url_launcher: ^6.0.20
   carousel_slider: ^4.0.0
@@ -71,7 +70,7 @@ dependencies:
 #  uni_links: ^0.5.1
 #  webview_flutter: ^3.0.1
   myket_iap: 1.0.4
-  connectivity_plus: ^1.0.1
+  connectivity_plus: ^3.0.6
   barcode_widget: ^2.0.2
 #  qrscan: ^0.3.0
   cached_network_image: ^3.2.1
@@ -81,7 +80,11 @@ dependencies:
 #  idpay_payment_package: ^0.0.1
   hive: ^2.2.3
   hive_flutter: ^1.1.0
-  iran_appmarket: ^2.0.0
+#  iran_appmarket: ^2.0.0
+#  zarinpal: ^1.0.5
+  uni_links: ^0.5.1
+  random_avatar: ^0.0.8
+  flutter_svg: ^2.0.7
 
 
 
@@ -95,6 +98,7 @@ dev_dependencies:
   flutter_lints: ^1.0.0
   hive_generator: ^2.0.0
   build_runner: ^2.3.0
+#  flutter packages pub run build_runner build
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

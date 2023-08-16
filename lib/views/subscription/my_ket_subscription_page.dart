@@ -219,11 +219,11 @@ class _MyKetSubscriptionPageState extends State<MyKetSubscriptionPage> {
   String priceCard(int index) {
     switch (index) {
       case 0:
-        return '9,000 تومان';
+        return '19,000 تومان';
       case 1:
-        return '29,000 تومان';
+        return '49,000 تومان';
       default:
-        return '39,000 تومان';
+        return '59,000 تومان';
     }
   }
 
@@ -234,7 +234,7 @@ class _MyKetSubscriptionPageState extends State<MyKetSubscriptionPage> {
       case 1:
         return '59 فاکتور به صورت دائمی و مشتریان نامحدود بدون اشتراک سالانه + حذف متن فاکتور پر';
       default:
-        return 'بینهایت فاکتور به صورت دائمی و مشتریان نامحدود بدون اشتراک سالانه + حذف تبلیغات + حذف متن فاکتور پر';
+        return 'بینهایت فاکتور به صورت دائمی و مشتریان نامحدود بدون اشتراک سالانه + حذف تبلیغات + حذف متن فاکتور پر + انبار';
     }
   }
 

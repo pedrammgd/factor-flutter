@@ -33,8 +33,10 @@ class CustomPdfWidget {
     required String currencyTitle,
     required bool isShowFactorParBottomInPdf,
     pw.MemoryImage? assetImage,
-    // Uint8List? pdfValue,
-  }) {
+    Uint8List? pdfValue,
+  }
+  ) {
+
     String imageUint8ListCondition(
         {String? uint8List, required String defaultImage}) {
       if (uint8List == null || uint8List.isEmpty) {
@@ -494,7 +496,7 @@ class CustomPdfWidget {
           _tableRow(firstKey: 'تخفیف', firstValue: totalDiscount),
           _tableRow(firstKey: 'مالیات', firstValue: totalTaxation),
           _tableRow(
-              firstKey: 'مبلغ قابل پرداخت )$currencyTitle(',
+              firstKey: 'مبلغ قابل پرداخت ($currencyTitle)',
               firstValue: totalPrice,
               fontSizeKey: 8,
               fontSizeValue: 8,
@@ -543,10 +545,10 @@ class CustomPdfWidget {
             const pw.BoxDecoration(color: PdfColor.fromInt(0xff4AA96C)),
         cellAlignment: pw.Alignment.center,
         headers: [
-          ' قیمت کل )$currencyTitle(',
-          'مالیات )درصد(',
-          'تخفیف )درصد(',
-          'مبلغ )$currencyTitle(',
+          ' قیمت کل ($currencyTitle)',
+          'مالیات (درصد)',
+          'تخفیف (درصد)',
+          'مبلغ ($currencyTitle)',
           'واحد',
           'نام'
         ],
@@ -556,7 +558,7 @@ class CustomPdfWidget {
                   e.productTaxation,
                   e.productDiscount,
                   e.productUnitPrice.seRagham(),
-                  '${e.productCount} )${e.unitValue}(',
+                  '${e.productCount} (${e.unitValue})',
                   e.productDescription,
                 ])
             .toList(),

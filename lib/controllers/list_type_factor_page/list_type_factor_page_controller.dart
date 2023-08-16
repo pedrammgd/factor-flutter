@@ -19,10 +19,8 @@ class ListTypeFactorPageController extends GetxController {
     initSharedPreferences();
   }
 
-  final RxList<FactorHomeViewModelHive> factorHomeList;
 
   ListTypeFactorPageController({
-    required this.factorHomeList,
     required this.adsViewModel,
     required this.isLoadingAd,
   });
@@ -62,6 +60,8 @@ class ListTypeFactorPageController extends GetxController {
     String subscriptionData =
         sharedPreferences.getString(subscriptionSharedPreferencesKey) ?? '';
     if (subscriptionData.isNotEmpty) {
+      subscriptionValue.value = subscriptionData;
+
       if (subscriptionData == 'gold') {
         isShowAd(false);
       } else {

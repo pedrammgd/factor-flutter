@@ -15,18 +15,18 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../store/store_page.dart';
+
 class ListTypeFactorPage extends GetView<ListTypeFactorPageController> {
   const ListTypeFactorPage({Key? key}) : super(key: key);
 
   void initArguments() {
     if (Get.arguments == null) return;
     final arguments = Get.arguments as Map;
-    final factorHomeList = arguments['factorHomeList'];
     final adsViewModel = arguments['adsViewModel'];
     final isLoadingAd = arguments['isLoadingAd'];
 
     Get.put<ListTypeFactorPageController>(ListTypeFactorPageController(
-        factorHomeList: factorHomeList,
         adsViewModel: adsViewModel,
         isLoadingAd: isLoadingAd));
   }
@@ -65,9 +65,7 @@ class ListTypeFactorPage extends GetView<ListTypeFactorPageController> {
                       FadeInRightBig(
                         child: CardIconWidget(
                           onTap: () {
-                            Get.toNamed(FactorRoutes.factorUnofficial,
-                                arguments: FactorUnofficialPage().arguments(
-                                    factorHomeList: controller.factorHomeList));
+                            Get.toNamed(FactorRoutes.factorUnofficial);
                           },
                           title: 'فاکتور غیر رسمی',
                           icon: addFactorUnOfficialIcon,
@@ -82,19 +80,37 @@ class ListTypeFactorPage extends GetView<ListTypeFactorPageController> {
                       ),
                       FadeInLeftBig(
                         child: CardIconWidget(
-                            comingSoon: true,
-                            onTap: () {},
+                            onTap: () {
+                              if (controller.subscriptionValue.value == 'gold') {
+                                Get.toNamed( FactorRoutes.store, arguments: const StorePage()
+                                    .arguments(isFromUnofficialFactor: false));
+                              } else{
+                                Get.defaultDialog(
+                                    title: 'انبار',
+                                    middleText:
+                                    'جهت فعالسازی انبار نسخه طلایی را فعال کنید',
+                                    textCancel: 'فهمیدم');
+                              }
+
+                            },
                             title: 'انبار',
+                            infoOnTap: () {
+                              Get.defaultDialog(
+                                  title: 'انبار',
+                                  middleText:
+                                  'شامل محصولات و خدمات من می باشد ویژه نسخه طلایی',
+                                  textCancel: 'فهمیدم');
+                            },
                             icon: warehouseIcon),
                       ),
-                      FadeInUpBig(
-                        child: CardIconWidget(
-                            comingSoon: true,
-                            iconColor: Colors.grey,
-                            onTap: () {},
-                            title: 'فاکتور رسمی',
-                            icon: addFactorOfficialIcon),
-                      ),
+                      // FadeInUpBig(
+                      //   child: CardIconWidget(
+                      //       comingSoon: true,
+                      //       iconColor: Colors.grey,
+                      //       onTap: () {},
+                      //       title: 'فاکتور رسمی',
+                      //       icon: addFactorOfficialIcon),
+                      // ),
                     ],
                   ),
                   //   ],
@@ -207,12 +223,10 @@ class ListTypeFactorPage extends GetView<ListTypeFactorPageController> {
   }
 
   Map arguments({
-    required RxList<FactorHomeViewModelHive> factorHomeList,
     required RxList<AdsViewModel> adsViewModel,
     required RxBool isLoadingAd,
   }) {
     final map = {};
-    map['factorHomeList'] = factorHomeList;
     map['adsViewModel'] = adsViewModel;
     map['isLoadingAd'] = isLoadingAd;
 

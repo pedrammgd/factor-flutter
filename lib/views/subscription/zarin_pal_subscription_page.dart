@@ -1,14 +1,16 @@
-// import 'dart:html' as html;
-// import 'dart:ui' as ui;
-//
+// import 'dart:developer';
+// import 'dart:js' as js;
+// import 'dart:html';
 // import 'package:factor_flutter_mobile/core/constans/constans.dart';
-// import 'package:factor_flutter_mobile/core/router/factor_pages.dart';
 // import 'package:factor_flutter_mobile/views/shared/widgets/factor_app_bar.dart';
 // import 'package:factor_flutter_mobile/views/shared/widgets/subscription_card_widget.dart';
 // import 'package:flutter/material.dart';
 // import 'package:get/get.dart';
+// import 'package:uni_links/uni_links.dart';
 // import 'package:url_launcher/url_launcher.dart';
 // import 'package:zarinpal/zarinpal.dart';
+//
+// import '../shared/widgets/factor_snack_bar.dart';
 //
 // class ZarinPalSubscriptionPage extends StatefulWidget {
 //   const ZarinPalSubscriptionPage({Key? key}) : super(key: key);
@@ -19,70 +21,39 @@
 // }
 //
 // class _ZarinPalSubscriptionPageState extends State<ZarinPalSubscriptionPage> {
-//   final PaymentRequest _paymentRequest = PaymentRequest()
-//     ..setMerchantID("26b32af8-0aae-460f-90c8-8c497055de03")
-//     ..setCallbackURL("http://localhost:49246/#/subscription");
 //   List<Color> bacGroundColor = <Color>[
 //     bronzeColor,
 //     silverColor,
 //     goldColor,
 //   ];
-//   String? _paymentUrl;
+//
+//
+//   late PaymentRequest paymentRequest;
+//   bool isLoadingGoToPayment = false;
 //
 //   @override
 //   void initState() {
+//     // TODO: implement initState
 //     super.initState();
-//     print('sdsdsdds');
-//     _paymentRequest.setIsSandBox(false);
-//     // _paymentRequest.setMerchantID("26b32af8-0aae-460f-90c8-8c497055de03");
-//     _paymentRequest.setAmount(100); //integar Amount
-//     // _paymentRequest.setCallbackURL(
-//     //     "http://localhost:49246/#/subscription"); //The callback can be an android scheme or a website URL, you and can pass any data with The callback for both scheme and  URL
-//     _paymentRequest.setDescription("Payment Description");
-//
-//     ZarinPal().startPayment(_paymentRequest,
-//         (int? status, String? paymentGatewayUri) {
-//       if (status == 100) {
-//         _paymentUrl = paymentGatewayUri;
-//         // _launchURL(
-//         //   _paymentUrl ?? '',
-//         // );
-//         print('paymentGatewayUri${paymentGatewayUri}');
-//         print('status${status}');
-//       } // launch URL in browser
-//       else {
-//         print('eeeeeeeerrrrrr');
-//       }
-//     });
-//
-//     ZarinPal().verificationPayment(
-//         "Status", 'http://localhost:49246/#/subscription', _paymentRequest,
-//         (isPaymentSuccess, refID, paymentRequest) {
-//       if (isPaymentSuccess) {
-//         // Payment Is Success
-//         Get.snackbar('Success', 'Success', backgroundColor: Colors.green);
-//         print("Success");
-//       } else {
-//         setState(() {});
-//         print(refID);
-//         // Error Print Status
-//         print("Errorssss");
-//         print("isPaymentSuccess${isPaymentSuccess}");
-//         print("paymentRequest${paymentRequest}");
-//         Get.snackbar('Error', 'Success', backgroundColor: Colors.red);
-//       }
-//     });
+//     paymentRequest = PaymentRequest()
+//       ..setIsSandBox(true)
+//       ..setMerchantID("a3c4b289-c631-4cb3-82f1-3af4041a05e1")
+//       ..setCallbackURL(window.location.href)
+//       ..setDescription("فیلم")
+//       ..setAmount(1000);
 //   }
+//
 //
 //   @override
 //   Widget build(BuildContext context) {
+//     initUniLinks();
+//
 //     return Scaffold(
-//       appBar: const FactorAppBar(title: Text('hh')),
-//       body: InkWell(
-//           onTap: () {
-//             // _launchURL(_paymentUrl ?? '');
-//           },
-//           child: ListView.builder(
+//       appBar:  FactorAppBar(
+//           customBackButtonFunction:(){
+//           }
+//       ),
+//       body: ListView.builder(
 //             itemCount: 3,
 //             itemBuilder: (context, index) => SubscriptionCardWidget(
 //                 isLoading: false,
@@ -91,15 +62,8 @@
 //                 description: 'descriptionCard',
 //                 title: 'titleCard',
 //                 icon: iconCard(index),
-//                 onTap: () {
-//                   // _launchURL(_paymentUrl ?? '');
-//                   // html.window.history
-//                   //     .pushState(null, FactorRoutes.pay, '#/pay');
-//                   Get.toNamed(FactorRoutes.pay,
-//                       arguments: const PayPage()
-//                           .arguments(payLink: (_paymentUrl ?? '')));
-//                 }),
-//           )),
+//                 onTap:()=> payment()),
+//           ),
 //     );
 //   }
 //
@@ -114,47 +78,71 @@
 //     }
 //   }
 //
-//   void _launchURL(String url) async {
-//     if (!await launch(url,
-//         forceWebView: true,
-//         enableJavaScript: true,
-//         // webOnlyWindowName: '_self',
-//         statusBarBrightness: Brightness.dark))
-//       throw 'Could not launch $_paymentUrl';
-//   }
-// }
+//   void payment() async{
+//     isLoadingGoToPayment = true;
 //
-// class PayPage extends StatelessWidget {
-//   const PayPage({Key? key}) : super(key: key);
+//     ZarinPal().startPayment(paymentRequest,
+//         (int? status, String? paymentGatewayUri) async{
+//       if (status == 100) {
+//         // print(paymentGatewayUri);
+//         // js.context.callMethod('open', [paymentGatewayUri]);
 //
-//   Future<void> initArguments() async {
-//     if (Get.arguments == null) return;
-//     final arguments = Get.arguments as Map;
-//     final payLink = arguments['payLink'];
-//
-//     await ui.platformViewRegistry.registerViewFactory(
-//         'hello-world-html',
-//         (int viewId) => html.IFrameElement()
-//           ..width = double.maxFinite.toString()
-//           ..height = double.maxFinite.toString()
-//           ..src = payLink
-//           ..style.border = 'none');
+//         // launch(paymentGatewayUri! ,universalLinksOnly: true,forceWebView: true);
+//       //
+//       launchUrl(Uri.parse(paymentGatewayUri!), );
+//       } else {
+//         FactorSnackBar.getxSnackBar(
+//             title: 'خطا دوباره تلاش کنید',
+//             message: 'از اتصال اینترنت خود مطمعن شوید',
+//             backgroundColor: Colors.red);
+//       }
+//       isLoadingGoToPayment = false;
+//     });
 //   }
 //
-//   @override
-//   Widget build(BuildContext context) {
-//     initArguments();
-//     return const Scaffold(
-//       appBar: FactorAppBar(),
-//       body: HtmlElementView(viewType: 'hello-world-html'),
-//     );
-//   }
+//   Future<void> initUniLinks() async {
+//     // var urlQuery = Uri.base.queryParametersAll.entries.toList();
+//     var urlQuery = window.location.href;
 //
-//   Map arguments({
-//     required String payLink,
-//   }) {
-//     final map = {};
-//     map['payLink'] = payLink;
-//     return map;
+//
+//       print('urlQuery${window.location.href}');
+//       if (urlQuery.contains('Status=OK')) {
+//         paymentRequest = PaymentRequest()
+//           ..setIsSandBox(true)
+//           ..setMerchantID("a3c4b289-c631-4cb3-82f1-3af4041a05e1")
+//           ..setCallbackURL(window.location.href)
+//           ..setDescription("فیلم")
+//           ..setAmount(1000);
+//         print('--------------- payment ok -----------------');
+//         print(urlQuery.substring(urlQuery.indexOf('00'),urlQuery.indexOf('&')));
+//         print(urlQuery.substring(urlQuery.length - 2) );
+//         ZarinPal().verificationPayment(
+//             urlQuery.substring(urlQuery.indexOf('00'),urlQuery.indexOf('&')),'OK' , paymentRequest,
+//             (isPaymentSuccess, refID, paymentRequest) {
+//           log('isPaymentSuccess${isPaymentSuccess}');
+//           if (isPaymentSuccess) {
+//             // controller.statusPayment = 'PAID';
+//             FactorSnackBar.getxSnackBar(
+//                 backgroundColor: Colors.green,
+//                 title: 'پرداخت موفق',
+//                 message: 'با موفقیت پرداخت شد');
+//           } else {
+//             // controller.statusPayment = 'NOT PAID';
+//             FactorSnackBar.getxSnackBar(
+//                 backgroundColor: Colors.red,
+//                 title: 'پرداخت ناموفق',
+//                 message: 'خطا در پرداخت');
+//           }
+//         });
+//       } else {
+//         FactorSnackBar.getxSnackBar(
+//             backgroundColor: Colors.red,
+//             title: 'پرداخت لغو شده',
+//             message: 'خطا در پرداخت');
+//       }
+//
+//
+//
+//     // NOTE: Don't forget to call _sub.cancel() in dispose()
 //   }
 // }

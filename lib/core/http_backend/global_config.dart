@@ -9,5 +9,5 @@ Dio httpClient() {
         'X-Parse-REST-API-Key': '4ZVwIcoSaLWPAkxlSOpV9gyggvGtrHiUTig2kTTP',
         'Content-Type': 'application/json'
       },
-      connectTimeout: 5000));
+      connectTimeout: const Duration(milliseconds: 5000)));
 }

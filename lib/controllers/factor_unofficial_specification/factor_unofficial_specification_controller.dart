@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:typed_data';
 
 import 'package:factor_flutter_mobile/controllers/home_factor/home_factor_controller.dart';
@@ -226,7 +227,7 @@ class FactorUnofficialSpecificationController extends GetxController {
       myProfileItem.value =
           MyProfileViewModel.fromJson(jsonDecode(myProfileData));
       isMyProfileItemNull(true);
-      // log('myProfileData$myProfileData');
+      log('myProfileData$myProfileData');
     } else {
       // log('isEmpty');
     }
@@ -240,10 +241,8 @@ class FactorUnofficialSpecificationController extends GetxController {
       factorHeaderViewModel.value =
           FactorHeaderViewModel.fromJson(jsonDecode(factorHeaderData));
       // log(factorHeaderViewModel.value!.toJson().toString());
-      factorNumber = homeFactorController.factorHomeListHive.length + 1;
-    } else {
-      // log('isEmpty3$factorNumber');
-    }
+    } else {}
+    factorNumber = homeFactorController.boxFactorHome.value!.length + 1;
   }
 
   void buttonOnTapItem({
@@ -329,7 +328,7 @@ class FactorUnofficialSpecificationController extends GetxController {
       dateFactor: factorHeaderViewModel.value?.factorDate ??
           Jalali.now().formatCompactDate(),
       numFactor: factorHeaderViewModel.value?.factorNum ??
-          '${homeFactorController.factorHomeListHive.length + 1}',
+          '${homeFactorController.boxFactorHome.value!.length + 1}',
       titleFactor: factorHeaderViewModel.value?.title ?? 'فاکتور فروش',
     ));
   }
@@ -353,13 +352,13 @@ class FactorUnofficialSpecificationController extends GetxController {
       }
     }
     if (subscriptionValue.value == 'bronze_buy') {
-      if (homeFactorController.factorHomeListHive.length >= 29) {
+      if (homeFactorController.boxFactorHome.value!.length >= 29) {
         return false.obs;
       } else {
         return true.obs;
       }
     } else if (subscriptionValue.value == 'silver') {
-      if (homeFactorController.factorHomeListHive.length >= 59) {
+      if (homeFactorController.boxFactorHome.value!.length >= 59) {
         return false.obs;
       } else {
         return true.obs;
@@ -367,7 +366,7 @@ class FactorUnofficialSpecificationController extends GetxController {
     } else if (subscriptionValue.value == 'gold') {
       return true.obs;
     } else {
-      if (homeFactorController.factorHomeListHive.length < 3) {
+      if (homeFactorController.boxFactorHome.value!.length < 3) {
         return true.obs;
       } else {
         return false.obs;

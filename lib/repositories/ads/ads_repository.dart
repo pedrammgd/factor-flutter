@@ -20,7 +20,7 @@ class AdsRepository {
       if (e.error is SocketException) {
         // print('woooooww');
       }
-      return Left(throw e.error);
+      return Left(throw e.error.toString());
       // return Left(e.toString());
     }
   }

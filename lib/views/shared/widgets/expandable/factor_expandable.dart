@@ -153,7 +153,7 @@ class _FactorExpandableState extends State<FactorExpandable>
       duration: widget._animationDuration,
       reverseDuration: widget._animationDuration,
       curve: widget.customCurve ?? Curves.easeOut,
-      vsync: this,
+      // vsync: this,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [

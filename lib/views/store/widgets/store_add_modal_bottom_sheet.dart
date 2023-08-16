@@ -1,37 +1,38 @@
 import 'package:factor_flutter_mobile/controllers/factor_unofficial/add_or_edit_factor_unofficial_controller.dart';
 import 'package:factor_flutter_mobile/core/constans/constans.dart';
-import 'package:factor_flutter_mobile/core/router/factor_pages.dart';
 import 'package:factor_flutter_mobile/core/utils/factor_validation/form_feild_validation.dart';
 import 'package:factor_flutter_mobile/core/utils/formatter/thousend_formatter.dart';
-import 'package:factor_flutter_mobile/models/factor_unofficial_item_view_model/factor_unofficial_item_view_model.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/factor_button.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/factor_text_form_feild.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../controllers/store/add_or_edit_store_controller.dart';
 import '../../../models/store/hive/store_item_view_model_hive.dart';
-import '../../store/store_page.dart';
 
-class FactorUnofficialAddModalBottomSheet
-    extends GetView<AddOrEditFactorUnofficialController> {
-  FactorUnofficialAddModalBottomSheet({
-    required this.factorUnofficialItemList,
-    required this.factorUnofficialItem,
+class StoreAddModalBottomSheet
+    extends GetView<AddOrEditStoreController> {
+  const StoreAddModalBottomSheet( {Key? key,
+    required this.boxStore,
+    required this.storeItemViewModelHiveItem,
     required this.sharedPreferences,
     required this.currencyTitle,
-  });
+    this.index,
+  }) : super(key: key);
 
-  final RxList<FactorUnofficialItemViewModel> factorUnofficialItemList;
-  final FactorUnofficialItemViewModel? factorUnofficialItem;
+  final Rxn<Box> boxStore ;
+  final int? index;
+  final StoreItemViewModelHive? storeItemViewModelHiveItem;
   final SharedPreferences sharedPreferences;
   final String currencyTitle;
 
   @override
   Widget build(BuildContext context) {
-    Get.lazyPut(() => AddOrEditFactorUnofficialController(factorUnofficialItem,
-        factorUnofficialItemList, sharedPreferences, currencyTitle));
+    Get.lazyPut(() => AddOrEditStoreController(storeItemViewModelHiveItem,
+        boxStore, sharedPreferences, currencyTitle));
     return SingleChildScrollView(
       child: Form(
         // key: controller.formKey,
@@ -46,44 +47,9 @@ class FactorUnofficialAddModalBottomSheet
                   _topDivider(context),
                 ],
               ),
-              Row(
-                children: [
-                  _descriptionTextFormField(context),
-                  Constants.smallHorizontalSpacer,
-                  Expanded(
-                      child: FactorButton(
-                          onPressed: () async {
-
-                            if (controller.subscriptionValue.value == 'gold') {
-
-                              final  result = await Get.toNamed(FactorRoutes.store,
-                                  arguments: const StorePage()
-                                      .arguments(isFromUnofficialFactor: true));
-
-
-                              if(result !=null){
-                                controller.productDescriptionController.text = result.productDescription;
-                                controller.productUnitPriceController.text = result.productUnitPrice;
-                                controller.unitValue.value = result.unitValue;
-                              }
-                            } else{
-                              Get.defaultDialog(
-                                  title: 'انبار',
-                                  middleText:
-                                  'جهت فعالسازی انبار نسخه طلایی را فعال کنید',
-                                  textCancel: 'فهمیدم');
-                            }
-
-
-
-                          },
-                          titleButton: 'افزودن از انبار'))
-                ],
-              ),
+              _descriptionTextFormField(context),
               _unitPriceTextFormFeild(context),
               _countTextFormField(context),
-              _discountTextFormField(context),
-              _taxationTextFormFild(context),
               _button(context),
             ],
           ),
@@ -100,46 +66,14 @@ class FactorUnofficialAddModalBottomSheet
             width: double.infinity,
             child: FactorButton.elevated(
                 onPressed: () {
-                  controller.save();
+                  controller.save(index: index);
                 },
                 titleButton: 'ثبت')));
   }
 
-  Widget _taxationTextFormFild(BuildContext context) {
-    return FactorTextFormField(
-      width: double.infinity,
-      prefixIcon: const Icon(Icons.price_change_outlined),
-      controller: controller.productTaxationController,
-      labelText: 'مالیات',
-      validatorTextField: percentValidator('مالیات'),
-      inputFormatters: [
-        LengthLimitingTextInputFormatter(4),
-        FilteringTextInputFormatter.allow(RegExp(r'^(\d+)?\.?\d{0,2}')),
-      ],
-      textInputAction: TextInputAction.done,
-      textInputType: TextInputType.phone,
-      suffixText: '%',
-      hasBorder: true,
-    );
-  }
 
-  Widget _discountTextFormField(BuildContext context) {
-    return FactorTextFormField(
-      width: double.infinity,
-      prefixIcon: const Icon(Icons.discount_outlined),
-      controller: controller.productDiscountController,
-      labelText: 'تخفیف',
-      validatorTextField: percentValidator('تخفیف'),
-      inputFormatters: [
-        FilteringTextInputFormatter.allow(RegExp(r'^(\d+)?\.?\d{0,2}')),
-        LengthLimitingTextInputFormatter(4),
-      ],
-      textInputAction: TextInputAction.next,
-      textInputType: TextInputType.phone,
-      suffixText: '%',
-      hasBorder: true,
-    );
-  }
+
+
 
   Widget _countTextFormField(BuildContext context) {
     return FactorTextFormField(
@@ -306,12 +240,12 @@ class FactorUnofficialAddModalBottomSheet
   Widget _descriptionTextFormField(BuildContext context) {
     return FactorTextFormField(
       controller: controller.productDescriptionController,
-      // width: double.infinity,
+      width: double.infinity,
       textInputAction: TextInputAction.next,
       prefixIcon: const Icon(Icons.description_outlined),
       labelText: 'شرح کالا *',
       inputFormatters: [
-        LengthLimitingTextInputFormatter(45),
+        LengthLimitingTextInputFormatter(20),
       ],
       borderColor: Theme.of(context).colorScheme.secondary,
       hasBorder: true,

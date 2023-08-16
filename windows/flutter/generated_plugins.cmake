@@ -3,8 +3,10 @@
 #
 
 list(APPEND FLUTTER_PLUGIN_LIST
-  connectivity_plus_windows
+  awesome_notifications
+  connectivity_plus
   file_saver
+  firebase_core
   printing
   syncfusion_pdfviewer_windows
   url_launcher_windows

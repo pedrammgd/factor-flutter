@@ -12,6 +12,23 @@ import 'package:uuid/uuid.dart';
 class AddOrEditFactorUnofficialController extends GetxController {
   final String currencyTitle;
 
+
+  @override
+  void onInit() {
+    super.onInit();
+    loadSubscription();
+  }
+
+
+  void loadSubscription() {
+    String subscriptionData =
+        sharedPreferences.getString(subscriptionSharedPreferencesKey) ?? '';
+    if (subscriptionData.isNotEmpty) {
+      subscriptionValue.value = subscriptionData;
+    }
+    // log('loadSubscription${subscriptionData}');
+  }
+  RxString subscriptionValue = ''.obs;
   final TextEditingController productDescriptionController =
       TextEditingController();
   final TextEditingController productCountController =
@@ -61,6 +78,8 @@ class AddOrEditFactorUnofficialController extends GetxController {
       unitValue.value = item.unitValue;
     }
   }
+
+
 
   FactorUnofficialItemViewModel get factorUnofficialItemDto {
     return FactorUnofficialItemViewModel(

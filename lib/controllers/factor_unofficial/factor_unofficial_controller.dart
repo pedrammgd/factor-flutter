@@ -1,10 +1,8 @@
 import 'dart:convert';
-
 import 'package:factor_flutter_mobile/core/constans/constans.dart';
 import 'package:factor_flutter_mobile/core/router/factor_pages.dart';
 import 'package:factor_flutter_mobile/models/currency/currency_view_model.dart';
 import 'package:factor_flutter_mobile/models/factor_unofficial_item_view_model/factor_unofficial_item_view_model.dart';
-import 'package:factor_flutter_mobile/models/factor_view_model/factor_view_model.dart';
 import 'package:factor_flutter_mobile/models/factor_view_model/hive/factor_view_model_hive.dart';
 import 'package:factor_flutter_mobile/views/factor_unofficial_specification/factor_unofficial_specification_page.dart';
 import 'package:flutter/material.dart';
@@ -36,9 +34,8 @@ class FactorUnofficialController extends GetxController {
 
   RxList<FactorUnofficialItemViewModel> factorUnofficialItemList =
       <FactorUnofficialItemViewModel>[].obs;
-  final RxList<FactorHomeViewModelHive> factorHomeList;
 
-  FactorUnofficialController({required this.factorHomeList});
+  FactorUnofficialController();
 
   final List<String> popUpItems = <String>[
     Constants.editPopUp,
@@ -137,7 +134,6 @@ class FactorUnofficialController extends GetxController {
     Get.toNamed(FactorRoutes.factorUnofficialSpecification,
         arguments: FactorUnofficialSpecificationPage().arguments(
             currencyTitle: currencyTitle(),
-            factorHomeList: factorHomeList,
             factorUnofficialItemList: factorUnofficialItemList,
             totalPrice: totalPrice(),
             taxation: taxation().toStringAsFixed(2).seRagham() +

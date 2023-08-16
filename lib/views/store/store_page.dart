@@ -9,47 +9,34 @@ import 'package:factor_flutter_mobile/views/shared/widgets/exit_popUp.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/expandable/factor_expandable.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/factor_app_bar.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/factor_button.dart';
+import 'package:factor_flutter_mobile/views/store/widgets/store_add_modal_bottom_sheet.dart';
+import 'package:factor_flutter_mobile/views/store/widgets/store_list.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 
-class FactorUnofficialPage extends GetView<FactorUnofficialController> {
-  const FactorUnofficialPage({Key? key}) : super(key: key);
+import '../../controllers/store/store_controller.dart';
 
+class StorePage extends GetView<StoreController> {
+  const StorePage({Key? key}) : super(key: key);
 
+  void initArguments() {
+    if (Get.arguments == null) return;
+    final arguments = Get.arguments as Map;
+    final isFromUnofficialFactor = arguments['isFromUnofficialFactor'];
+    Get.put(StoreController(isFromUnofficialFactor: isFromUnofficialFactor));}
 
   @override
   Widget build(BuildContext context) {
-    Get.lazyPut(
-            () => FactorUnofficialController());
-
-    return WillPopScope(
-      onWillPop: () async {
-        if (controller.factorUnofficialItemList.isNotEmpty) {
-          final result = await ExitPopUp.showExitPopup(
-            title: 'خروج از لیست آیتم فاکتور',
-            description:
-            'اطلاعات ذخیره نشده ای دارید در صورت خروج از لیست آیتم فاکتور ، اطلاعات شما پاک می شود',
-          );
-          if (result == true) {
-            Get.back();
-          }
-        } else {
-          Get.back();
-        }
-
-        return false;
-      },
-      child: Obx(() {
-        return Scaffold(
+    initArguments();
+    return   Scaffold(
           body: _body(),
-          floatingActionButtonLocation:
-          FloatingActionButtonLocation.centerDocked,
-          floatingActionButton: _floatingActionButton(),
-          bottomNavigationBar: _bottomNavigationBar(),
+          // floatingActionButtonLocation:
+          // FloatingActionButtonLocation.centerDocked,
+          // floatingActionButton: _floatingActionButton(),
+          // bottomNavigationBar: _bottomNavigationBar(),
         );
-      }),
-    );
+
   }
 
   Widget _bottomNavigationBar() {
@@ -61,11 +48,10 @@ class FactorUnofficialPage extends GetView<FactorUnofficialController> {
           InkWell(
             child: BottomSheetTotalPriceWidget(
               statusBracketKeyText: 100,
-              bottomButtonOnTap: controller.bottomSheetButtonOnTap,
-              taxation: validTaxation(),
-              discount: validDiscount(),
-              totalPrice: validTotalPrice(),
-              totalWordPrice: validTotalWordPrice(),
+          totalPrice:'133',
+              totalWordPrice: 'ddd',
+              // totalPrice: validTotalPrice(),
+              // totalWordPrice: validTotalWordPrice(),
               onTap: () {
                 controller.isExpandedBottomSheet.value =
                 !controller.isExpandedBottomSheet.value;
@@ -78,7 +64,7 @@ class FactorUnofficialPage extends GetView<FactorUnofficialController> {
   }
 
   Widget _floatingActionButton() {
-    return controller.factorUnofficialItemList.isEmpty
+    return controller.boxStore.value!.isEmpty
         ? const SizedBox.shrink()
         : Padding(
       padding: const EdgeInsetsDirectional.only(
@@ -94,9 +80,7 @@ class FactorUnofficialPage extends GetView<FactorUnofficialController> {
             },
             child: FactorExpandIcon(
               isExpanded: controller.isExpandedBottomSheet.value,
-              color: Theme
-                  .of(Get.context!)
-                  .primaryColor,
+              color: Theme.of(Get.context!).primaryColor,
             )),
       ),
     );
@@ -104,32 +88,15 @@ class FactorUnofficialPage extends GetView<FactorUnofficialController> {
 
   Widget _body() {
     return FactorAppBar.silver(
-        customBackButtonFunction: () async {
-          if (controller.factorUnofficialItemList.isNotEmpty) {
-            final result = await ExitPopUp.showExitPopup(
-              title: 'خروج از لیست آیتم فاکتور',
-              description:
-              'اطلاعات ذخیره نشده ای دارید در صورت خروج از لیست آیتم فاکتور ، اطلاعات شما پاک می شود',
-            );
-            if (result == true) {
-              Get.back();
-            }
-          } else {
-            Get.back();
-          }
-        },
         controller: controller.scrollController,
         title: Padding(
           padding: const EdgeInsets.only(top: 5),
-          child: Text('فاکتور جدید',
+          child: Text('انبار',
               style: TextStyle(
-                color: Theme
-                    .of(Get.context!)
-                    .colorScheme
-                    .secondary,
+                color: Theme.of(Get.context!).colorScheme.secondary,
               )),
         ),
-        body: const FactorUnofficialList(),
+        body: const StoreList(),
         bottomWidget: PreferredSize(
           preferredSize: const Size.fromHeight(50),
           child: Padding(
@@ -139,24 +106,23 @@ class FactorUnofficialPage extends GetView<FactorUnofficialController> {
             child: SizedBox(
               height: 50,
               width: double.maxFinite,
-              child: FactorButton(
+              child: FactorButton(borderColor: Colors.orange,
+                textColor: Colors.orange,
                 onPressed: () {
                   CustomModalBottomSheet.showModalBottomSheet(
-                    color: Theme
-                        .of(Get.context!)
-                        .primaryColor,
-                    child: FactorUnofficialAddModalBottomSheet(
-                      factorUnofficialItemList:
-                      controller.factorUnofficialItemList,
-                      factorUnofficialItem: null,
+                    color: Theme.of(Get.context!).primaryColor,
+                    child: StoreAddModalBottomSheet(
+
+                      index: null,
                       sharedPreferences: controller.sharedPreferences,
-                      currencyTitle: controller.currencyTitle(),
+                      currencyTitle: controller.currencyTitle(), boxStore: controller.boxStore, storeItemViewModelHiveItem: null,
                     ),
                   );
                 },
-                titleButton: ' افزودن به فاکتور',
+                titleButton: ' افزودن به انبار',
                 icon: const Icon(
                   Icons.add,
+                  color: Colors.orange,
                 ),
               ),
             ),
@@ -220,32 +186,24 @@ class FactorUnofficialPage extends GetView<FactorUnofficialController> {
     // );
   }
 
-  String validTaxation() {
-    return controller.taxation().toStringAsFixed(2).seRagham() +
-        ' ${controller.currencyTitle()}';
-  }
 
-  String validDiscount() {
-    return controller.discount().toStringAsFixed(2).seRagham() +
-        ' ${controller.currencyTitle()}';
-  }
 
-  String validTotalPrice() {
-    return controller.totalPrice().toStringAsFixed(2).seRagham() +
-        ' ${controller.currencyTitle()}';
-  }
-
-  String validTotalWordPrice() {
-    if (controller.totalPrice() > 999999999999999) {
-      return 'قیمت کل به حروف  نامعتبر';
-    } else {
-      return '${controller.totalPrice().toInt()}'.toWord() +
-          ' ${controller.currencyTitle()}';
-    }
-  }
+  // String validTotalPrice() {
+  //   return controller.totalPrice().toStringAsFixed(2).seRagham() +
+  //       ' ${controller.currencyTitle()}';
+  // }
+  //
+  // String validTotalWordPrice() {
+  //   if (controller.totalPrice() > 999999999999999) {
+  //     return 'قیمت کل به حروف  نامعتبر';
+  //   } else {
+  //     return '${controller.totalPrice().toInt()}'.toWord() +
+  //         ' ${controller.currencyTitle()}';
+  //   }
+  // }
 
   double heightBottomSheet() {
-    if (controller.factorUnofficialItemList.isEmpty) {
+    if (controller.boxStore.value!.isEmpty) {
       return 0;
     } else if (controller.isExpandedBottomSheet.value) {
       return 195;
@@ -254,4 +212,11 @@ class FactorUnofficialPage extends GetView<FactorUnofficialController> {
     }
   }
 
+  Map arguments({
+    required bool isFromUnofficialFactor,
+  }) {
+    final map = {};
+    map['isFromUnofficialFactor'] = isFromUnofficialFactor;
+    return map;
+  }
 }
