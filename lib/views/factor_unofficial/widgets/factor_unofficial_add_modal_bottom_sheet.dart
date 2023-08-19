@@ -11,7 +11,6 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../models/store/hive/store_item_view_model_hive.dart';
 import '../../store/store_page.dart';
 
 class FactorUnofficialAddModalBottomSheet
@@ -310,9 +309,7 @@ class FactorUnofficialAddModalBottomSheet
       textInputAction: TextInputAction.next,
       prefixIcon: const Icon(Icons.description_outlined),
       labelText: 'شرح کالا *',
-      inputFormatters: [
-        LengthLimitingTextInputFormatter(45),
-      ],
+
       borderColor: Theme.of(context).colorScheme.secondary,
       hasBorder: true,
       validatorTextField: emptyValidator('شرح کالا'),

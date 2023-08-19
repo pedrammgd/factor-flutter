@@ -14,7 +14,7 @@ import flutter_local_notifications
 import package_info_plus
 import path_provider_foundation
 import printing
-import share_plus_macos
+import share_plus
 import shared_preferences_foundation
 import sqflite
 import syncfusion_pdfviewer_macos

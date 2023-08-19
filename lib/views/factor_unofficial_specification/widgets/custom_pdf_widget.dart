@@ -34,9 +34,7 @@ class CustomPdfWidget {
     required bool isShowFactorParBottomInPdf,
     pw.MemoryImage? assetImage,
     Uint8List? pdfValue,
-  }
-  ) {
-
+  }) {
     String imageUint8ListCondition(
         {String? uint8List, required String defaultImage}) {
       if (uint8List == null || uint8List.isEmpty) {
@@ -257,12 +255,12 @@ class CustomPdfWidget {
             if (_hasImage(
                 image8ListHaghighi: myProfileItem.value?.logoUint8List,
                 iamgeUint8ListHoghoghi:
-                    myProfileItem.value?.logoUint8ListHoghoghi))
+                myProfileItem.value?.logoUint8ListHoghoghi))
               _logoImageWidget(imageCondition(
                   defaultImage: defaultLogo,
                   uint8ListHaghighi: myProfileItem.value?.logoUint8List,
                   uint8ListHoghoghi:
-                      myProfileItem.value?.logoUint8ListHoghoghi)),
+                  myProfileItem.value?.logoUint8ListHoghoghi)),
           ],
         ),
         pw.SizedBox(height: 16),
@@ -274,9 +272,9 @@ class CustomPdfWidget {
           firstValue: buyerFunction(
               nullName: 'نام مشتری',
               haghighiItem:
-                  buyerItem.value?.personBasicInformationViewModel.fullName,
+              buyerItem.value?.personBasicInformationViewModel.fullName,
               hoghoghiItem:
-                  buyerItem.value?.personBasicInformationViewModel.companyName),
+              buyerItem.value?.personBasicInformationViewModel.companyName),
           secondValue: factorNumber(),
         ),
         pw.SizedBox(height: 16),
@@ -311,7 +309,7 @@ class CustomPdfWidget {
           buyerFunction(
               nullName: ' - ',
               haghighiItem:
-                  buyerItem.value?.personBasicInformationViewModel.address,
+              buyerItem.value?.personBasicInformationViewModel.address,
               hoghoghiItem: buyerItem
                   .value?.personBasicInformationViewModel.addressHoghoghi),
           "آدرس : ",
@@ -331,37 +329,37 @@ class CustomPdfWidget {
           ),
           pw.Expanded(
               child: pw.Column(
-            children: [
-              pw.SizedBox(height: 20),
-              _descriptionTextWidget(descriptionFactor),
-              pw.SizedBox(height: 15),
-              _descriptionListPrice(
-                  currencyTitle: currencyTitle,
-                  specificationCostList: excessCostList,
-                  kindCost: 'هزینه مازاد ',
-                  kindSerial: ' با عنوان '),
-              _descriptionListPrice(
-                  currencyTitle: currencyTitle,
-                  specificationCostList: cashList,
-                  kindCost: 'پرداخت نقدی ',
-                  kindSerial: ' با عنوان '),
-              _descriptionListPrice(
-                  currencyTitle: currencyTitle,
-                  specificationCostList: onlinePayList,
-                  kindCost: 'پرداخت آنلاین ',
-                  kindSerial: ' به شماره پیگیری'),
-              _descriptionListPrice(
-                  currencyTitle: currencyTitle,
-                  specificationCostList: cartList,
-                  kindCost: 'پرداخت کارتی ',
-                  kindSerial: ' به شماره پیگیری'),
-              _descriptionListPrice(
-                  currencyTitle: currencyTitle,
-                  specificationCostList: checkPayList,
-                  kindCost: 'پرداخت برات ',
-                  kindSerial: ' به شماره سریال'),
-            ],
-          )),
+                children: [
+                  pw.SizedBox(height: 20),
+                  _descriptionTextWidget(descriptionFactor),
+                  pw.SizedBox(height: 15),
+                  _descriptionListPrice(
+                      currencyTitle: currencyTitle,
+                      specificationCostList: excessCostList,
+                      kindCost: 'هزینه مازاد ',
+                      kindSerial: ' با عنوان '),
+                  _descriptionListPrice(
+                      currencyTitle: currencyTitle,
+                      specificationCostList: cashList,
+                      kindCost: 'پرداخت نقدی ',
+                      kindSerial: ' با عنوان '),
+                  _descriptionListPrice(
+                      currencyTitle: currencyTitle,
+                      specificationCostList: onlinePayList,
+                      kindCost: 'پرداخت آنلاین ',
+                      kindSerial: ' به شماره پیگیری'),
+                  _descriptionListPrice(
+                      currencyTitle: currencyTitle,
+                      specificationCostList: cartList,
+                      kindCost: 'پرداخت کارتی ',
+                      kindSerial: ' به شماره پیگیری'),
+                  _descriptionListPrice(
+                      currencyTitle: currencyTitle,
+                      specificationCostList: checkPayList,
+                      kindCost: 'پرداخت برات ',
+                      kindSerial: ' به شماره سریال'),
+                ],
+              )),
         ]),
         pw.SizedBox(height: 32),
         _signatureAndSealWidget(
@@ -369,7 +367,7 @@ class CustomPdfWidget {
                 defaultImage: defaultSignature,
                 uint8ListHaghighi: myProfileItem.value?.signatureUint8List,
                 uint8ListHoghoghi:
-                    myProfileItem.value?.signatureUint8ListHoghoghi),
+                myProfileItem.value?.signatureUint8ListHoghoghi),
             imageCondition(
                 defaultImage: defaultSeal,
                 uint8ListHaghighi: myProfileItem.value?.sealUint8List,
@@ -377,10 +375,10 @@ class CustomPdfWidget {
             _hasImage(
                 image8ListHaghighi: myProfileItem.value?.sealUint8List,
                 iamgeUint8ListHoghoghi:
-                    myProfileItem.value?.sealUint8ListHoghoghi),
+                myProfileItem.value?.sealUint8ListHoghoghi),
             _hasImage(
                 iamgeUint8ListHoghoghi:
-                    myProfileItem.value?.signatureUint8ListHoghoghi,
+                myProfileItem.value?.signatureUint8ListHoghoghi,
                 image8ListHaghighi: myProfileItem.value?.signatureUint8List)),
         pw.SizedBox(height: 5),
         if (isShowFactorParBottomInPdf)
@@ -487,23 +485,26 @@ class CustomPdfWidget {
     required String totalDiscount,
     required String currencyTitle,
   }) {
-    return pw.Directionality(
-      textDirection: pw.TextDirection.rtl,
-      child: pw.Table(
-        defaultVerticalAlignment: pw.TableCellVerticalAlignment.middle,
-        border: pw.TableBorder.all(color: PdfColors.black),
-        children: [
-          _tableRow(firstKey: 'تخفیف', firstValue: totalDiscount),
-          _tableRow(firstKey: 'مالیات', firstValue: totalTaxation),
-          _tableRow(
-              firstKey: 'مبلغ قابل پرداخت ($currencyTitle)',
-              firstValue: totalPrice,
-              fontSizeKey: 8,
-              fontSizeValue: 8,
-              decoration: pw.BoxDecoration(
-                  color: const PdfColor.fromInt(0xff4AA96C).shade(.1))),
-        ],
-      ),
+    return pw.ClipRRect(
+        horizontalRadius: 2,verticalRadius: 2,
+        child :pw.Directionality(
+        textDirection: pw.TextDirection.rtl,
+        child: pw.Table(
+          defaultVerticalAlignment: pw.TableCellVerticalAlignment.middle,
+          border: pw.TableBorder.all(color: PdfColors.black),
+          children: [
+            _tableRow(firstKey: 'تخفیف', firstValue: totalDiscount),
+            _tableRow(firstKey: 'مالیات', firstValue: totalTaxation),
+            _tableRow(
+                firstKey: 'مبلغ قابل پرداخت ($currencyTitle)',
+                firstValue: totalPrice,
+                fontSizeKey: 8,
+                fontSizeValue: 8,
+                decoration: pw.BoxDecoration(
+                    color: const PdfColor.fromInt(0xff4AA96C).shade(.1))),
+          ],
+        ),
+      )
     );
   }
 
@@ -519,7 +520,7 @@ class CustomPdfWidget {
         heightFactor: 3,
         alignment: pw.Alignment.center,
         child:
-            pw.Text(firstValue, style: pw.TextStyle(fontSize: fontSizeValue)),
+        pw.Text(firstValue, style: pw.TextStyle(fontSize: fontSizeValue)),
       ),
       // pw.Divider(thickness: 1),
       pw.Align(
@@ -531,38 +532,51 @@ class CustomPdfWidget {
   }
 
   pw.Widget _gridTableWidget(
-    RxList<FactorUnofficialItemViewModel> factorUnofficialItemList,
-    String currencyTitle,
-  ) {
+      RxList<FactorUnofficialItemViewModel> factorUnofficialItemList,
+      String currencyTitle,) {
     return pw.Directionality(
-      textDirection: pw.TextDirection.rtl,
-      child: pw.Table.fromTextArray(
-        // headerStyle: const pw.TextStyle(color: PdfColors.red400),
-        // cellDecoration: (index, data, rowNum) {
-        //   return const pw.BoxDecoration(color: PdfColors.red400);
-        // },
-        headerDecoration:
-            const pw.BoxDecoration(color: PdfColor.fromInt(0xff4AA96C)),
-        cellAlignment: pw.Alignment.center,
-        headers: [
-          ' قیمت کل ($currencyTitle)',
-          'مالیات (درصد)',
-          'تخفیف (درصد)',
-          'مبلغ ($currencyTitle)',
-          'واحد',
-          'نام'
-        ],
-        data: factorUnofficialItemList
-            .map((e) => [
-                  '${e.totalPriceItem}'.seRagham(),
-                  e.productTaxation,
-                  e.productDiscount,
-                  e.productUnitPrice.seRagham(),
-                  '${e.productCount} (${e.unitValue})',
-                  e.productDescription,
-                ])
-            .toList(),
-      ),
+        textDirection: pw.TextDirection.rtl,
+        child: pw.ClipRRect(
+            horizontalRadius: 2, verticalRadius: 2,
+            child: pw.Table.fromTextArray(
+
+              columnWidths: {
+                0: pw.FlexColumnWidth(1),
+                1: pw.FlexColumnWidth(1),
+                2: pw.FlexColumnWidth(1),
+                3: pw.FlexColumnWidth(1),
+                4: pw.FlexColumnWidth(1),
+                5: pw.FlexColumnWidth(4),
+              },
+              // headerStyle: const pw.TextStyle(color: PdfColors.red400),
+              // cellDecoration: (index, data, rowNum) {
+              //   return const pw.BoxDecoration(color: PdfColors.red400);
+              // },
+              headerDecoration:
+              const pw.BoxDecoration(color: PdfColor.fromInt(0xff4AA96C)),
+              cellAlignment: pw.Alignment.center,
+
+              headers: [
+                ' قیمت کل ($currencyTitle)',
+                'مالیات (درصد)',
+                'تخفیف (درصد)',
+                'مبلغ ($currencyTitle)',
+                'واحد',
+                'نام'
+              ],
+              data: factorUnofficialItemList
+                  .map((e) =>
+              [
+                '${e.totalPriceItem}'.seRagham(),
+                e.productTaxation,
+                e.productDiscount,
+                e.productUnitPrice.seRagham(),
+                '${e.productCount} (${e.unitValue})',
+                e.productDescription,
+              ])
+                  .toList(),
+            )
+        )
     );
   }
 
@@ -593,21 +607,21 @@ class CustomPdfWidget {
     return pw.Row(children: [
       pw.Expanded(
           child: pw.Row(children: [
-        pw.Expanded(
-          child: pw.Text(
-            secondValue,
-            textDirection: pw.TextDirection.rtl,
-            style: const pw.TextStyle(fontSize: 18),
-          ),
-        ),
-        if (hasSecondKey)
-          pw.Expanded(
+            pw.Expanded(
               child: pw.Text(
-            secondKey,
-            textDirection: pw.TextDirection.rtl,
-            style: const pw.TextStyle(fontSize: 17),
-          )),
-      ])),
+                secondValue,
+                textDirection: pw.TextDirection.rtl,
+                style: const pw.TextStyle(fontSize: 18),
+              ),
+            ),
+            if (hasSecondKey)
+              pw.Expanded(
+                  child: pw.Text(
+                    secondKey,
+                    textDirection: pw.TextDirection.rtl,
+                    style: const pw.TextStyle(fontSize: 17),
+                  )),
+          ])),
       pw.Expanded(
         child: pw.Row(children: [
           pw.Expanded(
@@ -631,8 +645,7 @@ class CustomPdfWidget {
     ]);
   }
 
-  pw.Widget _headerWidget(
-      String ownerAddress,
+  pw.Widget _headerWidget(String ownerAddress,
       String headerTitle,
       String ownerTitleName,
       String nationalCode,

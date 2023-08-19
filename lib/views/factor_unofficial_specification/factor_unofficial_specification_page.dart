@@ -1,4 +1,3 @@
-import 'dart:isolate';
 
 import 'package:barcode_widget/barcode_widget.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
@@ -6,8 +5,6 @@ import 'package:factor_flutter_mobile/controllers/factor_unofficial_specificatio
 import 'package:factor_flutter_mobile/core/constans/constans.dart';
 import 'package:factor_flutter_mobile/core/router/factor_pages.dart';
 import 'package:factor_flutter_mobile/models/factor_unofficial_item_view_model/factor_unofficial_item_view_model.dart';
-import 'package:factor_flutter_mobile/models/factor_view_model/factor_view_model.dart';
-import 'package:factor_flutter_mobile/models/factor_view_model/hive/factor_view_model_hive.dart';
 import 'package:factor_flutter_mobile/views/buyer/buyer_page.dart';
 import 'package:factor_flutter_mobile/views/factor_unofficial_specification/widgets/custom_pdf_widget.dart';
 import 'package:factor_flutter_mobile/views/factor_unofficial_specification/widgets/factor_unofficial_specification_add_or_edit_dialog.dart';
@@ -19,7 +16,6 @@ import 'package:factor_flutter_mobile/views/shared/widgets/factor_app_bar.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/factor_snack_bar.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/factor_text_form_feild.dart';
 import 'package:factor_flutter_mobile/views/subscription/bazzar_subscription_page.dart';
-import 'package:factor_flutter_mobile/views/subscription/my_ket_subscription_page.dart';
 import 'package:file_saver/file_saver.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +27,6 @@ import 'package:persian_number_utility/src/extensions.dart';
 import 'package:printing/printing.dart';
 
 import '../show_pdf/show_pdf_view.dart';
-import '../subscription/zarin_pal_subscription_page.dart';
 
 class FactorUnofficialSpecificationPage
     extends GetView<FactorUnofficialSpecificationController> {
@@ -458,8 +453,8 @@ class FactorUnofficialSpecificationPage
                       if (connectivityResult == ConnectivityResult.mobile ||
                           connectivityResult == ConnectivityResult.wifi) {
                         final result = await Get.bottomSheet(
-                          // const BazzarSubscriptionPage(),
-                          const MyKetSubscriptionPage(),
+                          const BazzarSubscriptionPage(),
+                          // const MyKetSubscriptionPage(),
                           // const ZarinPalSubscriptionPage(),
                           enterBottomSheetDuration:
                               const Duration(milliseconds: 300),
