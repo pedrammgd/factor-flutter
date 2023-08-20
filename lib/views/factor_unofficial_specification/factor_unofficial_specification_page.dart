@@ -16,6 +16,7 @@ import 'package:factor_flutter_mobile/views/shared/widgets/factor_app_bar.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/factor_snack_bar.dart';
 import 'package:factor_flutter_mobile/views/shared/widgets/factor_text_form_feild.dart';
 import 'package:factor_flutter_mobile/views/subscription/bazzar_subscription_page.dart';
+import 'package:factor_flutter_mobile/views/subscription/my_ket_subscription_page.dart';
 import 'package:file_saver/file_saver.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -453,8 +454,8 @@ class FactorUnofficialSpecificationPage
                       if (connectivityResult == ConnectivityResult.mobile ||
                           connectivityResult == ConnectivityResult.wifi) {
                         final result = await Get.bottomSheet(
-                          const BazzarSubscriptionPage(),
-                          // const MyKetSubscriptionPage(),
+                          // const BazzarSubscriptionPage(),
+                          const MyKetSubscriptionPage(),
                           // const ZarinPalSubscriptionPage(),
                           enterBottomSheetDuration:
                               const Duration(milliseconds: 300),

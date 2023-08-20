@@ -510,14 +510,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.5"
-  flutter_poolakey:
-    dependency: "direct main"
-    description:
-      name: flutter_poolakey
-      sha256: "09c1b14caa1613536391b7d00b646cd286f57d11ad476e543c2a704a8e2702b3"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.1"
   flutter_svg:
     dependency: "direct main"
     description:
@@ -760,6 +752,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.0"
+  myket_iap:
+    dependency: "direct main"
+    description:
+      name: myket_iap
+      sha256: f62c1c93cb17efc5bec79d37efed43a76bd06fe3adde39fce06abed1fb4fa042
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.4"
   nm:
     dependency: transitive
     description:

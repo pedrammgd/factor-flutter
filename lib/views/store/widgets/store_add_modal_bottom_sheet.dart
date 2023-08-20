@@ -163,10 +163,10 @@ class StoreAddModalBottomSheet
                   onTap: () {
                     Get.back();
                   },
-                  child: Row(
+                  child: const Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     mainAxisSize: MainAxisSize.max,
-                    children: const [
+                    children: [
                       Padding(
                         padding: EdgeInsetsDirectional.only(top: 5, start: 15),
                         child: Icon(Icons.close),
@@ -244,9 +244,6 @@ class StoreAddModalBottomSheet
       textInputAction: TextInputAction.next,
       prefixIcon: const Icon(Icons.description_outlined),
       labelText: 'شرح کالا *',
-      inputFormatters: [
-        LengthLimitingTextInputFormatter(20),
-      ],
       borderColor: Theme.of(context).colorScheme.secondary,
       hasBorder: true,
       validatorTextField: emptyValidator('شرح کالا'),
